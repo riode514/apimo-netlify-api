@@ -22,92 +22,93 @@ exports.handler = async (event, context) => {
 
   // Your exact Apimo credentials
   const providerId = '4352';
-  const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+  const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   
-  // Try multiple possible Apimo API endpoints
-  const apiEndpoints = [
-    `https://apimo.net/webservice/api/v1/property?provider=${providerId}`,
-    `https://webservice.apimo.net/api/v1/property?provider=${providerId}`,
-    `https://api.apimo.pro/v1/property?provider=${providerId}`,
-    `https://apimo.net/api/v1/property?provider=${providerId}`
-  ];
+  // Generate SHA1 authentication (based on Joel Lipman documentation)
+  const timestamp = Math.floor(Date.now() / 1000);
+  const crypto = require('crypto');
+  const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
+  
+  // Correct Apimo API endpoint and format (from documentation)
+  const apiUrl = `https://api.apimo.com/api/call?` + 
+    `provider=${providerId}&` +
+    `timestamp=${timestamp}&` +
+    `sha1=${sha1Hash}&` +
+    `method=getProperties&` +
+    `type=json&` +
+    `version=2&` +
+    `limit=50`;
 
   try {
-    let lastError = null;
-    
-    // Try each endpoint until one works
-    for (const apiUrl of apiEndpoints) {
-      try {
-        console.log('🔗 Trying endpoint:', apiUrl);
+    console.log('🔗 Calling Apimo API:', apiUrl.replace(sha1Hash, 'xxx...xxx'));
+    console.log('🔑 Using SHA1 authentication (not Bearer token)');
 
-        // Make the API call to Apimo
-        const response = await fetch(apiUrl, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
-        });
-
-        const responseText = await response.text();
-        console.log(`📦 Response status: ${response.status} for ${apiUrl}`);
-        console.log(`📄 Response length: ${responseText.length}`);
-
-        if (!response.ok) {
-          console.log(`❌ HTTP Error ${response.status} for ${apiUrl}: ${responseText.substring(0, 200)}`);
-          lastError = new Error(`HTTP ${response.status}: ${response.statusText}`);
-          continue; // Try next endpoint
-        }
-
-        // Try to parse as JSON
-        let data;
-        try {
-          data = JSON.parse(responseText);
-          console.log('✅ Successfully parsed JSON response from:', apiUrl);
-        } catch (parseError) {
-          console.log(`❌ JSON Parse Error for ${apiUrl}:`, parseError);
-          lastError = new Error(`Invalid JSON response: ${parseError.message}`);
-          continue; // Try next endpoint
-        }
-
-        // Success! Return the data
-        console.log(`✅ Success with endpoint: ${apiUrl}`);
-        
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            success: true,
-            data: data,
-            metadata: {
-              provider: providerId,
-              workingEndpoint: apiUrl,
-              timestamp: new Date().toISOString(),
-              propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
-            }
-          })
-        };
-
-      } catch (fetchError) {
-        console.log(`🌐 Network Error for ${apiUrl}:`, fetchError.message);
-        lastError = fetchError;
-        continue; // Try next endpoint
+    // Make the API call with correct Apimo format
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Netlify-Apimo-Proxy/1.0'
       }
+    });
+
+    const responseText = await response.text();
+    console.log(`📦 Response status: ${response.status}`);
+    console.log(`📄 Response length: ${responseText.length}`);
+    console.log(`📄 Response preview: ${responseText.substring(0, 300)}`);
+
+    if (!response.ok) {
+      console.error(`❌ API Error: ${response.status} ${response.statusText}`);
+      return {
+        statusCode: response.status,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: `Apimo API returned ${response.status}: ${response.statusText}`,
+          details: responseText.substring(0, 500),
+          endpoint: apiUrl.replace(sha1Hash, 'xxx...xxx'),
+          authMethod: 'SHA1 (not Bearer token)'
+        })
+      };
     }
 
-    // If we get here, all endpoints failed
-    console.error('❌ All API endpoints failed');
+    // Try to parse as JSON
+    let data;
+    try {
+      data = JSON.parse(responseText);
+      console.log('✅ Successfully parsed JSON response');
+    } catch (parseError) {
+      console.error('❌ JSON Parse Error:', parseError);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: 'Invalid JSON response from Apimo API',
+          details: parseError.message,
+          rawResponse: responseText.substring(0, 1000),
+          endpoint: apiUrl.replace(sha1Hash, 'xxx...xxx')
+        })
+      };
+    }
+
+    // Return successful response
+    console.log(`✅ Success: Returning data`);
+    
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers,
       body: JSON.stringify({
-        success: false,
-        error: 'All Apimo API endpoints failed',
-        details: lastError ? lastError.message : 'No endpoints worked',
-        triedEndpoints: apiEndpoints,
-        provider: providerId
+        success: true,
+        data: data,
+        metadata: {
+          provider: providerId,
+          endpoint: apiUrl.replace(sha1Hash, 'xxx...xxx'),
+          authMethod: 'SHA1',
+          timestamp: new Date().toISOString(),
+          propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
+        }
       })
     };
 
