@@ -20,33 +20,24 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Your exact Apimo credentials
+  // Your exact Apimo credentials from support
   const providerId = '4352';
-  const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+  const agencyId = '24985';  // From Apimo support
+  const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   
-  // Generate SHA1 authentication (based on Joel Lipman documentation)
-  const timestamp = Math.floor(Date.now() / 1000);
-  const crypto = require('crypto');
-  const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
-  
-  // Correct Apimo API endpoint and format (from documentation)
-  const apiUrl = `https://api.apimo.com/api/call?` + 
-    `provider=${providerId}&` +
-    `timestamp=${timestamp}&` +
-    `sha1=${sha1Hash}&` +
-    `method=getProperties&` +
-    `type=json&` +
-    `version=2&` +
-    `limit=50`;
+  // Official Apimo API endpoint format from support
+  const apiUrl = `https://apimo.net/webservice/api/agencies/${agencyId}/properties?provider=${providerId}`;
 
   try {
-    console.log('🔗 Calling Apimo API:', apiUrl.replace(sha1Hash, 'xxx...xxx'));
-    console.log('🔑 Using SHA1 authentication (not Bearer token)');
+    console.log('🔗 Calling official Apimo API:', apiUrl);
+    console.log('🔑 Using Bearer token authentication (official format)');
+    console.log('🏢 Agency ID: 24985, Provider ID: 4352');
 
-    // Make the API call with correct Apimo format
+    // Make the API call with official Apimo format
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'User-Agent': 'Netlify-Apimo-Proxy/1.0'
@@ -67,8 +58,10 @@ exports.handler = async (event, context) => {
           success: false,
           error: `Apimo API returned ${response.status}: ${response.statusText}`,
           details: responseText.substring(0, 500),
-          endpoint: apiUrl.replace(sha1Hash, 'xxx...xxx'),
-          authMethod: 'SHA1 (not Bearer token)'
+          endpoint: apiUrl,
+          authMethod: 'Bearer token (official)',
+          agencyId: agencyId,
+          providerId: providerId
         })
       };
     }
@@ -88,13 +81,13 @@ exports.handler = async (event, context) => {
           error: 'Invalid JSON response from Apimo API',
           details: parseError.message,
           rawResponse: responseText.substring(0, 1000),
-          endpoint: apiUrl.replace(sha1Hash, 'xxx...xxx')
+          endpoint: apiUrl
         })
       };
     }
 
     // Return successful response
-    console.log(`✅ Success: Returning data`);
+    console.log(`✅ Success: Returning ${Array.isArray(data) ? data.length : 'unknown'} properties`);
     
     return {
       statusCode: 200,
@@ -104,8 +97,9 @@ exports.handler = async (event, context) => {
         data: data,
         metadata: {
           provider: providerId,
-          endpoint: apiUrl.replace(sha1Hash, 'xxx...xxx'),
-          authMethod: 'SHA1',
+          agency: agencyId,
+          endpoint: apiUrl,
+          authMethod: 'Bearer token',
           timestamp: new Date().toISOString(),
           propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
         }
@@ -123,7 +117,9 @@ exports.handler = async (event, context) => {
         error: 'Server error while calling Apimo API',
         details: error.message,
         provider: providerId,
-        note: 'All API endpoints failed - check Apimo documentation for correct URL'
+        agency: agencyId,
+        endpoint: apiUrl,
+        note: 'Using official Apimo support format'
       })
     };
   }
