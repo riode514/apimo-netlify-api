@@ -25,84 +25,119 @@ exports.handler = async (event, context) => {
   const agencyId = '24985';  // From Apimo support
   const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   
-  // Official Apimo API endpoint format from support
-  const apiUrl = `https://apimo.net/webservice/api/agencies/${agencyId}/properties?provider=${providerId}`;
+  // Try multiple endpoint variations based on common API patterns
+  const apiEndpoints = [
+    // Official format from support
+    `https://apimo.net/webservice/api/agencies/${agencyId}/properties?provider=${providerId}`,
+    // Without /api/ prefix
+    `https://apimo.net/webservice/agencies/${agencyId}/properties?provider=${providerId}`,
+    // Different webservice path
+    `https://apimo.net/api/webservice/agencies/${agencyId}/properties?provider=${providerId}`,
+    // Direct agencies endpoint
+    `https://apimo.net/agencies/${agencyId}/properties?provider=${providerId}`,
+    // With different API version paths
+    `https://apimo.net/webservice/v1/agencies/${agencyId}/properties?provider=${providerId}`,
+    `https://apimo.net/api/v1/agencies/${agencyId}/properties?provider=${providerId}`
+  ];
 
   try {
-    console.log('🔗 Calling official Apimo API:', apiUrl);
-    console.log('🔑 Using Bearer token authentication (official format)');
-    console.log('🏢 Agency ID: 24985, Provider ID: 4352');
-
-    // Make the API call with official Apimo format
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-      }
-    });
-
-    const responseText = await response.text();
-    console.log(`📦 Response status: ${response.status}`);
-    console.log(`📄 Response length: ${responseText.length}`);
-    console.log(`📄 Response preview: ${responseText.substring(0, 300)}`);
-
-    if (!response.ok) {
-      console.error(`❌ API Error: ${response.status} ${response.statusText}`);
-      return {
-        statusCode: response.status,
-        headers,
-        body: JSON.stringify({
-          success: false,
-          error: `Apimo API returned ${response.status}: ${response.statusText}`,
-          details: responseText.substring(0, 500),
-          endpoint: apiUrl,
-          authMethod: 'Bearer token (official)',
-          agencyId: agencyId,
-          providerId: providerId
-        })
-      };
-    }
-
-    // Try to parse as JSON
-    let data;
-    try {
-      data = JSON.parse(responseText);
-      console.log('✅ Successfully parsed JSON response');
-    } catch (parseError) {
-      console.error('❌ JSON Parse Error:', parseError);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({
-          success: false,
-          error: 'Invalid JSON response from Apimo API',
-          details: parseError.message,
-          rawResponse: responseText.substring(0, 1000),
-          endpoint: apiUrl
-        })
-      };
-    }
-
-    // Return successful response
-    console.log(`✅ Success: Returning ${Array.isArray(data) ? data.length : 'unknown'} properties`);
+    let lastError = null;
     
+    // Try each endpoint variation until one works
+    for (const apiUrl of apiEndpoints) {
+      try {
+        console.log('🔗 Trying endpoint:', apiUrl);
+
+        // Make the API call with Bearer token
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
+          }
+        });
+
+        const responseText = await response.text();
+        console.log(`📦 Response status: ${response.status} for ${apiUrl}`);
+        console.log(`📄 Response length: ${responseText.length}`);
+
+        if (!response.ok) {
+          console.log(`❌ HTTP Error ${response.status} for ${apiUrl}`);
+          // Log first 200 chars to see what kind of error
+          console.log(`Response preview: ${responseText.substring(0, 200)}`);
+          lastError = {
+            status: response.status,
+            statusText: response.statusText,
+            endpoint: apiUrl,
+            response: responseText.substring(0, 500)
+          };
+          continue; // Try next endpoint
+        }
+
+        // Try to parse as JSON
+        let data;
+        try {
+          data = JSON.parse(responseText);
+          console.log('✅ Successfully parsed JSON response from:', apiUrl);
+        } catch (parseError) {
+          console.log(`❌ JSON Parse Error for ${apiUrl}:`, parseError);
+          lastError = {
+            status: response.status,
+            error: 'JSON Parse Error',
+            endpoint: apiUrl,
+            parseError: parseError.message,
+            response: responseText.substring(0, 500)
+          };
+          continue; // Try next endpoint
+        }
+
+        // Success! Return the data
+        console.log(`✅ Success with endpoint: ${apiUrl}`);
+        console.log(`📊 Data structure:`, typeof data, Array.isArray(data) ? `Array[${data.length}]` : Object.keys(data));
+        
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            data: data,
+            metadata: {
+              provider: providerId,
+              agency: agencyId,
+              workingEndpoint: apiUrl,
+              authMethod: 'Bearer token',
+              timestamp: new Date().toISOString(),
+              propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
+            }
+          })
+        };
+
+      } catch (fetchError) {
+        console.log(`🌐 Network Error for ${apiUrl}:`, fetchError.message);
+        lastError = {
+          error: 'Network Error',
+          endpoint: apiUrl,
+          details: fetchError.message
+        };
+        continue; // Try next endpoint
+      }
+    }
+
+    // If we get here, all endpoints failed
+    console.error('❌ All API endpoint variations failed');
     return {
-      statusCode: 200,
+      statusCode: 500,
       headers,
       body: JSON.stringify({
-        success: true,
-        data: data,
-        metadata: {
-          provider: providerId,
-          agency: agencyId,
-          endpoint: apiUrl,
-          authMethod: 'Bearer token',
-          timestamp: new Date().toISOString(),
-          propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
-        }
+        success: false,
+        error: 'All Apimo API endpoint variations failed',
+        details: lastError ? JSON.stringify(lastError, null, 2) : 'No endpoints worked',
+        triedEndpoints: apiEndpoints,
+        provider: providerId,
+        agency: agencyId,
+        note: 'Tried multiple variations of the official endpoint format'
       })
     };
 
