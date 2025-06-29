@@ -1,43 +1,97 @@
-const fetch = require('node-fetch');
+// netlify/functions/properties.js
+const https = require('https');
 
-exports.handler = async function(event, context) {
-  const API_URL = 'https://api.apimo.net/api/v1/agency/24985/property';
-  const API_TOKEN = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Content-Type': 'application/json'
+};
+
+exports.handler = async (event, context) => {
+  // Handle preflight OPTIONS requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  if (event.httpMethod !== 'GET') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
 
   try {
-    const response = await fetch(API_URL, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${API_TOKEN}`,
-        Accept: 'application/json',
-      }
+    console.log('Fetching all properties from API...');
+    
+    const data = await new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.properstar.com',
+        path: '/apiv1/public/properties?key=a1d3d8fb6b75&country=es&region=catalonia&city=barcelona&limit=50',
+        method: 'GET',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)'
+        }
+      };
+
+      const req = https.request(options, (res) => {
+        let data = '';
+        
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+        
+        res.on('end', () => {
+          try {
+            const parsedData = JSON.parse(data);
+            resolve(parsedData);
+          } catch (parseError) {
+            console.error('Parse error:', parseError);
+            reject(parseError);
+          }
+        });
+      });
+
+      req.on('error', (error) => {
+        console.error('Request error:', error);
+        reject(error);
+      });
+
+      req.setTimeout(10000, () => {
+        req.destroy();
+        reject(new Error('Request timeout'));
+      });
+
+      req.end();
     });
 
-    if (!response.ok) {
-      return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: `Failed to fetch from Apimo: ${response.statusText}` }),
-      };
-    }
-
-    const data = await response.json();
+    console.log('API response received, properties count:', data?.properties?.length || 0);
 
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+      headers,
+      body: JSON.stringify({
+        success: true,
+        data: data,
+        count: data?.properties?.length || 0
+      })
     };
 
   } catch (error) {
     console.error('Error fetching properties:', error);
+    
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message || 'Internal Server Error' }),
+      headers,
+      body: JSON.stringify({
+        success: false,
+        error: 'Failed to fetch properties: ' + error.message
+      })
     };
   }
 };
