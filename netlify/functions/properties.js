@@ -14,7 +14,7 @@ exports.handler = async (event) => {
   const timestamp = Math.floor(Date.now() / 1000);
   const sha1 = crypto.createHash('sha1').update(API_KEY + timestamp).digest('hex');
 
-  // Ignore SSL certificate errors (because Apimo's certificate is broken)
+  // Ignore SSL certificate errors (Apimo's certificate is broken)
   const agent = new https.Agent({ rejectUnauthorized: false });
 
   const url = `https://api.apimo.com/api/call?provider=${PROVIDER_ID}&agency=${AGENCY_ID}&timestamp=${timestamp}&sha1=${sha1}&method=getProperties&type=json&version=2`;
