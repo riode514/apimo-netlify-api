@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const https = require('https');
 
 exports.handler = async (event, context) => {
   const headers = {
@@ -24,93 +25,71 @@ exports.handler = async (event, context) => {
                         .update(API_KEY + timestamp)
                         .digest('hex');
 
+  // Configure fetch to ignore SSL certificate issues
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  });
+
   try {
     console.log('🔄 Fetching properties from Apimo...');
-    console.log('Timestamp:', timestamp);
-    console.log('SHA1:', sha1Hash);
 
-    // Try different API endpoints
-    const endpoints = [
-      {
-        url: `https://api.apimo.pro/agencies/${AGENCY_ID}/properties`,
-        headers: {
-          'Authorization': `Bearer ${API_KEY}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      },
-      {
-        url: `https://webservice.apimo.net/agencies/${AGENCY_ID}/properties`,
-        headers: {
-          'X-Apimo-Token': sha1Hash,
-          'X-Apimo-Timestamp': timestamp.toString(),
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      },
-      {
-        url: `https://apimo.net/webservice/api/agencies/${AGENCY_ID}/properties`,
-        headers: {
-          'X-Apimo-Token': sha1Hash,
-          'X-Apimo-Timestamp': timestamp.toString(),
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
+    // Use the v1 API endpoint
+    const apiUrl = `https://api.apimo.pro/agencies/${AGENCY_ID}/properties`;
+    
+    console.log('📡 Requesting:', apiUrl);
+    console.log('🔑 Auth:', {
+      timestamp,
+      sha1: sha1Hash.substring(0, 10) + '...',
+      provider: PROVIDER_ID
+    });
+
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      agent,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-API-KEY': API_KEY,
+        'X-PROVIDER-ID': PROVIDER_ID,
+        'X-TIMESTAMP': timestamp.toString(),
+        'X-SIGNATURE': sha1Hash
       }
-    ];
+    });
 
-    let lastError = null;
+    console.log('📥 Response status:', response.status);
+    
+    const responseText = await response.text();
+    console.log('📄 Response preview:', responseText.substring(0, 200));
 
-    // Try each endpoint
-    for (const endpoint of endpoints) {
-      try {
-        console.log('📡 Trying endpoint:', endpoint.url);
-
-        const response = await fetch(endpoint.url, {
-          method: 'GET',
-          headers: endpoint.headers
-        });
-
-        console.log('Response status:', response.status);
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.log('Error response:', errorText);
-          lastError = `${response.status}: ${errorText}`;
-          continue;
-        }
-
-        const data = await response.json();
-        console.log('✅ Success! Found working endpoint:', endpoint.url);
-
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            success: true,
-            data: data,
-            metadata: {
-              timestamp: new Date().toISOString(),
-              agency: AGENCY_ID,
-              provider: PROVIDER_ID,
-              workingEndpoint: endpoint.url,
-              count: Array.isArray(data) ? data.length : 'unknown'
-            }
-          })
-        };
-
-      } catch (endpointError) {
-        console.log('❌ Endpoint failed:', endpointError.message);
-        lastError = endpointError.message;
-        continue;
-      }
+    if (!response.ok) {
+      throw new Error(`Apimo API returned ${response.status}: ${responseText}`);
     }
 
-    // If we get here, all endpoints failed
-    throw new Error(`All endpoints failed. Last error: ${lastError}`);
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error('❌ JSON Parse Error:', e);
+      throw new Error('Invalid JSON response from Apimo API');
+    }
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        success: true,
+        data: data,
+        metadata: {
+          timestamp: new Date().toISOString(),
+          agency: AGENCY_ID,
+          provider: PROVIDER_ID,
+          count: Array.isArray(data) ? data.length : 'unknown'
+        }
+      })
+    };
 
   } catch (error) {
-    console.error('❌ Final error:', error);
+    console.error('❌ Error:', error);
     return {
       statusCode: 500,
       headers,
