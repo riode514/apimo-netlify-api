@@ -60,71 +60,152 @@ exports.handler = async (event, context) => {
 
     console.log('Fetching property data from Apimo API for ID:', propertyId);
     
-    const data = await new Promise((resolve, reject) => {
-      const options = {
-        hostname: 'apimo.net',
-        path: `/agencies/24985/properties/${propertyId}?provider_id=4352`,
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
-          'Content-Type': 'application/json'
-        }
-      };
-
-      console.log('Making request to:', `https://${options.hostname}${options.path}`);
-
-      const req = https.request(options, (res) => {
-        let data = '';
+    // Try multiple possible API base URLs
+    const apiHosts = [
+      'api.apimo.net',
+      'webservice.apimo.net', 
+      'api.apimo.pro',
+      'services.apimo.net'
+    ];
+    
+    let data = null;
+    let lastError = null;
+    
+    for (const hostname of apiHosts) {
+      try {
+        console.log(`Trying API host: ${hostname} for property ${propertyId}`);
         
-        console.log('Response status:', res.statusCode);
-        console.log('Response headers:', JSON.stringify(res.headers, null, 2));
-        
-        res.on('data', (chunk) => {
-          data += chunk;
+        data = await new Promise((resolve, reject) => {
+          const options = {
+            hostname: hostname,
+            path: `/agencies/24985/properties/${propertyId}?provider_id=4352`,
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
+              'Content-Type': 'application/json'
+            }
+          };
+
+          console.log('Making request to:', `https://${options.hostname}${options.path}`);
+
+          const req = https.request(options, (res) => {
+            let responseData = '';
+            
+            console.log(`${hostname} - Response status:`, res.statusCode);
+            
+            res.on('data', (chunk) => {
+              responseData += chunk;
+            });
+            
+            res.on('end', () => {
+              console.log(`${hostname} - Response length:`, responseData.length);
+              console.log(`${hostname} - First 200 chars:`, responseData.substring(0, 200));
+              
+              // Check for redirects or HTML responses
+              if (res.statusCode === 301 || res.statusCode === 302) {
+                reject(new Error(`Redirect detected from ${hostname} - wrong API endpoint`));
+                return;
+              }
+              
+              if (responseData.includes('<!DOCTYPE html>') || responseData.includes('<html>')) {
+                reject(new Error(`HTML response from ${hostname} - not an API endpoint`));
+                return;
+              }
+              
+              if (res.statusCode === 404) {
+                reject(new Error(`Property ${propertyId} not found on ${hostname}`));
+                return;
+              }
+              
+              if (res.statusCode !== 200) {
+                reject(new Error(`${hostname} returned status ${res.statusCode}: ${responseData}`));
+                return;
+              }
+              
+              try {
+                const parsedData = JSON.parse(responseData);
+                console.log(`SUCCESS with ${hostname} for property ${propertyId}!`);
+                resolve({ data: parsedData, hostname: hostname });
+              } catch (parseError) {
+                reject(new Error(`${hostname} - Invalid JSON: ${parseError.message}`));
+              }
+            });
+          });
+
+          req.on('error', (error) => {
+            reject(new Error(`${hostname} - Request failed: ${error.message}`));
+          });
+
+          req.setTimeout(10000, () => {
+            req.destroy();
+            reject(new Error(`${hostname} - Request timeout`));
+          });
+
+          req.end();
         });
         
-        res.on('end', () => {
-          console.log('Raw response data length:', data.length);
-          console.log('First 200 chars:', data.substring(0, 200));
-          
-          if (res.statusCode === 404) {
-            reject(new Error(`Property with ID ${propertyId} not found`));
-            return;
-          }
-          
-          if (res.statusCode !== 200) {
-            console.error('API Error Response:', data);
-            reject(new Error(`API returned status ${res.statusCode}: ${data}`));
-            return;
-          }
-          
-          try {
-            const parsedData = JSON.parse(data);
-            console.log('Successfully parsed property data');
-            console.log('Data structure:', Object.keys(parsedData));
-            resolve(parsedData);
-          } catch (parseError) {
-            console.error('Failed to parse JSON:', parseError);
-            console.error('Raw response:', data.substring(0, 500));
-            reject(new Error(`Invalid JSON response: ${parseError.message}`));
-          }
+        // If we get here, this hostname worked
+        console.log(`Found working API host: ${data.hostname}`);
+        break;
+        
+      } catch (error) {
+        console.log(`${hostname} failed:`, error.message);
+        lastError = error;
+        continue;
+      }
+    }
+    
+    if (!data) {
+      // Try fallback with website path
+      console.log('Trying website API path as fallback...');
+      
+      try {
+        data = await new Promise((resolve, reject) => {
+          const options = {
+            hostname: 'apimo.net',
+            path: `/en/api/webservice/agencies/24985/properties/${propertyId}?provider_id=4352`,
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
+              'Content-Type': 'application/json'
+            }
+          };
+
+          const req = https.request(options, (res) => {
+            let responseData = '';
+            
+            res.on('data', (chunk) => {
+              responseData += chunk;
+            });
+            
+            res.on('end', () => {
+              if (res.statusCode !== 200 || responseData.includes('<!DOCTYPE html>')) {
+                reject(new Error(`Fallback failed. Status: ${res.statusCode}`));
+                return;
+              }
+              
+              try {
+                const parsedData = JSON.parse(responseData);
+                resolve({ data: parsedData, hostname: 'apimo.net (fallback)' });
+              } catch (parseError) {
+                reject(new Error(`Fallback - Invalid JSON: ${parseError.message}`));
+              }
+            });
+          });
+
+          req.on('error', reject);
+          req.setTimeout(10000, () => {
+            req.destroy();
+            reject(new Error('Fallback timeout'));
+          });
+          req.end();
         });
-      });
-
-      req.on('error', (error) => {
-        console.error('HTTP request error:', error);
-        reject(new Error(`Request failed: ${error.message}`));
-      });
-
-      req.setTimeout(15000, () => {
-        console.error('Request timeout');
-        req.destroy();
-        reject(new Error('Request timeout after 15 seconds'));
-      });
-
-      req.end();
-    });
+      } catch (fallbackError) {
+        throw new Error(`All API hosts failed. Last error: ${lastError?.message || 'Unknown'}`);
+      }
+    }
 
     console.log('Property data fetched successfully from Apimo');
 
@@ -133,13 +214,13 @@ exports.handler = async (event, context) => {
       headers,
       body: JSON.stringify({
         success: true,
-        data: data,
+        data: data.data,
         debug: {
           propertyId: propertyId,
+          working_api_host: data.hostname,
           agency_id: 24985,
           provider_id: 4352,
-          timestamp: new Date().toISOString(),
-          api_response_keys: Object.keys(data)
+          timestamp: new Date().toISOString()
         }
       })
     };
@@ -158,7 +239,14 @@ exports.handler = async (event, context) => {
           path: event.path,
           method: event.httpMethod,
           agency_id: 24985,
-          provider_id: 4352
+          provider_id: 4352,
+          attempted_hosts: [
+            'api.apimo.net',
+            'webservice.apimo.net', 
+            'api.apimo.pro',
+            'services.apimo.net',
+            'apimo.net (fallback)'
+          ]
         }
       })
     };
