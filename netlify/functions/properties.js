@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
-  // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -9,7 +8,6 @@ exports.handler = async (event, context) => {
     'Content-Type': 'application/json'
   };
 
-  // Handle OPTIONS
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
   }
@@ -19,40 +17,79 @@ exports.handler = async (event, context) => {
   const PROVIDER_ID = '4352';
   const API_KEY = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
 
-  // Based on Apimo documentation
-  const API_BASE_URL = 'https://api.apimo.pro/v2';
-  const PROPERTIES_ENDPOINT = `/agencies/${AGENCY_ID}/properties`;
+  // Generate authentication token
+  const timestamp = Math.floor(Date.now() / 1000);
+  const crypto = require('crypto');
+  const sha1Hash = crypto.createHash('sha1')
+                        .update(API_KEY + timestamp)
+                        .digest('hex');
 
   try {
     console.log('🔄 Fetching properties from Apimo...');
 
-    // Make the API request
-    const apiResponse = await fetch(`${API_BASE_URL}${PROPERTIES_ENDPOINT}`, {
+    // First try the v2 API
+    const apiUrl = `https://api.apimo.pro/v2/agencies/${AGENCY_ID}/properties`;
+    console.log('📡 Trying endpoint:', apiUrl);
+
+    const apiResponse = await fetch(apiUrl, {
       method: 'GET',
       headers: {
+        'X-Apimo-Token': sha1Hash,
+        'X-Apimo-Timestamp': timestamp.toString(),
         'X-Apimo-Agency-Id': AGENCY_ID,
-        'X-Apimo-Provider-Id': PROVIDER_ID,
-        'X-Apimo-Token': API_KEY,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     });
 
-    console.log('📥 Apimo response status:', apiResponse.status);
+    console.log('📥 Response status:', apiResponse.status);
 
-    // Handle non-200 responses
     if (!apiResponse.ok) {
-      const errorText = await apiResponse.text();
-      console.error('❌ Apimo API error:', errorText);
+      // If v2 fails, try legacy API
+      console.log('⚠️ V2 API failed, trying legacy endpoint...');
       
-      throw new Error(`Apimo API returned ${apiResponse.status}: ${errorText}`);
+      const legacyUrl = `https://api.apimo.com/api/call?` + 
+        `provider=${PROVIDER_ID}&` +
+        `timestamp=${timestamp}&` +
+        `sha1=${sha1Hash}&` +
+        `method=getProperties&` +
+        `type=json&` +
+        `version=2&` +
+        `agency=${AGENCY_ID}&` +
+        `limit=50`;
+
+      console.log('📡 Trying legacy endpoint:', legacyUrl);
+
+      const legacyResponse = await fetch(legacyUrl);
+      
+      if (!legacyResponse.ok) {
+        const errorText = await legacyResponse.text();
+        throw new Error(`Both API versions failed. Legacy API returned ${legacyResponse.status}: ${errorText}`);
+      }
+
+      const data = await legacyResponse.json();
+      console.log('✅ Successfully fetched properties from legacy API');
+
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          data: data,
+          metadata: {
+            timestamp: new Date().toISOString(),
+            agency: AGENCY_ID,
+            provider: PROVIDER_ID,
+            apiVersion: 'legacy',
+            count: Array.isArray(data) ? data.length : 'unknown'
+          }
+        })
+      };
     }
 
-    // Parse response
     const data = await apiResponse.json();
-    console.log('✅ Successfully fetched properties');
+    console.log('✅ Successfully fetched properties from V2 API');
 
-    // Return successful response
     return {
       statusCode: 200,
       headers,
@@ -63,6 +100,7 @@ exports.handler = async (event, context) => {
           timestamp: new Date().toISOString(),
           agency: AGENCY_ID,
           provider: PROVIDER_ID,
+          apiVersion: 'v2',
           count: Array.isArray(data) ? data.length : 'unknown'
         }
       })
@@ -70,8 +108,6 @@ exports.handler = async (event, context) => {
 
   } catch (error) {
     console.error('❌ Error:', error);
-
-    // Return error response
     return {
       statusCode: 500,
       headers,
