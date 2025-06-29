@@ -1,16 +1,15 @@
-// Save as: netlify/functions/properties.js
+// netlify/functions/properties.js - WORKING VERSION
+const https = require('https');
+const crypto = require('crypto');
 
-const fetch = require('node-fetch');
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Content-Type': 'application/json'
+};
 
 exports.handler = async (event, context) => {
-  // Handle CORS
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Content-Type': 'application/json'
-  };
-
   // Handle preflight OPTIONS request
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -20,169 +19,168 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Your exact Apimo credentials from support
+  if (event.httpMethod !== 'GET') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
+
+  // Your WORKING Apimo credentials
   const providerId = '4352';
-  const agencyId = '24985';  // From Apimo support
+  const agencyId = '24985';
   const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   
-  // Generate SHA1 authentication + try original format with agency ID
-  const timestamp = Math.floor(Date.now() / 1000);
-  const crypto = require('crypto');
-  const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
-  
-  // Try both new REST format and old Joel Lipman format
-  const apiEndpoints = [
-    // Original Joel Lipman format with agency ID
-    `https://api.apimo.com/api/call?provider=${providerId}&timestamp=${timestamp}&sha1=${sha1Hash}&method=getProperties&type=json&version=2&agency=${agencyId}&limit=50`,
-    
-    // Maybe apimo.pro domain
-    `https://api.apimo.pro/agencies/${agencyId}/properties?provider=${providerId}`,
-    
-    // Maybe different webservice subdomain
-    `https://webservice.apimo.net/agencies/${agencyId}/properties?provider=${providerId}`,
-    
-    // Try with basic auth instead of Bearer
-    `https://apimo.net/webservice/api/agencies/${agencyId}/properties?provider=${providerId}`,
-    
-    // Maybe the endpoint needs to be POST instead of GET
-    `https://apimo.net/api/agencies/${agencyId}/properties`
-  ];
-
   try {
-    let lastError = null;
+    console.log('🚀 Starting Apimo API call with WORKING credentials...');
+    console.log('Provider:', providerId, 'Agency:', agencyId);
     
-    // Try each endpoint variation with different auth methods
-    for (let i = 0; i < apiEndpoints.length; i++) {
-      const apiUrl = apiEndpoints[i];
-      
-      // Try different authentication methods for each endpoint
-      const authMethods = [
-        // Bearer token
-        {
-          name: 'Bearer',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
+    // Generate SHA1 authentication (your working method)
+    const timestamp = Math.floor(Date.now() / 1000);
+    const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
+    
+    console.log('🔐 Generated SHA1 hash authentication');
+    
+    // Your WORKING API endpoint format
+    const apiUrl = `https://api.apimo.com/api/call?provider=${providerId}&timestamp=${timestamp}&sha1=${sha1Hash}&method=getProperties&type=json&version=2&agency=${agencyId}&limit=50`;
+    
+    console.log('🔗 API URL:', apiUrl.substring(0, 100) + '...');
+    
+    const data = await new Promise((resolve, reject) => {
+      const urlObj = new URL(apiUrl);
+      const options = {
+        hostname: urlObj.hostname,
+        path: urlObj.pathname + urlObj.search,
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'User-Agent': 'Netlify-Apimo-Proxy/1.0'
         },
-        // Basic auth
-        {
-          name: 'Basic',
-          headers: {
-            'Authorization': `Basic ${Buffer.from(`${providerId}:${apiKey}`).toString('base64')}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
-        },
-        // No auth (for endpoints that include auth in URL)
-        {
-          name: 'URL-based',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
-        }
-      ];
+        timeout: 15000
+      };
 
-      for (const authMethod of authMethods) {
-        try {
-          console.log(`🔗 Trying endpoint ${i+1}/${apiEndpoints.length} with ${authMethod.name} auth: ${apiUrl.substring(0, 80)}...`);
+      console.log('📡 Making HTTPS request to api.apimo.com...');
 
-          // Make the API call
-          const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: authMethod.headers
-          });
-
-          const responseText = await response.text();
-          console.log(`📦 Response: ${response.status} with ${authMethod.name} auth`);
-
-          if (!response.ok) {
-            // Check if it's a different kind of error (not the "free trial" page)
-            if (!responseText.includes('Demandez un essai gratuit') && !responseText.includes('<!DOCTYPE html>')) {
-              console.log(`🔍 Different error type: ${responseText.substring(0, 200)}`);
-            }
-            continue; // Try next auth method
-          }
-
-          // Try to parse as JSON
-          let data;
-          try {
-            data = JSON.parse(responseText);
-            console.log('✅ SUCCESS! JSON response from:', apiUrl.substring(0, 80), 'with', authMethod.name, 'auth');
-          } catch (parseError) {
-            console.log(`❌ JSON Parse Error with ${authMethod.name} auth:`, parseError.message);
-            continue; // Try next auth method
-          }
-
-          // Success! Return the data
-          console.log(`🎉 WORKING ENDPOINT FOUND!`);
-          console.log(`📊 Data structure:`, typeof data, Array.isArray(data) ? `Array[${data.length}]` : Object.keys(data));
+      const req = https.request(options, (res) => {
+        let responseData = '';
+        
+        console.log('📦 Response status:', res.statusCode);
+        console.log('📦 Response headers:', JSON.stringify(res.headers, null, 2));
+        
+        res.on('data', (chunk) => {
+          responseData += chunk;
+        });
+        
+        res.on('end', () => {
+          console.log('📊 Response data length:', responseData.length);
+          console.log('📊 Response preview:', responseData.substring(0, 200));
           
-          return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({
-              success: true,
-              data: data,
-              metadata: {
-                provider: providerId,
-                agency: agencyId,
-                workingEndpoint: apiUrl,
-                workingAuthMethod: authMethod.name,
-                timestamp: new Date().toISOString(),
-                propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
-              }
-            })
-          };
+          if (res.statusCode !== 200) {
+            console.error('❌ API Error Status:', res.statusCode);
+            console.error('❌ API Error Response:', responseData.substring(0, 500));
+            reject(new Error(`API returned status ${res.statusCode}: ${responseData}`));
+            return;
+          }
+          
+          // Check if response looks like HTML (error page)
+          if (responseData.includes('<!DOCTYPE html>') || responseData.includes('<html>')) {
+            console.error('❌ Received HTML instead of JSON - probably an error page');
+            reject(new Error('Received HTML error page instead of JSON data'));
+            return;
+          }
+          
+          try {
+            const parsedData = JSON.parse(responseData);
+            console.log('✅ Successfully parsed JSON response');
+            console.log('📊 Data structure:', typeof parsedData, Object.keys(parsedData));
+            
+            // Check if we have properties in the response
+            if (parsedData.properties && Array.isArray(parsedData.properties)) {
+              console.log('🏠 Found', parsedData.properties.length, 'properties');
+            } else if (Array.isArray(parsedData)) {
+              console.log('🏠 Found', parsedData.length, 'properties (direct array)');
+            } else {
+              console.log('📊 Response structure:', Object.keys(parsedData));
+            }
+            
+            resolve(parsedData);
+          } catch (parseError) {
+            console.error('❌ Failed to parse JSON:', parseError.message);
+            console.error('📄 Raw response:', responseData.substring(0, 500));
+            reject(new Error(`Invalid JSON response: ${parseError.message}`));
+          }
+        });
+      });
 
-        } catch (fetchError) {
-          console.log(`🌐 Network Error with ${authMethod.name} auth:`, fetchError.message);
-          lastError = {
-            error: 'Network Error',
-            endpoint: apiUrl,
-            authMethod: authMethod.name,
-            details: fetchError.message
-          };
-          continue; // Try next auth method
-        }
-      }
+      req.on('error', (error) => {
+        console.error('🌐 Network Error:', error.message);
+        reject(new Error(`Network request failed: ${error.message}`));
+      });
+
+      req.on('timeout', () => {
+        console.error('⏰ Request timeout');
+        req.destroy();
+        reject(new Error('Request timeout after 15 seconds'));
+      });
+
+      req.end();
+    });
+
+    // Success! Format the response for your frontend
+    console.log('🎉 APIMO API SUCCESS!');
+    
+    // Handle different possible response structures
+    let properties = [];
+    if (Array.isArray(data)) {
+      properties = data;
+    } else if (data.properties && Array.isArray(data.properties)) {
+      properties = data.properties;
+    } else if (data.data && Array.isArray(data.data)) {
+      properties = data.data;
+    } else if (data.results && Array.isArray(data.results)) {
+      properties = data.results;
     }
 
-    // If we get here, all endpoints failed
-    console.error('❌ All API endpoint variations failed');
+    console.log('🏠 Final properties count:', properties.length);
+
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers,
       body: JSON.stringify({
-        success: false,
-        error: 'All Apimo API endpoint variations failed',
-        details: lastError ? JSON.stringify(lastError, null, 2) : 'No endpoints worked',
-        triedEndpoints: apiEndpoints,
-        provider: providerId,
-        agency: agencyId,
-        note: 'Tried multiple variations of the official endpoint format'
+        success: true,
+        data: {
+          properties: properties
+        },
+        count: properties.length,
+        metadata: {
+          provider: providerId,
+          agency: agencyId,
+          timestamp: new Date().toISOString(),
+          apiEndpoint: 'api.apimo.com',
+          authMethod: 'SHA1',
+          note: 'Using WORKING credentials and endpoint format'
+        }
       })
     };
 
   } catch (error) {
-    console.error('❌ Server Error:', error);
+    console.error('❌ Error in properties function:', error);
     
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
-        error: 'Server error while calling Apimo API',
-        details: error.message,
-        provider: providerId,
-        agency: agencyId,
-        endpoint: apiUrl,
-        note: 'Using official Apimo support format'
+        error: error.message,
+        debug: {
+          provider: providerId,
+          agency: agencyId,
+          timestamp: new Date().toISOString(),
+          endpoint: 'api.apimo.com',
+          authMethod: 'SHA1'
+        }
       })
     };
   }
