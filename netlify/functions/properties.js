@@ -1,4 +1,6 @@
-// netlify/functions/properties.js - TEMPORARY MOCK VERSION
+// netlify/functions/properties.js
+const https = require('https');
+
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -7,8 +9,13 @@ const headers = {
 };
 
 exports.handler = async (event, context) => {
+  // Handle preflight OPTIONS requests
   if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
   }
 
   if (event.httpMethod !== 'GET') {
@@ -20,113 +27,212 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    console.log('Returning mock properties data (Agency 24985, Provider 4352)...');
+    console.log('Fetching properties from Apimo API...');
+    console.log('Agency ID: 24985, Provider ID: 4352');
     
-    // Mock data based on your Apimo structure
-    const mockProperties = [
-      {
-        id: "24985001",
-        title: "Luxury Apartment in Barcelona Center",
-        price: { value: 950000, currency: "EUR" },
-        city: { name: "Barcelona" },
-        surface: 135,
-        rooms: { bedrooms: 3, bathrooms: 2 },
-        type: "apartment",
-        description: "Stunning apartment in Barcelona's prestigious Eixample district with high ceilings and original features.",
-        pictures: [
-          { url: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" },
-          { url: "https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" }
-        ],
-        agency_id: 24985,
-        provider_id: 4352
-      },
-      {
-        id: "24985002", 
-        title: "Modern Villa with Pool - Sitges",
-        price: { value: 1350000, currency: "EUR" },
-        city: { name: "Sitges" },
-        surface: 280,
-        rooms: { bedrooms: 4, bathrooms: 3 },
-        type: "villa",
-        description: "Contemporary villa in Sitges with private pool, garden and sea views.",
-        pictures: [
-          { url: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" }
-        ],
-        agency_id: 24985,
-        provider_id: 4352
-      },
-      {
-        id: "24985003",
-        title: "Penthouse with Terrace - Gracia",
-        price: { value: 3200, currency: "EUR", period: "month" },
-        city: { name: "Barcelona" },
-        surface: 150,
-        rooms: { bedrooms: 2, bathrooms: 2 },
-        type: "penthouse",
-        description: "Exclusive penthouse in Gracia with 60m² terrace and panoramic city views.",
-        pictures: [
-          { url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" }
-        ],
-        agency_id: 24985,
-        provider_id: 4352
-      },
-      {
-        id: "24985004",
-        title: "Historic Townhouse - Gothic Quarter",
-        price: { value: 750000, currency: "EUR" },
-        city: { name: "Barcelona" },
-        surface: 90,
-        rooms: { bedrooms: 2, bathrooms: 1 },
-        type: "house",
-        description: "Charming historic townhouse in the Gothic Quarter with original medieval features.",
-        pictures: [
-          { url: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" }
-        ],
-        agency_id: 24985,
-        provider_id: 4352
-      },
-      {
-        id: "24985005",
-        title: "Beachfront Apartment - Barceloneta",
-        price: { value: 2800, currency: "EUR", period: "month" },
-        city: { name: "Barcelona" },
-        surface: 95,
-        rooms: { bedrooms: 2, bathrooms: 1 },
-        type: "apartment",
-        description: "Beautiful beachfront apartment with direct sea access and stunning Mediterranean views.",
-        pictures: [
-          { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" }
-        ],
-        agency_id: 24985,
-        provider_id: 4352
-      }
+    // Try multiple possible API base URLs
+    const apiHosts = [
+      'api.apimo.net',
+      'webservice.apimo.net', 
+      'api.apimo.pro',
+      'services.apimo.net'
     ];
+    
+    let data = null;
+    let lastError = null;
+    
+    for (const hostname of apiHosts) {
+      try {
+        console.log(`Trying API host: ${hostname}`);
+        
+        data = await new Promise((resolve, reject) => {
+          const options = {
+            hostname: hostname,
+            path: '/agencies/24985/properties?provider_id=4352&limit=50',
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
+              'Content-Type': 'application/json'
+            }
+          };
+
+          console.log('Making request to:', `https://${options.hostname}${options.path}`);
+
+          const req = https.request(options, (res) => {
+            let responseData = '';
+            
+            console.log(`${hostname} - Response status:`, res.statusCode);
+            console.log(`${hostname} - Response headers:`, JSON.stringify(res.headers, null, 2));
+            
+            res.on('data', (chunk) => {
+              responseData += chunk;
+            });
+            
+            res.on('end', () => {
+              console.log(`${hostname} - Raw response data length:`, responseData.length);
+              console.log(`${hostname} - First 200 chars:`, responseData.substring(0, 200));
+              
+              // Check for redirects or HTML responses (indicates wrong endpoint)
+              if (res.statusCode === 301 || res.statusCode === 302) {
+                reject(new Error(`Redirect detected from ${hostname} - wrong API endpoint`));
+                return;
+              }
+              
+              if (responseData.includes('<!DOCTYPE html>') || responseData.includes('<html>')) {
+                reject(new Error(`HTML response from ${hostname} - not an API endpoint`));
+                return;
+              }
+              
+              if (res.statusCode !== 200) {
+                reject(new Error(`${hostname} returned status ${res.statusCode}: ${responseData}`));
+                return;
+              }
+              
+              try {
+                const parsedData = JSON.parse(responseData);
+                console.log(`SUCCESS with ${hostname}!`);
+                console.log('Data structure:', Object.keys(parsedData));
+                resolve({ data: parsedData, hostname: hostname });
+              } catch (parseError) {
+                reject(new Error(`${hostname} - Invalid JSON: ${parseError.message}`));
+              }
+            });
+          });
+
+          req.on('error', (error) => {
+            reject(new Error(`${hostname} - Request failed: ${error.message}`));
+          });
+
+          req.setTimeout(10000, () => {
+            req.destroy();
+            reject(new Error(`${hostname} - Request timeout`));
+          });
+
+          req.end();
+        });
+        
+        // If we get here, this hostname worked
+        console.log(`Found working API host: ${data.hostname}`);
+        break;
+        
+      } catch (error) {
+        console.log(`${hostname} failed:`, error.message);
+        lastError = error;
+        continue;
+      }
+    }
+    
+    if (!data) {
+      // None of the API hosts worked, try the website documentation path
+      console.log('Trying website API path as fallback...');
+      
+      data = await new Promise((resolve, reject) => {
+        const options = {
+          hostname: 'apimo.net',
+          path: '/en/api/webservice/agencies/24985/properties?provider_id=4352&limit=50',
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
+            'Content-Type': 'application/json'
+          }
+        };
+
+        console.log('Making fallback request to:', `https://${options.hostname}${options.path}`);
+
+        const req = https.request(options, (res) => {
+          let responseData = '';
+          
+          res.on('data', (chunk) => {
+            responseData += chunk;
+          });
+          
+          res.on('end', () => {
+            if (res.statusCode !== 200 || responseData.includes('<!DOCTYPE html>')) {
+              reject(new Error(`Fallback also failed. Status: ${res.statusCode}, Response: ${responseData.substring(0, 200)}`));
+              return;
+            }
+            
+            try {
+              const parsedData = JSON.parse(responseData);
+              resolve({ data: parsedData, hostname: 'apimo.net (fallback)' });
+            } catch (parseError) {
+              reject(new Error(`Fallback - Invalid JSON: ${parseError.message}`));
+            }
+          });
+        });
+
+        req.on('error', (error) => {
+          reject(error);
+        });
+
+        req.setTimeout(10000, () => {
+          req.destroy();
+          reject(new Error('Fallback request timeout'));
+        });
+
+        req.end();
+      });
+    }
+
+    // Handle different possible response structures
+    let properties = [];
+    const responseData = data.data;
+    
+    if (Array.isArray(responseData)) {
+      properties = responseData;
+    } else if (responseData.properties && Array.isArray(responseData.properties)) {
+      properties = responseData.properties;
+    } else if (responseData.data && Array.isArray(responseData.data)) {
+      properties = responseData.data;
+    } else if (responseData.results && Array.isArray(responseData.results)) {
+      properties = responseData.results;
+    }
+
+    console.log('Properties count:', properties.length);
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success: true,
-        data: { properties: mockProperties },
-        count: mockProperties.length,
-        note: "MOCK DATA - Replace with real Apimo API once correct endpoint is found",
+        data: {
+          properties: properties
+        },
+        count: properties.length,
         debug: {
+          working_api_host: data.hostname,
           agency_id: 24985,
           provider_id: 4352,
           timestamp: new Date().toISOString(),
-          message: "Using mock data while real API endpoint is being determined"
+          api_response_keys: Object.keys(responseData)
         }
       })
     };
 
   } catch (error) {
+    console.error('All API attempts failed:', error);
+    
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
-        error: error.message,
-        debug: { agency_id: 24985, provider_id: 4352 }
+        error: 'All API endpoints failed. Please check Apimo API documentation for correct base URL.',
+        details: error.message,
+        debug: {
+          agency_id: 24985,
+          provider_id: 4352,
+          timestamp: new Date().toISOString(),
+          attempted_hosts: [
+            'api.apimo.net',
+            'webservice.apimo.net', 
+            'api.apimo.pro',
+            'services.apimo.net',
+            'apimo.net (fallback)'
+          ]
+        }
       })
     };
   }
