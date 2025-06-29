@@ -1,11 +1,5 @@
 [build]
   functions = "netlify/functions"
-  publish = "."
-
-[[redirects]]
-  from = "/properties/*"
-  to = "/single-property.html"
-  status = 200
 
 [[redirects]]
   from = "/api/*"
