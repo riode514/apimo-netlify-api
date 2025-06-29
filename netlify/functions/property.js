@@ -1,75 +1,111 @@
-const fetch = require('node-fetch');
+// netlify/functions/property.js  
 const https = require('https');
-const crypto = require('crypto');
 
-exports.handler = async (event) => {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
-  };
+const headers = {
+  'Access-Control-Allow-Origin': '*',  // Allow all origins
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Content-Type': 'application/json'
+};
 
-  const propertyId = event.path.split('/').pop();
+exports.handler = async (event, context) => {
+  // Handle preflight OPTIONS requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  // Only allow GET requests
+  if (event.httpMethod !== 'GET') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method not allowed' })
+    };
+  }
+
+  // Extract property ID from path
+  const path = event.path;
+  const propertyId = path.split('/').pop();
+  
   if (!propertyId || propertyId === 'property') {
     return {
       statusCode: 400,
       headers,
-      body: JSON.stringify({ error: 'Property ID is required' })
+      body: JSON.stringify({
+        success: false,
+        error: 'Property ID is required'
+      })
     };
   }
 
-  const AGENCY_ID = '24985';
-  const PROVIDER_ID = '4352';
-  const API_KEY = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
-  const timestamp = Math.floor(Date.now() / 1000);
-  const sha1 = crypto.createHash('sha1').update(API_KEY + timestamp).digest('hex');
-
-  const agent = new https.Agent({ rejectUnauthorized: false });
-
-  const url = `https://api.apimo.com/api/call?provider=${PROVIDER_ID}&agency=${AGENCY_ID}&timestamp=${timestamp}&sha1=${sha1}&method=getProperty&type=json&version=2&id=${propertyId}`;
-
   try {
-    const response = await fetch(url, { method: 'GET', agent });
-    const text = await response.text();
+    console.log('Fetching property:', propertyId);
+    
+    const data = await new Promise((resolve, reject) => {
+      const options = {
+        hostname: 'api.properstar.com',
+        path: `/apiv1/public/properties/${propertyId}?key=a1d3d8fb6b75`,
+        method: 'GET',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)'
+        }
+      };
 
-    if (!response.ok) {
-      throw new Error(`Apimo API returned ${response.status}: ${text}`);
-    }
+      const req = https.request(options, (res) => {
+        let data = '';
+        
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+        
+        res.on('end', () => {
+          try {
+            const parsedData = JSON.parse(data);
+            resolve(parsedData);
+          } catch (parseError) {
+            console.error('Parse error:', parseError);
+            reject(parseError);
+          }
+        });
+      });
 
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      throw new Error('Invalid JSON from Apimo');
-    }
+      req.on('error', (error) => {
+        console.error('Request error:', error);
+        reject(error);
+      });
+
+      req.setTimeout(10000, () => {
+        req.destroy();
+        reject(new Error('Request timeout'));
+      });
+
+      req.end();
+    });
+
+    console.log('Property data received for ID:', propertyId);
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success: true,
-        data: data,
-        metadata: {
-          timestamp: new Date().toISOString(),
-          propertyId,
-          agency: AGENCY_ID,
-          provider: PROVIDER_ID
-        }
+        data: data
       })
     };
 
   } catch (error) {
+    console.error('Error fetching property:', error);
+    
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
-        error: error.message,
-        metadata: {
-          timestamp: new Date().toISOString(),
-          propertyId,
-          agency: AGENCY_ID,
-          provider: PROVIDER_ID
-        }
+        error: 'Failed to fetch property: ' + error.message
       })
     };
   }
