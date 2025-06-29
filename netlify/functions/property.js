@@ -1,15 +1,16 @@
-// netlify/functions/property.js - WORKING VERSION  
-const https = require('https');
-const crypto = require('crypto');
+// Save as: netlify/functions/property.js
 
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Content-Type': 'application/json'
-};
+const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
+  // Handle CORS
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Content-Type': 'application/json'
+  };
+
   // Handle preflight OPTIONS request
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -19,140 +20,128 @@ exports.handler = async (event, context) => {
     };
   }
 
-  if (event.httpMethod !== 'GET') {
-    return {
-      statusCode: 405,
-      headers,
-      body: JSON.stringify({ error: 'Method not allowed' })
-    };
+  // Your exact Apimo credentials
+  const providerId = '4352';
+  const agencyId = '24985';
+  const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+  
+  // Get property ID from query parameters or path
+  const queryParams = event.queryStringParameters || {};
+  let propertyId = queryParams.id || queryParams.property_id;
+  
+  // Alternative: get from path parameters if using /.netlify/functions/property/123
+  if (!propertyId && event.path) {
+    const pathParts = event.path.split('/');
+    propertyId = pathParts[pathParts.length - 1];
   }
-
-  // Extract property ID from path
-  const path = event.path || '';
-  const pathParts = path.split('/');
-  let propertyId = pathParts[pathParts.length - 1];
   
-  // Remove any file extensions
-  propertyId = propertyId.replace(/\.(html|js|css)$/, '');
-  
-  console.log('🔍 Extracted property ID:', propertyId);
-  
-  if (!propertyId || propertyId === 'property' || propertyId === '') {
+  // Validate property ID
+  if (!propertyId) {
     return {
       statusCode: 400,
       headers,
       body: JSON.stringify({
         success: false,
         error: 'Property ID is required',
-        debug: { 
-          path, 
-          pathParts, 
-          propertyId 
+        details: 'Please provide property ID as query parameter: ?id=123 or ?property_id=123',
+        usage: {
+          examples: [
+            '/.netlify/functions/property?id=123',
+            '/.netlify/functions/property?property_id=123'
+          ]
         }
       })
     };
   }
-
-  // Your WORKING Apimo credentials
-  const providerId = '4352';
-  const agencyId = '24985';
-  const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+  
+  // Build API URL for single property
+  const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties/${propertyId}`;
+  
+  // Basic Authentication: provider:token format
+  const credentials = Buffer.from(`${providerId}:${apiKey}`).toString('base64');
   
   try {
-    console.log('🚀 Starting Apimo API call for single property...');
-    console.log('Provider:', providerId, 'Agency:', agencyId, 'Property:', propertyId);
-    
-    // Generate SHA1 authentication (your working method)
-    const timestamp = Math.floor(Date.now() / 1000);
-    const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
-    
-    console.log('🔐 Generated SHA1 hash authentication');
-    
-    // Your WORKING API endpoint format for single property
-    const apiUrl = `https://api.apimo.com/api/call?provider=${providerId}&timestamp=${timestamp}&sha1=${sha1Hash}&method=getProperty&type=json&version=2&agency=${agencyId}&id=${propertyId}`;
-    
-    console.log('🔗 API URL:', apiUrl.substring(0, 100) + '...');
-    
-    const data = await new Promise((resolve, reject) => {
-      const urlObj = new URL(apiUrl);
-      const options = {
-        hostname: urlObj.hostname,
-        path: urlObj.pathname + urlObj.search,
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-        },
-        timeout: 15000
-      };
+    console.log(`🔗 Calling Apimo API for property: ${propertyId}`);
+    console.log(`📍 URL: ${apiUrl}`);
+    console.log(`👤 Using Provider ID: ${providerId}, Agency ID: ${agencyId}`);
 
-      console.log('📡 Making HTTPS request to api.apimo.com...');
-
-      const req = https.request(options, (res) => {
-        let responseData = '';
-        
-        console.log('📦 Response status:', res.statusCode);
-        
-        res.on('data', (chunk) => {
-          responseData += chunk;
-        });
-        
-        res.on('end', () => {
-          console.log('📊 Response data length:', responseData.length);
-          console.log('📊 Response preview:', responseData.substring(0, 200));
-          
-          if (res.statusCode === 404) {
-            console.log('🔍 Property not found:', propertyId);
-            reject(new Error(`Property with ID ${propertyId} not found`));
-            return;
-          }
-          
-          if (res.statusCode !== 200) {
-            console.error('❌ API Error Status:', res.statusCode);
-            console.error('❌ API Error Response:', responseData.substring(0, 500));
-            reject(new Error(`API returned status ${res.statusCode}: ${responseData}`));
-            return;
-          }
-          
-          // Check if response looks like HTML (error page)
-          if (responseData.includes('<!DOCTYPE html>') || responseData.includes('<html>')) {
-            console.error('❌ Received HTML instead of JSON - probably an error page');
-            reject(new Error('Received HTML error page instead of JSON data'));
-            return;
-          }
-          
-          try {
-            const parsedData = JSON.parse(responseData);
-            console.log('✅ Successfully parsed JSON response for property:', propertyId);
-            console.log('📊 Data structure:', typeof parsedData, Object.keys(parsedData));
-            
-            resolve(parsedData);
-          } catch (parseError) {
-            console.error('❌ Failed to parse JSON:', parseError.message);
-            console.error('📄 Raw response:', responseData.substring(0, 500));
-            reject(new Error(`Invalid JSON response: ${parseError.message}`));
-          }
-        });
-      });
-
-      req.on('error', (error) => {
-        console.error('🌐 Network Error:', error.message);
-        reject(new Error(`Network request failed: ${error.message}`));
-      });
-
-      req.on('timeout', () => {
-        console.error('⏰ Request timeout');
-        req.destroy();
-        reject(new Error('Request timeout after 15 seconds'));
-      });
-
-      req.end();
+    // Make the API call with Basic Authentication
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Netlify-Apimo-Client/1.0'
+      },
+      timeout: 30000 // 30 second timeout
     });
 
-    // Success! Return the property data
-    console.log('🎉 APIMO API SUCCESS for property:', propertyId);
+    const responseText = await response.text();
+    console.log(`📦 Response Status: ${response.status}`);
 
+    if (!response.ok) {
+      console.error(`❌ API Error: ${response.status} - ${response.statusText}`);
+      console.error(`📄 Response Body: ${responseText.substring(0, 500)}`);
+      
+      // Handle specific error cases
+      let errorMessage = `Apimo API Error: ${response.status} - ${response.statusText}`;
+      if (response.status === 401) {
+        errorMessage = 'Authentication failed. Please check your credentials.';
+      } else if (response.status === 404) {
+        errorMessage = `Property with ID ${propertyId} not found.`;
+      } else if (response.status === 403) {
+        errorMessage = 'Access denied. You may not have permission to view this property.';
+      } else if (response.status === 429) {
+        errorMessage = 'API rate limit exceeded. Please try again later.';
+      }
+      
+      return {
+        statusCode: response.status,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: errorMessage,
+          details: responseText.substring(0, 500),
+          provider: providerId,
+          agency: agencyId,
+          propertyId: propertyId,
+          endpoint: apiUrl
+        })
+      };
+    }
+
+    // Parse JSON response
+    let data;
+    try {
+      data = JSON.parse(responseText);
+      console.log('✅ SUCCESS! Received valid JSON response for property');
+      
+      // Log property details for debugging
+      if (data.id) {
+        console.log(`🏠 Property ID: ${data.id}`);
+        console.log(`📍 Reference: ${data.reference || 'N/A'}`);
+        console.log(`🏷️ Category: ${data.category || 'N/A'}`);
+        console.log(`📊 Status: ${data.status || 'N/A'}`);
+      } else {
+        console.log(`📊 Response structure:`, Object.keys(data));
+      }
+      
+    } catch (parseError) {
+      console.error(`❌ JSON Parse Error:`, parseError.message);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: 'Invalid JSON response from Apimo API',
+          details: parseError.message,
+          rawResponse: responseText.substring(0, 500)
+        })
+      };
+    }
+
+    // Success! Return the property data
     return {
       statusCode: 200,
       headers,
@@ -160,34 +149,38 @@ exports.handler = async (event, context) => {
         success: true,
         data: data,
         metadata: {
-          propertyId: propertyId,
           provider: providerId,
           agency: agencyId,
+          propertyId: propertyId,
+          endpoint: apiUrl,
           timestamp: new Date().toISOString(),
-          apiEndpoint: 'api.apimo.com',
-          authMethod: 'SHA1',
-          note: 'Using WORKING credentials and endpoint format'
+          propertyInfo: {
+            id: data.id || null,
+            reference: data.reference || null,
+            category: data.category || null,
+            status: data.status || null,
+            type: data.type || null,
+            city: data.city ? data.city.name : null,
+            address: data.address || null
+          }
         }
       })
     };
 
   } catch (error) {
-    console.error('❌ Error in property function:', error);
+    console.error('❌ Network/Server Error:', error.message);
     
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
-        error: error.message,
-        debug: {
-          propertyId: propertyId,
-          provider: providerId,
-          agency: agencyId,
-          timestamp: new Date().toISOString(),
-          endpoint: 'api.apimo.com',
-          authMethod: 'SHA1'
-        }
+        error: 'Network error while calling Apimo API',
+        details: error.message,
+        provider: providerId,
+        agency: agencyId,
+        propertyId: propertyId,
+        endpoint: apiUrl
       })
     };
   }
