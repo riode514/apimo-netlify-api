@@ -26,88 +26,91 @@ exports.handler = async (event, context) => {
 
   try {
     console.log('🔄 Fetching properties from Apimo...');
+    console.log('Timestamp:', timestamp);
+    console.log('SHA1:', sha1Hash);
 
-    // First try the v2 API
-    const apiUrl = `https://api.apimo.pro/v2/agencies/${AGENCY_ID}/properties`;
-    console.log('📡 Trying endpoint:', apiUrl);
-
-    const apiResponse = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'X-Apimo-Token': sha1Hash,
-        'X-Apimo-Timestamp': timestamp.toString(),
-        'X-Apimo-Agency-Id': AGENCY_ID,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    // Try different API endpoints
+    const endpoints = [
+      {
+        url: `https://api.apimo.pro/agencies/${AGENCY_ID}/properties`,
+        headers: {
+          'Authorization': `Bearer ${API_KEY}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      },
+      {
+        url: `https://webservice.apimo.net/agencies/${AGENCY_ID}/properties`,
+        headers: {
+          'X-Apimo-Token': sha1Hash,
+          'X-Apimo-Timestamp': timestamp.toString(),
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      },
+      {
+        url: `https://apimo.net/webservice/api/agencies/${AGENCY_ID}/properties`,
+        headers: {
+          'X-Apimo-Token': sha1Hash,
+          'X-Apimo-Timestamp': timestamp.toString(),
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
       }
-    });
+    ];
 
-    console.log('📥 Response status:', apiResponse.status);
+    let lastError = null;
 
-    if (!apiResponse.ok) {
-      // If v2 fails, try legacy API
-      console.log('⚠️ V2 API failed, trying legacy endpoint...');
-      
-      const legacyUrl = `https://api.apimo.com/api/call?` + 
-        `provider=${PROVIDER_ID}&` +
-        `timestamp=${timestamp}&` +
-        `sha1=${sha1Hash}&` +
-        `method=getProperties&` +
-        `type=json&` +
-        `version=2&` +
-        `agency=${AGENCY_ID}&` +
-        `limit=50`;
+    // Try each endpoint
+    for (const endpoint of endpoints) {
+      try {
+        console.log('📡 Trying endpoint:', endpoint.url);
 
-      console.log('📡 Trying legacy endpoint:', legacyUrl);
+        const response = await fetch(endpoint.url, {
+          method: 'GET',
+          headers: endpoint.headers
+        });
 
-      const legacyResponse = await fetch(legacyUrl);
-      
-      if (!legacyResponse.ok) {
-        const errorText = await legacyResponse.text();
-        throw new Error(`Both API versions failed. Legacy API returned ${legacyResponse.status}: ${errorText}`);
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.log('Error response:', errorText);
+          lastError = `${response.status}: ${errorText}`;
+          continue;
+        }
+
+        const data = await response.json();
+        console.log('✅ Success! Found working endpoint:', endpoint.url);
+
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            data: data,
+            metadata: {
+              timestamp: new Date().toISOString(),
+              agency: AGENCY_ID,
+              provider: PROVIDER_ID,
+              workingEndpoint: endpoint.url,
+              count: Array.isArray(data) ? data.length : 'unknown'
+            }
+          })
+        };
+
+      } catch (endpointError) {
+        console.log('❌ Endpoint failed:', endpointError.message);
+        lastError = endpointError.message;
+        continue;
       }
-
-      const data = await legacyResponse.json();
-      console.log('✅ Successfully fetched properties from legacy API');
-
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          data: data,
-          metadata: {
-            timestamp: new Date().toISOString(),
-            agency: AGENCY_ID,
-            provider: PROVIDER_ID,
-            apiVersion: 'legacy',
-            count: Array.isArray(data) ? data.length : 'unknown'
-          }
-        })
-      };
     }
 
-    const data = await apiResponse.json();
-    console.log('✅ Successfully fetched properties from V2 API');
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        success: true,
-        data: data,
-        metadata: {
-          timestamp: new Date().toISOString(),
-          agency: AGENCY_ID,
-          provider: PROVIDER_ID,
-          apiVersion: 'v2',
-          count: Array.isArray(data) ? data.length : 'unknown'
-        }
-      })
-    };
+    // If we get here, all endpoints failed
+    throw new Error(`All endpoints failed. Last error: ${lastError}`);
 
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('❌ Final error:', error);
     return {
       statusCode: 500,
       headers,
