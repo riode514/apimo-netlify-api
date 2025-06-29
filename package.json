@@ -1,12 +1,8 @@
 {
-  "name": "apimo-netlify-api",
+  "name": "verv-one-functions",
   "version": "1.0.0",
-  "description": "Apimo API proxy for Squarespace",
-  "main": "index.js",
-  "scripts": {
-    "build": "echo 'Build completed'"
-  },
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.1",
+    "crypto": "^1.0.1"
   }
 }
