@@ -27,31 +27,41 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    console.log('Fetching all properties from API...');
+    console.log('Fetching all properties from Apimo API...');
     
     const data = await new Promise((resolve, reject) => {
       const options = {
-        hostname: 'api.properstar.com',
-        path: '/apiv1/public/properties?key=a1d3d8fb6b75&country=es&region=catalonia&city=barcelona&limit=50',
+        hostname: 'api.apimo.pro',
+        path: '/agencies/3633/properties?limit=50',
         method: 'GET',
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)'
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
+          'Authorization': 'Bearer YOUR_APIMO_TOKEN'  // You'll need to add your actual token
         }
       };
 
+      console.log('Making request to:', `https://${options.hostname}${options.path}`);
+
       const req = https.request(options, (res) => {
         let data = '';
+        
+        console.log('Response status:', res.statusCode);
         
         res.on('data', (chunk) => {
           data += chunk;
         });
         
         res.on('end', () => {
+          console.log('Raw response data length:', data.length);
+          
           try {
             const parsedData = JSON.parse(data);
+            console.log('Successfully parsed properties data');
             resolve(parsedData);
           } catch (parseError) {
             console.error('Parse error:', parseError);
+            console.error('Raw response:', data.substring(0, 500));
             reject(parseError);
           }
         });
@@ -70,15 +80,17 @@ exports.handler = async (event, context) => {
       req.end();
     });
 
-    console.log('API response received, properties count:', data?.properties?.length || 0);
+    console.log('API response received, properties count:', data?.properties?.length || data?.length || 0);
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success: true,
-        data: data,
-        count: data?.properties?.length || 0
+        data: {
+          properties: data.properties || data || []
+        },
+        count: data?.properties?.length || data?.length || 0
       })
     };
 
@@ -90,7 +102,11 @@ exports.handler = async (event, context) => {
       headers,
       body: JSON.stringify({
         success: false,
-        error: 'Failed to fetch properties: ' + error.message
+        error: 'Failed to fetch properties: ' + error.message,
+        debug: {
+          timestamp: new Date().toISOString(),
+          errorType: error.constructor.name
+        }
       })
     };
   }
