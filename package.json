@@ -2,7 +2,6 @@
   "name": "verv-one-functions",
   "version": "1.0.0",
   "dependencies": {
-    "node-fetch": "^2.6.1",
-    "crypto": "^1.0.1"
+    "node-fetch": "^2.6.1"
   }
 }
