@@ -14,7 +14,6 @@ exports.handler = async (event) => {
   const timestamp = Math.floor(Date.now() / 1000);
   const sha1 = crypto.createHash('sha1').update(API_KEY + timestamp).digest('hex');
 
-  // Ignore SSL certificate errors (Apimo's certificate is broken)
   const agent = new https.Agent({ rejectUnauthorized: false });
 
   const url = `https://api.apimo.com/api/call?provider=${PROVIDER_ID}&agency=${AGENCY_ID}&timestamp=${timestamp}&sha1=${sha1}&method=getProperties&type=json&version=2`;
@@ -23,31 +22,40 @@ exports.handler = async (event) => {
     const response = await fetch(url, { method: 'GET', agent });
     const text = await response.text();
 
-    if (!response.ok) {
-      throw new Error(`Apimo API returned ${response.status}: ${text}`);
-    }
-
+    // Always return the raw response for debugging
     let data;
     try {
       data = JSON.parse(text);
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          data: data,
+          metadata: {
+            timestamp: new Date().toISOString(),
+            agency: AGENCY_ID,
+            provider: PROVIDER_ID
+          }
+        })
+      };
     } catch (e) {
-      throw new Error('Invalid JSON from Apimo');
+      // Return the raw response for inspection
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: 'Apimo did not return JSON',
+          raw: text,
+          metadata: {
+            timestamp: new Date().toISOString(),
+            agency: AGENCY_ID,
+            provider: PROVIDER_ID
+          }
+        })
+      };
     }
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        success: true,
-        data: data,
-        metadata: {
-          timestamp: new Date().toISOString(),
-          agency: AGENCY_ID,
-          provider: PROVIDER_ID
-        }
-      })
-    };
-
   } catch (error) {
     return {
       statusCode: 500,
