@@ -27,17 +27,18 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    console.log('Fetching all properties from Apimo API...');
+    console.log('Fetching properties from Apimo API...');
+    console.log('Agency ID: 24985, Provider ID: 4352');
     
     const data = await new Promise((resolve, reject) => {
       const options = {
-        hostname: 'api.apimo.pro',
-        path: '/agencies/3633/properties?limit=50',
+        hostname: 'apimo.net',
+        path: '/agencies/24985/properties?provider_id=4352&limit=50',
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
-          'Authorization': 'Bearer YOUR_APIMO_TOKEN'  // You'll need to add your actual token
+          'Content-Type': 'application/json'
         }
       };
 
@@ -47,6 +48,7 @@ exports.handler = async (event, context) => {
         let data = '';
         
         console.log('Response status:', res.statusCode);
+        console.log('Response headers:', JSON.stringify(res.headers, null, 2));
         
         res.on('data', (chunk) => {
           data += chunk;
@@ -54,33 +56,54 @@ exports.handler = async (event, context) => {
         
         res.on('end', () => {
           console.log('Raw response data length:', data.length);
+          console.log('First 200 chars:', data.substring(0, 200));
+          
+          if (res.statusCode !== 200) {
+            console.error('API Error Response:', data);
+            reject(new Error(`API returned status ${res.statusCode}: ${data}`));
+            return;
+          }
           
           try {
             const parsedData = JSON.parse(data);
             console.log('Successfully parsed properties data');
+            console.log('Data structure:', Object.keys(parsedData));
             resolve(parsedData);
           } catch (parseError) {
             console.error('Parse error:', parseError);
             console.error('Raw response:', data.substring(0, 500));
-            reject(parseError);
+            reject(new Error(`Invalid JSON response: ${parseError.message}`));
           }
         });
       });
 
       req.on('error', (error) => {
         console.error('Request error:', error);
-        reject(error);
+        reject(new Error(`Request failed: ${error.message}`));
       });
 
-      req.setTimeout(10000, () => {
+      req.setTimeout(15000, () => {
+        console.error('Request timeout');
         req.destroy();
-        reject(new Error('Request timeout'));
+        reject(new Error('Request timeout after 15 seconds'));
       });
 
       req.end();
     });
 
-    console.log('API response received, properties count:', data?.properties?.length || data?.length || 0);
+    // Handle different possible response structures
+    let properties = [];
+    if (Array.isArray(data)) {
+      properties = data;
+    } else if (data.properties && Array.isArray(data.properties)) {
+      properties = data.properties;
+    } else if (data.data && Array.isArray(data.data)) {
+      properties = data.data;
+    } else if (data.results && Array.isArray(data.results)) {
+      properties = data.results;
+    }
+
+    console.log('Properties count:', properties.length);
 
     return {
       statusCode: 200,
@@ -88,9 +111,15 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         success: true,
         data: {
-          properties: data.properties || data || []
+          properties: properties
         },
-        count: data?.properties?.length || data?.length || 0
+        count: properties.length,
+        debug: {
+          agency_id: 24985,
+          provider_id: 4352,
+          timestamp: new Date().toISOString(),
+          api_response_keys: Object.keys(data)
+        }
       })
     };
 
@@ -104,6 +133,8 @@ exports.handler = async (event, context) => {
         success: false,
         error: 'Failed to fetch properties: ' + error.message,
         debug: {
+          agency_id: 24985,
+          provider_id: 4352,
           timestamp: new Date().toISOString(),
           errorType: error.constructor.name
         }
