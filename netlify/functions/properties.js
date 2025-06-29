@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const https = require('https');
 
 exports.handler = async (event, context) => {
   const headers = {
@@ -25,54 +24,74 @@ exports.handler = async (event, context) => {
                         .update(API_KEY + timestamp)
                         .digest('hex');
 
-  // Configure fetch to ignore SSL certificate issues
-  const agent = new https.Agent({
-    rejectUnauthorized: false
-  });
-
   try {
-    console.log('🔄 Fetching properties from Apimo...');
-
-    // Use the v1 API endpoint
+    // Use the documented endpoint format
     const apiUrl = `https://api.apimo.pro/agencies/${AGENCY_ID}/properties`;
     
-    console.log('📡 Requesting:', apiUrl);
-    console.log('🔑 Auth:', {
-      timestamp,
-      sha1: sha1Hash.substring(0, 10) + '...',
-      provider: PROVIDER_ID
-    });
+    console.log('🔄 Fetching properties...');
+    console.log('URL:', apiUrl);
+    console.log('Timestamp:', timestamp);
+    console.log('SHA1:', sha1Hash);
 
     const response = await fetch(apiUrl, {
       method: 'GET',
-      agent,
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-API-KEY': API_KEY,
-        'X-PROVIDER-ID': PROVIDER_ID,
-        'X-TIMESTAMP': timestamp.toString(),
-        'X-SIGNATURE': sha1Hash
+        'Accept': 'application/json',
+        'X-Apimo-Agency-Id': AGENCY_ID,
+        'X-Apimo-Token': API_KEY,
+        'X-Apimo-Timestamp': timestamp.toString(),
+        'X-Apimo-Hash': sha1Hash
       }
     });
 
-    console.log('📥 Response status:', response.status);
+    console.log('Status:', response.status);
     
     const responseText = await response.text();
-    console.log('📄 Response preview:', responseText.substring(0, 200));
+    console.log('Response:', responseText.substring(0, 200));
 
     if (!response.ok) {
-      throw new Error(`Apimo API returned ${response.status}: ${responseText}`);
+      // Try legacy endpoint as fallback
+      console.log('Trying legacy endpoint...');
+      
+      const legacyUrl = `https://api.apimo.com/api/call` +
+        `?provider=${PROVIDER_ID}` +
+        `&timestamp=${timestamp}` +
+        `&sha1=${sha1Hash}` +
+        `&method=getProperties` +
+        `&type=json` +
+        `&version=2` +
+        `&agency=${AGENCY_ID}`;
+
+      const legacyResponse = await fetch(legacyUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!legacyResponse.ok) {
+        throw new Error(`Both API versions failed. Legacy API returned ${legacyResponse.status}`);
+      }
+
+      const legacyData = await legacyResponse.json();
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          data: legacyData,
+          metadata: {
+            timestamp: new Date().toISOString(),
+            agency: AGENCY_ID,
+            provider: PROVIDER_ID,
+            endpoint: 'legacy'
+          }
+        })
+      };
     }
 
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (e) {
-      console.error('❌ JSON Parse Error:', e);
-      throw new Error('Invalid JSON response from Apimo API');
-    }
-
+    const data = await JSON.parse(responseText);
     return {
       statusCode: 200,
       headers,
@@ -83,13 +102,13 @@ exports.handler = async (event, context) => {
           timestamp: new Date().toISOString(),
           agency: AGENCY_ID,
           provider: PROVIDER_ID,
-          count: Array.isArray(data) ? data.length : 'unknown'
+          endpoint: 'v2'
         }
       })
     };
 
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('Error:', error);
     return {
       statusCode: 500,
       headers,
