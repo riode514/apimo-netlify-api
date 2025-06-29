@@ -34,70 +34,39 @@ exports.handler = async (event, context) => {
                         .digest('hex');
 
   try {
-    // Use the documented endpoint format
-    const apiUrl = `https://api.apimo.pro/agencies/${AGENCY_ID}/properties/${propertyId}`;
-    
     console.log(`🔄 Fetching property ${propertyId}...`);
+
+    // Use the webservice endpoint from documentation
+    const apiUrl = `https://webservice.apimo.net/agencies/${AGENCY_ID}/properties/${propertyId}`;
+    
     console.log('URL:', apiUrl);
-    console.log('Timestamp:', timestamp);
-    console.log('SHA1:', sha1Hash);
+    console.log('Auth:', {
+      timestamp,
+      hash: sha1Hash.substring(0, 10) + '...'
+    });
 
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'X-Apimo-Agency-Id': AGENCY_ID,
-        'X-Apimo-Token': API_KEY,
-        'X-Apimo-Timestamp': timestamp.toString(),
-        'X-Apimo-Hash': sha1Hash
+        'Content-Type': 'application/json',
+        'X-Timestamp': timestamp.toString(),
+        'X-Token': sha1Hash,
+        'X-Provider-Id': PROVIDER_ID,
+        'X-Agency-Id': AGENCY_ID
       }
     });
 
+    console.log('Status:', response.status);
+    
+    const responseText = await response.text();
+    console.log('Response:', responseText.substring(0, 200));
+
     if (!response.ok) {
-      // Try legacy endpoint as fallback
-      console.log('Trying legacy endpoint...');
-      
-      const legacyUrl = `https://api.apimo.com/api/call` +
-        `?provider=${PROVIDER_ID}` +
-        `&timestamp=${timestamp}` +
-        `&sha1=${sha1Hash}` +
-        `&method=getProperty` +
-        `&type=json` +
-        `&version=2` +
-        `&agency=${AGENCY_ID}` +
-        `&id=${propertyId}`;
-
-      const legacyResponse = await fetch(legacyUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (!legacyResponse.ok) {
-        throw new Error(`Both API versions failed. Legacy API returned ${legacyResponse.status}`);
-      }
-
-      const legacyData = await legacyResponse.json();
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          data: legacyData,
-          metadata: {
-            timestamp: new Date().toISOString(),
-            propertyId,
-            agency: AGENCY_ID,
-            provider: PROVIDER_ID,
-            endpoint: 'legacy'
-          }
-        })
-      };
+      throw new Error(`Apimo API returned ${response.status}: ${responseText}`);
     }
 
-    const data = await response.json();
+    const data = JSON.parse(responseText);
     return {
       statusCode: 200,
       headers,
@@ -108,8 +77,7 @@ exports.handler = async (event, context) => {
           timestamp: new Date().toISOString(),
           propertyId,
           agency: AGENCY_ID,
-          provider: PROVIDER_ID,
-          endpoint: 'v2'
+          provider: PROVIDER_ID
         }
       })
     };
