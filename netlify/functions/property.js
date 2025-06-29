@@ -1,16 +1,12 @@
 const fetch = require('node-fetch');
+const https = require('https');
+const crypto = require('crypto');
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json'
   };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
 
   const propertyId = event.path.split('/').pop();
   if (!propertyId || propertyId === 'property') {
@@ -21,52 +17,31 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Apimo credentials
   const AGENCY_ID = '24985';
   const PROVIDER_ID = '4352';
   const API_KEY = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
-
-  // Generate authentication token
   const timestamp = Math.floor(Date.now() / 1000);
-  const crypto = require('crypto');
-  const sha1Hash = crypto.createHash('sha1')
-                        .update(API_KEY + timestamp)
-                        .digest('hex');
+  const sha1 = crypto.createHash('sha1').update(API_KEY + timestamp).digest('hex');
+
+  const agent = new https.Agent({ rejectUnauthorized: false });
+
+  const url = `https://api.apimo.com/api/call?provider=${PROVIDER_ID}&agency=${AGENCY_ID}&timestamp=${timestamp}&sha1=${sha1}&method=getProperty&type=json&version=2&id=${propertyId}`;
 
   try {
-    console.log(`🔄 Fetching property ${propertyId}...`);
-
-    // Use the webservice endpoint from documentation
-    const apiUrl = `https://webservice.apimo.net/agencies/${AGENCY_ID}/properties/${propertyId}`;
-    
-    console.log('URL:', apiUrl);
-    console.log('Auth:', {
-      timestamp,
-      hash: sha1Hash.substring(0, 10) + '...'
-    });
-
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-Timestamp': timestamp.toString(),
-        'X-Token': sha1Hash,
-        'X-Provider-Id': PROVIDER_ID,
-        'X-Agency-Id': AGENCY_ID
-      }
-    });
-
-    console.log('Status:', response.status);
-    
-    const responseText = await response.text();
-    console.log('Response:', responseText.substring(0, 200));
+    const response = await fetch(url, { method: 'GET', agent });
+    const text = await response.text();
 
     if (!response.ok) {
-      throw new Error(`Apimo API returned ${response.status}: ${responseText}`);
+      throw new Error(`Apimo API returned ${response.status}: ${text}`);
     }
 
-    const data = JSON.parse(responseText);
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      throw new Error('Invalid JSON from Apimo');
+    }
+
     return {
       statusCode: 200,
       headers,
@@ -83,7 +58,6 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error:', error);
     return {
       statusCode: 500,
       headers,
