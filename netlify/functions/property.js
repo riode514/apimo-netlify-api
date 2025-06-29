@@ -31,26 +31,28 @@ exports.handler = async (event, context) => {
     const path = event.path || '';
     console.log('Full path:', path);
     
-    // Better property ID extraction
     const pathParts = path.split('/');
     let propertyId = pathParts[pathParts.length - 1];
     
-    // Remove any file extensions or invalid characters
+    // Remove any file extensions
     propertyId = propertyId.replace(/\.(html|js|css)$/, '');
     
     console.log('Extracted property ID:', propertyId);
+    console.log('Agency ID: 24985, Provider ID: 4352');
     
-    if (!propertyId || propertyId === 'property' || propertyId === '' || isNaN(propertyId)) {
+    if (!propertyId || propertyId === 'property' || propertyId === '') {
       return {
         statusCode: 400,
         headers,
         body: JSON.stringify({
           success: false,
-          error: 'Valid Property ID is required',
+          error: 'Property ID is required',
           debug: {
             path: path,
             pathParts: pathParts,
-            propertyId: propertyId
+            propertyId: propertyId,
+            agency_id: 24985,
+            provider_id: 4352
           }
         })
       };
@@ -60,13 +62,13 @@ exports.handler = async (event, context) => {
     
     const data = await new Promise((resolve, reject) => {
       const options = {
-        hostname: 'api.apimo.pro',
-        path: `/agencies/3633/properties/${propertyId}`,
+        hostname: 'apimo.net',
+        path: `/agencies/24985/properties/${propertyId}?provider_id=4352`,
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'User-Agent': 'Mozilla/5.0 (compatible; PropertyBot/1.0)',
-          'Authorization': 'Bearer YOUR_APIMO_TOKEN'  // You'll need to add your actual token
+          'Content-Type': 'application/json'
         }
       };
 
@@ -76,6 +78,7 @@ exports.handler = async (event, context) => {
         let data = '';
         
         console.log('Response status:', res.statusCode);
+        console.log('Response headers:', JSON.stringify(res.headers, null, 2));
         
         res.on('data', (chunk) => {
           data += chunk;
@@ -83,8 +86,15 @@ exports.handler = async (event, context) => {
         
         res.on('end', () => {
           console.log('Raw response data length:', data.length);
+          console.log('First 200 chars:', data.substring(0, 200));
+          
+          if (res.statusCode === 404) {
+            reject(new Error(`Property with ID ${propertyId} not found`));
+            return;
+          }
           
           if (res.statusCode !== 200) {
+            console.error('API Error Response:', data);
             reject(new Error(`API returned status ${res.statusCode}: ${data}`));
             return;
           }
@@ -92,6 +102,7 @@ exports.handler = async (event, context) => {
           try {
             const parsedData = JSON.parse(data);
             console.log('Successfully parsed property data');
+            console.log('Data structure:', Object.keys(parsedData));
             resolve(parsedData);
           } catch (parseError) {
             console.error('Failed to parse JSON:', parseError);
@@ -125,7 +136,10 @@ exports.handler = async (event, context) => {
         data: data,
         debug: {
           propertyId: propertyId,
-          timestamp: new Date().toISOString()
+          agency_id: 24985,
+          provider_id: 4352,
+          timestamp: new Date().toISOString(),
+          api_response_keys: Object.keys(data)
         }
       })
     };
@@ -142,7 +156,9 @@ exports.handler = async (event, context) => {
         debug: {
           timestamp: new Date().toISOString(),
           path: event.path,
-          method: event.httpMethod
+          method: event.httpMethod,
+          agency_id: 24985,
+          provider_id: 4352
         }
       })
     };
