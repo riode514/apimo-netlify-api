@@ -1,13 +1,6 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
-  // Log the request for debugging
-  console.log('Function invoked:', {
-    time: new Date().toISOString(),
-    method: event.httpMethod,
-    path: event.path
-  });
-
   // CORS headers
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -16,55 +9,50 @@ exports.handler = async (event, context) => {
     'Content-Type': 'application/json'
   };
 
-  // Handle OPTIONS request
+  // Handle OPTIONS
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: ''
-    };
+    return { statusCode: 200, headers, body: '' };
   }
 
-  // Your Apimo credentials
-  const providerId = '4352';
-  const agencyId = '24985';
-  const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
-  
-  // Generate SHA1 authentication
-  const timestamp = Math.floor(Date.now() / 1000);
-  const crypto = require('crypto');
-  const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
-  
-  // Primary API endpoint
-  const apiUrl = `https://api.apimo.com/api/call?provider=${providerId}&timestamp=${timestamp}&sha1=${sha1Hash}&method=getProperties&type=json&version=2&agency=${agencyId}&limit=50`;
+  // Apimo credentials
+  const AGENCY_ID = '24985';
+  const PROVIDER_ID = '4352';
+  const API_KEY = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+
+  // Based on Apimo documentation
+  const API_BASE_URL = 'https://api.apimo.pro/v2';
+  const PROPERTIES_ENDPOINT = `/agencies/${AGENCY_ID}/properties`;
 
   try {
-    console.log('Fetching from Apimo:', apiUrl.substring(0, 100) + '...');
+    console.log('🔄 Fetching properties from Apimo...');
 
-    const response = await fetch(apiUrl, {
+    // Make the API request
+    const apiResponse = await fetch(`${API_BASE_URL}${PROPERTIES_ENDPOINT}`, {
       method: 'GET',
       headers: {
+        'X-Apimo-Agency-Id': AGENCY_ID,
+        'X-Apimo-Provider-Id': PROVIDER_ID,
+        'X-Apimo-Token': API_KEY,
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'User-Agent': 'Netlify-Apimo-Proxy/1.0'
+        'Content-Type': 'application/json'
       }
     });
 
-    const responseText = await response.text();
-    console.log('Apimo response status:', response.status);
+    console.log('📥 Apimo response status:', apiResponse.status);
 
-    if (!response.ok) {
-      throw new Error(`Apimo API returned ${response.status}: ${responseText.substring(0, 200)}`);
+    // Handle non-200 responses
+    if (!apiResponse.ok) {
+      const errorText = await apiResponse.text();
+      console.error('❌ Apimo API error:', errorText);
+      
+      throw new Error(`Apimo API returned ${apiResponse.status}: ${errorText}`);
     }
 
-    let data;
-    try {
-      data = JSON.parse(responseText);
-    } catch (parseError) {
-      console.error('JSON Parse Error:', parseError);
-      throw new Error('Invalid JSON response from Apimo');
-    }
+    // Parse response
+    const data = await apiResponse.json();
+    console.log('✅ Successfully fetched properties');
 
+    // Return successful response
     return {
       statusCode: 200,
       headers,
@@ -73,15 +61,17 @@ exports.handler = async (event, context) => {
         data: data,
         metadata: {
           timestamp: new Date().toISOString(),
-          provider: providerId,
-          agency: agencyId
+          agency: AGENCY_ID,
+          provider: PROVIDER_ID,
+          count: Array.isArray(data) ? data.length : 'unknown'
         }
       })
     };
 
   } catch (error) {
-    console.error('Error:', error);
-    
+    console.error('❌ Error:', error);
+
+    // Return error response
     return {
       statusCode: 500,
       headers,
@@ -90,8 +80,8 @@ exports.handler = async (event, context) => {
         error: error.message,
         metadata: {
           timestamp: new Date().toISOString(),
-          provider: providerId,
-          agency: agencyId
+          agency: AGENCY_ID,
+          provider: PROVIDER_ID
         }
       })
     };
