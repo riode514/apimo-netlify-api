@@ -20,169 +20,113 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Your exact Apimo credentials from support
+  // Your exact Apimo credentials
   const providerId = '4352';
-  const agencyId = '24985';  // From Apimo support
+  const agencyId = '24985';
   const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   
-  // Generate SHA1 authentication + try original format with agency ID
-  const timestamp = Math.floor(Date.now() / 1000);
-  const crypto = require('crypto');
-  const sha1Hash = crypto.createHash('sha1').update(apiKey + timestamp).digest('hex');
+  // Current Apimo API endpoint (api.apimo.pro)
+  const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
   
-  // Try both new REST format and old Joel Lipman format
-  const apiEndpoints = [
-    // Original Joel Lipman format with agency ID
-    `https://api.apimo.com/api/call?provider=${providerId}&timestamp=${timestamp}&sha1=${sha1Hash}&method=getProperties&type=json&version=2&agency=${agencyId}&limit=50`,
-    
-    // Maybe apimo.pro domain
-    `https://api.apimo.pro/agencies/${agencyId}/properties?provider=${providerId}`,
-    
-    // Maybe different webservice subdomain
-    `https://webservice.apimo.net/agencies/${agencyId}/properties?provider=${providerId}`,
-    
-    // Try with basic auth instead of Bearer
-    `https://apimo.net/webservice/api/agencies/${agencyId}/properties?provider=${providerId}`,
-    
-    // Maybe the endpoint needs to be POST instead of GET
-    `https://apimo.net/api/agencies/${agencyId}/properties`
-  ];
-
+  // Basic Authentication: provider:token format
+  const credentials = Buffer.from(`${providerId}:${apiKey}`).toString('base64');
+  
   try {
-    let lastError = null;
-    
-    // Try each endpoint variation with different auth methods
-    for (let i = 0; i < apiEndpoints.length; i++) {
-      const apiUrl = apiEndpoints[i];
-      
-      // Try different authentication methods for each endpoint
-      const authMethods = [
-        // Bearer token
-        {
-          name: 'Bearer',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
-        },
-        // Basic auth
-        {
-          name: 'Basic',
-          headers: {
-            'Authorization': `Basic ${Buffer.from(`${providerId}:${apiKey}`).toString('base64')}`,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
-        },
-        // No auth (for endpoints that include auth in URL)
-        {
-          name: 'URL-based',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'User-Agent': 'Netlify-Apimo-Proxy/1.0'
-          }
-        }
-      ];
+    console.log(`🔗 Calling Apimo API: ${apiUrl}`);
+    console.log(`👤 Using Provider ID: ${providerId}, Agency ID: ${agencyId}`);
 
-      for (const authMethod of authMethods) {
-        try {
-          console.log(`🔗 Trying endpoint ${i+1}/${apiEndpoints.length} with ${authMethod.name} auth: ${apiUrl.substring(0, 80)}...`);
-
-          // Make the API call
-          const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: authMethod.headers
-          });
-
-          const responseText = await response.text();
-          console.log(`📦 Response: ${response.status} with ${authMethod.name} auth`);
-
-          if (!response.ok) {
-            // Check if it's a different kind of error (not the "free trial" page)
-            if (!responseText.includes('Demandez un essai gratuit') && !responseText.includes('<!DOCTYPE html>')) {
-              console.log(`🔍 Different error type: ${responseText.substring(0, 200)}`);
-            }
-            continue; // Try next auth method
-          }
-
-          // Try to parse as JSON
-          let data;
-          try {
-            data = JSON.parse(responseText);
-            console.log('✅ SUCCESS! JSON response from:', apiUrl.substring(0, 80), 'with', authMethod.name, 'auth');
-          } catch (parseError) {
-            console.log(`❌ JSON Parse Error with ${authMethod.name} auth:`, parseError.message);
-            continue; // Try next auth method
-          }
-
-          // Success! Return the data
-          console.log(`🎉 WORKING ENDPOINT FOUND!`);
-          console.log(`📊 Data structure:`, typeof data, Array.isArray(data) ? `Array[${data.length}]` : Object.keys(data));
-          
-          return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({
-              success: true,
-              data: data,
-              metadata: {
-                provider: providerId,
-                agency: agencyId,
-                workingEndpoint: apiUrl,
-                workingAuthMethod: authMethod.name,
-                timestamp: new Date().toISOString(),
-                propertiesCount: Array.isArray(data) ? data.length : (data.properties ? data.properties.length : 'unknown')
-              }
-            })
-          };
-
-        } catch (fetchError) {
-          console.log(`🌐 Network Error with ${authMethod.name} auth:`, fetchError.message);
-          lastError = {
-            error: 'Network Error',
-            endpoint: apiUrl,
-            authMethod: authMethod.name,
-            details: fetchError.message
-          };
-          continue; // Try next auth method
-        }
+    // Make the API call with Basic Authentication
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Netlify-Apimo-Client/1.0'
       }
+    });
+
+    const responseText = await response.text();
+    console.log(`📦 Response Status: ${response.status}`);
+
+    if (!response.ok) {
+      console.error(`❌ API Error: ${response.status} - ${response.statusText}`);
+      console.error(`📄 Response Body: ${responseText.substring(0, 500)}`);
+      
+      return {
+        statusCode: response.status,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: `Apimo API Error: ${response.status} - ${response.statusText}`,
+          details: responseText.substring(0, 500),
+          provider: providerId,
+          agency: agencyId,
+          endpoint: apiUrl
+        })
+      };
     }
 
-    // If we get here, all endpoints failed
-    console.error('❌ All API endpoint variations failed');
+    // Parse JSON response
+    let data;
+    try {
+      data = JSON.parse(responseText);
+      console.log('✅ SUCCESS! Received valid JSON response');
+      
+      // Log data structure for debugging
+      if (data.properties) {
+        console.log(`📊 Properties found: ${data.properties.length}`);
+      } else if (Array.isArray(data)) {
+        console.log(`📊 Array response with ${data.length} items`);
+      } else {
+        console.log(`📊 Response structure:`, Object.keys(data));
+      }
+      
+    } catch (parseError) {
+      console.error(`❌ JSON Parse Error:`, parseError.message);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          success: false,
+          error: 'Invalid JSON response from Apimo API',
+          details: parseError.message,
+          rawResponse: responseText.substring(0, 500)
+        })
+      };
+    }
+
+    // Success! Return the data
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers,
       body: JSON.stringify({
-        success: false,
-        error: 'All Apimo API endpoint variations failed',
-        details: lastError ? JSON.stringify(lastError, null, 2) : 'No endpoints worked',
-        triedEndpoints: apiEndpoints,
-        provider: providerId,
-        agency: agencyId,
-        note: 'Tried multiple variations of the official endpoint format'
+        success: true,
+        data: data,
+        metadata: {
+          provider: providerId,
+          agency: agencyId,
+          endpoint: apiUrl,
+          timestamp: new Date().toISOString(),
+          propertiesCount: data.properties ? data.properties.length : (Array.isArray(data) ? data.length : 'unknown'),
+          totalItems: data.total_items || null
+        }
       })
     };
 
   } catch (error) {
-    console.error('❌ Server Error:', error);
+    console.error('❌ Network/Server Error:', error.message);
     
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
-        error: 'Server error while calling Apimo API',
+        error: 'Network error while calling Apimo API',
         details: error.message,
         provider: providerId,
         agency: agencyId,
-        endpoint: apiUrl,
-        note: 'Using official Apimo support format'
+        endpoint: apiUrl
       })
     };
   }
