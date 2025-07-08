@@ -5,3 +5,8 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[[redirects]]
+  from = "/single-property/*"
+  to = "/single-property/index.html"
+  status = 200
