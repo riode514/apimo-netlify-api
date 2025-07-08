@@ -2,34 +2,12 @@
   functions = "netlify/functions"
   publish = "."
 
-# API redirects
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-# Single property page redirects
 [[redirects]]
   from = "/single-property/*"
   to = "/single-property/index.html"
   status = 200
 
-# Property detail page with query params
-[[redirects]]
-  from = "/property"
-  to = "/single-property/index.html"
-  status = 200
-
-# Catch-all for property URLs
 [[redirects]]
   from = "/properties/*"
   to = "/properties/index.html"
   status = 200
-
-# Headers for API functions
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Headers = "Content-Type"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
