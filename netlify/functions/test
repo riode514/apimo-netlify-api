@@ -1,41 +1,21 @@
-// netlify/functions/test.js
-exports.handler = async (event, context) => {
-  // Add CORS headers
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Content-Type': 'application/json'
-  };
+[build]
+  functions = "netlify/functions"
+  publish = "."
 
-  // Handle preflight requests
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: ''
-    };
-  }
+[functions]
+  node_bundler = "esbuild"
 
-  try {
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        message: 'Test function is working!',
-        method: event.httpMethod,
-        timestamp: new Date().toISOString(),
-        path: event.path
-      })
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        error: 'Function failed',
-        details: error.message
-      })
-    };
-  }
-};
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/single-property/*"
+  to = "/single-property/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/properties/*"
+  to = "/properties/index.html"
+  status = 200
