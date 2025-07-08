@@ -1,7 +1,5 @@
 // netlify/functions/properties.js
-// Fixed to use the working API endpoint format
-
-const fetch = require('node-fetch');
+// Working properties function that calls the external API
 
 exports.handler = async (event, context) => {
   // Handle CORS
@@ -22,7 +20,9 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Use the WORKING API endpoint format (same as the external one that works)
+    console.log('🔄 Properties function called');
+
+    // Use the WORKING external API endpoint (same as your original)
     const apiUrl = 'https://resplendent-brigadeiros-48cf1c.netlify.app/.netlify/functions/properties';
     const queryParams = new URLSearchParams({
       provider: '4352',
@@ -31,25 +31,42 @@ exports.handler = async (event, context) => {
       cache_bust: Date.now().toString()
     });
 
-    console.log(`🔗 Calling external Apimo endpoint: ${apiUrl}?${queryParams}`);
+    const fullUrl = `${apiUrl}?${queryParams}`;
+    console.log('📡 Calling external API:', fullUrl);
 
-    const response = await fetch(`${apiUrl}?${queryParams}`, {
+    // Make the request with proper error handling
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+
+    const response = await fetch(fullUrl, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'VERV-ONE-Website/1.0'
       },
-      timeout: 30000
+      signal: controller.signal
     });
 
+    clearTimeout(timeoutId);
+
+    console.log('📊 API Response Status:', response.status);
+
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('❌ API Error:', response.status, errorText);
+      throw new Error(`API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('✅ Successfully fetched properties');
+    console.log('✅ API Success - Data structure:', {
+      success: data.success,
+      hasData: !!data.data,
+      dataType: typeof data.data,
+      isArray: Array.isArray(data.data),
+      propertiesCount: data.data ? (Array.isArray(data.data) ? data.data.length : 'Not array') : 0
+    });
 
-    // Return the data in the same format
+    // Return the data in the expected format
     return {
       statusCode: 200,
       headers,
@@ -58,22 +75,28 @@ exports.handler = async (event, context) => {
         data: data.data || data,
         metadata: {
           timestamp: new Date().toISOString(),
-          source: 'Apimo API via Netlify Proxy',
-          propertiesCount: (data.data && Array.isArray(data.data)) ? data.data.length : 0
+          source: 'Apimo API via External Proxy',
+          propertiesCount: data.data && Array.isArray(data.data) ? data.data.length : 0,
+          functionStatus: 'working'
         }
       })
     };
 
   } catch (error) {
-    console.error('❌ Error fetching properties:', error.message);
+    console.error('❌ Function Error:', error.message);
     
+    // Return detailed error information
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
         success: false,
         error: `Failed to fetch properties: ${error.message}`,
-        timestamp: new Date().toISOString()
+        details: {
+          timestamp: new Date().toISOString(),
+          errorType: error.name,
+          functionPath: '/.netlify/functions/properties'
+        }
       })
     };
   }
