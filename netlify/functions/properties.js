@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Content-Type': 'application/json'
   };
@@ -13,55 +13,59 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+    const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+    const providerId = '4352';
     const agencyId = '24985';
-    const apiUrl = 'https://api.apimo.pro/agencies/' + agencyId + '/properties';
-    
-    console.log('Trying Apimo API...');
-    
+    const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
+
+    const credentials = Buffer.from(`${providerId}:${apiKey}`).toString('base64');
+
+    console.log('Calling Apimo API with Basic Auth...');
+
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Authorization': 'Token ' + token,
+        'Authorization': `Basic ${credentials}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     });
 
-    if (response.ok) {
-      const apiData = await response.json();
-      console.log('Success with Apimo API!');
-      
-      let properties = [];
-      
-      if (Array.isArray(apiData)) {
-        properties = apiData;
-      } else if (apiData.properties) {
-        properties = apiData.properties;
-      } else if (apiData.data) {
-        properties = apiData.data;
-      }
-
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          count: properties.length,
-          properties: properties,
-          source: "Apimo API"
-        })
-      };
-    } else {
+    if (!response.ok) {
       const errorText = await response.text();
       console.log('Apimo API failed:', response.status, errorText);
-      throw new Error('Apimo API: ' + response.status + ' - ' + errorText);
+      throw new Error(`Apimo API ${response.status}: ${errorText}`);
     }
-    
+
+    const apiData = await response.json();
+    console.log('Apimo API response received.');
+
+    let properties = [];
+
+    if (Array.isArray(apiData)) {
+      properties = apiData;
+    } else if (apiData.properties) {
+      properties = apiData.properties;
+    } else if (apiData.data) {
+      properties = apiData.data;
+    }
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        success: true,
+        count: properties.length,
+        properties: properties,
+        source: "Apimo API"
+      })
+    };
+
   } catch (error) {
-    console.log('Falling back to test data due to:', error.message);
-    
-    const properties = [
+    console.log('Fallback due to error:', error.message);
+
+    // Same fallback properties...
+    const fallbackProperties = [
       {
         id: 1,
         title: "Modern Villa in Barcelona",
@@ -98,12 +102,10 @@ exports.handler = async (event, context) => {
     const featured = queryStringParameters.featured;
     const limit = queryStringParameters.limit;
 
-    let filteredProperties = properties;
+    let filteredProperties = fallbackProperties;
 
     if (featured === 'true') {
-      filteredProperties = properties.filter(function(prop) {
-        return prop.featured;
-      });
+      filteredProperties = fallbackProperties.filter(p => p.featured);
     }
 
     if (limit) {
@@ -121,7 +123,7 @@ exports.handler = async (event, context) => {
         count: filteredProperties.length,
         properties: filteredProperties,
         source: "Fallback data",
-        apiError: error.message
+        error: error.message
       })
     };
   }
