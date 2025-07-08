@@ -14,7 +14,58 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Datos de ejemplo limpios para empezar
+    // Intentar obtener datos reales de Apimo
+    const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+    const agencyId = '24985';
+    const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
+    
+    console.log('Trying Apimo API...');
+    
+    // El error dice "Please provide the token" - probemos diferentes formatos
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Token ${token}`,  // Formato "Token" en lugar de "Bearer"
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      const apiData = await response.json();
+      console.log('Success with Apimo API!');
+      
+      // Procesar datos de Apimo
+      let properties = [];
+      
+      if (Array.isArray(apiData)) {
+        properties = apiData;
+      } else if (apiData.properties) {
+        properties = apiData.properties;
+      } else if (apiData.data) {
+        properties = apiData.data;
+      }
+
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          success: true,
+          count: properties.length,
+          properties: properties,
+          source: "Apimo API"
+        })
+      };
+    } else {
+      const errorText = await response.text();
+      console.log('Apimo API failed:', response.status, errorText);
+      throw new Error(`Apimo API: ${response.status} - ${errorText}`);
+    }
+    
+  } catch (error) {
+    console.log('Falling back to test data due to:', error.message);
+    
+    // Datos de fallback limpios
     const properties = [
       {
         id: 1,
@@ -48,7 +99,7 @@ exports.handler = async (event, context) => {
       }
     ];
 
-    // Aplicar filtros simples
+    // Aplicar filtros
     const { queryStringParameters = {} } = event;
     const { featured, limit } = queryStringParameters;
 
@@ -72,17 +123,8 @@ exports.handler = async (event, context) => {
         success: true,
         count: filteredProperties.length,
         properties: filteredProperties,
-        source: "Clean test data"
-      })
-    };
-    
-  } catch (error) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        success: false,
-        error: error.message
+        source: "Fallback data",
+        apiError: error.message
       })
     };
   }
