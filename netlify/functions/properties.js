@@ -3,8 +3,8 @@ const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
   const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
-  const agencyId = '24985';  // Agency ID de Apimo
-  const providerId = '4352'; // Provider ID para referencia
+  const agencyId = '24985';
+  const providerId = '4352';
   
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -20,30 +20,60 @@ exports.handler = async (event, context) => {
   try {
     console.log(`Fetching properties from Apimo API for agency ${agencyId}...`);
     
-    // Llamada a la API real de Apimo
-    const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
-    console.log('API URL:', apiUrl);
+    // Probar diferentes URLs base
+    const apiUrls = [
+      `https://api.apimo.net/agencies/${agencyId}/properties`,
+      `https://api.apimo.pro/agencies/${agencyId}/properties`,
+      `https://www.apimo.net/api/agencies/${agencyId}/properties`,
+      `https://apimo.net/api/agencies/${agencyId}/properties`
+    ];
     
-    const response = await fetch(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+    let lastError = null;
+    let apiResponse = null;
+    let successfulUrl = null;
+    
+    for (const apiUrl of apiUrls) {
+      try {
+        console.log(`Trying URL: ${apiUrl}`);
+        
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'User-Agent': 'Verv-One-Website/1.0'
+          }
+        });
+        
+        console.log(`Response status for ${apiUrl}: ${response.status}`);
+        
+        if (response.ok) {
+          apiResponse = response;
+          successfulUrl = apiUrl;
+          break;
+        } else {
+          const errorText = await response.text();
+          console.log(`Error response for ${apiUrl}:`, errorText);
+          lastError = new Error(`${response.status} ${response.statusText}: ${errorText}`);
+        }
+        
+      } catch (error) {
+        console.log(`Network error for ${apiUrl}:`, error.message);
+        lastError = error;
       }
-    });
-
-    console.log('Apimo API response status:', response.status);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.log('API Error Response:', errorText);
-      throw new Error(`Apimo API error: ${response.status} ${response.statusText}`);
     }
-
-    const apiData = await response.json();
-    console.log('Apimo data received successfully');
-    console.log('Raw properties count:', Array.isArray(apiData) ? apiData.length : apiData?.properties?.length || 'Unknown structure');
     
-    // Transformar datos de Apimo al formato esperado por el frontend
+    if (!apiResponse) {
+      throw lastError || new Error('All API endpoints failed');
+    }
+    
+    console.log(`Success with URL: ${successfulUrl}`);
+    const apiData = await apiResponse.json();
+    console.log('Apimo data received successfully');
+    console.log('Response structure:', Object.keys(apiData));
+    
+    // Transformar datos de Apimo al formato esperado
     let properties = [];
     
     if (Array.isArray(apiData)) {
@@ -52,23 +82,23 @@ exports.handler = async (event, context) => {
       properties = apiData.properties;
     } else if (apiData.data && Array.isArray(apiData.data)) {
       properties = apiData.data;
+    } else if (apiData.results && Array.isArray(apiData.results)) {
+      properties = apiData.results;
     } else {
-      console.log('Unexpected API response structure:', Object.keys(apiData));
+      console.log('Unexpected API response structure:', apiData);
       properties = [];
     }
 
-    // Aplicar filtros de query parameters si existen
+    // Aplicar filtros si existen
     const { queryStringParameters = {} } = event;
     const { featured, limit } = queryStringParameters;
 
     let filteredProperties = properties;
 
-    // Filtrar por featured si se solicita
     if (featured === 'true' && properties.length > 0) {
       filteredProperties = properties.filter(prop => prop.featured || prop.is_featured);
     }
 
-    // Limitar resultados si se solicita
     if (limit) {
       const limitNum = parseInt(limit);
       if (!isNaN(limitNum)) {
@@ -84,7 +114,9 @@ exports.handler = async (event, context) => {
         count: filteredProperties.length,
         properties: filteredProperties,
         source: 'Apimo API',
+        apiUrl: successfulUrl,
         agencyId: agencyId,
+        providerId: providerId,
         timestamp: new Date().toISOString()
       })
     };
@@ -92,9 +124,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     console.error('Function error:', error.message);
     
-    // En caso de error, devolver datos de ejemplo como fallback
-    console.log('Returning fallback data due to API error');
-    
+    // Fallback data
     const fallbackProperties = [
       {
         id: 1,
@@ -109,7 +139,7 @@ exports.handler = async (event, context) => {
       },
       {
         id: 2,
-        title: "Coastal Apartment",
+        title: "Coastal Apartment", 
         price: "€320,000",
         location: "Valencia, Spain",
         bedrooms: 2,
@@ -140,6 +170,8 @@ exports.handler = async (event, context) => {
         properties: fallbackProperties,
         source: 'Fallback data',
         error: error.message,
+        agencyId: agencyId,
+        providerId: providerId,
         timestamp: new Date().toISOString()
       })
     };
