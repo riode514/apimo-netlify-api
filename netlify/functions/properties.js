@@ -13,19 +13,16 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    const apiKey = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
-    const providerId = '4352';
+    const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
     const agencyId = '24985';
     const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
 
-    const credentials = Buffer.from(`${providerId}:${apiKey}`).toString('base64');
-
-    console.log('Calling Apimo API with Basic Auth...');
+    console.log('Calling Apimo API with Bearer token...');
 
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Authorization': `Basic ${credentials}`,
+        'Authorization': `Bearer ${token}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
@@ -64,7 +61,6 @@ exports.handler = async (event, context) => {
   } catch (error) {
     console.log('Fallback due to error:', error.message);
 
-    // Same fallback properties...
     const fallbackProperties = [
       {
         id: 1,
