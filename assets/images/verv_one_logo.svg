@@ -1,0 +1,13 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#ffffff"/>
+  
+  <!-- VERV text -->
+  <text x="80" y="210" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="300" fill="#1a1a1a" letter-spacing="16px">VERV</text>
+  
+  <!-- ONE text -->
+  <text x="320" y="210" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="300" fill="#1a1a1a" letter-spacing="16px">ONE</text>
+  
+  <!-- Underline under ONE -->
+  <line x1="329" y1="230" x2="486" y2="230" stroke="#1a1a1a" stroke-width="1.5"/>
+</svg>
