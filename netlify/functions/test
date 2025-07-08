@@ -1,15 +1,41 @@
 // netlify/functions/test.js
 exports.handler = async (event, context) => {
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      success: true,
-      message: 'Functions are working!',
-      time: new Date().toISOString()
-    })
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json'
   };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  try {
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        message: 'Test function is working!',
+        method: event.httpMethod,
+        timestamp: new Date().toISOString(),
+        path: event.path
+      })
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({
+        error: 'Function failed',
+        details: error.message
+      })
+    };
+  }
 };
