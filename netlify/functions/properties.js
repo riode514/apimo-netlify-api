@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Content-Type': 'application/json'
   };
@@ -12,31 +12,30 @@ exports.handler = async (event, context) => {
     return { statusCode: 200, headers, body: '' };
   }
 
-  try {
-    const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
-    const agencyId = '24985';
-    const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
+  const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
+  const agencyId = '24985';
+  const providerId = '4352';
+  const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
 
-    console.log('Calling Apimo API with Bearer token...');
+  try {
+    console.log('🔗 Fetching properties from Apimo...');
 
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': 'Token ' + token,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     });
 
+    const responseText = await response.text();
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.log('Apimo API failed:', response.status, errorText);
-      throw new Error(`Apimo API ${response.status}: ${errorText}`);
+      throw new Error(`API Error ${response.status}: ${responseText}`);
     }
 
-    const apiData = await response.json();
-    console.log('Apimo API response received.');
-
+    const apiData = JSON.parse(responseText);
     let properties = [];
 
     if (Array.isArray(apiData)) {
@@ -45,6 +44,22 @@ exports.handler = async (event, context) => {
       properties = apiData.properties;
     } else if (apiData.data) {
       properties = apiData.data;
+    } else {
+      console.warn('⚠️ Unexpected data structure:', Object.keys(apiData));
+    }
+
+    // Filters
+    const { featured, limit } = event.queryStringParameters || {};
+
+    if (featured === 'true') {
+      properties = properties.filter(prop => prop.featured || prop.is_featured);
+    }
+
+    if (limit) {
+      const n = parseInt(limit);
+      if (!isNaN(n)) {
+        properties = properties.slice(0, n);
+      }
     }
 
     return {
@@ -54,13 +69,17 @@ exports.handler = async (event, context) => {
         success: true,
         count: properties.length,
         properties: properties,
-        source: "Apimo API"
+        source: "Apimo API",
+        agencyId,
+        providerId,
+        timestamp: new Date().toISOString()
       })
     };
 
   } catch (error) {
-    console.log('Fallback due to error:', error.message);
+    console.error('❌ Error fetching properties:', error.message);
 
+    // Fallback dummy data
     const fallbackProperties = [
       {
         id: 1,
@@ -81,45 +100,20 @@ exports.handler = async (event, context) => {
         bathrooms: 1,
         size: "85m²",
         featured: false
-      },
-      {
-        id: 3,
-        title: "Historic Townhouse",
-        price: "€580,000",
-        location: "Madrid, Spain",
-        bedrooms: 4,
-        bathrooms: 3,
-        size: "160m²",
-        featured: true
       }
     ];
-
-    const queryStringParameters = event.queryStringParameters || {};
-    const featured = queryStringParameters.featured;
-    const limit = queryStringParameters.limit;
-
-    let filteredProperties = fallbackProperties;
-
-    if (featured === 'true') {
-      filteredProperties = fallbackProperties.filter(p => p.featured);
-    }
-
-    if (limit) {
-      const limitNum = parseInt(limit);
-      if (!isNaN(limitNum)) {
-        filteredProperties = filteredProperties.slice(0, limitNum);
-      }
-    }
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success: true,
-        count: filteredProperties.length,
-        properties: filteredProperties,
-        source: "Fallback data",
-        error: error.message
+        count: fallbackProperties.length,
+        properties: fallbackProperties,
+        source: "Fallback",
+        apiError: error.message,
+        agencyId,
+        providerId
       })
     };
   }
