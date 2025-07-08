@@ -20,60 +20,83 @@ exports.handler = async (event, context) => {
   try {
     console.log(`Fetching properties from Apimo API for agency ${agencyId}...`);
     
-    // Probar diferentes URLs base
-    const apiUrls = [
-      `https://api.apimo.net/agencies/${agencyId}/properties`,
-      `https://api.apimo.pro/agencies/${agencyId}/properties`,
-      `https://www.apimo.net/api/agencies/${agencyId}/properties`,
-      `https://apimo.net/api/agencies/${agencyId}/properties`
+    const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
+    console.log('API URL:', apiUrl);
+    console.log('Token (first 10 chars):', token.substring(0, 10) + '...');
+    
+    // Diferentes formatos de headers para probar
+    const headerOptions = [
+      // Opción 1: Bearer token estándar
+      {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      // Opción 2: Token directo
+      {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      // Opción 3: Con User-Agent
+      {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'User-Agent': 'Verv-One-Website/1.0'
+      },
+      // Opción 4: Basic auth format (si usa formato diferente)
+      {
+        'Authorization': `Basic ${Buffer.from(token + ':').toString('base64')}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     ];
     
     let lastError = null;
     let apiResponse = null;
-    let successfulUrl = null;
+    let successfulHeaders = null;
     
-    for (const apiUrl of apiUrls) {
+    for (let i = 0; i < headerOptions.length; i++) {
+      const requestHeaders = headerOptions[i];
+      console.log(`Trying header option ${i + 1}:`, Object.keys(requestHeaders));
+      
       try {
-        console.log(`Trying URL: ${apiUrl}`);
-        
         const response = await fetch(apiUrl, {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'User-Agent': 'Verv-One-Website/1.0'
-          }
+          headers: requestHeaders
         });
         
-        console.log(`Response status for ${apiUrl}: ${response.status}`);
+        console.log(`Response status for option ${i + 1}: ${response.status}`);
+        console.log(`Response headers:`, Object.fromEntries(response.headers.entries()));
         
         if (response.ok) {
           apiResponse = response;
-          successfulUrl = apiUrl;
+          successfulHeaders = requestHeaders;
+          console.log(`Success with header option ${i + 1}!`);
           break;
         } else {
           const errorText = await response.text();
-          console.log(`Error response for ${apiUrl}:`, errorText);
-          lastError = new Error(`${response.status} ${response.statusText}: ${errorText}`);
+          console.log(`Error response for option ${i + 1}:`, errorText);
+          lastError = new Error(`Option ${i + 1}: ${response.status} ${response.statusText} - ${errorText}`);
         }
         
       } catch (error) {
-        console.log(`Network error for ${apiUrl}:`, error.message);
+        console.log(`Network error for option ${i + 1}:`, error.message);
         lastError = error;
       }
     }
     
     if (!apiResponse) {
-      throw lastError || new Error('All API endpoints failed');
+      throw lastError || new Error('All authentication methods failed');
     }
     
-    console.log(`Success with URL: ${successfulUrl}`);
     const apiData = await apiResponse.json();
     console.log('Apimo data received successfully');
     console.log('Response structure:', Object.keys(apiData));
+    console.log('Data sample:', JSON.stringify(apiData).substring(0, 200) + '...');
     
-    // Transformar datos de Apimo al formato esperado
+    // Transformar datos
     let properties = [];
     
     if (Array.isArray(apiData)) {
@@ -85,11 +108,11 @@ exports.handler = async (event, context) => {
     } else if (apiData.results && Array.isArray(apiData.results)) {
       properties = apiData.results;
     } else {
-      console.log('Unexpected API response structure:', apiData);
-      properties = [];
+      console.log('Unknown structure, using raw data');
+      properties = [apiData]; // En caso de que sea un solo objeto
     }
 
-    // Aplicar filtros si existen
+    // Aplicar filtros
     const { queryStringParameters = {} } = event;
     const { featured, limit } = queryStringParameters;
 
@@ -114,7 +137,8 @@ exports.handler = async (event, context) => {
         count: filteredProperties.length,
         properties: filteredProperties,
         source: 'Apimo API',
-        apiUrl: successfulUrl,
+        apiUrl: apiUrl,
+        authMethod: successfulHeaders ? Object.keys(successfulHeaders) : 'unknown',
         agencyId: agencyId,
         providerId: providerId,
         timestamp: new Date().toISOString()
@@ -124,7 +148,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     console.error('Function error:', error.message);
     
-    // Fallback data
+    // Datos de fallback
     const fallbackProperties = [
       {
         id: 1,
@@ -139,7 +163,7 @@ exports.handler = async (event, context) => {
       },
       {
         id: 2,
-        title: "Coastal Apartment", 
+        title: "Coastal Apartment",
         price: "€320,000",
         location: "Valencia, Spain",
         bedrooms: 2,
@@ -170,6 +194,7 @@ exports.handler = async (event, context) => {
         properties: fallbackProperties,
         source: 'Fallback data',
         error: error.message,
+        apiUrl: `https://api.apimo.pro/agencies/${agencyId}/properties`,
         agencyId: agencyId,
         providerId: providerId,
         timestamp: new Date().toISOString()
