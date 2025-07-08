@@ -78,6 +78,16 @@ exports.handler = async (event, context) => {
         bathrooms: 2,
         size: "120m²",
         featured: true
+      },
+      {
+        id: 2,
+        title: "Coastal Apartment",
+        price: "€320,000",
+        location: "Valencia, Spain",
+        bedrooms: 2,
+        bathrooms: 1,
+        size: "85m²",
+        featured: false
       }
     ];
     
