@@ -1,0 +1,21 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/single-property/*"
+  to = "/single-property/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/properties/*"
+  to = "/properties/index.html"
+  status = 200
