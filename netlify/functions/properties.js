@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 exports.handler = async (event, context) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Content-Type': 'application/json'
   };
@@ -12,30 +12,37 @@ exports.handler = async (event, context) => {
     return { statusCode: 200, headers, body: '' };
   }
 
+  const providerId = '4352';
   const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   const agencyId = '24985';
-  const providerId = '4352';
+
+  const queryParams = event.queryStringParameters || {};
+  const { limit, featured } = queryParams;
+
+  // ✅ URL simple sin parámetros que Apimo podría no soportar
   const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
+
+  const credentials = Buffer.from(`${providerId}:${token}`).toString('base64');
 
   try {
     console.log('🔗 Fetching properties from Apimo...');
-
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
-        'Authorization': 'Token ' + token,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Authorization': `Basic ${credentials}`,
+        'Accept': 'application/json'
       }
     });
 
-    const responseText = await response.text();
-
     if (!response.ok) {
-      throw new Error(`API Error ${response.status}: ${responseText}`);
+      const errorText = await response.text();
+      console.log('❌ Apimo API failed:', response.status, errorText);
+      throw new Error(`Apimo API ${response.status}: ${errorText}`);
     }
 
-    const apiData = JSON.parse(responseText);
+    const apiData = await response.json();
+    console.log('✅ Apimo API response received, properties count:', apiData.length || 'unknown');
+    
     let properties = [];
 
     if (Array.isArray(apiData)) {
@@ -44,21 +51,18 @@ exports.handler = async (event, context) => {
       properties = apiData.properties;
     } else if (apiData.data) {
       properties = apiData.data;
-    } else {
-      console.warn('⚠️ Unexpected data structure:', Object.keys(apiData));
     }
 
-    // Filters
-    const { featured, limit } = event.queryStringParameters || {};
-
+    // Filter featured properties if requested
     if (featured === 'true') {
-      properties = properties.filter(prop => prop.featured || prop.is_featured);
+      properties = properties.filter(p => p.featured || p.is_featured === true);
     }
 
+    // Limit result if requested
     if (limit) {
-      const n = parseInt(limit);
-      if (!isNaN(n)) {
-        properties = properties.slice(0, n);
+      const max = parseInt(limit);
+      if (!isNaN(max)) {
+        properties = properties.slice(0, max);
       }
     }
 
@@ -70,16 +74,17 @@ exports.handler = async (event, context) => {
         count: properties.length,
         properties: properties,
         source: "Apimo API",
-        agencyId,
-        providerId,
-        timestamp: new Date().toISOString()
+        filters: {
+          featured: featured === 'true',
+          limit: limit ? parseInt(limit) : null
+        }
       })
     };
 
   } catch (error) {
-    console.error('❌ Error fetching properties:', error.message);
-
-    // Fallback dummy data
+    console.error('❌ Error:', error.message);
+    
+    // ✅ Fallback properties para mejor UX
     const fallbackProperties = [
       {
         id: 1,
@@ -100,20 +105,46 @@ exports.handler = async (event, context) => {
         bathrooms: 1,
         size: "85m²",
         featured: false
+      },
+      {
+        id: 3,
+        title: "Historic Townhouse",
+        price: "€580,000",
+        location: "Madrid, Spain",
+        bedrooms: 4,
+        bathrooms: 3,
+        size: "160m²",
+        featured: true
       }
     ];
+
+    // Apply same filters to fallback
+    let filteredFallback = fallbackProperties;
+    
+    if (featured === 'true') {
+      filteredFallback = fallbackProperties.filter(p => p.featured);
+    }
+    
+    if (limit) {
+      const max = parseInt(limit);
+      if (!isNaN(max)) {
+        filteredFallback = filteredFallback.slice(0, max);
+      }
+    }
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         success: true,
-        count: fallbackProperties.length,
-        properties: fallbackProperties,
-        source: "Fallback",
-        apiError: error.message,
-        agencyId,
-        providerId
+        count: filteredFallback.length,
+        properties: filteredFallback,
+        source: "Fallback data",
+        error: error.message,
+        filters: {
+          featured: featured === 'true',
+          limit: limit ? parseInt(limit) : null
+        }
       })
     };
   }
