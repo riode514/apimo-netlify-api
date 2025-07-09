@@ -2111,7 +2111,7 @@
             </svg>`
         };
 
-        // FIXED: Real property loading with better error handling
+        // FIXED: Real property loading with better error handling and debugging
         async function loadRealProperties() {
             try {
                 console.log('🏠 Loading REAL properties from VERV ONE API...');
@@ -2142,6 +2142,8 @@
                         
                         if (response.ok) {
                             const data = await response.json();
+                            console.log('Raw API response data:', data);
+                            
                             let properties = null;
                             
                             // Handle different response formats
@@ -2154,10 +2156,13 @@
                             }
                             
                             if (properties && properties.length > 0) {
-                                console.log(`✅ SUCCESS! Loaded ${properties.length} real properties`);
+                                console.log(`✅ SUCCESS! Loaded ${properties.length} real properties from API`);
+                                console.log('Sample property from API:', properties[0]);
                                 
-                                // Process and store all properties
+                                // Process and store all properties with enhanced extraction
                                 allProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
+                                console.log('Processed properties:', allProperties);
+                                
                                 isApiLoaded = true;
                                 
                                 // Cache the properties
@@ -2202,103 +2207,202 @@
                 }
                 
                 // Ultimate fallback
-                console.log('⚠️ Using sample data as fallback');
+                console.log('⚠️ Using enhanced sample data as fallback');
                 allProperties = createEnhancedSampleData();
                 applyFiltersAndDisplay();
             }
         }
 
-        // Enhanced sample data that looks like real API data
+        // ENHANCED: Sample data with proper location strings and formatting
         function createEnhancedSampleData() {
             return [
                 {
                     id: 'VERV001',
                     title: 'Luxury Villa Barcelona',
-                    location: 'Barcelona',
+                    location: 'Barcelona', // String, not object
                     price: 2500000,
                     type: 'Villa',
                     bedrooms: 5,
                     bathrooms: 4,
                     builtArea: 350,
                     landArea: 650,
-                    description: 'Stunning luxury villa in prime Barcelona location with exceptional views'
+                    description: 'Stunning luxury villa in prime Barcelona location with exceptional views',
+                    photoUrl: null,
+                    is_featured: true,
+                    is_popular: false
                 },
                 {
                     id: 'VERV002',
                     title: 'Seaside Penthouse Sitges',
-                    location: 'Sitges',
+                    location: 'Sitges', // String, not object
                     price: 1850000,
                     type: 'Penthouse',
                     bedrooms: 3,
                     bathrooms: 3,
                     builtArea: 180,
-                    description: 'Exclusive penthouse with panoramic sea views in Sitges'
+                    description: 'Exclusive penthouse with panoramic sea views in Sitges',
+                    photoUrl: null,
+                    is_featured: true,
+                    is_popular: true
                 },
                 {
                     id: 'VERV003',
                     title: 'Modern Villa Costa Brava',
-                    location: 'Costa Brava',
+                    location: 'Costa Brava', // String, not object
                     price: 1750000,
                     type: 'Villa',
                     bedrooms: 4,
                     bathrooms: 3,
                     builtArea: 280,
                     landArea: 800,
-                    description: 'Contemporary villa with Mediterranean views'
+                    description: 'Contemporary villa with Mediterranean views',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: true
                 },
                 {
                     id: 'VERV004',
                     title: 'Historic Townhouse Girona',
-                    location: 'Girona',
+                    location: 'Girona', // String, not object
                     price: 650000,
                     type: 'Townhouse',
                     bedrooms: 3,
                     bathrooms: 2,
                     builtArea: 220,
-                    description: 'Beautifully restored townhouse in Girona old town'
+                    description: 'Beautifully restored townhouse in Girona old town',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: false
                 },
                 {
                     id: 'VERV005',
                     title: 'Luxury Apartment Barcelona',
-                    location: 'Barcelona',
+                    location: 'Barcelona', // String, not object
                     price: 875000,
                     type: 'Apartment',
                     bedrooms: 2,
                     bathrooms: 2,
                     builtArea: 120,
-                    description: 'Modern apartment in prime Barcelona location'
+                    description: 'Modern apartment in prime Barcelona location',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: false
                 },
                 {
                     id: 'VERV006',
                     title: 'Beachfront Villa Sitges',
-                    location: 'Sitges',
+                    location: 'Sitges', // String, not object
                     price: 3200000,
                     type: 'Villa',
                     bedrooms: 6,
                     bathrooms: 5,
                     builtArea: 400,
                     landArea: 1000,
-                    description: 'Exclusive beachfront villa with private access'
+                    description: 'Exclusive beachfront villa with private access',
+                    photoUrl: null,
+                    is_featured: true,
+                    is_popular: true
+                },
+                {
+                    id: 'VERV007',
+                    title: 'Mountain Retreat Emporda',
+                    location: 'Emporda', // String, not object
+                    price: 1200000,
+                    type: 'House',
+                    bedrooms: 4,
+                    bathrooms: 3,
+                    builtArea: 250,
+                    landArea: 2000,
+                    description: 'Peaceful mountain retreat with vineyard views',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: false
+                },
+                {
+                    id: 'VERV008',
+                    title: 'Waterfront Apartment Castelldefels',
+                    location: 'Castelldefels', // String, not object
+                    price: 540000,
+                    type: 'Apartment',
+                    bedrooms: 2,
+                    bathrooms: 1,
+                    builtArea: 85,
+                    description: 'Charming waterfront apartment with beach access',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: false
                 }
             ];
         }
 
-        // Extract property data from API response
+        // FIXED: Extract property data from API response with proper location handling
         function extractPropertyData(property) {
             if (!property) return null;
             
-            return {
+            console.log('Extracting property data:', property);
+            
+            // FIXED: Properly handle location object
+            let locationString = 'Premium Location';
+            
+            if (property.location) {
+                if (typeof property.location === 'string') {
+                    locationString = property.location;
+                } else if (typeof property.location === 'object') {
+                    // Handle location object with various possible structures
+                    const city = property.location.city || property.location.label || property.location.name || '';
+                    const state = property.location.state || property.location.region || '';
+                    const country = property.location.country || '';
+                    
+                    if (city && state) {
+                        locationString = `${city}, ${state}`;
+                    } else if (city) {
+                        locationString = city;
+                    } else if (state) {
+                        locationString = state;
+                    } else if (property.location.label) {
+                        locationString = property.location.label;
+                    } else {
+                        locationString = 'Premium Location';
+                    }
+                }
+            } else if (property.city) {
+                locationString = property.city;
+            } else if (property.district) {
+                locationString = property.district;
+            } else if (property.address) {
+                locationString = property.address;
+            }
+            
+            // FIXED: Properly handle price object
+            let priceValue = null;
+            if (property.price) {
+                if (typeof property.price === 'number') {
+                    priceValue = property.price;
+                } else if (typeof property.price === 'object' && property.price.value) {
+                    priceValue = property.price.value;
+                } else if (typeof property.price === 'object' && property.price.amount) {
+                    priceValue = property.price.amount;
+                }
+            }
+            
+            const extractedData = {
                 id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
                 title: property.title || property.reference || 'Luxury Property',
-                location: property.city || property.district || property.location || 'Premium Location',
-                price: property.price || null,
+                location: locationString, // Now guaranteed to be a string
+                price: priceValue,
                 type: getPropertyType(property),
                 bedrooms: property.bedrooms || extractFromAreas(property.areas, 1) || null,
                 bathrooms: property.bathrooms || extractFromAreas(property.areas, 8) || null,
-                builtArea: property.area?.total || property.area?.value || null,
+                builtArea: property.area?.total || property.area?.value || property.surface || null,
                 landArea: calculateLandArea(property.areas) || null,
-                description: property.description || property.title || 'Exceptional property in prime location'
+                description: property.description || property.title || 'Exceptional property in prime location',
+                photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || null,
+                is_featured: property.is_featured || false,
+                is_popular: property.is_popular || false
             };
+            
+            console.log('Extracted property data:', extractedData);
+            return extractedData;
         }
 
         // Get property type from various sources
@@ -2328,7 +2432,7 @@
             return total > 0 ? total : null;
         }
 
-        // COMPLETELY NEW: Filter functionality
+        // COMPLETELY FIXED: Filter functionality with proper string handling
         function applyFiltersAndDisplay() {
             console.log('Applying filters:', currentFilters);
             
@@ -2341,49 +2445,75 @@
             // Start with all properties
             let filtered = [...allProperties];
             
+            // FIXED: Safely handle location filter with string conversion
+            if (currentFilters.location) {
+                const searchLocation = currentFilters.location.toLowerCase().trim();
+                console.log('Filtering by location:', searchLocation);
+                
+                filtered = filtered.filter(property => {
+                    // Ensure location is always a string
+                    const propertyLocation = (property.location || '').toString().toLowerCase();
+                    const propertyTitle = (property.title || '').toString().toLowerCase();
+                    
+                    const matchesLocation = propertyLocation.includes(searchLocation) || 
+                                          propertyTitle.includes(searchLocation);
+                    
+                    console.log(`Property "${property.title}" location "${propertyLocation}" matches "${searchLocation}":`, matchesLocation);
+                    return matchesLocation;
+                });
+            }
+            
             // Apply type filter
             if (currentFilters.type) {
+                console.log('Filtering by type:', currentFilters.type);
                 // "sale" means show all, "rent" means show none (since we don't have rental properties)
                 if (currentFilters.type === 'rent') {
                     filtered = [];
+                } else if (currentFilters.type === 'sale') {
+                    // Show all remaining properties (already filtered by location if applicable)
                 }
-                // For "sale", show all properties
             }
             
-            // Apply location filter
-            if (currentFilters.location) {
-                const searchLocation = currentFilters.location.toLowerCase();
-                filtered = filtered.filter(property => 
-                    property.location.toLowerCase().includes(searchLocation) ||
-                    property.title.toLowerCase().includes(searchLocation)
-                );
-            }
-            
-            // Apply budget filter
+            // FIXED: Apply budget filter with proper number handling
             if (currentFilters.budget) {
+                console.log('Filtering by budget:', currentFilters.budget);
+                
                 filtered = filtered.filter(property => {
-                    if (!property.price) return true; // Show properties without price
+                    if (!property.price || property.price === null) {
+                        console.log(`Property "${property.title}" has no price, including in results`);
+                        return true; // Show properties without price
+                    }
                     
-                    const price = property.price;
+                    const price = typeof property.price === 'number' ? property.price : parseInt(property.price) || 0;
+                    
+                    let matches = true;
                     switch (currentFilters.budget) {
                         case '0-500k':
-                            return price <= 500000;
+                            matches = price <= 500000;
+                            break;
                         case '500k-1m':
-                            return price > 500000 && price <= 1000000;
+                            matches = price > 500000 && price <= 1000000;
+                            break;
                         case '1m-2m':
-                            return price > 1000000 && price <= 2000000;
+                            matches = price > 1000000 && price <= 2000000;
+                            break;
                         case '2m-5m':
-                            return price > 2000000 && price <= 5000000;
+                            matches = price > 2000000 && price <= 5000000;
+                            break;
                         case '5m-plus':
-                            return price > 5000000;
+                            matches = price > 5000000;
+                            break;
                         default:
-                            return true;
+                            matches = true;
                     }
+                    
+                    console.log(`Property "${property.title}" price €${price} matches budget "${currentFilters.budget}":`, matches);
+                    return matches;
                 });
             }
             
             displayedProperties = filtered;
-            console.log(`Filtered from ${allProperties.length} to ${displayedProperties.length} properties`);
+            console.log(`✅ Filtered from ${allProperties.length} to ${displayedProperties.length} properties`);
             
             if (displayedProperties.length === 0) {
                 showNoResults();
@@ -2475,12 +2605,20 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // Display hero property with Noun Project icons
+        // FIXED: Display hero property with proper price formatting
         function displayHeroProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
             
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            // FIXED: Safely format price
+            let price = 'Price on request';
+            if (property.price && property.price !== null) {
+                const priceValue = typeof property.price === 'number' ? property.price : parseInt(property.price);
+                if (!isNaN(priceValue) && priceValue > 0) {
+                    price = `€${priceValue.toLocaleString()}`;
+                }
+            }
+            
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
             const locationIcon = locationIcons[property.location] || locationIcons['default'];
             
@@ -2512,12 +2650,20 @@
             `;
         }
 
-        // Display popular property with enhanced Noun Project icons
+        // FIXED: Display popular property with proper price formatting
         function displayPopularProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
             
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            // FIXED: Safely format price
+            let price = 'Price on request';
+            if (property.price && property.price !== null) {
+                const priceValue = typeof property.price === 'number' ? property.price : parseInt(property.price);
+                if (!isNaN(priceValue) && priceValue > 0) {
+                    price = `€${priceValue.toLocaleString()}`;
+                }
+            }
+            
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
             const locationIcon = locationIcons[property.location] || locationIcons['default'];
             
@@ -2581,14 +2727,22 @@
             });
         }
 
-        // Create property card with Noun Project icons
+        // FIXED: Create property card with proper price formatting
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            // FIXED: Safely format price
+            let price = 'Price on request';
+            if (property.price && property.price !== null) {
+                const priceValue = typeof property.price === 'number' ? property.price : parseInt(property.price);
+                if (!isNaN(priceValue) && priceValue > 0) {
+                    price = `€${priceValue.toLocaleString()}`;
+                }
+            }
+            
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
             const locationIcon = locationIcons[property.location] || locationIcons['default'];
             
@@ -2628,7 +2782,7 @@
             return card;
         }
 
-        // FIXED: Search functionality with real filtering
+        // FIXED: Search functionality with proper string handling
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             
@@ -2638,29 +2792,37 @@
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    // Get form values
-                    const propertyType = document.getElementById('vervSaleRent')?.value || '';
-                    const budget = document.getElementById('vervBudget')?.value || '';
+                    // FIXED: Get form values and ensure they're strings
+                    const propertyTypeElement = document.getElementById('vervSaleRent');
+                    const budgetElement = document.getElementById('vervBudget');
+                    const locationInputElement = document.getElementById('vervLocationInput');
+                    const locationSelectElement = document.getElementById('vervLocationSelect');
+                    
+                    const propertyType = propertyTypeElement ? propertyTypeElement.value.trim() : '';
+                    const budget = budgetElement ? budgetElement.value.trim() : '';
                     
                     // Get location from either input or select
                     let location = '';
-                    const locationInput = document.getElementById('vervLocationInput');
-                    const locationSelect = document.getElementById('vervLocationSelect');
-                    
-                    if (locationInput && locationInput.style.display !== 'none' && locationInput.value.trim()) {
-                        location = locationInput.value.trim();
-                    } else if (locationSelect && locationSelect.style.display !== 'none' && locationSelect.value) {
-                        location = locationSelect.value;
+                    if (locationInputElement && locationInputElement.style.display !== 'none' && locationInputElement.value.trim()) {
+                        location = locationInputElement.value.trim();
+                    } else if (locationSelectElement && locationSelectElement.style.display !== 'none' && locationSelectElement.value) {
+                        location = locationSelectElement.value.trim();
                     }
                     
-                    console.log('Search submitted:', { propertyType, location, budget });
+                    console.log('Search form values extracted:', {
+                        propertyType: propertyType,
+                        location: location,
+                        budget: budget
+                    });
                     
-                    // Update current filters
+                    // FIXED: Update current filters with guaranteed strings
                     currentFilters = {
                         type: propertyType,
                         location: location,
                         budget: budget
                     };
+                    
+                    console.log('Updated currentFilters:', currentFilters);
                     
                     // Apply filters and display results
                     applyFiltersAndDisplay();
@@ -2674,6 +2836,16 @@
                         });
                     }
                 });
+                
+                // FIXED: Also handle direct button click
+                const searchButton = document.querySelector('.verv-search-btn-minimal');
+                if (searchButton) {
+                    searchButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('Search button clicked directly');
+                        searchForm.dispatchEvent(new Event('submit'));
+                    });
+                }
             }
         }
 
