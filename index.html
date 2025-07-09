@@ -219,6 +219,33 @@
         ]
     }
     </script>
+
+    <!-- Additional CSS for fixes -->
+    <style>
+        /* Logo size fix */
+        .logo {
+            transform: scale(1.5);
+            transform-origin: left center;
+        }
+
+        /* Fade animation fix */
+        .fade-ready {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-ready.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* About section visibility fix */
+        .about-section {
+            opacity: 1;
+            transform: none;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Navigation -->
@@ -689,7 +716,7 @@
     <script>
         // Global variables
         let featuredProperties = [];
-        
+
         // Load featured properties from APIMO API
         async function loadFeaturedProperties() {
             try {
@@ -702,11 +729,13 @@
                 }
                 
                 const data = await response.json();
-                console.log('Featured properties loaded:', data);
+                console.log('Featured properties API response:', data);
                 
                 if (data.success && data.properties && data.properties.length > 0) {
-                    featuredProperties = data.properties.slice(0, 3); // Take first 3
+                    // ✅ Use same transformation as properties page
+                    featuredProperties = transformApimoPropertiesForHomepage(data.properties.slice(0, 3));
                     displayFeaturedProperties(featuredProperties);
+                    console.log('✅ Featured properties displayed successfully:', featuredProperties.length);
                 } else {
                     throw new Error('No properties found in API response');
                 }
@@ -716,7 +745,73 @@
                 displayFeaturedPropertiesError();
             }
         }
-        
+
+        // ✅ Transform Apimo data using same logic as properties page
+        function transformApimoPropertiesForHomepage(apimoProperties) {
+            return apimoProperties.map((property, index) => {
+                
+                let price = 'Price on request';
+                if (property.price) {
+                    price = `€${property.price.toLocaleString()}`;
+                }
+                
+                let location = 'Spain';
+                if (property.location) {
+                    location = property.location;
+                } else if (property.address && property.address.city) {
+                    location = property.address.city;
+                } else if (property.city) {
+                    location = property.city;
+                }
+                
+                let bedrooms = 'N/A';
+                let bathrooms = 'N/A';
+                
+                if (property.areas) {
+                    const bedroomArea = property.areas.find(area => 
+                        area.type === 'bedroom' || area.name?.toLowerCase().includes('dormitorio')
+                    );
+                    if (bedroomArea) {
+                        bedrooms = bedroomArea.count || bedroomArea.number || 'N/A';
+                    }
+                    
+                    const bathroomArea = property.areas.find(area => 
+                        area.type === 'bathroom' || area.name?.toLowerCase().includes('baño')
+                    );
+                    if (bathroomArea) {
+                        bathrooms = bathroomArea.count || bathroomArea.number || 'N/A';
+                    }
+                }
+                
+                let size = 'N/A';
+                if (property.surface) {
+                    size = `${property.surface}m²`;
+                } else if (property.area) {
+                    size = `${property.area}m²`;
+                }
+                
+                // ✅ Use masia-emporda.jpg instead of property-placeholder.jpg
+                let image = 'assets/images/masia-emporda.jpg';
+                if (property.pictures && property.pictures.length > 0) {
+                    image = property.pictures[0].url || property.pictures[0].picture;
+                } else if (property.images && property.images.length > 0) {
+                    image = property.images[0].url || property.images[0];
+                }
+                
+                return {
+                    id: property.id || index + 1,
+                    title: property.title || 'Luxury Property Available',
+                    price: price,
+                    location: location,
+                    bedrooms: bedrooms,
+                    bathrooms: bathrooms,
+                    size: size,
+                    image: image,
+                    featured: property.featured || false
+                };
+            });
+        }
+
         // Display featured properties
         function displayFeaturedProperties(properties) {
             const grid = document.getElementById('propertiesGrid');
@@ -729,34 +824,25 @@
                 grid.appendChild(propertyCard);
             });
         }
-        
-        // Create property card for homepage
+
+        // ✅ Create property card for homepage (simplified and fixed)
         function createFeaturedPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card featured-property';
             
-            // Get property details from APIMO response
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
-            const title = property.reference || 'Luxury Property';
-            const location = property.city?.name || property.district?.name || 'Premium Location';
-            const bedrooms = property.areas?.find(area => area.type === 3)?.value || property.bedrooms || 'N/A';
-            const bathrooms = property.areas?.find(area => area.type === 5)?.value || property.bathrooms || 'N/A';
-            const size = property.areas?.find(area => area.type === 1)?.value || property.size || 'N/A';
-            const imageUrl = property.picture || 'assets/images/property-placeholder.jpg';
-            
             card.innerHTML = `
                 <div class="property-image-container">
-                    <img src="${imageUrl}" alt="${title}" class="property-image" 
-                         onerror="this.src='assets/images/property-placeholder.jpg'">
+                    <img src="${property.image}" alt="${property.title}" class="property-image" 
+                         onerror="this.src='assets/images/masia-emporda.jpg'">
                 </div>
                 <div class="property-info">
-                    <div class="property-price">${price}</div>
-                    <h3 class="property-title">${title}</h3>
-                    <p class="property-location">${location}</p>
+                    <div class="property-price">${property.price}</div>
+                    <h3 class="property-title">${property.title}</h3>
+                    <p class="property-location">📍 ${property.location}</p>
                     <div class="property-details">
-                        <span>${bedrooms} beds</span>
-                        <span>${bathrooms} baths</span>
-                        <span>${size}${typeof size === 'number' ? 'm²' : ''}</span>
+                        <span>🛏️ ${property.bedrooms}</span>
+                        <span>🚿 ${property.bathrooms}</span>
+                        <span>📐 ${property.size}</span>
                     </div>
                 </div>
             `;
@@ -765,16 +851,16 @@
             card.addEventListener('click', () => {
                 // Track property click
                 if (typeof trackPropertyInquiry === 'function') {
-                    trackPropertyInquiry(property.id, location, property.price);
+                    trackPropertyInquiry(property.id, property.location, property.price);
                 }
                 
-                // Navigate to properties page or single property page
+                // Navigate to properties page
                 window.location.href = `/properties/?id=${property.id}`;
             });
             
             return card;
         }
-        
+
         // Display error state for featured properties
         function displayFeaturedPropertiesError() {
             const grid = document.getElementById('propertiesGrid');
@@ -787,7 +873,7 @@
                 </div>
             `;
         }
-        
+
         // Initialize hero search functionality
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
@@ -820,27 +906,34 @@
                 });
             }
         }
-        
-        // Initialize fade in animations
+
+        // ✅ Fixed fade in animations - menos agresivo
         function initFadeInAnimations() {
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.2,
+                rootMargin: '0px 0px -100px 0px'
             };
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('fade-in');
+                        // ✅ Stop observing once animated to prevent re-triggering
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
             
-            // Observe sections
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => observer.observe(section));
+            // Observe sections with delay to prevent immediate triggering
+            setTimeout(() => {
+                const sections = document.querySelectorAll('.section');
+                sections.forEach(section => {
+                    section.classList.add('fade-ready');
+                    observer.observe(section);
+                });
+            }, 500);
         }
-        
+
         // Homepage specific functionality
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Homepage loaded, initializing...');
@@ -851,12 +944,12 @@
             // Load featured properties
             loadFeaturedProperties();
             
-            // Initialize fade in animations
+            // Initialize fade in animations with delay
             initFadeInAnimations();
             
             console.log('Homepage initialization complete');
         });
-        
+
         // Consultation modal functions
         function openConsultationModal() {
             const modal = document.getElementById('consultationModal');
@@ -881,7 +974,7 @@
                 document.body.style.overflow = '';
             }
         }
-        
+
         // Handle consultation form submission
         document.addEventListener('DOMContentLoaded', function() {
             const consultationForm = document.getElementById('consultationForm');
