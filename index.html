@@ -15,10 +15,15 @@
     <!-- DNS Prefetch for Performance -->
     <link rel="dns-prefetch" href="//cdn.weglot.com">
     <link rel="dns-prefetch" href="//properties.verv.one">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Updated Favicon -->
     <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
     <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    
+    <!-- Optimized Font Loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
@@ -61,7 +66,7 @@
     </script>
     
     <!-- Dynamic SEO Meta Tags -->
-    <title id="pageTitle">VERV ONE - Signature Estates & Advisory | Barcelona, Sitges & Costa Brava</title>
+    <title id="pageTitle">Signature Estates & Advisory | Barcelona, Sitges & Costa Brava</title>
     <meta name="description" id="pageDescription" content="Distinctive homes. Personal service. Trusted guidance. Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.">
     <meta name="keywords" content="luxury real estate Barcelona, Sitges properties, Costa Brava villas, real estate consultancy Spain, luxury homes Barcelona, property management Sitges, international real estate, Spanish property investment">
     <meta name="author" content="VERV ONE">
@@ -69,7 +74,7 @@
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" id="ogUrl" content="https://www.verv.one/">
-    <meta property="og:title" id="ogTitle" content="VERV ONE - Signature Estates & Advisory">
+    <meta property="og:title" id="ogTitle" content="Signature Estates & Advisory">
     <meta property="og:description" id="ogDescription" content="Distinctive homes. Personal service. Trusted guidance.">
     <meta property="og:image" content="https://verv.one/assets/images/verv-one-logo.png">
     <meta property="og:site_name" content="VERV ONE">
@@ -77,21 +82,23 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" id="twitterUrl" content="https://www.verv.one/">
-    <meta name="twitter:title" id="twitterTitle" content="VERV ONE - Signature Estates & Advisory">
+    <meta name="twitter:title" id="twitterTitle" content="Signature Estates & Advisory">
     <meta name="twitter:description" id="twitterDescription" content="Distinctive homes. Personal service. Trusted guidance.">
     <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-logo.png">
     
     <!-- Canonical URL -->
     <link rel="canonical" id="canonicalUrl" href="https://www.verv.one/">
     
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places"></script>
+    <!-- Google Maps API - Only load when needed -->
+    <script>
+        window.initGoogleMaps = function() {
+            const script = document.createElement('script');
+            script.async = true;
+            script.defer = true;
+            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initPlacesAutocomplete';
+            document.head.appendChild(script);
+        };
+    </script>
     
     <!-- Enhanced Real Estate Schema -->
     <script type="application/ld+json">
@@ -143,9 +150,9 @@
     }
     </script>
 
-    <!-- Basic CSS for styling -->
+    <!-- Optimized CSS -->
     <style>
-        /* Basic styles to ensure site looks good */
+        /* CSS Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -153,11 +160,12 @@
         }
 
         body {
-            font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #000;
             background: #fff;
             padding: 0 2rem;
+            overflow-x: hidden;
         }
 
         .container {
@@ -166,17 +174,19 @@
             padding: 0 1rem;
         }
 
-        /* Header */
+        /* FIXED: Header - Proper white background with shadow */
         .header-nav {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
             padding: 0 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .nav-container {
@@ -190,6 +200,7 @@
 
         .logo {
             height: 68px;
+            transition: height 0.3s ease;
         }
 
         .nav-menu {
@@ -204,6 +215,7 @@
             color: #000;
             font-weight: 500;
             transition: opacity 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -216,12 +228,14 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #000;
         }
 
-        /* Hero Section */
+        /* FIXED: Hero Section - Removed VERV ONE branding */
         .verv-hero {
             position: relative;
             height: 100vh;
+            min-height: 600px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -252,7 +266,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
             z-index: -1;
         }
 
@@ -260,49 +274,51 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 0 2rem;
+            margin-top: 80px; /* Account for fixed header */
         }
 
-        .verv-hero-brand {
-            font-size: 3rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-        }
+        /* REMOVED: .verv-hero-brand - No more VERV ONE branding */
 
         .verv-hero-slogan {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-family: 'Lora', serif;
         }
 
         .verv-hero-tagline {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 2rem;
-            opacity: 0.8;
+            opacity: 0.9;
             font-style: italic;
+            font-weight: 300;
         }
 
         .verv-hero-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
+            font-weight: 400;
         }
 
         .verv-hero-description {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 3rem;
-            opacity: 0.8;
+            opacity: 0.85;
+            font-weight: 300;
         }
 
-        /* Modern High-Tech Search Form - Horizontal One Line */
+        /* FIXED: Modern High-Tech Search Form - Better functionality */
         .verv-minimal-search {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-radius: 60px;
             padding: 1rem;
             margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
 
         .verv-search-form-minimal {
@@ -315,6 +331,7 @@
         .verv-search-section {
             flex: 1;
             position: relative;
+            min-width: 0;
         }
 
         .verv-search-section:not(:last-child)::after {
@@ -337,8 +354,9 @@
             background: transparent;
             color: white;
             font-size: 1rem;
-            font-family: 'Proxima Nova', sans-serif;
+            font-family: 'Inter', sans-serif;
             outline: none;
+            cursor: pointer;
         }
 
         .verv-search-section:first-child select,
@@ -354,6 +372,7 @@
         .verv-search-section select option {
             background: #000;
             color: #fff;
+            padding: 10px;
         }
 
         .verv-search-btn-minimal {
@@ -364,32 +383,42 @@
             border-radius: 0 60px 60px 0;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Proxima Nova', sans-serif;
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             white-space: nowrap;
+            font-size: 1rem;
         }
 
         .verv-search-btn-minimal:hover {
             background: #f0f0f0;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        /* Google Places Autocomplete Styling */
+        .verv-search-btn-minimal:active {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Google Places Autocomplete Styling */
         .pac-container {
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
             margin-top: 5px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
         .pac-item {
             color: white;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
+            padding: 12px 18px;
+            transition: background-color 0.2s ease;
         }
 
         .pac-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .pac-matched {
@@ -405,6 +434,7 @@
         .verv-consultation-text {
             margin-bottom: 1rem;
             opacity: 0.9;
+            font-size: 1rem;
         }
 
         .verv-btn-black {
@@ -412,20 +442,23 @@
             color: white;
             border: none;
             padding: 1rem 2rem;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Proxima Nova', sans-serif;
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .verv-btn-black:hover {
             background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         /* Main sections */
         .section {
-            padding: 5rem 0;
+            padding: 6rem 0;
         }
 
         .section-container {
@@ -440,10 +473,11 @@
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
             color: #000;
+            font-weight: 400;
         }
 
         .section-subtitle {
@@ -451,18 +485,19 @@
             color: #666;
             max-width: 600px;
             margin: 0 auto;
+            font-weight: 300;
         }
 
         /* About Section */
         .about-section {
-            padding: 5rem 0;
+            padding: 6rem 0;
             background: #fff;
         }
 
         .about-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: center;
             max-width: 1400px;
             margin: 0 auto;
@@ -470,10 +505,11 @@
         }
 
         .about-content h2 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 2rem;
             font-family: 'Lora', serif;
             color: #000;
+            font-weight: 400;
         }
 
         .about-content p {
@@ -481,35 +517,52 @@
             margin-bottom: 1.5rem;
             color: #333;
             line-height: 1.8;
+            font-weight: 300;
         }
 
         .about-features {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .about-feature {
             text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .about-feature:hover {
+            transform: translateY(-4px);
         }
 
         .about-feature h3 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: #000;
             margin-bottom: 0.5rem;
+            font-family: 'Lora', serif;
+        }
+
+        .about-feature p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0;
         }
 
         .about-image {
             width: 100%;
-            height: 400px;
+            height: 500px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
         }
 
-        /* Featured Properties Section - Simplified */
+        /* FIXED: Featured Properties Section - Working API integration */
         .properties-section {
-            padding: 5rem 0;
+            padding: 6rem 0;
             background: #f8f9fa;
         }
 
@@ -529,7 +582,7 @@
             color: #666;
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
-            font-family: 'Proxima Nova', sans-serif;
+            font-family: 'Inter', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 500;
@@ -540,18 +593,28 @@
             border-bottom-color: #000;
         }
 
-        /* Hero Featured Property - Simplified */
+        .tab-button:hover {
+            color: #000;
+        }
+
+        /* FIXED: Hero Featured Property - Better loading states */
         .hero-featured-property {
             position: relative;
             margin-bottom: 3rem;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
             background: #fff;
-            height: 400px;
+            height: 450px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-featured-property:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.2);
         }
 
         .hero-property-content {
@@ -564,6 +627,15 @@
             font-size: 4rem;
             margin-bottom: 1rem;
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-property-icon svg {
+            width: 64px;
+            height: 64px;
+            color: #333;
         }
 
         .hero-property-category {
@@ -572,11 +644,12 @@
             letter-spacing: 1px;
             margin-bottom: 0.5rem;
             color: #666;
+            font-weight: 500;
         }
 
         .hero-property-title {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 2.2rem;
+            font-weight: 400;
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
             color: #000;
@@ -592,9 +665,22 @@
             gap: 0.5rem;
         }
 
+        .hero-property-location svg {
+            width: 20px;
+            height: 20px;
+            color: #666;
+        }
+
+        .hero-property-details {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: #666;
+            opacity: 0.8;
+        }
+
         .hero-property-price {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 600;
             color: #000;
             font-family: 'Lora', serif;
         }
@@ -603,7 +689,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             border: none;
             color: white;
             padding: 1rem;
@@ -611,10 +697,16 @@
             border-radius: 50%;
             font-size: 1.2rem;
             transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-property-nav:hover {
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
+            transform: translateY(-50%) scale(1.1);
         }
 
         .hero-property-nav.prev {
@@ -633,20 +725,23 @@
             color: #fff;
             border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .hero-property-view-btn:hover {
             background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        /* Properties Grid - Simplified */
+        /* FIXED: Properties Grid - Better design */
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
@@ -654,19 +749,19 @@
 
         .property-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
-            height: 250px;
+            height: 280px;
         }
 
         .property-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
         }
 
         .property-icon-container {
@@ -674,9 +769,32 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: #666;
-            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-icon-container svg {
+            width: 48px;
+            height: 48px;
+            color: #666;
+        }
+
+        .property-icon-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .property-card:hover .property-icon-container::before {
+            transform: translateX(100%);
         }
 
         .property-info {
@@ -686,11 +804,12 @@
         }
 
         .property-type {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #666;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 500;
         }
 
         .property-location {
@@ -704,19 +823,35 @@
             gap: 0.5rem;
         }
 
+        .property-location svg {
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
+
+        .property-details {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
         .property-price {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 600;
             color: #000;
             font-family: 'Lora', serif;
         }
 
+        /* FIXED: Loading and Error States */
         .loading-state {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 3rem;
+            padding: 4rem 2rem;
             color: #666;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .loading-spinner {
@@ -726,7 +861,6 @@
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin-right: 1rem;
         }
 
         @keyframes spin {
@@ -736,54 +870,72 @@
 
         .error-state {
             text-align: center;
-            padding: 3rem;
+            padding: 4rem 2rem;
             color: #666;
+        }
+
+        .error-state h3 {
+            color: #000;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+        }
+
+        .error-state p {
+            margin-bottom: 1rem;
+        }
+
+        .error-state a {
+            color: #000;
+            text-decoration: underline;
+            font-weight: 500;
         }
 
         /* Footer */
         .footer {
             background: #000;
             color: white;
-            padding: 3rem 0 1rem;
+            padding: 4rem 0 1rem;
             margin: 0 -2rem;
         }
 
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 3rem;
+            margin-bottom: 3rem;
             max-width: 1400px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 3rem;
             padding: 0 2rem;
         }
 
         .footer-brand {
-            max-width: 300px;
+            max-width: 350px;
         }
 
         .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
             font-family: 'Lora', serif;
         }
 
         .footer-tagline {
-            font-size: 0.95rem;
+            font-size: 1rem;
             opacity: 0.8;
             margin-bottom: 1rem;
+            font-style: italic;
         }
 
         .footer-description {
             font-size: 0.9rem;
             line-height: 1.6;
             opacity: 0.7;
+            font-weight: 300;
         }
 
         .footer-section h3 {
             font-size: 1.1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-weight: 600;
         }
 
@@ -792,7 +944,7 @@
         }
 
         .footer-links li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
 
         .footer-links a {
@@ -800,6 +952,7 @@
             text-decoration: none;
             opacity: 0.7;
             transition: opacity 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .footer-links a:hover {
@@ -808,8 +961,8 @@
 
         .footer-social {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .footer-social a {
@@ -819,23 +972,26 @@
             color: #fff;
             text-decoration: none;
             opacity: 0.7;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .footer-social a:hover {
             opacity: 1;
+            transform: translateY(-2px);
         }
 
         .footer-social .icon {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
         }
 
-        /* Footer Credentials */
+        /* FIXED: Footer Credentials - Proper logo display */
         .footer-credentials {
             background: #000;
             padding: 2rem 0;
             margin-top: 2rem;
+            border-top: 1px solid #333;
         }
 
         .credentials-container {
@@ -849,15 +1005,22 @@
             justify-content: center;
             align-items: center;
             gap: 3rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
         .credential-logo {
-            height: 50px;
+            height: 60px;
             opacity: 0.8;
-            filter: brightness(0) invert(1);
+            /* REMOVED: filter: brightness(0) invert(1); - This was causing white squares */
             display: block;
+            transition: opacity 0.3s ease;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
+        .credential-logo:hover {
+            opacity: 1;
         }
 
         .credential-logo[style*="display: none"] {
@@ -868,6 +1031,7 @@
             text-align: center;
             color: #ccc;
             font-size: 0.9rem;
+            font-weight: 300;
         }
 
         .credentials-info p {
@@ -884,6 +1048,7 @@
             margin: 0 auto;
             padding-left: 2rem;
             padding-right: 2rem;
+            font-weight: 300;
         }
 
         /* Chat Widgets Container */
@@ -901,17 +1066,19 @@
             background: #25d366;
             color: white;
             border-radius: 50px;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .whatsapp-float:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
         }
 
         .whatsapp-float svg {
@@ -919,7 +1086,7 @@
             height: 24px;
         }
 
-        /* Responsive Design */
+        /* FIXED: Mobile Responsive Design - Better spacing */
         @media (max-width: 768px) {
             body {
                 padding: 0 1rem;
@@ -927,10 +1094,33 @@
 
             .header-nav {
                 padding: 0 1rem;
+                /* FIXED: Ensure header is visible on mobile */
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+            }
+
+            .nav-container {
+                padding: 0.75rem 0;
             }
 
             .nav-menu {
                 display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
             }
             
             .mobile-menu-toggle {
@@ -940,15 +1130,35 @@
             .logo {
                 height: 50px;
             }
+
+            /* FIXED: Mobile hero spacing - Account for header */
+            .verv-hero {
+                margin: 0 -1rem;
+                min-height: 70vh;
+            }
+
+            .verv-hero-content {
+                margin-top: 100px; /* More space for mobile header */
+                padding: 0 1.5rem;
+            }
             
-            .verv-hero-brand {
+            .verv-hero-slogan {
                 font-size: 2rem;
+            }
+
+            .verv-hero-tagline {
+                font-size: 1.1rem;
             }
             
             .verv-hero-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+            }
+
+            .verv-hero-description {
+                font-size: 1rem;
             }
             
+            /* FIXED: Mobile search form */
             .verv-search-form-minimal {
                 flex-direction: column;
                 gap: 1rem;
@@ -960,57 +1170,180 @@
             
             .verv-search-section select,
             .verv-search-section input {
-                border-radius: 8px;
+                border-radius: 12px;
+                padding: 1rem;
             }
             
             .verv-search-btn-minimal {
-                border-radius: 8px;
+                border-radius: 12px;
+                padding: 1rem;
+                font-size: 1rem;
             }
             
             .about-container {
                 grid-template-columns: 1fr;
+                gap: 3rem;
             }
             
             .about-features {
                 grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .about-image {
+                height: 300px;
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 2.2rem;
+            }
+
+            .about-content h2 {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .about-section {
+                padding: 4rem 0;
             }
 
             .hero-featured-property {
                 margin-bottom: 2rem;
-                height: 300px;
+                height: 350px;
             }
 
             .hero-property-title {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+
+            .hero-property-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .hero-property-nav.prev {
+                left: 1rem;
+            }
+
+            .hero-property-nav.next {
+                right: 1rem;
+            }
+
+            .hero-property-view-btn {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.65rem 1.2rem;
+                font-size: 0.9rem;
             }
 
             .properties-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .property-card {
-                height: 200px;
-            }
-
-            .credentials-logos {
                 gap: 1.5rem;
             }
 
+            .property-card {
+                height: 250px;
+            }
+
+            .properties-tabs {
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .tab-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .credentials-logos {
+                gap: 2rem;
+                margin-bottom: 1rem;
+            }
+
             .credential-logo {
-                height: 40px;
+                height: 45px;
+                max-width: 100px;
             }
 
             .footer {
                 margin: 0 -1rem;
             }
 
-            .verv-hero {
-                margin: 0 -1rem;
+            .footer-content {
+                gap: 2rem;
+                padding: 0 1rem;
             }
+
+            .footer-bottom {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .whatsapp-float {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .whatsapp-text {
+                display: none;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .verv-hero-content {
+                padding: 0 1rem;
+            }
+
+            .verv-hero-slogan {
+                font-size: 1.6rem;
+            }
+
+            .verv-hero-title {
+                font-size: 1.4rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-featured-property {
+                height: 300px;
+            }
+
+            .hero-property-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Performance optimizations */
+        .verv-hero-content,
+        .property-card,
+        .about-feature {
+            will-change: transform;
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-link:focus,
+        .verv-search-btn-minimal:focus,
+        .verv-btn-black:focus,
+        .tab-button:focus {
+            outline: 2px solid #000;
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -1040,14 +1373,14 @@
         <!-- Hero Section -->
         <section class="verv-hero">
             <div class="hero-video-container">
-                <video autoplay muted loop playsinline class="hero-video">
+                <video autoplay muted loop playsinline class="hero-video" preload="metadata">
                     <source src="assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mov" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
             <div class="verv-hero-overlay"></div>
             <div class="verv-hero-content">
-                <div class="verv-hero-brand">VERV ONE</div>
+                <!-- REMOVED: VERV ONE branding as requested -->
                 <div class="verv-hero-slogan">Signature Estates & Advisory</div>
                 <div class="verv-hero-tagline">Distinctive homes. Personal service. Trusted guidance.</div>
                 
@@ -1057,11 +1390,11 @@
                     Curating extraordinary homes in Catalunya's most coveted destinations.
                 </p>
                 
-                <!-- Modern High-Tech Search Bar - Horizontal One Line -->
+                <!-- FIXED: Modern High-Tech Search Bar - Now functional -->
                 <div class="verv-minimal-search">
-                    <form class="verv-search-form-minimal" id="vervPropertySearch">
+                    <form class="verv-search-form-minimal" id="vervPropertySearch" role="search" aria-label="Property search">
                         <div class="verv-search-section">
-                            <select class="verv-type-select" name="sale-rent" id="vervSaleRent">
+                            <select class="verv-type-select" name="sale-rent" id="vervSaleRent" aria-label="Property type">
                                 <option value="">Property Type</option>
                                 <option value="sale">For Sale</option>
                                 <option value="rent">For Rent</option>
@@ -1069,11 +1402,11 @@
                         </div>
                         
                         <div class="verv-search-section">
-                            <input type="text" class="verv-location-input" name="location" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off">
+                            <input type="text" class="verv-location-input" name="location" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location">
                         </div>
                         
                         <div class="verv-search-section">
-                            <select class="verv-budget-select" name="budget" id="vervBudget">
+                            <select class="verv-budget-select" name="budget" id="vervBudget" aria-label="Budget range">
                                 <option value="">Any Budget</option>
                                 <option value="500k-1m">€500K - €1M</option>
                                 <option value="1m-2m">€1M - €2M</option>
@@ -1082,13 +1415,13 @@
                             </select>
                         </div>
                         
-                        <button type="submit" class="verv-search-btn-minimal">Search Properties</button>
+                        <button type="submit" class="verv-search-btn-minimal" aria-label="Search properties">Search Properties</button>
                     </form>
                 </div>
                 
                 <div class="verv-consultation-section">
                     <p class="verv-consultation-text">Need personalized guidance? Speak with our experts.</p>
-                    <button onclick="openConsultationModal()" class="verv-btn-black">Schedule Consultation</button>
+                    <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
                 </div>
             </div>
         </section>
@@ -1121,12 +1454,12 @@
                     </div>
                 </div>
                 <div class="about-image-container">
-                    <img src="assets/images/masia-emporda.jpg" alt="Masia Emporda luxury property" class="about-image">
+                    <img src="assets/images/masia-emporda.jpg" alt="Masia Emporda luxury property" class="about-image" loading="lazy">
                 </div>
             </div>
         </section>
 
-        <!-- Featured Properties Section -->
+        <!-- FIXED: Featured Properties Section -->
         <section class="properties-section section">
             <div class="section-container">
                 <div class="section-header">
@@ -1134,15 +1467,15 @@
                     <p class="section-subtitle">Exceptional spaces across Sitges, Barcelona & Costa Brava</p>
                 </div>
                 
-                <div class="properties-tabs">
-                    <button class="tab-button active" data-tab="featured">DESTACADO</button>
-                    <button class="tab-button" data-tab="popular">POPULAR</button>
+                <div class="properties-tabs" role="tablist">
+                    <button class="tab-button active" data-tab="featured" role="tab" aria-selected="true" aria-controls="featured-panel">DESTACADO</button>
+                    <button class="tab-button" data-tab="popular" role="tab" aria-selected="false" aria-controls="popular-panel">POPULAR</button>
                 </div>
                 
                 <!-- Hero Featured Property -->
-                <div class="hero-featured-property" id="heroFeaturedProperty">
+                <div class="hero-featured-property" id="heroFeaturedProperty" role="tabpanel" aria-labelledby="featured-tab">
                     <div class="loading-state">
-                        <div class="loading-spinner"></div>
+                        <div class="loading-spinner" aria-label="Loading"></div>
                         <span>Loading featured property...</span>
                     </div>
                 </div>
@@ -1150,7 +1483,7 @@
                 <!-- Properties Grid -->
                 <div class="properties-grid" id="propertiesGrid">
                     <div class="loading-state">
-                        <div class="loading-spinner"></div>
+                        <div class="loading-spinner" aria-label="Loading"></div>
                         <span>Loading properties...</span>
                     </div>
                 </div>
@@ -1166,7 +1499,7 @@
                 <div class="footer-tagline">Signature Estates & Advisory</div>
                 <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
                 <div class="footer-social">
-                    <a href="https://www.linkedin.com/company/106199945" target="_blank">
+                    <a href="https://www.linkedin.com/company/106199945" target="_blank" rel="noopener" aria-label="LinkedIn">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
                             <rect x="2" y="9" width="4" height="12"/>
@@ -1174,7 +1507,7 @@
                         </svg>
                         linkedin
                     </a>
-                    <a href="http://instagram.com/verv.one_" target="_blank">
+                    <a href="http://instagram.com/verv.one_" target="_blank" rel="noopener" aria-label="Instagram">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -1182,7 +1515,7 @@
                         </svg>
                         instagram
                     </a>
-                    <a href="http://facebook.com/verv.one_" target="_blank">
+                    <a href="http://facebook.com/verv.one_" target="_blank" rel="noopener" aria-label="Facebook">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                         </svg>
@@ -1228,22 +1561,26 @@
             </div>
         </div>
         
-        <!-- Professional Credentials Section -->
+        <!-- FIXED: Professional Credentials Section - Proper logo display -->
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
                     <img src="assets/images/api119bmow.png" 
                          alt="API Professional Association" 
-                         class="credential-logo">
+                         class="credential-logo"
+                         loading="lazy">
                     <img src="assets/images/aicat.png" 
                          alt="AICAT Registry" 
-                         class="credential-logo">
+                         class="credential-logo"
+                         loading="lazy">
                     <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
-                         class="credential-logo">
+                         class="credential-logo"
+                         loading="lazy">
                     <img src="assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
-                         class="credential-logo">
+                         class="credential-logo"
+                         loading="lazy">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
@@ -1261,7 +1598,7 @@
 
     <!-- Chat Widgets Container -->
     <div class="chat-widgets-container">
-        <a href="https://wa.me/34657271220" target="_blank" class="whatsapp-float">
+        <a href="https://wa.me/34657271220" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contact via WhatsApp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
             </svg>
@@ -1269,6 +1606,7 @@
         </a>
     </div>
 
+    <!-- FIXED: Enhanced JavaScript with better functionality -->
     <script>
         // Global variables
         let featuredProperties = [];
@@ -1277,102 +1615,293 @@
         let propertyRotationInterval;
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
+        let isApiLoaded = false;
         
-        // Sample property data for fallback (matching Apimo structure)
+        // Enhanced sample property data matching Apimo API structure
         const sampleProperties = [
             {
-                id: 1,
+                id: 'VERV001',
                 reference: "VERV001",
                 title: "Luxury Villa Barcelona",
                 city: "Barcelona",
                 price: 2500000,
-                type: { label: "Villa" },
-                area: { total: 450, value: 650 },
+                type: { id: 1, label: "Villa" },
+                subtype: { id: 1, label: "Detached Villa" },
+                area: { value: 350, total: 450, weighted: 400 },
+                areas: [
+                    { type: 1, number: 5, area: null }, // Bedrooms
+                    { type: 8, number: 4, area: null }, // Bathrooms
+                    { type: 49, number: 1, area: 650 } // Land area
+                ],
                 bedrooms: 5,
-                bathrooms: 4
+                bathrooms: 4,
+                description: "Stunning luxury villa in prime Barcelona location",
+                images: []
             },
             {
-                id: 2,
+                id: 'VERV002',
                 reference: "VERV002", 
                 title: "Seaside Apartment Sitges",
                 city: "Sitges",
                 price: 850000,
-                type: { label: "Apartment" },
-                area: { total: 180, value: 0 },
+                type: { id: 2, label: "Apartment" },
+                subtype: { id: 5, label: "Penthouse" },
+                area: { value: 160, total: 180, weighted: 170 },
+                areas: [
+                    { type: 1, number: 3, area: null }, // Bedrooms
+                    { type: 8, number: 2, area: null }  // Bathrooms
+                ],
                 bedrooms: 3,
-                bathrooms: 2
+                bathrooms: 2,
+                description: "Beautiful seaside apartment with ocean views",
+                images: []
             },
             {
-                id: 3,
+                id: 'VERV003',
                 reference: "VERV003",
                 title: "Modern Villa Costa Brava",
                 city: "Costa Brava",
                 price: 1750000,
-                type: { label: "Villa" },
-                area: { total: 320, value: 800 },
+                type: { id: 1, label: "Villa" },
+                subtype: { id: 2, label: "Modern Villa" },
+                area: { value: 280, total: 320, weighted: 300 },
+                areas: [
+                    { type: 1, number: 4, area: null }, // Bedrooms
+                    { type: 8, number: 3, area: null }, // Bathrooms
+                    { type: 50, number: 1, area: 800 } // Land area
+                ],
                 bedrooms: 4,
-                bathrooms: 3
+                bathrooms: 3,
+                description: "Contemporary villa with Mediterranean views",
+                images: []
             },
             {
-                id: 4,
+                id: 'VERV004',
                 reference: "VERV004",
                 title: "Penthouse Barcelona",
                 city: "Barcelona",
                 price: 3200000,
-                type: { label: "Penthouse" },
-                area: { total: 280, value: 0 },
+                type: { id: 3, label: "Penthouse" },
+                subtype: { id: 6, label: "Luxury Penthouse" },
+                area: { value: 250, total: 280, weighted: 265 },
+                areas: [
+                    { type: 1, number: 3, area: null }, // Bedrooms
+                    { type: 8, number: 3, area: null }  // Bathrooms
+                ],
                 bedrooms: 3,
-                bathrooms: 3
+                bathrooms: 3,
+                description: "Exclusive penthouse in Barcelona city center",
+                images: []
+            },
+            {
+                id: 'VERV005',
+                reference: "VERV005",
+                title: "Historic Townhouse Girona",
+                city: "Girona",
+                price: 1200000,
+                type: { id: 4, label: "Townhouse" },
+                subtype: { id: 8, label: "Historic Townhouse" },
+                area: { value: 220, total: 250, weighted: 235 },
+                areas: [
+                    { type: 1, number: 4, area: null }, // Bedrooms
+                    { type: 8, number: 3, area: null }, // Bathrooms
+                    { type: 51, number: 1, area: 100 } // Small courtyard
+                ],
+                bedrooms: 4,
+                bathrooms: 3,
+                description: "Restored historic townhouse in Girona old town",
+                images: []
+            },
+            {
+                id: 'VERV006',
+                reference: "VERV006",
+                title: "Luxury Apartment Sitges",
+                city: "Sitges",
+                price: 650000,
+                type: { id: 2, label: "Apartment" },
+                subtype: { id: 4, label: "Luxury Apartment" },
+                area: { value: 100, total: 120, weighted: 110 },
+                areas: [
+                    { type: 1, number: 2, area: null }, // Bedrooms
+                    { type: 8, number: 2, area: null }  // Bathrooms
+                ],
+                bedrooms: 2,
+                bathrooms: 2,
+                description: "Modern apartment near Sitges beach",
+                images: []
             }
         ];
         
-        // Property type icons
+        // Property type icons - The Noun Project style SVG icons
         const propertyIcons = {
-            'Villa': '🏡',
-            'Apartment': '🏢',
-            'Penthouse': '🏙️',
-            'House': '🏠',
-            'Townhouse': '🏘️',
-            'default': '🏠'
+            'Villa': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`,
+            'Apartment': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M8 40V8h32v32h-8V24H16v16H8zm4-4h4v-8h16v8h4V12H12v24zm4-12h4v-4h-4v4zm8 0h4v-4h-4v4zm-8-8h4v-4h-4v4zm8 0h4v-4h-4v4z"/></svg>`,
+            'Penthouse': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M6 42V18L24 6l18 12v24h-8V26H14v16H6zm4-4h4v-8h20v8h4V20.5L24 12 10 20.5V38zm6-12h16v-8H16v8zm2-6h4v-4h-4v4zm8 0h4v-4h-4v4z"/></svg>`,
+            'House': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`,
+            'Townhouse': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M4 40V12h8V8h8v4h8V8h8v4h8v28h-6V24h-4v16h-6V24h-4v16h-6V24h-4v16H4zm4-4h4v-8h4v8h4v-8h4v8h4v-8h4v8h4V16H8v20z"/></svg>`,
+            'Duplex': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M8 40V8h32v32H8zm4-4h24V12H12v24zm2-20h8v4h-8v-4zm12 0h8v4h-8v-4zm-12 8h8v4h-8v-4zm12 0h8v4h-8v-4zm-12 8h8v4h-8v-4zm12 0h8v4h-8v-4z"/></svg>`,
+            'Loft': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M6 40V20L24 8l18 12v20H6zm4-4h28V22.5L24 14 10 22.5V36zm6-12h16v8H16v-8zm2-6h12v4H18v-4z"/></svg>`,
+            'default': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`
         };
         
-        // Location icons
+        // Location icons - The Noun Project style SVG icons
         const locationIcons = {
-            'Barcelona': '🏛️',
-            'Sitges': '🏖️',
-            'Costa Brava': '🌊',
-            'Girona': '🏰',
-            'default': '📍'
+            'Barcelona': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            'Sitges': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            'Costa Brava': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            'Girona': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            'Emporda': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            'Cadaqués': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+            'default': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`
         };
         
-        // Helper function to extract property data from Apimo API response
+        // Property type catalog cache
+        let propertyTypeCatalog = {};
+        let propertySubtypeCatalog = {};
+        
+        // Load Apimo property type catalogs
+        async function loadPropertyTypeCatalogs() {
+            try {
+                console.log('Loading Apimo property type catalogs...');
+                
+                // Load property types
+                const typeResponse = await fetch('https://api.apimo.pro/catalogs/property_type?culture=en_GB');
+                if (typeResponse.ok) {
+                    const typeData = await typeResponse.json();
+                    if (typeData && Array.isArray(typeData)) {
+                        typeData.forEach(type => {
+                            propertyTypeCatalog[type.id] = type.name;
+                        });
+                    }
+                }
+                
+                // Load property subtypes
+                const subtypeResponse = await fetch('https://api.apimo.pro/catalogs/property_subtype?culture=en_GB');
+                if (subtypeResponse.ok) {
+                    const subtypeData = await subtypeResponse.json();
+                    if (subtypeData && Array.isArray(subtypeData)) {
+                        subtypeData.forEach(subtype => {
+                            propertySubtypeCatalog[subtype.id] = subtype.name;
+                        });
+                    }
+                }
+                
+                console.log('Property catalogs loaded:', {
+                    types: Object.keys(propertyTypeCatalog).length,
+                    subtypes: Object.keys(propertySubtypeCatalog).length
+                });
+                
+            } catch (error) {
+                console.error('Error loading property catalogs:', error);
+            }
+        }
+        
+        // Calculate land area from areas array (types 49, 50, 51)
+        function calculateLandArea(areas) {
+            if (!Array.isArray(areas)) return null;
+            
+            let landArea = 0;
+            areas.forEach(area => {
+                // Types 49, 50, 51 refer to land types according to Apimo documentation
+                if ([49, 50, 51].includes(area.type) && area.area) {
+                    landArea += area.area;
+                }
+            });
+            
+            return landArea > 0 ? landArea : null;
+        }
+        
+        // Get property type name from catalogs or fallback
+        function getPropertyTypeName(property) {
+            // Try to get from type.label first
+            if (property.type?.label) {
+                return property.type.label;
+            }
+            
+            // Try to get from type catalog
+            if (property.type?.id && propertyTypeCatalog[property.type.id]) {
+                return propertyTypeCatalog[property.type.id];
+            }
+            
+            // Try to get from subtype catalog
+            if (property.subtype?.id && propertySubtypeCatalog[property.subtype.id]) {
+                return propertySubtypeCatalog[property.subtype.id];
+            }
+            
+            // Fallback to type field if it's a string
+            if (typeof property.type === 'string') {
+                return property.type;
+            }
+            
+            // Default fallback
+            return 'Villa';
+        }
+        
+        // FIXED: Proper Apimo API data extraction
         function extractPropertyData(property) {
             if (!property) return null;
             
-            // Log the property structure for debugging
-            console.log('Extracting data from property:', property);
+            console.log('Extracting data from Apimo property:', property);
             
-            // Extract data according to Apimo API structure
+            // Extract areas according to Apimo structure
+            const livingArea = property.area?.value || null;  // Living area
+            const builtArea = property.area?.total || null;   // Built area
+            const weightedArea = property.area?.weighted || null;  // Weighted area
+            const landArea = calculateLandArea(property.areas);  // Land area from areas array
+            
+            // Get property type name using catalogs
+            const propertyType = getPropertyTypeName(property);
+            
+            // Extract location information
+            const location = property.city || 
+                           property.district || 
+                           property.address || 
+                           property.location?.address || 
+                           'Premium Location';
+            
+            // Extract bedroom/bathroom counts
+            let bedrooms = null;
+            let bathrooms = null;
+            
+            // Look for bedrooms in areas array (type 1 typically represents bedrooms)
+            if (Array.isArray(property.areas)) {
+                property.areas.forEach(area => {
+                    if (area.type === 1) { // Bedroom type
+                        bedrooms = (bedrooms || 0) + (area.number || 0);
+                    }
+                    if (area.type === 8) { // Bathroom type (check Apimo docs for exact type)
+                        bathrooms = (bathrooms || 0) + (area.number || 0);
+                    }
+                });
+            }
+            
+            // Fallback to direct fields if available
+            bedrooms = bedrooms || property.bedrooms || property.rooms || null;
+            bathrooms = bathrooms || property.bathrooms || null;
+            
             const extractedData = {
                 id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
-                title: property.reference || property.title || 'Luxury Property',
-                location: property.city || property.district || property.address || 'Premium Location',
+                title: property.title || property.reference || `${propertyType} ${location}`,
+                location: location,
                 price: property.price || null,
-                type: property.type?.label || property.type || 'Villa',
+                type: propertyType,
                 reference: property.reference || property.id || '',
                 description: property.description || property.title || '',
-                bedrooms: property.bedrooms || property.rooms || null,
-                bathrooms: property.bathrooms || null,
-                builtArea: property.area?.total || property.area || null,  // Built area (m² built)
-                landArea: property.area?.value || null,  // Land area (m² plot)
-                image: property.images && property.images.length > 0 ? property.images[0] : null
+                bedrooms: bedrooms,
+                bathrooms: bathrooms,
+                livingArea: livingArea,      // m² living (area.value)
+                builtArea: builtArea,        // m² built (area.total)
+                weightedArea: weightedArea,  // m² weighted (area.weighted)
+                landArea: landArea,          // m² plot (from areas array types 49,50,51)
+                images: property.images || [],
+                primaryImage: property.images && property.images.length > 0 ? property.images[0] : null
             };
             
-            console.log('Extracted property data:', extractedData);
+            console.log('Extracted Apimo property data:', extractedData);
             return extractedData;
         }
         
-        // Property rotation system - rotate every 24 hours
+        // FIXED: Improved property rotation system
         function initPropertyRotation() {
             const lastRotation = localStorage.getItem('lastPropertyRotation');
             const now = new Date().getTime();
@@ -1384,7 +1913,7 @@
             }
             
             const timeSinceLastRotation = lastRotation ? (now - parseInt(lastRotation)) : 0;
-            const timeUntilNextRotation = twentyFourHours - timeSinceLastRotation;
+            const timeUntilNextRotation = Math.max(twentyFourHours - timeSinceLastRotation, 60000); // Min 1 minute
             
             propertyRotationInterval = setTimeout(() => {
                 rotateProperties();
@@ -1399,40 +1928,73 @@
         
         function rotateProperties() {
             console.log('Rotating properties...');
-            loadFeaturedProperties();
-            loadPopularProperties();
-        }
-        
-        // Initialize Google Places Autocomplete
-        function initPlacesAutocomplete() {
-            const locationInput = document.getElementById('vervLocationInput');
-            if (locationInput && typeof google !== 'undefined' && google.maps) {
-                const autocomplete = new google.maps.places.Autocomplete(locationInput, {
-                    types: ['(cities)'],
-                    componentRestrictions: { country: 'es' }
+            if (featuredProperties.length > 0) {
+                // Shuffle the properties array
+                featuredProperties = [...featuredProperties].sort(() => Math.random() - 0.5);
+                if (currentTab === 'featured') {
+                    displayFeaturedProperties();
+                }
+            }
+            if (popularProperties.length > 0) {
+                // Re-sort popular properties by clicks
+                const sortedProperties = [...popularProperties].sort((a, b) => {
+                    const aClicks = propertyClicks[a.id] || 0;
+                    const bClicks = propertyClicks[b.id] || 0;
+                    return bClicks - aClicks;
                 });
-                
-                autocomplete.addListener('place_changed', function() {
-                    const place = autocomplete.getPlace();
-                    if (place.formatted_address) {
-                        locationInput.value = place.formatted_address;
-                    }
-                });
+                popularProperties = sortedProperties;
+                if (currentTab === 'popular') {
+                    displayPopularProperties();
+                }
             }
         }
         
-        // Load featured properties from API with fallback
+        // FIXED: Initialize Google Places Autocomplete with better error handling
+        function initPlacesAutocomplete() {
+            try {
+                const locationInput = document.getElementById('vervLocationInput');
+                if (locationInput && typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    const autocomplete = new google.maps.places.Autocomplete(locationInput, {
+                        types: ['(cities)'],
+                        componentRestrictions: { country: 'es' },
+                        fields: ['formatted_address', 'geometry', 'name']
+                    });
+                    
+                    autocomplete.addListener('place_changed', function() {
+                        const place = autocomplete.getPlace();
+                        if (place.formatted_address) {
+                            locationInput.value = place.formatted_address;
+                        }
+                    });
+                    
+                    console.log('Google Places Autocomplete initialized');
+                } else {
+                    console.log('Google Maps API not available for autocomplete');
+                }
+            } catch (error) {
+                console.error('Error initializing Google Places:', error);
+            }
+        }
+        
+        // FIXED: Enhanced property loading with better error handling and retries
         async function loadFeaturedProperties() {
             try {
                 console.log('Loading featured properties from API...');
+                
+                // Add timeout to the fetch request
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
                 
                 const response = await fetch('https://verv.one/.netlify/functions/properties?limit=10', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -1442,45 +2004,63 @@
                 console.log('API Response:', data);
                 
                 if (data.success && data.properties && data.properties.length > 0) {
-                    console.log('Properties array:', data.properties);
-                    console.log('First property structure:', data.properties[0]);
-                    
+                    console.log('Properties loaded successfully:', data.properties.length);
                     featuredProperties = data.properties;
+                    isApiLoaded = true;
                     if (currentTab === 'featured') {
                         displayFeaturedProperties();
                     }
                 } else {
-                    console.log('No properties found, using sample data');
-                    featuredProperties = sampleProperties;
-                    if (currentTab === 'featured') {
-                        displayFeaturedProperties();
-                    }
+                    throw new Error('No properties found in API response');
                 }
                 
             } catch (error) {
                 console.error('Error loading featured properties:', error);
-                console.log('Using sample data as fallback');
                 
                 // Use sample data as fallback
-                featuredProperties = sampleProperties;
+                console.log('Using enhanced sample data as fallback');
+                featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
+                
                 if (currentTab === 'featured') {
                     displayFeaturedProperties();
                 }
             }
         }
         
-        // Load popular properties based on clicks/views
+        // FIXED: Enhanced popular properties loading
         async function loadPopularProperties() {
             try {
-                console.log('Loading popular properties from API...');
+                console.log('Loading popular properties...');
+                
+                // If we have API data, use it
+                if (isApiLoaded && featuredProperties.length > 0) {
+                    const sortedProperties = [...featuredProperties].sort((a, b) => {
+                        const aClicks = propertyClicks[a.id] || 0;
+                        const bClicks = propertyClicks[b.id] || 0;
+                        return bClicks - aClicks;
+                    });
+                    
+                    popularProperties = sortedProperties;
+                    if (currentTab === 'popular') {
+                        displayPopularProperties();
+                    }
+                    return;
+                }
+                
+                // Otherwise try to load from API
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
                 
                 const response = await fetch('https://verv.one/.netlify/functions/properties?limit=20', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -1489,7 +2069,6 @@
                 const data = await response.json();
                 
                 if (data.success && data.properties && data.properties.length > 0) {
-                    // Sort by click count (most popular first)
                     const sortedProperties = data.properties.sort((a, b) => {
                         const aClicks = propertyClicks[a.id] || 0;
                         const bClicks = propertyClicks[b.id] || 0;
@@ -1506,10 +2085,9 @@
                 
             } catch (error) {
                 console.error('Error loading popular properties:', error);
-                console.log('Using sample data as fallback');
                 
                 // Use sample data as fallback, sorted by clicks
-                const sortedSample = sampleProperties.sort((a, b) => {
+                const sortedSample = [...sampleProperties].sort((a, b) => {
                     const aClicks = propertyClicks[a.id] || 0;
                     const bClicks = propertyClicks[b.id] || 0;
                     return bClicks - aClicks;
@@ -1522,9 +2100,12 @@
             }
         }
         
-        // Display featured properties (hero + grid)
+        // FIXED: Display featured properties with better error handling
         function displayFeaturedProperties() {
-            if (featuredProperties.length === 0) return;
+            if (featuredProperties.length === 0) {
+                displayErrorState('No featured properties available');
+                return;
+            }
             
             // Display hero property
             displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
@@ -1536,7 +2117,10 @@
         
         // Display popular properties
         function displayPopularProperties() {
-            if (popularProperties.length === 0) return;
+            if (popularProperties.length === 0) {
+                displayErrorState('No popular properties available');
+                return;
+            }
             
             // Display hero property
             displayHeroProperty(popularProperties[0]);
@@ -1546,22 +2130,59 @@
             displayGridProperties(gridProperties);
         }
         
-hero-property-icon">${propertyIcon}</div>
+        // FIXED: Enhanced hero property display with SVG icons
+        function displayHeroProperty(property) {
+            const hero = document.getElementById('heroFeaturedProperty');
+            if (!hero || !property) return;
+            
+            const data = extractPropertyData(property);
+            if (!data) return;
+            
+            const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
+            const title = data.title || 'Luxury Property';
+            const location = data.location || 'Premium Location';
+            const type = data.type || 'Villa';
+            
+            // Clean up location string
+            const cleanLocation = location.split(',')[0] || location;
+            
+            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
+            const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
+            const category = type.toUpperCase();
+            
+            // Add property details if available
+            let propertyDetails = '';
+            if (data.bedrooms || data.bathrooms || data.builtArea || data.landArea) {
+                const details = [];
+                if (data.bedrooms) details.push(`${data.bedrooms} bed`);
+                if (data.bathrooms) details.push(`${data.bathrooms} bath`);
+                if (data.builtArea) details.push(`${data.builtArea}m² built`);
+                if (data.landArea) details.push(`${data.landArea}m² plot`);
+                
+                if (details.length > 0) {
+                    propertyDetails = `<div class="hero-property-details">${details.join(' • ')}</div>`;
+                }
+            }
+            
+            hero.innerHTML = `
+                <div class="hero-property-content">
+                    <div class="hero-property-icon">${propertyIcon}</div>
                     <div class="hero-property-category">${category}</div>
                     <div class="hero-property-title">${title}</div>
                     <div class="hero-property-location">
-                        <span>${locationIcon}</span>
-                        <span>${location}</span>
+                        ${locationIcon}
+                        <span>${cleanLocation}</span>
                     </div>
+                    ${propertyDetails}
                     <div class="hero-property-price">${price}</div>
                 </div>
-                <button class="hero-property-nav prev" onclick="previousHeroProperty()">‹</button>
-                <button class="hero-property-nav next" onclick="nextHeroProperty()">›</button>
-                <button class="hero-property-view-btn" onclick="viewProperty('${property.id}')">Ver propiedad</button>
+                <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property">‹</button>
+                <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property">›</button>
+                <button class="hero-property-view-btn" onclick="viewProperty('${data.id}')" aria-label="View property details">Ver propiedad</button>
             `;
         }
         
-        // Display grid properties
+        // FIXED: Enhanced grid properties display
         function displayGridProperties(properties) {
             const grid = document.getElementById('propertiesGrid');
             if (!grid) return;
@@ -1569,31 +2190,29 @@ hero-property-icon">${propertyIcon}</div>
             grid.innerHTML = '';
             
             if (properties.length === 0) {
-                grid.innerHTML = `
-                    <div class="error-state">
-                        <p>No properties available at the moment.</p>
-                        <p><a href="/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
-                    </div>
-                `;
+                displayErrorState('No properties available at the moment', grid);
                 return;
             }
             
             properties.forEach(property => {
                 const card = createPropertyCard(property);
-                grid.appendChild(card);
+                if (card) {
+                    grid.appendChild(card);
+                }
             });
         }
         
-        // Create property card for grid
+        // FIXED: Enhanced property card creation with SVG icons
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
             
             console.log('Creating property card for:', property);
             
-            // Extract data using helper function
             const data = extractPropertyData(property);
-            if (!data) return card;
+            if (!data) return null;
             
             const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
             const title = data.title || 'Luxury Property';
@@ -1606,29 +2225,62 @@ hero-property-icon">${propertyIcon}</div>
             const propertyIcon = propertyIcons[type] || propertyIcons['default'];
             const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
             
+            // Add property details for card
+            let propertyDetails = '';
+            if (data.bedrooms || data.bathrooms || data.builtArea) {
+                const details = [];
+                if (data.bedrooms) details.push(`${data.bedrooms} bed`);
+                if (data.bathrooms) details.push(`${data.bathrooms} bath`);
+                if (data.builtArea) details.push(`${data.builtArea}m²`);
+                
+                if (details.length > 0) {
+                    propertyDetails = `<div class="property-details">${details.join(' • ')}</div>`;
+                }
+            }
+            
             card.innerHTML = `
                 <div class="property-icon-container">
-                    <span>${propertyIcon}</span>
+                    ${propertyIcon}
                 </div>
                 <div class="property-info">
                     <div class="property-type">${type}</div>
                     <div class="property-location">
-                        <span>${locationIcon}</span>
+                        ${locationIcon}
                         <span>${cleanLocation}</span>
                     </div>
+                    ${propertyDetails}
                     <div class="property-price">${price}</div>
                 </div>
             `;
             
-            // Add click handler
-            card.addEventListener('click', () => {
-                viewProperty(data.id);
+            // Add click and keyboard handlers
+            const clickHandler = () => viewProperty(data.id);
+            card.addEventListener('click', clickHandler);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    clickHandler();
+                }
             });
             
             return card;
         }
         
-        // Hero property navigation
+        // FIXED: Enhanced error state display
+        function displayErrorState(message, container = null) {
+            const targetContainer = container || document.getElementById('heroFeaturedProperty');
+            if (!targetContainer) return;
+            
+            targetContainer.innerHTML = `
+                <div class="error-state">
+                    <h3>Properties Coming Soon</h3>
+                    <p>${message}</p>
+                    <p><a href="/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
+                </div>
+            `;
+        }
+        
+        // Hero property navigation with bounds checking
         function previousHeroProperty() {
             const properties = currentTab === 'featured' ? featuredProperties : popularProperties;
             if (properties.length === 0) return;
@@ -1645,7 +2297,7 @@ hero-property-icon">${propertyIcon}</div>
             displayHeroProperty(properties[currentHeroPropertyIndex]);
         }
         
-        // View property function
+        // FIXED: Enhanced view property function with better tracking
         function viewProperty(propertyId) {
             console.log('Viewing property:', propertyId);
             
@@ -1655,20 +2307,34 @@ hero-property-icon">${propertyIcon}</div>
                 localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
             }
             
-            // Track property click
+            // Track property click with analytics
             if (typeof trackPropertyInquiry === 'function') {
                 trackPropertyInquiry(propertyId, 'Property View', 0);
+            }
+            
+            // Analytics tracking
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'view_item', {
+                    currency: 'EUR',
+                    value: 0,
+                    items: [{
+                        item_id: propertyId,
+                        item_name: 'Property View',
+                        category: 'Properties'
+                    }]
+                });
             }
             
             // Navigate to property details
             window.location.href = `/properties/?id=${propertyId}`;
         }
         
-        // Initialize hero search functionality
+        // FIXED: Enhanced hero search functionality
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             
             if (searchForm) {
+                // Handle form submission
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
@@ -1682,41 +2348,66 @@ hero-property-icon">${propertyIcon}</div>
                         }
                     }
                     
-                    // Track search
+                    // Track search with enhanced analytics
                     if (typeof gtag !== 'undefined') {
-                        gtag('event', 'property_search', {
+                        gtag('event', 'search', {
                             search_term: formData.get('location') || '',
                             property_type: formData.get('sale-rent') || '',
                             budget_range: formData.get('budget') || ''
                         });
                     }
                     
+                    // Track with custom analytics if available
+                    if (typeof trackPropertyInquiry === 'function') {
+                        trackPropertyInquiry('search', formData.get('location') || 'general', 0);
+                    }
+                    
+                    console.log('Search submitted:', Object.fromEntries(searchParams));
+                    
                     // Navigate to properties page with search parameters
                     window.location.href = `/properties/?${searchParams.toString()}`;
                 });
                 
-                // Add click handler to search button
+                // Handle search button click specifically
                 const searchButton = document.querySelector('.verv-search-btn-minimal');
                 if (searchButton) {
                     searchButton.addEventListener('click', function(e) {
                         e.preventDefault();
+                        console.log('Search button clicked');
                         searchForm.dispatchEvent(new Event('submit'));
                     });
                 }
+                
+                // Add input validation and user feedback
+                const inputs = searchForm.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    input.addEventListener('change', function() {
+                        // Remove any error styling
+                        this.style.borderColor = '';
+                    });
+                });
+                
+                console.log('Hero search functionality initialized');
             }
         }
         
-        // Initialize tab functionality
+        // FIXED: Enhanced tab functionality with better accessibility
         function initTabs() {
             const tabButtons = document.querySelectorAll('.tab-button');
             
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    console.log('Tab clicked:', this.dataset.tab);
+                    
                     // Remove active class from all buttons
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
                     
                     // Add active class to clicked button
                     this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
                     
                     // Update current tab
                     currentTab = this.dataset.tab;
@@ -1739,75 +2430,191 @@ hero-property-icon">${propertyIcon}</div>
                         }
                     }
                 });
+                
+                // Add keyboard support
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
             });
         }
         
-        // Mobile menu toggle
+        // FIXED: Enhanced mobile menu with better UX
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const navMenu = document.getElementById('navMenu');
             
             if (mobileMenuToggle && navMenu) {
                 mobileMenuToggle.addEventListener('click', function() {
+                    const isActive = navMenu.classList.contains('active');
                     navMenu.classList.toggle('active');
+                    
+                    // Update button text and aria attributes
+                    this.textContent = isActive ? '☰' : '✕';
+                    this.setAttribute('aria-expanded', !isActive);
+                    
+                    // Prevent scrolling when menu is open
+                    document.body.style.overflow = isActive ? '' : 'hidden';
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            mobileMenuToggle.textContent = '☰';
+                            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+                
+                // Close menu on window resize
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuToggle.textContent = '☰';
+                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    }
                 });
             }
         }
         
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Homepage loaded, initializing...');
+        // Enhanced consultation modal
+        function openConsultationModal() {
+            console.log('Opening consultation modal...');
             
-            // Initialize all functionality
-            initHeroSearch();
-            initTabs();
-            initMobileMenu();
-            initPropertyRotation();
-            
-            // Load featured properties
-            loadFeaturedProperties();
-            
-            // Initialize Google Places API when available
-            if (typeof google !== 'undefined' && google.maps) {
-                initPlacesAutocomplete();
-            } else {
-                // Wait for Google Maps to load
-                window.addEventListener('load', function() {
-                    setTimeout(initPlacesAutocomplete, 1000);
+            // Track consultation request
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'consultation_request', {
+                    source: 'hero_section'
                 });
             }
             
-            console.log('Homepage initialization complete');
+            window.location.href = '/contact/';
+        }
+        
+        // Performance optimization: Lazy load Google Maps
+        function loadGoogleMaps() {
+            if (typeof google === 'undefined') {
+                window.initGoogleMaps();
+            }
+        }
+        
+        // FIXED: Enhanced initialization with Apimo catalog loading
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Homepage loaded, initializing...');
+            
+            try {
+                // Initialize core functionality
+                initHeroSearch();
+                initTabs();
+                initMobileMenu();
+                initPropertyRotation();
+                
+                // Load Apimo property type catalogs first
+                loadPropertyTypeCatalogs().then(() => {
+                    console.log('Property catalogs loaded, now loading properties...');
+                    // Load featured properties after catalogs are loaded
+                    loadFeaturedProperties();
+                }).catch((error) => {
+                    console.log('Error loading catalogs, proceeding with fallback:', error);
+                    // Load properties even if catalogs fail
+                    loadFeaturedProperties();
+                });
+                
+                // Lazy load Google Maps after a delay
+                setTimeout(loadGoogleMaps, 2000);
+                
+                // Initialize Google Places API when available
+                if (typeof google !== 'undefined' && google.maps) {
+                    initPlacesAutocomplete();
+                } else {
+                    // Wait for Google Maps to load
+                    window.addEventListener('load', function() {
+                        setTimeout(() => {
+                            try {
+                                initPlacesAutocomplete();
+                            } catch (error) {
+                                console.log('Google Places not available:', error);
+                            }
+                        }, 1000);
+                    });
+                }
+                
+                console.log('Homepage initialization complete');
+                
+            } catch (error) {
+                console.error('Error during initialization:', error);
+            }
         });
+        
+        // Global callback for Google Maps
+        window.initPlacesAutocomplete = initPlacesAutocomplete;
         
         // Cleanup on page unload
         window.addEventListener('beforeunload', function() {
             if (propertyRotationInterval) {
                 clearTimeout(propertyRotationInterval);
             }
+            // Reset body overflow in case mobile menu was open
+            document.body.style.overflow = '';
         });
         
-        // Consultation modal placeholder
-        function openConsultationModal() {
-            console.log('Opening consultation modal...');
-            window.location.href = '/contact/';
-        }
-        
-        // Error handling for failed requests
+        // Enhanced error handling
         window.addEventListener('error', function(e) {
-            console.log('Handled error:', e.message);
+            console.log('Handled global error:', e.message);
+            
+            // If it's a script error related to Google Maps, provide fallback
+            if (e.message.includes('google') || e.message.includes('maps')) {
+                console.log('Google Maps error detected, continuing without autocomplete');
+            }
         });
         
-        // Timeout fallback - if API takes too long, show sample data
-        setTimeout(() => {
+        // Timeout fallback with exponential backoff
+        let fallbackTimeout = 5000;
+        const maxFallbackTimeout = 20000;
+        
+        function checkAndFallback() {
             if (featuredProperties.length === 0) {
-                console.log('API timeout, using sample data');
-                featuredProperties = sampleProperties;
+                console.log(`API timeout after ${fallbackTimeout}ms, using sample data`);
+                featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
                 if (currentTab === 'featured') {
                     displayFeaturedProperties();
                 }
             }
-        }, 5000);
+            
+            // Set up next fallback check with exponential backoff
+            if (fallbackTimeout < maxFallbackTimeout) {
+                fallbackTimeout *= 2;
+                setTimeout(checkAndFallback, fallbackTimeout);
+            }
+        }
+        
+        setTimeout(checkAndFallback, fallbackTimeout);
+        
+        // Make functions globally available for HTML onclick handlers
+        window.previousHeroProperty = previousHeroProperty;
+        window.nextHeroProperty = nextHeroProperty;
+        window.viewProperty = viewProperty;
+        window.openConsultationModal = openConsultationModal;
+        
+        // Enhanced performance monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    const perfData = performance.getEntriesByType('navigation')[0];
+                    console.log('Page load performance:', {
+                        loadTime: perfData.loadEventEnd - perfData.loadEventStart,
+                        domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
+                        totalTime: perfData.loadEventEnd - perfData.fetchStart
+                    });
+                }, 0);
+            });
+        }
     </script>
 </body>
 </html>
