@@ -89,11 +89,6 @@
     <!-- Canonical URL -->
     <link rel="canonical" id="canonicalUrl" href="https://www.verv.one/">
     
-    <!-- Google Maps API - Only load when needed -->
-    <script>
-        // Google Maps will be loaded dynamically by JavaScript when needed
-    </script>
-    
     <!-- Enhanced Real Estate Schema -->
     <script type="application/ld+json">
     {
@@ -193,7 +188,7 @@
         }
 
         .logo {
-            height: 95px; /* Increased by 40% from 68px */
+            height: 95px;
             transition: height 0.3s ease;
         }
 
@@ -225,7 +220,7 @@
             color: #000;
         }
 
-        /* FIXED: Hero Section - Removed VERV ONE branding */
+        /* Hero Section */
         .verv-hero {
             position: relative;
             height: 100vh;
@@ -268,10 +263,8 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 0 2rem;
-            margin-top: 80px; /* Account for fixed header */
+            margin-top: 80px;
         }
-
-        /* REMOVED: .verv-hero-brand - No more VERV ONE branding */
 
         .verv-hero-slogan {
             font-size: 2.5rem;
@@ -303,7 +296,7 @@
             font-weight: 300;
         }
 
-        /* FIXED: Modern High-Tech Search Form - Better functionality */
+        /* Enhanced Search Form */
         .verv-minimal-search {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(25px);
@@ -442,7 +435,7 @@
             font-weight: 600;
         }
 
-        /* Consultation Section - Simplified */
+        /* Consultation Section - REMOVED WHATSAPP */
         .verv-consultation-section {
             margin-top: 2rem;
         }
@@ -596,7 +589,7 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
         }
 
-        /* FIXED: Featured Properties Section - Working API integration */
+        /* Properties Section */
         .properties-section {
             padding: 6rem 0;
             background: #f8f9fa;
@@ -633,7 +626,7 @@
             color: #000;
         }
 
-        /* FIXED: Hero Featured Property - Better loading states */
+        /* Hero Featured Property */
         .hero-featured-property {
             position: relative;
             margin-bottom: 3rem;
@@ -774,7 +767,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        /* UPDATED: Properties Grid - 2 smaller cards for featured */
+        /* Properties Grid */
         .properties-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -800,7 +793,7 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.2);
         }
 
-        /* NEW: Popular properties single layout */
+        /* Popular properties layout */
         .popular-property-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1037,7 +1030,7 @@
             font-family: 'Lora', serif;
         }
 
-        /* FIXED: Loading and Error States */
+        /* Loading and Error States */
         .loading-state {
             display: flex;
             align-items: center;
@@ -1082,6 +1075,38 @@
             color: #000;
             text-decoration: underline;
             font-weight: 500;
+        }
+
+        /* No results message */
+        .no-results {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+            background: white;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .no-results h3 {
+            color: #000;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+        }
+
+        .clear-filters-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters-btn:hover {
+            background: #333;
         }
 
         /* Footer */
@@ -1180,7 +1205,7 @@
             height: 22px;
         }
 
-        /* FIXED: Footer Credentials - Proper logo display */
+        /* Footer Credentials */
         .footer-credentials {
             background: #000;
             padding: 2rem 0;
@@ -1206,7 +1231,6 @@
         .credential-logo {
             height: 60px;
             opacity: 0.8;
-            /* REMOVED: filter: brightness(0) invert(1); - This was causing white squares */
             display: block;
             transition: opacity 0.3s ease;
             max-width: 120px;
@@ -1245,15 +1269,15 @@
             font-weight: 300;
         }
 
-        /* UPDATED: Chat Widgets Container - Better positioning to avoid Chatbase conflicts */
+        /* Chat Widgets Container - WhatsApp only in footer */
         .chat-widgets-container {
             position: fixed;
             bottom: 30px;
-            left: 30px; /* Moved to left side to avoid Chatbase bubble conflict */
+            left: 30px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            z-index: 999; /* Lower than Chatbase which typically uses 1000+ */
+            z-index: 999;
         }
 
         .whatsapp-btn {
@@ -1290,7 +1314,7 @@
             white-space: nowrap;
         }
 
-        /* Chatbase widget positioning adjustments */
+        /* Chatbase widget positioning */
         #chatbase-bubble-window {
             bottom: 30px !important;
             right: 30px !important;
@@ -1303,12 +1327,11 @@
             z-index: 1000 !important;
         }
 
-        /* Ensure Chatbase doesn't conflict with our elements */
         .chatbase-chat-iframe {
             z-index: 1001 !important;
         }
 
-        /* FIXED: Mobile Responsive Design - Better spacing */
+        /* Mobile Responsive Design */
         @media (max-width: 768px) {
             body {
                 padding: 0 1rem;
@@ -1316,7 +1339,6 @@
 
             .header-nav {
                 padding: 0 1rem;
-                /* FIXED: Ensure header is visible on mobile */
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(15px);
                 -webkit-backdrop-filter: blur(15px);
@@ -1350,17 +1372,16 @@
             }
             
             .logo {
-                height: 70px; /* Scaled down for mobile but still 40% larger than original mobile */
+                height: 70px;
             }
 
-            /* FIXED: Mobile hero spacing - Account for header */
             .verv-hero {
                 margin: 0 -1rem;
                 min-height: 70vh;
             }
 
             .verv-hero-content {
-                margin-top: 100px; /* More space for mobile header */
+                margin-top: 100px;
                 padding: 0 1.5rem;
             }
             
@@ -1386,7 +1407,6 @@
                 justify-content: center;
             }
             
-            /* FIXED: Mobile search form */
             .verv-search-form-minimal {
                 flex-direction: column;
                 gap: 1rem;
@@ -1479,7 +1499,6 @@
                 height: 250px;
             }
 
-            /* Mobile styles for popular property layout */
             .popular-property-container {
                 grid-template-columns: 1fr;
                 gap: 0;
@@ -1550,7 +1569,6 @@
                 padding-right: 1rem;
             }
 
-            /* Mobile WhatsApp positioning */
             .chat-widgets-container {
                 bottom: 20px;
                 left: 20px;
@@ -1568,10 +1586,9 @@
             }
 
             .whatsapp-text {
-                display: none; /* Hide text on very small screens */
+                display: none;
             }
 
-            /* Adjust Chatbase for mobile */
             #chatbase-bubble-window {
                 bottom: 20px !important;
                 right: 20px !important;
@@ -1671,7 +1688,6 @@
             </div>
             <div class="verv-hero-overlay"></div>
             <div class="verv-hero-content">
-                <!-- REMOVED: VERV ONE branding as requested -->
                 <div class="verv-hero-slogan">Signature Estates & Advisory</div>
                 <div class="verv-hero-tagline">Distinctive homes. Personal service. Trusted guidance.</div>
                 
@@ -1681,7 +1697,7 @@
                     Curating extraordinary homes in Catalunya's most coveted destinations.
                 </p>
                 
-                <!-- FIXED: Enhanced Search Bar with fallback locations -->
+                <!-- Enhanced Search Bar -->
                 <div class="verv-minimal-search">
                     <form class="verv-search-form-minimal" id="vervPropertySearch" role="search" aria-label="Property search">
                         <div class="verv-search-section">
@@ -1717,10 +1733,11 @@
                             </select>
                         </div>
                         
-                        <button type="submit" class="verv-search-btn-minimal" aria-label="Search properties">Search Properties</button>
+                        <button type="submit" class="verv-search-btn-minimal" aria-label="Search properties">Search</button>
                     </form>
                 </div>
                 
+                <!-- REMOVED WHATSAPP from consultation section -->
                 <div class="verv-consultation-section">
                     <p class="verv-consultation-text">Need personalized guidance? Speak with our experts.</p>
                     <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
@@ -1761,7 +1778,7 @@
             </div>
         </section>
 
-        <!-- FIXED: Featured Properties Section -->
+        <!-- Featured Properties Section -->
         <section class="properties-section section">
             <div class="section-container">
                 <div class="section-header">
@@ -1863,7 +1880,7 @@
             </div>
         </div>
         
-        <!-- FIXED: Professional Credentials Section - Proper logo display -->
+        <!-- Professional Credentials Section -->
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
@@ -1898,7 +1915,7 @@
         </div>
     </footer>
 
-    <!-- Chat Widgets Container - Updated positioning -->
+    <!-- Chat Widgets Container - WhatsApp only in footer left -->
     <div class="chat-widgets-container">
         <!-- WhatsApp Button -->
         <a href="https://wa.me/34657271220" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Contact via WhatsApp">
@@ -1961,767 +1978,561 @@
         })();
     </script>
 
-    <!-- FIXED: Enhanced JavaScript with better functionality -->
+    <!-- Enhanced JavaScript -->
     <script>
         // Global variables
-        let featuredProperties = [];
-        let popularProperties = [];
+        let allProperties = []; // Store all real properties
+        let displayedProperties = []; // Store filtered properties for display
+        let currentFilters = {
+            type: '',
+            location: '',
+            budget: ''
+        };
         let currentTab = 'featured';
-        let propertyRotationInterval;
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
         let isApiLoaded = false;
         
-        // Enhanced sample property data matching Apimo API structure
-        const sampleProperties = [
-            {
-                id: 'VERV001',
-                reference: "VERV001",
-                title: "Luxury Villa Barcelona",
-                city: "Barcelona",
-                price: 2500000,
-                type: { id: 1, label: "Villa" },
-                subtype: { id: 1, label: "Detached Villa" },
-                area: { value: 350, total: 450, weighted: 400 },
-                areas: [
-                    { type: 1, number: 5, area: null }, // Bedrooms
-                    { type: 8, number: 4, area: null }, // Bathrooms
-                    { type: 49, number: 1, area: 650 } // Land area
-                ],
-                bedrooms: 5,
-                bathrooms: 4,
-                description: "Stunning luxury villa in prime Barcelona location",
-                images: []
-            },
-            {
-                id: 'VERV002',
-                reference: "VERV002", 
-                title: "Seaside Apartment Sitges",
-                city: "Sitges",
-                price: 850000,
-                type: { id: 2, label: "Apartment" },
-                subtype: { id: 5, label: "Penthouse" },
-                area: { value: 160, total: 180, weighted: 170 },
-                areas: [
-                    { type: 1, number: 3, area: null }, // Bedrooms
-                    { type: 8, number: 2, area: null }  // Bathrooms
-                ],
-                bedrooms: 3,
-                bathrooms: 2,
-                description: "Beautiful seaside apartment with ocean views",
-                images: []
-            },
-            {
-                id: 'VERV003',
-                reference: "VERV003",
-                title: "Modern Villa Costa Brava",
-                city: "Costa Brava",
-                price: 1750000,
-                type: { id: 1, label: "Villa" },
-                subtype: { id: 2, label: "Modern Villa" },
-                area: { value: 280, total: 320, weighted: 300 },
-                areas: [
-                    { type: 1, number: 4, area: null }, // Bedrooms
-                    { type: 8, number: 3, area: null }, // Bathrooms
-                    { type: 50, number: 1, area: 800 } // Land area
-                ],
-                bedrooms: 4,
-                bathrooms: 3,
-                description: "Contemporary villa with Mediterranean views",
-                images: []
-            },
-            {
-                id: 'VERV004',
-                reference: "VERV004",
-                title: "Penthouse Barcelona",
-                city: "Barcelona",
-                price: 3200000,
-                type: { id: 3, label: "Penthouse" },
-                subtype: { id: 6, label: "Luxury Penthouse" },
-                area: { value: 250, total: 280, weighted: 265 },
-                areas: [
-                    { type: 1, number: 3, area: null }, // Bedrooms
-                    { type: 8, number: 3, area: null }  // Bathrooms
-                ],
-                bedrooms: 3,
-                bathrooms: 3,
-                description: "Exclusive penthouse in Barcelona city center",
-                images: []
-            },
-            {
-                id: 'VERV005',
-                reference: "VERV005",
-                title: "Historic Townhouse Girona",
-                city: "Girona",
-                price: 1200000,
-                type: { id: 4, label: "Townhouse" },
-                subtype: { id: 8, label: "Historic Townhouse" },
-                area: { value: 220, total: 250, weighted: 235 },
-                areas: [
-                    { type: 1, number: 4, area: null }, // Bedrooms
-                    { type: 8, number: 3, area: null }, // Bathrooms
-                    { type: 51, number: 1, area: 100 } // Small courtyard
-                ],
-                bedrooms: 4,
-                bathrooms: 3,
-                description: "Restored historic townhouse in Girona old town",
-                images: []
-            },
-            {
-                id: 'VERV006',
-                reference: "VERV006",
-                title: "Luxury Apartment Sitges",
-                city: "Sitges",
-                price: 650000,
-                type: { id: 2, label: "Apartment" },
-                subtype: { id: 4, label: "Luxury Apartment" },
-                area: { value: 100, total: 120, weighted: 110 },
-                areas: [
-                    { type: 1, number: 2, area: null }, // Bedrooms
-                    { type: 8, number: 2, area: null }  // Bathrooms
-                ],
-                bedrooms: 2,
-                bathrooms: 2,
-                description: "Modern apartment near Sitges beach",
-                images: []
-            }
-        ];
-        
-        // Property feature icons - The Noun Project style SVG icons
+        // Enhanced Noun Project style icons
+        const nounProjectIcons = {
+            // Property type icons (The Noun Project style)
+            'Villa': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
+                <path d="M50 15L15 40v40h20V60h30v20h20V40L50 15zm-15 50h-15V45l15-10v20zm20 0V45l15-10v20H55z"/>
+                <path d="M35 65h5v10h-5zm15 0h5v10h-5zm15 0h5v10h-5z"/>
+                <rect x="25" y="45" width="4" height="4"/>
+                <rect x="35" y="45" width="4" height="4"/>
+                <rect x="61" y="45" width="4" height="4"/>
+                <rect x="71" y="45" width="4" height="4"/>
+            </svg>`,
+            
+            'Apartment': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
+                <rect x="20" y="20" width="60" height="60" stroke="currentColor" stroke-width="2" fill="none"/>
+                <rect x="25" y="25" width="8" height="8" fill="currentColor"/>
+                <rect x="35" y="25" width="8" height="8" fill="currentColor"/>
+                <rect x="45" y="25" width="8" height="8" fill="currentColor"/>
+                <rect x="55" y="25" width="8" height="8" fill="currentColor"/>
+                <rect x="65" y="25" width="8" height="8" fill="currentColor"/>
+                <rect x="25" y="35" width="8" height="8" fill="currentColor"/>
+                <rect x="65" y="35" width="8" height="8" fill="currentColor"/>
+                <rect x="25" y="45" width="8" height="8" fill="currentColor"/>
+                <rect x="65" y="45" width="8" height="8" fill="currentColor"/>
+                <rect x="25" y="55" width="8" height="8" fill="currentColor"/>
+                <rect x="35" y="55" width="8" height="8" fill="currentColor"/>
+                <rect x="45" y="55" width="8" height="8" fill="currentColor"/>
+                <rect x="55" y="55" width="8" height="8" fill="currentColor"/>
+                <rect x="65" y="55" width="8" height="8" fill="currentColor"/>
+                <rect x="25" y="65" width="8" height="8" fill="currentColor"/>
+                <rect x="65" y="65" width="8" height="8" fill="currentColor"/>
+                <rect x="40" y="65" width="6" height="15" fill="currentColor"/>
+            </svg>`,
+            
+            'Penthouse': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
+                <path d="M50 10L20 30v50h60V30L50 10z"/>
+                <rect x="25" y="35" width="6" height="6" fill="white"/>
+                <rect x="35" y="35" width="6" height="6" fill="white"/>
+                <rect x="59" y="35" width="6" height="6" fill="white"/>
+                <rect x="69" y="35" width="6" height="6" fill="white"/>
+                <rect x="25" y="45" width="6" height="6" fill="white"/>
+                <rect x="69" y="45" width="6" height="6" fill="white"/>
+                <rect x="25" y="55" width="6" height="6" fill="white"/>
+                <rect x="69" y="55" width="6" height="6" fill="white"/>
+                <rect x="42" y="65" width="8" height="15" fill="white"/>
+                <polygon points="45,5 55,5 52,12" fill="currentColor"/>
+                <rect x="51" y="12" width="2" height="8" fill="currentColor"/>
+            </svg>`,
+            
+            'Townhouse': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
+                <rect x="15" y="30" width="25" height="50"/>
+                <rect x="40" y="25" width="25" height="55"/>
+                <rect x="65" y="30" width="20" height="50"/>
+                <polygon points="15,30 27.5,15 40,30" fill="currentColor"/>
+                <polygon points="40,25 52.5,10 65,25" fill="currentColor"/>
+                <polygon points="65,30 75,20 85,30" fill="currentColor"/>
+                <rect x="20" y="40" width="4" height="4" fill="white"/>
+                <rect x="45" y="35" width="4" height="4" fill="white"/>
+                <rect x="70" y="40" width="4" height="4" fill="white"/>
+                <rect x="20" y="50" width="4" height="4" fill="white"/>
+                <rect x="45" y="45" width="4" height="4" fill="white"/>
+                <rect x="70" y="50" width="4" height="4" fill="white"/>
+                <rect x="25" y="65" width="6" height="15" fill="white"/>
+                <rect x="49" y="65" width="6" height="15" fill="white"/>
+                <rect x="72" y="65" width="6" height="15" fill="white"/>
+            </svg>`,
+            
+            'House': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
+                <polygon points="50,15 20,40 80,40" fill="currentColor"/>
+                <rect x="25" y="40" width="50" height="40"/>
+                <rect x="30" y="50" width="6" height="6" fill="white"/>
+                <rect x="40" y="50" width="6" height="6" fill="white"/>
+                <rect x="54" y="50" width="6" height="6" fill="white"/>
+                <rect x="64" y="50" width="6" height="6" fill="white"/>
+                <rect x="42" y="65" width="8" height="15" fill="white"/>
+                <rect x="48" y="20" width="4" height="20" fill="currentColor"/>
+                <rect x="46" y="18" width="8" height="4" fill="currentColor"/>
+            </svg>`,
+            
+            'default': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
+                <path d="M50 15L20 35v40h60V35L50 15z"/>
+                <rect x="25" y="45" width="6" height="6" fill="white"/>
+                <rect x="35" y="45" width="6" height="6" fill="white"/>
+                <rect x="59" y="45" width="6" height="6" fill="white"/>
+                <rect x="69" y="45" width="6" height="6" fill="white"/>
+                <rect x="42" y="60" width="8" height="15" fill="white"/>
+            </svg>`
+        };
+
+        // Feature icons (The Noun Project style)
         const featureIcons = {
-            'bed': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM19 7h-8v7H9V7H2v11h1v2h2v-2h12v2h2v-2h1V7h-1zm-1 9H4V9h14v7z"/></svg>`,
-            'bath': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 2C8.45 2 8 2.45 8 3s.45 1 1 1 1-.45 1-1-.45-1-1-1zM7 4c-.55 0-1 .45-1 1v3H4c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V5c0-.55-.45-1-1-1s-1 .45-1 1v3H8V5c0-.55-.45-1-1-1z"/></svg>`,
-            'area': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14z"/><path d="M11 7h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2z"/></svg>`,
-            'plot': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`
+            'bed': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM19 7h-8v7H9V7H2v11h1v2h2v-2h12v2h2v-2h1V7h-1zm-1 9H4V9h14v7z"/>
+            </svg>`,
+            'bath': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 2C8.45 2 8 2.45 8 3s.45 1 1 1 1-.45 1-1-.45-1-1-1zM7 4c-.55 0-1 .45-1 1v3H4c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V5c0-.55-.45-1-1-1s-1 .45-1 1v3H8V5c0-.55-.45-1-1-1z"/>
+            </svg>`,
+            'area': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 3v18h18V3H3zm16 16H5V5h14v14z"/>
+                <path d="M11 7h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2z"/>
+            </svg>`,
+            'plot': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>`
         };
-        const propertyIcons = {
-            'Villa': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`,
-            'Apartment': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M8 40V8h32v32h-8V24H16v16H8zm4-4h4v-8h16v8h4V12H12v24zm4-12h4v-4h-4v4zm8 0h4v-4h-4v4zm-8-8h4v-4h-4v4zm8 0h4v-4h-4v4z"/></svg>`,
-            'Penthouse': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M6 42V18L24 6l18 12v24h-8V26H14v16H6zm4-4h4v-8h20v8h4V20.5L24 12 10 20.5V38zm6-12h16v-8H16v8zm2-6h4v-4h-4v4zm8 0h4v-4h-4v4z"/></svg>`,
-            'House': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`,
-            'Townhouse': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M4 40V12h8V8h8v4h8V8h8v4h8v28h-6V24h-4v16h-6V24h-4v16h-6V24h-4v16H4zm4-4h4v-8h4v8h4v-8h4v8h4v-8h4v8h4V16H8v20z"/></svg>`,
-            'Duplex': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M8 40V8h32v32H8zm4-4h24V12H12v24zm2-20h8v4h-8v-4zm12 0h8v4h-8v-4zm-12 8h8v4h-8v-4zm12 0h8v4h-8v-4zm-12 8h8v4h-8v-4zm12 0h8v4h-8v-4z"/></svg>`,
-            'Loft': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M6 40V20L24 8l18 12v20H6zm4-4h28V22.5L24 14 10 22.5V36zm6-12h16v8H16v-8zm2-6h12v4H18v-4z"/></svg>`,
-            'default': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`
-        };
-        
-        // Location icons - The Noun Project style SVG icons
+
+        // Location icons
         const locationIcons = {
-            'Barcelona': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            'Sitges': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            'Costa Brava': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            'Girona': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            'Emporda': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            'Cadaqués': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-            'default': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`
+            'Barcelona': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>`,
+            'Sitges': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>`,
+            'default': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>`
         };
-        
-        // Property type catalog cache
-        let propertyTypeCatalog = {};
-        let propertySubtypeCatalog = {};
-        
-        // Load Apimo property type catalogs
-        async function loadPropertyTypeCatalogs() {
+
+        // FIXED: Real property loading with better error handling
+        async function loadRealProperties() {
             try {
-                console.log('Loading Apimo property type catalogs...');
+                console.log('🏠 Loading REAL properties from VERV ONE API...');
                 
-                // Load property types
-                const typeResponse = await fetch('https://api.apimo.pro/catalogs/property_type?culture=en_GB');
-                if (typeResponse.ok) {
-                    const typeData = await typeResponse.json();
-                    if (typeData && Array.isArray(typeData)) {
-                        typeData.forEach(type => {
-                            propertyTypeCatalog[type.id] = type.name;
-                        });
-                    }
-                }
-                
-                // Load property subtypes
-                const subtypeResponse = await fetch('https://api.apimo.pro/catalogs/property_subtype?culture=en_GB');
-                if (subtypeResponse.ok) {
-                    const subtypeData = await subtypeResponse.json();
-                    if (subtypeData && Array.isArray(subtypeData)) {
-                        subtypeData.forEach(subtype => {
-                            propertySubtypeCatalog[subtype.id] = subtype.name;
-                        });
-                    }
-                }
-                
-                console.log('Property catalogs loaded:', {
-                    types: Object.keys(propertyTypeCatalog).length,
-                    subtypes: Object.keys(propertySubtypeCatalog).length
-                });
-                
-            } catch (error) {
-                console.error('Error loading property catalogs:', error);
-            }
-        }
-        
-        // Calculate land area from areas array (types 49, 50, 51)
-        function calculateLandArea(areas) {
-            if (!Array.isArray(areas)) return null;
-            
-            let landArea = 0;
-            areas.forEach(area => {
-                // Types 49, 50, 51 refer to land types according to Apimo documentation
-                if ([49, 50, 51].includes(area.type) && area.area) {
-                    landArea += area.area;
-                }
-            });
-            
-            return landArea > 0 ? landArea : null;
-        }
-        
-        // Get property type name from catalogs or fallback
-        function getPropertyTypeName(property) {
-            // Try to get from type.label first
-            if (property.type?.label) {
-                return property.type.label;
-            }
-            
-            // Try to get from type catalog
-            if (property.type?.id && propertyTypeCatalog[property.type.id]) {
-                return propertyTypeCatalog[property.type.id];
-            }
-            
-            // Try to get from subtype catalog
-            if (property.subtype?.id && propertySubtypeCatalog[property.subtype.id]) {
-                return propertySubtypeCatalog[property.subtype.id];
-            }
-            
-            // Fallback to type field if it's a string
-            if (typeof property.type === 'string') {
-                return property.type;
-            }
-            
-            // Default fallback
-            return 'Villa';
-        }
-        
-        // FIXED: Proper Apimo API data extraction
-        function extractPropertyData(property) {
-            if (!property) return null;
-            
-            console.log('Extracting data from Apimo property:', property);
-            
-            // Extract areas according to Apimo structure
-            const livingArea = property.area?.value || null;  // Living area
-            const builtArea = property.area?.total || null;   // Built area
-            const weightedArea = property.area?.weighted || null;  // Weighted area
-            const landArea = calculateLandArea(property.areas);  // Land area from areas array
-            
-            // Get property type name using catalogs
-            const propertyType = getPropertyTypeName(property);
-            
-            // Extract location information
-            const location = property.city || 
-                           property.district || 
-                           property.address || 
-                           property.location?.address || 
-                           'Premium Location';
-            
-            // Extract bedroom/bathroom counts
-            let bedrooms = null;
-            let bathrooms = null;
-            
-            // Look for bedrooms in areas array (type 1 typically represents bedrooms)
-            if (Array.isArray(property.areas)) {
-                property.areas.forEach(area => {
-                    if (area.type === 1) { // Bedroom type
-                        bedrooms = (bedrooms || 0) + (area.number || 0);
-                    }
-                    if (area.type === 8) { // Bathroom type (check Apimo docs for exact type)
-                        bathrooms = (bathrooms || 0) + (area.number || 0);
-                    }
-                });
-            }
-            
-            // Fallback to direct fields if available
-            bedrooms = bedrooms || property.bedrooms || property.rooms || null;
-            bathrooms = bathrooms || property.bathrooms || null;
-            
-            const extractedData = {
-                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
-                title: property.title || property.reference || `${propertyType} ${location}`,
-                location: location,
-                price: property.price || null,
-                type: propertyType,
-                reference: property.reference || property.id || '',
-                description: property.description || property.title || '',
-                bedrooms: bedrooms,
-                bathrooms: bathrooms,
-                livingArea: livingArea,      // m² living (area.value)
-                builtArea: builtArea,        // m² built (area.total)
-                weightedArea: weightedArea,  // m² weighted (area.weighted)
-                landArea: landArea,          // m² plot (from areas array types 49,50,51)
-                images: property.images || [],
-                primaryImage: property.images && property.images.length > 0 ? property.images[0] : null
-            };
-            
-            console.log('Extracted Apimo property data:', extractedData);
-            return extractedData;
-        }
-        
-        // ENHANCED: Property rotation system with caching
-        function initPropertyRotation() {
-            const lastRotation = localStorage.getItem('lastPropertyRotation');
-            const now = new Date().getTime();
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-            
-            if (!lastRotation || (now - parseInt(lastRotation)) > twentyFourHours) {
-                console.log('Time for property rotation (24h passed)');
-                rotateProperties();
-                localStorage.setItem('lastPropertyRotation', now.toString());
-            } else {
-                const timeRemaining = twentyFourHours - (now - parseInt(lastRotation));
-                console.log(`Next property rotation in ${Math.round(timeRemaining / (1000 * 60 * 60))} hours`);
-            }
-            
-            const timeSinceLastRotation = lastRotation ? (now - parseInt(lastRotation)) : 0;
-            const timeUntilNextRotation = Math.max(twentyFourHours - timeSinceLastRotation, 60000); // Min 1 minute
-            
-            propertyRotationInterval = setTimeout(() => {
-                console.log('24-hour rotation timer triggered');
-                rotateProperties();
-                localStorage.setItem('lastPropertyRotation', new Date().getTime().toString());
-                
-                // Set up recurring 24-hour rotation
-                setInterval(() => {
-                    console.log('Daily property rotation');
-                    rotateProperties();
-                    localStorage.setItem('lastPropertyRotation', new Date().getTime().toString());
-                }, twentyFourHours);
-            }, timeUntilNextRotation);
-            
-            console.log(`Property rotation initialized. Next rotation in ${Math.round(timeUntilNextRotation / (1000 * 60 * 60))} hours`);
-        }
-        
-        function rotateProperties() {
-            console.log('Rotating properties...');
-            
-            if (featuredProperties.length > 0) {
-                // Shuffle the properties array for daily rotation
-                featuredProperties = [...featuredProperties].sort(() => Math.random() - 0.5);
-                
-                // Cache the rotated properties
-                try {
-                    localStorage.setItem('cachedFeaturedProperties', JSON.stringify(featuredProperties));
-                } catch (error) {
-                    console.log('Error caching properties:', error);
-                }
-                
-                if (currentTab === 'featured') {
-                    displayFeaturedProperties();
-                }
-                
-                console.log('Featured properties rotated');
-            }
-            
-            if (popularProperties.length > 0) {
-                // Re-sort popular properties by clicks, then by price
-                const sortedProperties = [...popularProperties].sort((a, b) => {
-                    const aClicks = propertyClicks[a.id] || 0;
-                    const bClicks = propertyClicks[b.id] || 0;
-                    
-                    if (bClicks !== aClicks) {
-                        return bClicks - aClicks;
-                    }
-                    
-                    // Secondary sort by price
-                    const aPrice = extractPropertyData(a)?.price || 0;
-                    const bPrice = extractPropertyData(b)?.price || 0;
-                    return bPrice - aPrice;
-                });
-                
-                popularProperties = sortedProperties;
-                if (currentTab === 'popular') {
-                    displayPopularProperties();
-                }
-                
-                console.log('Popular properties re-sorted');
-            }
-            
-            // Try to refresh from API if it's been a while
-            const lastSuccessfulLoad = localStorage.getItem('lastSuccessfulLoad');
-            if (!lastSuccessfulLoad || (new Date().getTime() - parseInt(lastSuccessfulLoad)) > (6 * 60 * 60 * 1000)) {
-                console.log('Attempting to refresh properties from API...');
-                loadFeaturedProperties();
-            }
-        }
-        
-        // FIXED: Initialize Google Places Autocomplete with enhanced functionality
-        function initPlacesAutocomplete() {
-            try {
-                const locationInput = document.getElementById('vervLocationInput');
-                if (locationInput && typeof google !== 'undefined' && google.maps && google.maps.places) {
-                    console.log('Initializing Google Places Autocomplete...');
-                    
-                    const autocomplete = new google.maps.places.Autocomplete(locationInput, {
-                        types: ['(cities)'],
-                        componentRestrictions: { country: 'es' },
-                        fields: ['formatted_address', 'geometry', 'name', 'place_id']
-                    });
-                    
-                    // Store selected place data
-                    let selectedPlace = null;
-                    
-                    autocomplete.addListener('place_changed', function() {
-                        const place = autocomplete.getPlace();
-                        console.log('Place selected:', place);
-                        
-                        if (place.formatted_address) {
-                            locationInput.value = place.formatted_address;
-                            selectedPlace = place;
-                        } else if (place.name) {
-                            locationInput.value = place.name;
-                            selectedPlace = place;
-                        }
-                        
-                        // Store place data for form submission
-                        locationInput.setAttribute('data-place-id', place.place_id || '');
-                        locationInput.setAttribute('data-formatted-address', place.formatted_address || place.name || '');
-                    });
-                    
-                    // Handle manual input (when user types without selecting from dropdown)
-                    locationInput.addEventListener('input', function() {
-                        // Clear stored place data if user is typing manually
-                        if (this.value !== (selectedPlace?.formatted_address || selectedPlace?.name || '')) {
-                            this.removeAttribute('data-place-id');
-                            this.removeAttribute('data-formatted-address');
-                            selectedPlace = null;
-                        }
-                    });
-                    
-                    // Handle blur event to ensure proper value is set
-                    locationInput.addEventListener('blur', function() {
-                        // If there's a selected place, use its formatted address
-                        if (selectedPlace && selectedPlace.formatted_address) {
-                            this.value = selectedPlace.formatted_address;
-                        }
-                    });
-                    
-                    console.log('Google Places Autocomplete initialized successfully');
-                    return autocomplete;
-                } else {
-                    console.log('Google Maps API not available for autocomplete');
-                    return null;
-                }
-            } catch (error) {
-                console.error('Error initializing Google Places:', error);
-                return null;
-            }
-        }
-        
-        // COMPLETELY REWRITTEN: Real property loading with multiple API attempts and proper data handling
-        async function loadFeaturedProperties() {
-            try {
-                console.log('Loading REAL properties from VERV ONE API...');
-                
-                // Multiple API endpoints with different approaches
                 const endpoints = [
-                    'https://verv.one/.netlify/functions/properties?limit=20',
-                    'https://www.verv.one/.netlify/functions/properties?limit=20',
-                    'https://verv.one/api/properties?limit=20',
-                    'https://www.verv.one/api/properties?limit=20'
+                    'https://verv.one/.netlify/functions/properties?limit=50',
+                    'https://www.verv.one/.netlify/functions/properties?limit=50',
+                    'https://verv.one/api/properties?limit=50'
                 ];
-                
-                let successfulData = null;
                 
                 for (const endpoint of endpoints) {
                     try {
-                        console.log(`Attempting to load real properties from: ${endpoint}`);
+                        console.log(`Trying endpoint: ${endpoint}`);
                         
                         const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+                        const timeoutId = setTimeout(() => controller.abort(), 15000);
                         
                         const response = await fetch(endpoint, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                'Cache-Control': 'no-cache',
-                                'Pragma': 'no-cache'
+                                'Content-Type': 'application/json'
                             },
                             signal: controller.signal
                         });
                         
                         clearTimeout(timeoutId);
                         
-                        console.log(`Response from ${endpoint}:`, response.status, response.statusText);
-                        
                         if (response.ok) {
                             const data = await response.json();
-                            console.log(`Data received from ${endpoint}:`, data);
+                            let properties = null;
                             
-                            // Check if we got valid property data
-                            if (data) {
-                                // Handle different API response formats
-                                let properties = null;
-                                
-                                if (data.success && Array.isArray(data.properties)) {
-                                    properties = data.properties;
-                                } else if (data.data && Array.isArray(data.data)) {
-                                    properties = data.data;
-                                } else if (Array.isArray(data)) {
-                                    properties = data;
-                                } else if (data.properties && Array.isArray(data.properties)) {
-                                    properties = data.properties;
-                                }
-                                
-                                if (properties && properties.length > 0) {
-                                    console.log(`SUCCESS! Found ${properties.length} real properties from ${endpoint}`);
-                                    successfulData = properties;
-                                    break;
-                                } else {
-                                    console.log(`No properties in response from ${endpoint}`);
-                                }
+                            // Handle different response formats
+                            if (data.success && Array.isArray(data.properties)) {
+                                properties = data.properties;
+                            } else if (data.data && Array.isArray(data.data)) {
+                                properties = data.data;
+                            } else if (Array.isArray(data)) {
+                                properties = data;
                             }
-                        } else {
-                            console.log(`HTTP error from ${endpoint}: ${response.status}`);
+                            
+                            if (properties && properties.length > 0) {
+                                console.log(`✅ SUCCESS! Loaded ${properties.length} real properties`);
+                                
+                                // Process and store all properties
+                                allProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
+                                isApiLoaded = true;
+                                
+                                // Cache the properties
+                                localStorage.setItem('cachedRealProperties', JSON.stringify(allProperties));
+                                localStorage.setItem('lastRealPropertiesLoad', Date.now().toString());
+                                
+                                // Apply current filters and display
+                                applyFiltersAndDisplay();
+                                return;
+                            }
                         }
-                        
-                    } catch (endpointError) {
-                        console.log(`Error with ${endpoint}:`, endpointError.message);
+                    } catch (error) {
+                        console.log(`Endpoint ${endpoint} failed:`, error.message);
                         continue;
                     }
                 }
                 
-                // Process successful real property data
-                if (successfulData && successfulData.length > 0) {
-                    console.log('Processing real properties:', successfulData);
-                    
-                    // Filter out invalid properties and ensure they have required fields
-                    const validProperties = successfulData.filter(property => {
-                        return property && (
-                            property.id || 
-                            property.reference || 
-                            property.title ||
-                            property.city ||
-                            property.price
-                        );
-                    });
-                    
-                    if (validProperties.length > 0) {
-                        console.log(`${validProperties.length} valid real properties loaded`);
-                        
-                        // Shuffle properties for daily rotation
-                        const shuffledProperties = [...validProperties].sort(() => Math.random() - 0.5);
-                        
-                        // Take properties for featured display
-                        featuredProperties = shuffledProperties;
-                        isApiLoaded = true;
-                        
-                        // Cache the real properties
-                        try {
-                            localStorage.setItem('cachedRealProperties', JSON.stringify(featuredProperties));
-                            localStorage.setItem('lastRealPropertiesLoad', new Date().getTime().toString());
-                        } catch (cacheError) {
-                            console.log('Error caching real properties:', cacheError);
-                        }
-                        
-                        if (currentTab === 'featured') {
-                            displayFeaturedProperties();
-                        }
-                        
-                        console.log('REAL PROPERTIES SUCCESSFULLY LOADED AND DISPLAYED');
-                        return;
-                    }
-                }
-                
-                throw new Error('No valid real properties found from any API endpoint');
+                throw new Error('All API endpoints failed');
                 
             } catch (error) {
-                console.error('Failed to load real properties:', error);
+                console.error('❌ Failed to load real properties:', error);
                 
-                // Try to use recently cached real properties
-                const lastRealLoad = localStorage.getItem('lastRealPropertiesLoad');
-                const cachedRealProperties = localStorage.getItem('cachedRealProperties');
+                // Try cached properties
+                const cached = localStorage.getItem('cachedRealProperties');
+                const lastLoad = localStorage.getItem('lastRealPropertiesLoad');
                 
-                if (lastRealLoad && cachedRealProperties) {
-                    const timeSinceLastLoad = new Date().getTime() - parseInt(lastRealLoad);
-                    const sixHours = 6 * 60 * 60 * 1000;
-                    
-                    if (timeSinceLastLoad < sixHours) {
+                if (cached && lastLoad) {
+                    const timeSince = Date.now() - parseInt(lastLoad);
+                    if (timeSince < 24 * 60 * 60 * 1000) { // Less than 24 hours
                         try {
-                            const cached = JSON.parse(cachedRealProperties);
-                            if (Array.isArray(cached) && cached.length > 0) {
-                                console.log('Using cached real properties from recent load');
-                                featuredProperties = cached;
+                            allProperties = JSON.parse(cached);
+                            if (allProperties.length > 0) {
+                                console.log('📦 Using cached real properties');
                                 isApiLoaded = true;
-                                if (currentTab === 'featured') {
-                                    displayFeaturedProperties();
-                                }
+                                applyFiltersAndDisplay();
                                 return;
                             }
-                        } catch (cacheError) {
-                            console.log('Error parsing cached real properties:', cacheError);
+                        } catch (e) {
+                            console.log('Cache parse error:', e);
                         }
                     }
                 }
                 
-                // Final fallback to enhanced sample data (but log it clearly)
-                console.warn('⚠️ FALLBACK: Using sample data because real API failed');
-                featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
-                
-                if (currentTab === 'featured') {
-                    displayFeaturedProperties();
-                }
+                // Ultimate fallback
+                console.log('⚠️ Using sample data as fallback');
+                allProperties = createEnhancedSampleData();
+                applyFiltersAndDisplay();
             }
         }
-        
-        // ENHANCED: Popular properties loading with click tracking
-        async function loadPopularProperties() {
-            try {
-                console.log('Loading popular properties...');
-                
-                // If we have real API data, use it
-                if (isApiLoaded && featuredProperties.length > 0) {
-                    console.log('Using real API data for popular properties');
-                    
-                    // Sort by click count (most popular first), then by price (higher first) as secondary
-                    const sortedProperties = [...featuredProperties].sort((a, b) => {
-                        const aClicks = propertyClicks[a.id] || 0;
-                        const bClicks = propertyClicks[b.id] || 0;
-                        
-                        if (bClicks !== aClicks) {
-                            return bClicks - aClicks; // Most clicks first
-                        }
-                        
-                        // If same click count, sort by price (higher first)
-                        const aPrice = extractPropertyData(a)?.price || 0;
-                        const bPrice = extractPropertyData(b)?.price || 0;
-                        return bPrice - aPrice;
-                    });
-                    
-                    popularProperties = sortedProperties;
-                    if (currentTab === 'popular') {
-                        displayPopularProperties();
-                    }
-                    return;
+
+        // Enhanced sample data that looks like real API data
+        function createEnhancedSampleData() {
+            return [
+                {
+                    id: 'VERV001',
+                    title: 'Luxury Villa Barcelona',
+                    location: 'Barcelona',
+                    price: 2500000,
+                    type: 'Villa',
+                    bedrooms: 5,
+                    bathrooms: 4,
+                    builtArea: 350,
+                    landArea: 650,
+                    description: 'Stunning luxury villa in prime Barcelona location with exceptional views'
+                },
+                {
+                    id: 'VERV002',
+                    title: 'Seaside Penthouse Sitges',
+                    location: 'Sitges',
+                    price: 1850000,
+                    type: 'Penthouse',
+                    bedrooms: 3,
+                    bathrooms: 3,
+                    builtArea: 180,
+                    description: 'Exclusive penthouse with panoramic sea views in Sitges'
+                },
+                {
+                    id: 'VERV003',
+                    title: 'Modern Villa Costa Brava',
+                    location: 'Costa Brava',
+                    price: 1750000,
+                    type: 'Villa',
+                    bedrooms: 4,
+                    bathrooms: 3,
+                    builtArea: 280,
+                    landArea: 800,
+                    description: 'Contemporary villa with Mediterranean views'
+                },
+                {
+                    id: 'VERV004',
+                    title: 'Historic Townhouse Girona',
+                    location: 'Girona',
+                    price: 650000,
+                    type: 'Townhouse',
+                    bedrooms: 3,
+                    bathrooms: 2,
+                    builtArea: 220,
+                    description: 'Beautifully restored townhouse in Girona old town'
+                },
+                {
+                    id: 'VERV005',
+                    title: 'Luxury Apartment Barcelona',
+                    location: 'Barcelona',
+                    price: 875000,
+                    type: 'Apartment',
+                    bedrooms: 2,
+                    bathrooms: 2,
+                    builtArea: 120,
+                    description: 'Modern apartment in prime Barcelona location'
+                },
+                {
+                    id: 'VERV006',
+                    title: 'Beachfront Villa Sitges',
+                    location: 'Sitges',
+                    price: 3200000,
+                    type: 'Villa',
+                    bedrooms: 6,
+                    bathrooms: 5,
+                    builtArea: 400,
+                    landArea: 1000,
+                    description: 'Exclusive beachfront villa with private access'
                 }
-                
-                // Otherwise try to load from API specifically for popular
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000);
-                
-                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=10&sort=price_desc', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    signal: controller.signal
-                });
-                
-                clearTimeout(timeoutId);
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    if (data.success && data.properties && data.properties.length > 0) {
-                        const sortedProperties = data.properties.sort((a, b) => {
-                            const aClicks = propertyClicks[a.id] || 0;
-                            const bClicks = propertyClicks[b.id] || 0;
-                            return bClicks - aClicks;
-                        });
-                        
-                        popularProperties = sortedProperties;
-                        if (currentTab === 'popular') {
-                            displayPopularProperties();
-                        }
-                        return;
-                    }
-                }
-                
-                throw new Error('No properties found in popular API response');
-                
-            } catch (error) {
-                console.error('Error loading popular properties:', error);
-                
-                // Use sample data as fallback, sorted by clicks then price
-                const sortedSample = [...sampleProperties].sort((a, b) => {
-                    const aClicks = propertyClicks[a.id] || 0;
-                    const bClicks = propertyClicks[b.id] || 0;
-                    
-                    if (bClicks !== aClicks) {
-                        return bClicks - aClicks;
-                    }
-                    
-                    return (b.price || 0) - (a.price || 0);
-                });
-                
-                popularProperties = sortedSample;
-                if (currentTab === 'popular') {
-                    displayPopularProperties();
-                }
-            }
+            ];
         }
-        
-        // UPDATED: Display featured properties (1 large + 2 smaller cards)
-        function displayFeaturedProperties() {
-            if (featuredProperties.length === 0) {
-                displayErrorState('No featured properties available');
+
+        // Extract property data from API response
+        function extractPropertyData(property) {
+            if (!property) return null;
+            
+            return {
+                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
+                title: property.title || property.reference || 'Luxury Property',
+                location: property.city || property.district || property.location || 'Premium Location',
+                price: property.price || null,
+                type: getPropertyType(property),
+                bedrooms: property.bedrooms || extractFromAreas(property.areas, 1) || null,
+                bathrooms: property.bathrooms || extractFromAreas(property.areas, 8) || null,
+                builtArea: property.area?.total || property.area?.value || null,
+                landArea: calculateLandArea(property.areas) || null,
+                description: property.description || property.title || 'Exceptional property in prime location'
+            };
+        }
+
+        // Get property type from various sources
+        function getPropertyType(property) {
+            if (property.type?.label) return property.type.label;
+            if (property.subtype?.label) return property.subtype.label;
+            if (typeof property.type === 'string') return property.type;
+            return 'Villa';
+        }
+
+        // Extract bedroom/bathroom counts from areas array
+        function extractFromAreas(areas, type) {
+            if (!Array.isArray(areas)) return null;
+            const area = areas.find(a => a.type === type);
+            return area ? area.number : null;
+        }
+
+        // Calculate land area from areas array
+        function calculateLandArea(areas) {
+            if (!Array.isArray(areas)) return null;
+            let total = 0;
+            areas.forEach(area => {
+                if ([49, 50, 51].includes(area.type) && area.area) {
+                    total += area.area;
+                }
+            });
+            return total > 0 ? total : null;
+        }
+
+        // COMPLETELY NEW: Filter functionality
+        function applyFiltersAndDisplay() {
+            console.log('Applying filters:', currentFilters);
+            
+            if (allProperties.length === 0) {
+                displayedProperties = [];
+                showNoResults();
                 return;
             }
             
-            // Display hero property
-            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
+            // Start with all properties
+            let filtered = [...allProperties];
             
-            // Display only 2 grid properties (skip the hero property)
-            const gridProperties = featuredProperties.slice(1, 3); // Only 2 properties
+            // Apply type filter
+            if (currentFilters.type) {
+                // "sale" means show all, "rent" means show none (since we don't have rental properties)
+                if (currentFilters.type === 'rent') {
+                    filtered = [];
+                }
+                // For "sale", show all properties
+            }
+            
+            // Apply location filter
+            if (currentFilters.location) {
+                const searchLocation = currentFilters.location.toLowerCase();
+                filtered = filtered.filter(property => 
+                    property.location.toLowerCase().includes(searchLocation) ||
+                    property.title.toLowerCase().includes(searchLocation)
+                );
+            }
+            
+            // Apply budget filter
+            if (currentFilters.budget) {
+                filtered = filtered.filter(property => {
+                    if (!property.price) return true; // Show properties without price
+                    
+                    const price = property.price;
+                    switch (currentFilters.budget) {
+                        case '0-500k':
+                            return price <= 500000;
+                        case '500k-1m':
+                            return price > 500000 && price <= 1000000;
+                        case '1m-2m':
+                            return price > 1000000 && price <= 2000000;
+                        case '2m-5m':
+                            return price > 2000000 && price <= 5000000;
+                        case '5m-plus':
+                            return price > 5000000;
+                        default:
+                            return true;
+                    }
+                });
+            }
+            
+            displayedProperties = filtered;
+            console.log(`Filtered from ${allProperties.length} to ${displayedProperties.length} properties`);
+            
+            if (displayedProperties.length === 0) {
+                showNoResults();
+            } else {
+                displayFilteredProperties();
+            }
+        }
+
+        // Display filtered properties
+        function displayFilteredProperties() {
+            if (currentTab === 'featured') {
+                displayFeaturedProperties();
+            } else if (currentTab === 'popular') {
+                displayPopularProperties();
+            }
+        }
+
+        // Show no results message
+        function showNoResults() {
+            const hero = document.getElementById('heroFeaturedProperty');
+            const grid = document.getElementById('propertiesGrid');
+            
+            const hasFilters = currentFilters.type || currentFilters.location || currentFilters.budget;
+            
+            const noResultsHTML = `
+                <div class="no-results">
+                    <h3>No Properties Found</h3>
+                    <p>${hasFilters ? 'No properties match your current filters.' : 'No properties available at the moment.'}</p>
+                    ${hasFilters ? '<button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>' : ''}
+                    <p><a href="/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
+                </div>
+            `;
+            
+            if (hero) hero.innerHTML = noResultsHTML;
+            if (grid) grid.innerHTML = '';
+        }
+
+        // Clear all filters
+        function clearFilters() {
+            currentFilters = { type: '', location: '', budget: '' };
+            
+            // Reset form values
+            const form = document.getElementById('vervPropertySearch');
+            if (form) {
+                form.reset();
+            }
+            
+            // Reapply filters (which will now show all properties)
+            applyFiltersAndDisplay();
+            
+            // Track filter clear
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'filters_cleared', {
+                    page_location: window.location.href
+                });
+            }
+        }
+
+        // Display featured properties
+        function displayFeaturedProperties() {
+            if (displayedProperties.length === 0) return;
+            
+            // Show hero property
+            displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
+            
+            // Show grid properties (next 2)
+            const gridProperties = displayedProperties.slice(1, 3);
             displayGridProperties(gridProperties);
         }
-        
-        // UPDATED: Display popular properties (single property in card + description layout)
+
+        // Display popular properties
         function displayPopularProperties() {
-            if (popularProperties.length === 0) {
-                displayErrorState('No popular properties available');
-                return;
-            }
+            if (displayedProperties.length === 0) return;
             
-            // Display single popular property in new layout
-            displayPopularProperty(popularProperties[0]);
+            // Sort by clicks, then by price
+            const sortedProperties = [...displayedProperties].sort((a, b) => {
+                const aClicks = propertyClicks[a.id] || 0;
+                const bClicks = propertyClicks[b.id] || 0;
+                
+                if (bClicks !== aClicks) return bClicks - aClicks;
+                return (b.price || 0) - (a.price || 0);
+            });
             
-            // Clear the grid for popular tab
+            // Display single popular property
+            displayPopularProperty(sortedProperties[0]);
+            
+            // Clear grid
             const grid = document.getElementById('propertiesGrid');
-            if (grid) {
-                grid.innerHTML = '';
-            }
+            if (grid) grid.innerHTML = '';
         }
-        
-        // NEW: Display single popular property in card + description layout with proper icons
+
+        // Display hero property with Noun Project icons
+        function displayHeroProperty(property) {
+            const hero = document.getElementById('heroFeaturedProperty');
+            if (!hero || !property) return;
+            
+            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
+            const locationIcon = locationIcons[property.location] || locationIcons['default'];
+            
+            let details = '';
+            if (property.bedrooms || property.bathrooms || property.builtArea || property.landArea) {
+                const detailParts = [];
+                if (property.bedrooms) detailParts.push(`${property.bedrooms} bed`);
+                if (property.bathrooms) detailParts.push(`${property.bathrooms} bath`);
+                if (property.builtArea) detailParts.push(`${property.builtArea}m² built`);
+                if (property.landArea) detailParts.push(`${property.landArea}m² plot`);
+                details = `<div class="hero-property-details">${detailParts.join(' • ')}</div>`;
+            }
+            
+            hero.innerHTML = `
+                <div class="hero-property-content">
+                    <div class="hero-property-icon">${propertyIcon}</div>
+                    <div class="hero-property-category">${property.type.toUpperCase()}</div>
+                    <div class="hero-property-title">${property.title}</div>
+                    <div class="hero-property-location">
+                        ${locationIcon}
+                        <span>${property.location}</span>
+                    </div>
+                    ${details}
+                    <div class="hero-property-price">${price}</div>
+                </div>
+                <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property">‹</button>
+                <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property">›</button>
+                <button class="hero-property-view-btn" onclick="viewProperty('${property.id}')" aria-label="View property details">Ver propiedad</button>
+            `;
+        }
+
+        // Display popular property with enhanced Noun Project icons
         function displayPopularProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
             
-            const data = extractPropertyData(property);
-            if (!data) return;
+            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
+            const locationIcon = locationIcons[property.location] || locationIcons['default'];
             
-            const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
-            const title = data.title || 'Luxury Property';
-            const location = data.location || 'Premium Location';
-            const type = data.type || 'Villa';
-            const description = data.description || 'Exceptional property in a prime location.';
-            
-            // Clean up location string
-            const cleanLocation = location.split(',')[0] || location;
-            
-            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
-            const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
-            
-            // Build features array with proper SVG icons
             const features = [];
-            if (data.bedrooms) {
-                features.push(`<div class="popular-property-feature">${featureIcons.bed} ${data.bedrooms} Bedrooms</div>`);
+            if (property.bedrooms) {
+                features.push(`<div class="popular-property-feature">${featureIcons.bed} ${property.bedrooms} Bedrooms</div>`);
             }
-            if (data.bathrooms) {
-                features.push(`<div class="popular-property-feature">${featureIcons.bath} ${data.bathrooms} Bathrooms</div>`);
+            if (property.bathrooms) {
+                features.push(`<div class="popular-property-feature">${featureIcons.bath} ${property.bathrooms} Bathrooms</div>`);
             }
-            if (data.builtArea) {
-                features.push(`<div class="popular-property-feature">${featureIcons.area} ${data.builtArea}m² Built</div>`);
+            if (property.builtArea) {
+                features.push(`<div class="popular-property-feature">${featureIcons.area} ${property.builtArea}m² Built</div>`);
             }
-            if (data.landArea) {
-                features.push(`<div class="popular-property-feature">${featureIcons.plot} ${data.landArea}m² Plot</div>`);
+            if (property.landArea) {
+                features.push(`<div class="popular-property-feature">${featureIcons.plot} ${property.landArea}m² Plot</div>`);
             }
             
             const featuresHTML = features.length > 0 ? 
@@ -2734,18 +2545,18 @@
                     </div>
                     <div class="popular-property-content">
                         <div class="popular-property-badge">Most Popular</div>
-                        <h3 class="popular-property-title">${title}</h3>
+                        <h3 class="popular-property-title">${property.title}</h3>
                         <div class="popular-property-location">
                             ${locationIcon}
-                            <span>${cleanLocation}</span>
+                            <span>${property.location}</span>
                         </div>
                         <div class="popular-property-details">
                             ${featuresHTML}
                         </div>
-                        <p class="popular-property-description">${description}</p>
+                        <p class="popular-property-description">${property.description}</p>
                         <div class="popular-property-price">${price}</div>
                         <div class="popular-property-action">
-                            <button class="popular-property-btn" onclick="viewProperty('${data.id}')" aria-label="View property details">
+                            <button class="popular-property-btn" onclick="viewProperty('${property.id}')" aria-label="View property details">
                                 View Property
                             </button>
                             <button class="popular-property-btn secondary" onclick="openConsultationModal()" aria-label="Schedule consultation">
@@ -2756,113 +2567,38 @@
                 </div>
             `;
         }
-        
-        // FIXED: Enhanced hero property display with SVG icons
-        function displayHeroProperty(property) {
-            const hero = document.getElementById('heroFeaturedProperty');
-            if (!hero || !property) return;
-            
-            const data = extractPropertyData(property);
-            if (!data) return;
-            
-            const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
-            const title = data.title || 'Luxury Property';
-            const location = data.location || 'Premium Location';
-            const type = data.type || 'Villa';
-            
-            // Clean up location string
-            const cleanLocation = location.split(',')[0] || location;
-            
-            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
-            const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
-            const category = type.toUpperCase();
-            
-            // Add property details if available
-            let propertyDetails = '';
-            if (data.bedrooms || data.bathrooms || data.builtArea || data.landArea) {
-                const details = [];
-                if (data.bedrooms) details.push(`${data.bedrooms} bed`);
-                if (data.bathrooms) details.push(`${data.bathrooms} bath`);
-                if (data.builtArea) details.push(`${data.builtArea}m² built`);
-                if (data.landArea) details.push(`${data.landArea}m² plot`);
-                
-                if (details.length > 0) {
-                    propertyDetails = `<div class="hero-property-details">${details.join(' • ')}</div>`;
-                }
-            }
-            
-            hero.innerHTML = `
-                <div class="hero-property-content">
-                    <div class="hero-property-icon">${propertyIcon}</div>
-                    <div class="hero-property-category">${category}</div>
-                    <div class="hero-property-title">${title}</div>
-                    <div class="hero-property-location">
-                        ${locationIcon}
-                        <span>${cleanLocation}</span>
-                    </div>
-                    ${propertyDetails}
-                    <div class="hero-property-price">${price}</div>
-                </div>
-                <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property">‹</button>
-                <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property">›</button>
-                <button class="hero-property-view-btn" onclick="viewProperty('${data.id}')" aria-label="View property details">Ver propiedad</button>
-            `;
-        }
-        
-        // FIXED: Enhanced grid properties display
+
+        // Display grid properties
         function displayGridProperties(properties) {
             const grid = document.getElementById('propertiesGrid');
             if (!grid) return;
             
             grid.innerHTML = '';
             
-            if (properties.length === 0) {
-                displayErrorState('No properties available at the moment', grid);
-                return;
-            }
-            
             properties.forEach(property => {
                 const card = createPropertyCard(property);
-                if (card) {
-                    grid.appendChild(card);
-                }
+                if (card) grid.appendChild(card);
             });
         }
-        
-        // FIXED: Enhanced property card creation with SVG icons
+
+        // Create property card with Noun Project icons
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
             
-            console.log('Creating property card for:', property);
+            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
+            const locationIcon = locationIcons[property.location] || locationIcons['default'];
             
-            const data = extractPropertyData(property);
-            if (!data) return null;
-            
-            const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
-            const title = data.title || 'Luxury Property';
-            const location = data.location || 'Premium Location';
-            const type = data.type || 'Villa';
-            
-            // Clean up location string
-            const cleanLocation = location.split(',')[0] || location;
-            
-            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
-            const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
-            
-            // Add property details for card
-            let propertyDetails = '';
-            if (data.bedrooms || data.bathrooms || data.builtArea) {
-                const details = [];
-                if (data.bedrooms) details.push(`${data.bedrooms} bed`);
-                if (data.bathrooms) details.push(`${data.bathrooms} bath`);
-                if (data.builtArea) details.push(`${data.builtArea}m²`);
-                
-                if (details.length > 0) {
-                    propertyDetails = `<div class="property-details">${details.join(' • ')}</div>`;
-                }
+            let details = '';
+            if (property.bedrooms || property.bathrooms || property.builtArea) {
+                const detailParts = [];
+                if (property.bedrooms) detailParts.push(`${property.bedrooms} bed`);
+                if (property.bathrooms) detailParts.push(`${property.bathrooms} bath`);
+                if (property.builtArea) detailParts.push(`${property.builtArea}m²`);
+                details = `<div class="property-details">${detailParts.join(' • ')}</div>`;
             }
             
             card.innerHTML = `
@@ -2870,18 +2606,17 @@
                     ${propertyIcon}
                 </div>
                 <div class="property-info">
-                    <div class="property-type">${type}</div>
+                    <div class="property-type">${property.type}</div>
                     <div class="property-location">
                         ${locationIcon}
-                        <span>${cleanLocation}</span>
+                        <span>${property.location}</span>
                     </div>
-                    ${propertyDetails}
+                    ${details}
                     <div class="property-price">${price}</div>
                 </div>
             `;
             
-            // Add click and keyboard handlers
-            const clickHandler = () => viewProperty(data.id);
+            const clickHandler = () => viewProperty(property.id);
             card.addEventListener('click', clickHandler);
             card.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -2892,278 +2627,118 @@
             
             return card;
         }
-        
-        // FIXED: Enhanced error state display
-        function displayErrorState(message, container = null) {
-            const targetContainer = container || document.getElementById('heroFeaturedProperty');
-            if (!targetContainer) return;
+
+        // FIXED: Search functionality with real filtering
+        function initHeroSearch() {
+            const searchForm = document.getElementById('vervPropertySearch');
             
-            targetContainer.innerHTML = `
-                <div class="error-state">
-                    <h3>Properties Coming Soon</h3>
-                    <p>${message}</p>
-                    <p><a href="/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
-                </div>
-            `;
+            if (searchForm) {
+                console.log('Initializing search functionality...');
+                
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const propertyType = document.getElementById('vervSaleRent')?.value || '';
+                    const budget = document.getElementById('vervBudget')?.value || '';
+                    
+                    // Get location from either input or select
+                    let location = '';
+                    const locationInput = document.getElementById('vervLocationInput');
+                    const locationSelect = document.getElementById('vervLocationSelect');
+                    
+                    if (locationInput && locationInput.style.display !== 'none' && locationInput.value.trim()) {
+                        location = locationInput.value.trim();
+                    } else if (locationSelect && locationSelect.style.display !== 'none' && locationSelect.value) {
+                        location = locationSelect.value;
+                    }
+                    
+                    console.log('Search submitted:', { propertyType, location, budget });
+                    
+                    // Update current filters
+                    currentFilters = {
+                        type: propertyType,
+                        location: location,
+                        budget: budget
+                    };
+                    
+                    // Apply filters and display results
+                    applyFiltersAndDisplay();
+                    
+                    // Track search
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'search', {
+                            search_term: location || 'all_locations',
+                            property_type: propertyType || 'all_types',
+                            budget_range: budget || 'all_budgets'
+                        });
+                    }
+                });
+            }
         }
-        
-        // Hero property navigation with bounds checking
+
+        // Hero property navigation
         function previousHeroProperty() {
-            const properties = currentTab === 'featured' ? featuredProperties : popularProperties;
-            if (properties.length === 0) return;
-            
-            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + properties.length) % properties.length;
-            displayHeroProperty(properties[currentHeroPropertyIndex]);
+            if (displayedProperties.length === 0) return;
+            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + displayedProperties.length) % displayedProperties.length;
+            displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
         }
-        
+
         function nextHeroProperty() {
-            const properties = currentTab === 'featured' ? featuredProperties : popularProperties;
-            if (properties.length === 0) return;
-            
-            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % properties.length;
-            displayHeroProperty(properties[currentHeroPropertyIndex]);
+            if (displayedProperties.length === 0) return;
+            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % displayedProperties.length;
+            displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
         }
-        
-        // FIXED: Enhanced view property function with better tracking
+
+        // View property function
         function viewProperty(propertyId) {
             console.log('Viewing property:', propertyId);
             
-            // Track property clicks for popularity
+            // Track clicks for popularity
             if (propertyId) {
                 propertyClicks[propertyId] = (propertyClicks[propertyId] || 0) + 1;
                 localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
             }
             
-            // Track property click with analytics
-            if (typeof trackPropertyInquiry === 'function') {
-                trackPropertyInquiry(propertyId, 'Property View', 0);
-            }
-            
-            // Analytics tracking
+            // Track with analytics
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'view_item', {
                     currency: 'EUR',
                     value: 0,
-                    items: [{
-                        item_id: propertyId,
-                        item_name: 'Property View',
-                        category: 'Properties'
-                    }]
+                    items: [{ item_id: propertyId, item_name: 'Property View', category: 'Properties' }]
                 });
             }
             
             // Navigate to property details
             window.location.href = `/properties/?id=${propertyId}`;
         }
-        
-        // COMPLETELY FIXED: Enhanced hero search functionality with working location and filters
-        function initHeroSearch() {
-            const searchForm = document.getElementById('vervPropertySearch');
-            const locationInput = document.getElementById('vervLocationInput');
-            const locationSelect = document.getElementById('vervLocationSelect');
-            
-            if (searchForm) {
-                console.log('Initializing enhanced search functionality...');
-                
-                // Initialize location switching functionality
-                initLocationSwitching();
-                
-                // Handle form submission
-                searchForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    console.log('Search form submitted');
-                    
-                    const searchParams = new URLSearchParams();
-                    
-                    // Get all form values
-                    const propertyType = document.getElementById('vervSaleRent')?.value;
-                    const budget = document.getElementById('vervBudget')?.value;
-                    
-                    // Get location from either input or select
-                    let location = '';
-                    if (locationInput && !locationInput.style.display === 'none' && locationInput.value.trim()) {
-                        location = locationInput.value.trim();
-                    } else if (locationSelect && locationSelect.style.display !== 'none' && locationSelect.value) {
-                        location = locationSelect.value;
-                    }
-                    
-                    console.log('Search values:', {
-                        propertyType,
-                        location,
-                        budget
-                    });
-                    
-                    // Build search parameters - always search even without filters
-                    if (propertyType) {
-                        searchParams.set('type', propertyType);
-                    }
-                    if (location) {
-                        searchParams.set('location', location);
-                    }
-                    if (budget) {
-                        searchParams.set('budget', budget);
-                    }
-                    
-                    // Always perform search, even without parameters (show all properties)
-                    searchParams.set('search', 'true');
-                    
-                    // Track search with enhanced analytics
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'search', {
-                            search_term: location || 'all_locations',
-                            property_type: propertyType || 'all_types',
-                            budget_range: budget || 'all_budgets',
-                            has_filters: !!(propertyType || location || budget)
-                        });
-                    }
-                    
-                    // Track with custom analytics if available
-                    if (typeof trackPropertyInquiry === 'function') {
-                        trackPropertyInquiry('search', location || 'general', 0);
-                    }
-                    
-                    console.log('Search parameters:', Object.fromEntries(searchParams));
-                    
-                    // Navigate to properties page with search parameters
-                    const searchUrl = `/properties/?${searchParams.toString()}`;
-                    console.log('Navigating to:', searchUrl);
-                    window.location.href = searchUrl;
-                });
-                
-                // Handle search button click specifically
-                const searchButton = document.querySelector('.verv-search-btn-minimal');
-                if (searchButton) {
-                    searchButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        console.log('Search button clicked');
-                        
-                        // Always submit - no validation required
-                        searchForm.dispatchEvent(new Event('submit'));
-                    });
-                }
-                
-                // Add input validation and user feedback
-                const inputs = searchForm.querySelectorAll('input, select');
-                inputs.forEach(input => {
-                    input.addEventListener('change', function() {
-                        // Remove any error styling
-                        this.style.borderColor = '';
-                    });
-                    
-                    input.addEventListener('input', function() {
-                        // Remove any error styling while typing
-                        this.style.borderColor = '';
-                    });
-                });
-                
-                console.log('Enhanced search functionality initialized');
-            }
-        }
-        
-        // NEW: Location switching between Google Places input and fallback select
-        function initLocationSwitching() {
-            const locationInput = document.getElementById('vervLocationInput');
-            const locationSelect = document.getElementById('vervLocationSelect');
-            
-            if (!locationInput || !locationSelect) return;
-            
-            console.log('Initializing location switching...');
-            
-            // Try to initialize Google Places first
-            setTimeout(() => {
-                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                    console.log('Google Places available, using autocomplete input');
-                    showLocationInput();
-                    initPlacesAutocomplete();
-                } else {
-                    console.log('Google Places not available, using fallback select');
-                    showLocationSelect();
-                }
-            }, 1000);
-            
-            // Fallback after 5 seconds if Google Places doesn't load
-            setTimeout(() => {
-                if (locationInput.style.display !== 'none' && typeof google === 'undefined') {
-                    console.log('Google Places failed to load, switching to fallback select');
-                    showLocationSelect();
-                }
-            }, 5000);
-        }
-        
-        function showLocationInput() {
-            const locationInput = document.getElementById('vervLocationInput');
-            const locationSelect = document.getElementById('vervLocationSelect');
-            
-            if (locationInput && locationSelect) {
-                locationInput.style.display = 'block';
-                locationSelect.style.display = 'none';
-                console.log('Showing Google Places input');
-            }
-        }
-        
-        function showLocationSelect() {
-            const locationInput = document.getElementById('vervLocationInput');
-            const locationSelect = document.getElementById('vervLocationSelect');
-            
-            if (locationInput && locationSelect) {
-                locationInput.style.display = 'none';
-                locationSelect.style.display = 'block';
-                console.log('Showing fallback location select');
-            }
-        }
-        
-        // FIXED: Enhanced tab functionality with better accessibility
+
+        // Tab functionality
         function initTabs() {
             const tabButtons = document.querySelectorAll('.tab-button');
             
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    console.log('Tab clicked:', this.dataset.tab);
-                    
-                    // Remove active class from all buttons
+                    // Update active states
                     tabButtons.forEach(btn => {
                         btn.classList.remove('active');
                         btn.setAttribute('aria-selected', 'false');
                     });
                     
-                    // Add active class to clicked button
                     this.classList.add('active');
                     this.setAttribute('aria-selected', 'true');
                     
                     // Update current tab
                     currentTab = this.dataset.tab;
-                    
-                    // Reset hero property index
                     currentHeroPropertyIndex = 0;
                     
                     // Display appropriate properties
-                    if (currentTab === 'featured') {
-                        if (featuredProperties.length === 0) {
-                            loadFeaturedProperties();
-                        } else {
-                            displayFeaturedProperties();
-                        }
-                    } else if (currentTab === 'popular') {
-                        if (popularProperties.length === 0) {
-                            loadPopularProperties();
-                        } else {
-                            displayPopularProperties();
-                        }
-                    }
-                });
-                
-                // Add keyboard support
-                button.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        this.click();
-                    }
+                    applyFiltersAndDisplay();
                 });
             });
         }
-        
-        // FIXED: Enhanced mobile menu with better UX
+
+        // Mobile menu functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const navMenu = document.getElementById('navMenu');
@@ -3172,12 +2747,8 @@
                 mobileMenuToggle.addEventListener('click', function() {
                     const isActive = navMenu.classList.contains('active');
                     navMenu.classList.toggle('active');
-                    
-                    // Update button text and aria attributes
                     this.textContent = isActive ? '☰' : '✕';
                     this.setAttribute('aria-expanded', !isActive);
-                    
-                    // Prevent scrolling when menu is open
                     document.body.style.overflow = isActive ? '' : 'hidden';
                 });
                 
@@ -3192,24 +2763,45 @@
                         }
                     }
                 });
+            }
+        }
+
+        // Google Places Autocomplete
+        function initPlacesAutocomplete() {
+            const locationInput = document.getElementById('vervLocationInput');
+            if (locationInput && typeof google !== 'undefined' && google.maps && google.maps.places) {
+                const autocomplete = new google.maps.places.Autocomplete(locationInput, {
+                    types: ['(cities)'],
+                    componentRestrictions: { country: 'es' },
+                    fields: ['formatted_address', 'name']
+                });
                 
-                // Close menu on window resize
-                window.addEventListener('resize', function() {
-                    if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        mobileMenuToggle.textContent = '☰';
-                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                        document.body.style.overflow = '';
+                autocomplete.addListener('place_changed', function() {
+                    const place = autocomplete.getPlace();
+                    if (place.formatted_address || place.name) {
+                        locationInput.value = place.formatted_address || place.name;
                     }
                 });
             }
         }
-        
-        // Enhanced consultation modal with WhatsApp tracking
+
+        // Load Google Maps
+        function loadGoogleMaps() {
+            if (typeof google === 'undefined') {
+                const script = document.createElement('script');
+                script.async = true;
+                script.defer = true;
+                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initPlacesAutocomplete';
+                document.head.appendChild(script);
+            } else {
+                initPlacesAutocomplete();
+            }
+        }
+
+        // Consultation modal
         function openConsultationModal() {
             console.log('Opening consultation modal...');
             
-            // Track consultation request
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'consultation_request', {
                     source: 'hero_section',
@@ -3219,278 +2811,32 @@
             
             window.location.href = '/contact/';
         }
-        
-        // NEW: WhatsApp click tracking
-        function trackWhatsAppClick(source = 'unknown') {
-            console.log('WhatsApp clicked from:', source);
-            
-            // Track WhatsApp engagement
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'whatsapp_click', {
-                    source: source,
-                    contact_method: 'whatsapp'
-                });
-            }
-            
-            // Track with custom analytics if available
-            if (typeof trackContactSubmission === 'function') {
-                trackContactSubmission('whatsapp');
-            }
-        }
-        
-        // NEW: Initialize WhatsApp tracking on page load
-        function initWhatsAppTracking() {
-            // Track clicks on WhatsApp buttons
-            document.querySelectorAll('[href*="wa.me"], .whatsapp-btn, .verv-btn-whatsapp').forEach(button => {
-                button.addEventListener('click', function() {
-                    const source = this.classList.contains('whatsapp-btn') ? 'floating_button' : 
-                                  this.classList.contains('verv-btn-whatsapp') ? 'hero_section' : 'unknown';
-                    trackWhatsAppClick(source);
-                });
-            });
-        }
-        
-        // ENHANCED: Performance optimization and Google Maps loading
-        function loadGoogleMaps() {
-            if (typeof google === 'undefined') {
-                console.log('Loading Google Maps API...');
-                const script = document.createElement('script');
-                script.async = true;
-                script.defer = true;
-                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initPlacesAutocomplete';
-                script.onerror = function() {
-                    console.log('Google Maps failed to load, search will work without autocomplete');
-                };
-                document.head.appendChild(script);
-            } else {
-                console.log('Google Maps already loaded');
-                initPlacesAutocomplete();
-            }
-        }
-        
-        // COMPLETELY REWRITTEN: Initialization focusing on real property loading and working search
+
+        // Initialize everything on DOM ready
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE Homepage - Enhanced Version Loading...');
+            console.log('🚀 VERV ONE Homepage - Fixed Version Loading...');
             
-            try {
-                // Initialize all core functionality
-                console.log('Initializing core functionality...');
-                initHeroSearch(); // This now includes the new location switching
-                initTabs();
-                initMobileMenu();
-                initPropertyRotation();
-                initWhatsAppTracking();
-                
-                // PRIORITY: Load real properties immediately
-                console.log('🏠 Loading REAL properties from VERV ONE...');
-                loadPropertyTypeCatalogs()
-                    .then(() => {
-                        console.log('✅ Property catalogs loaded');
-                        return loadFeaturedProperties();
-                    })
-                    .then(() => {
-                        console.log('✅ Featured properties loaded');
-                        // Also load popular properties
-                        return loadPopularProperties();
-                    })
-                    .then(() => {
-                        console.log('✅ All properties loaded successfully');
-                    })
-                    .catch((error) => {
-                        console.error('❌ Error in property loading:', error);
-                        // Ensure fallback properties load
-                        loadFeaturedProperties();
-                        loadPopularProperties();
-                    });
-                
-                // Initialize Google Maps with delay for better performance
-                setTimeout(() => {
-                    console.log('🗺️ Loading Google Maps...');
-                    loadGoogleMaps();
-                }, 2000);
-                
-                // Initialize Google Places immediately if already available
-                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                    console.log('✅ Google Places already available');
-                    initPlacesAutocomplete();
-                }
-                
-                // Initialize Chatbase monitoring
-                console.log('💬 Initializing Chatbase...');
-                initChatbaseMonitoring();
-                
-                console.log('✅ VERV ONE Homepage initialization complete');
-                
-                // Set up periodic property refresh to get fresh real properties
-                setInterval(() => {
-                    console.log('🔄 Periodic real property refresh...');
-                    loadFeaturedProperties();
-                }, 4 * 60 * 60 * 1000); // Every 4 hours
-                
-            } catch (error) {
-                console.error('❌ Critical error during initialization:', error);
-                // Emergency fallback
-                featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
-                popularProperties = [...sampleProperties].sort((a, b) => (b.price || 0) - (a.price || 0));
-                if (currentTab === 'featured') {
-                    displayFeaturedProperties();
-                } else if (currentTab === 'popular') {
-                    displayPopularProperties();
-                }
-            }
+            // Initialize core functionality
+            initHeroSearch();
+            initTabs();
+            initMobileMenu();
+            
+            // Load real properties
+            loadRealProperties();
+            
+            // Load Google Maps with delay
+            setTimeout(loadGoogleMaps, 2000);
+            
+            console.log('✅ Initialization complete');
         });
-        
-        // NEW: Chatbase monitoring and initialization support
-        function initChatbaseMonitoring() {
-            console.log('Initializing Chatbase monitoring...');
-            
-            // Check if Chatbase loaded successfully after a delay
-            setTimeout(() => {
-                if (typeof window.chatbase === 'function') {
-                    console.log('Chatbase loaded successfully');
-                    
-                    // Optional: Configure Chatbase if needed
-                    try {
-                        window.chatbase('config', {
-                            chatbotId: '82Jd8DV0roWCZlMeoeqbk'
-                        });
-                    } catch (error) {
-                        console.log('Chatbase config error (non-critical):', error);
-                    }
-                } else {
-                    console.log('Chatbase not detected - this is normal if the script is still loading');
-                }
-            }, 3000);
-            
-            // Monitor for Chatbase elements in the DOM
-            const chatbaseObserver = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node.nodeType === 1) { // Element node
-                            if (node.id && (node.id.includes('chatbase') || node.id.includes('chatbot'))) {
-                                console.log('Chatbase widget detected in DOM:', node.id);
-                                
-                                // Ensure proper positioning
-                                if (node.style) {
-                                    node.style.zIndex = '1000';
-                                }
-                            }
-                        }
-                    });
-                });
-            });
-            
-            // Start observing
-            chatbaseObserver.observe(document.body, {
-                childList: true,
-                subtree: true
-            });
-            
-            // Stop observing after 30 seconds to avoid performance issues
-            setTimeout(() => {
-                chatbaseObserver.disconnect();
-                console.log('Chatbase monitoring stopped');
-            }, 30000);
-        }
-        
-        // Global callback for Google Maps
-        window.initPlacesAutocomplete = initPlacesAutocomplete;
-        
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', function() {
-            if (propertyRotationInterval) {
-                clearTimeout(propertyRotationInterval);
-            }
-            // Reset body overflow in case mobile menu was open
-            document.body.style.overflow = '';
-        });
-        
-        // Enhanced error handling
-        window.addEventListener('error', function(e) {
-            console.log('Handled global error:', e.message);
-            
-            // If it's a script error related to Google Maps, provide fallback
-            if (e.message.includes('google') || e.message.includes('maps')) {
-                console.log('Google Maps error detected, continuing without autocomplete');
-            }
-        });
-        
-        // Enhanced timeout fallback focusing on real properties
-        let fallbackTimeout = 10000; // Start with 10 seconds for real API
-        const maxFallbackTimeout = 30000; // Max 30 seconds
-        
-        function checkAndFallback() {
-            if (featuredProperties.length === 0) {
-                console.log(`⚠️ Real property API timeout after ${fallbackTimeout}ms`);
-                console.log('🔄 Attempting to load from cache or sample data...');
-                
-                // Try cached real properties first
-                const cachedRealProperties = localStorage.getItem('cachedRealProperties');
-                if (cachedRealProperties) {
-                    try {
-                        const cached = JSON.parse(cachedRealProperties);
-                        if (Array.isArray(cached) && cached.length > 0) {
-                            console.log('✅ Using cached real properties');
-                            featuredProperties = cached;
-                            if (currentTab === 'featured') {
-                                displayFeaturedProperties();
-                            }
-                            return;
-                        }
-                    } catch (error) {
-                        console.log('❌ Cached properties invalid:', error);
-                    }
-                }
-                
-                // Fallback to enhanced sample data
-                console.log('📋 Using enhanced sample data as final fallback');
-                featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
-                
-                if (currentTab === 'featured') {
-                    displayFeaturedProperties();
-                }
-                
-                // Also set up popular properties if needed
-                if (popularProperties.length === 0) {
-                    const sortedSample = [...sampleProperties].sort((a, b) => {
-                        const aClicks = propertyClicks[a.id] || 0;
-                        const bClicks = propertyClicks[b.id] || 0;
-                        if (bClicks !== aClicks) return bClicks - aClicks;
-                        return (b.price || 0) - (a.price || 0);
-                    });
-                    popularProperties = sortedSample;
-                }
-            }
-            
-            // Continue checking for real properties if still needed
-            if (fallbackTimeout < maxFallbackTimeout && featuredProperties.length === 0) {
-                fallbackTimeout *= 1.5;
-                setTimeout(checkAndFallback, fallbackTimeout);
-            }
-        }
-        
-        // Start fallback system after initial load time
-        setTimeout(checkAndFallback, fallbackTimeout);
-        
-        // Make functions globally available for HTML onclick handlers
+
+        // Make functions global for HTML onclick handlers
         window.previousHeroProperty = previousHeroProperty;
         window.nextHeroProperty = nextHeroProperty;
         window.viewProperty = viewProperty;
         window.openConsultationModal = openConsultationModal;
-        
-        // Enhanced performance monitoring
-        if ('performance' in window) {
-            window.addEventListener('load', function() {
-                setTimeout(() => {
-                    const perfData = performance.getEntriesByType('navigation')[0];
-                    console.log('Page load performance:', {
-                        loadTime: perfData.loadEventEnd - perfData.loadEventStart,
-                        domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
-                        totalTime: perfData.loadEventEnd - perfData.fetchStart
-                    });
-                }, 0);
-            });
-        }
+        window.clearFilters = clearFilters;
+        window.initPlacesAutocomplete = initPlacesAutocomplete;
     </script>
 </body>
 </html>
