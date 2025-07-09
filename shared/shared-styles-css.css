@@ -412,6 +412,150 @@ body {
     min-height: calc(100vh - 85px);
 }
 
+/* Property Details Page Specific Styles */
+.main-container {
+    margin-top: 85px;
+    min-height: 100vh;
+}
+
+.property-header {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 40px 0;
+    text-align: center;
+}
+
+.property-title {
+    font-family: 'Lora', serif;
+    font-size: clamp(22px, 4vw, 39px);
+    font-weight: 400;
+    margin-bottom: 40px;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    color: #000;
+}
+
+.property-info {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    text-align: center;
+}
+
+.property-location {
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.property-price {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.property-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.meta-item svg {
+    width: 24px;
+    height: 24px;
+    color: #666;
+}
+
+.meta-label {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.meta-value {
+    font-weight: 600;
+    color: #000;
+}
+
+.hero-section {
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: #f8f9fa;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.back-button {
+    position: fixed;
+    top: 140px;
+    left: 40px;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #e0e0e0;
+    color: #000;
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.back-button:hover {
+    background: rgba(255,255,255,1);
+    transform: translateX(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: #000;
+    text-decoration: none;
+}
+
+.back-button svg {
+    width: 16px;
+    height: 16px;
+}
+
 /* Hero Section */
 .verv-hero {
     position: relative;
@@ -427,7 +571,7 @@ body {
     width: 100%;
     height: 100%;
     padding: 56.25% 0 0 0;
-    background-image: url('https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/1101139c-5f07-485e-973c-569f94504704/costa+brava.jpg?content-type=image%2Fjpeg');
+    background-image: url('/assets/images/costa-brava.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -941,6 +1085,36 @@ body {
     background: #333;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: white;
+    text-decoration: none;
+}
+
+/* Loading States */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    font-size: 14px;
+    color: #666;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Trusted Partners Section */
@@ -1153,50 +1327,6 @@ body {
     line-height: 1.6;
 }
 
-/* Loading States */
-.loading-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f0f0f0;
-    animation: pulse 2s infinite;
-}
-
-.loading-image {
-    width: 100%;
-    height: 280px;
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-}
-
-.loading-info {
-    padding: 30px 25px;
-}
-
-.loading-title, .loading-location, .loading-price {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
-
-.loading-title {
-    height: 20px;
-}
-
-.loading-location {
-    height: 16px;
-    width: 70%;
-}
-
-.loading-price {
-    height: 18px;
-    width: 50%;
-}
-
 /* Contact Section */
 .contact-section {
     background: #f8f8f8;
@@ -1207,7 +1337,7 @@ body {
     position: relative;
     height: 70vh;
     min-height: 500px;
-    background: url('https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/c1a2b1cc-30ff-4528-ab2c-80e2aa4fc0f9/Ronei+Kolesny+Realtor+Sitges+Contact.png?content-type=image%2Fpng') center top/cover no-repeat;
+    background: url('/assets/images/ronei-kolesny-realtor-sitges-contact.png') center top/cover no-repeat;
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
@@ -1284,11 +1414,14 @@ body {
     font-size: 0.9rem;
     transition: all 0.3s ease;
     white-space: nowrap;
+    font-family: 'Inter', sans-serif;
 }
 
 .contact-hero-btn:hover {
     background: #333;
     transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
 }
 
 .contact-hero-btn.whatsapp {
@@ -1369,6 +1502,8 @@ body {
 .contact-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(255, 255, 255, 0.4);
+    color: #000;
+    text-decoration: none;
 }
 
 /* Contact Form */
@@ -1720,6 +1855,47 @@ footer.footer {
         display: block;
     }
 
+    .main-container {
+        margin-top: 75px;
+    }
+
+    .property-header {
+        padding: 40px 20px 0;
+    }
+
+    .property-info {
+        padding: 0 20px 40px;
+    }
+
+    .property-title {
+        font-size: 20px;
+    }
+
+    .property-location {
+        font-size: 14px;
+    }
+
+    .property-price {
+        font-size: 24px;
+    }
+
+    .property-meta {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .back-button {
+        left: 20px;
+        top: 100px;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .hero-section {
+        height: 60vh;
+        min-height: 400px;
+    }
+
     .verv-hero {
         min-height: 600px;
     }
@@ -1865,6 +2041,7 @@ footer.footer {
     
     .whatsapp-float {
         padding: 12px !important;
+        border-radius: 50% !important;
     }
 
     /* Mobile responsiveness for consultation modal */
@@ -1928,6 +2105,18 @@ footer.footer {
 
     .logo-link {
         padding-right: 20px;
+    }
+
+    .property-title {
+        font-size: 18px;
+    }
+
+    .property-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .meta-item {
+        padding: 0.75rem;
     }
 
     .credentials-logos {
