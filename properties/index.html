@@ -31,11 +31,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Shared Styles -->
-    <link rel="stylesheet" href="/shared/shared-styles.css">
-    
     <!-- Properties Page Specific Styles -->
     <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+        }
+        
         /* Properties Page Specific Styles */
         
         /* Properties Hero Section */
@@ -600,9 +611,6 @@
     <script src="https://www.chatbase.co/embed.min.js" chatbotId="4hhpqfO_wy7DjPi9l6VZI" domain="www.chatbase.co" defer></script>
 </head>
 <body>
-    <!-- Shared Header -->
-    <div id="shared-header"></div>
-
     <main class="main-container">
         <!-- Loading State -->
         <div id="loading" class="loading">
@@ -729,12 +737,6 @@
         </div>
     </main>
 
-    <!-- Shared Footer -->
-    <div id="shared-footer"></div>
-
-    <!-- Shared Navigation JS -->
-    <script src="/shared/shared-navigation.js"></script>
-
     <!-- Properties Page Specific JavaScript -->
     <script>
         let allProperties = [];
@@ -745,7 +747,6 @@
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🚀 VERV ONE Properties page loaded, initializing...');
             
-            await loadSharedComponents();
             await loadProperties();
             initializeFilters();
             initializeViewToggle();
@@ -754,65 +755,6 @@
             document.getElementById('loading').style.display = 'none';
             document.getElementById('properties-content').style.display = 'block';
         });
-
-        // Load shared components
-        async function loadSharedComponents() {
-            try {
-                // Load shared header
-                const headerResponse = await fetch('/shared/shared-header.html');
-                if (headerResponse.ok) {
-                    const headerHTML = await headerResponse.text();
-                    document.getElementById('shared-header').innerHTML = headerHTML;
-                } else {
-                    console.log('Shared header not found, using fallback');
-                    document.getElementById('shared-header').innerHTML = `
-                        <header class="header-nav">
-                            <nav class="nav-container">
-                                <a href="/" class="logo-link">
-                                    <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" class="logo">
-                                </a>
-                                <ul class="nav-menu" id="navMenu">
-                                    <li><a href="/" class="nav-link">Home</a></li>
-                                    <li><a href="/about/" class="nav-link">About</a></li>
-                                    <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
-                                    <li><a href="/properties/" class="nav-link active">Properties</a></li>
-                                    <li><a href="/projects/" class="nav-link">Projects</a></li>
-                                    <li><a href="/contact/" class="nav-link">Contact</a></li>
-                                </ul>
-                                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
-                            </nav>
-                        </header>
-                    `;
-                }
-
-                // Load shared footer
-                const footerResponse = await fetch('/shared/shared-footer.html');
-                if (footerResponse.ok) {
-                    const footerHTML = await footerResponse.text();
-                    document.getElementById('shared-footer').innerHTML = footerHTML;
-                } else {
-                    console.log('Shared footer not found, using fallback');
-                    document.getElementById('shared-footer').innerHTML = `
-                        <footer class="footer">
-                            <div class="footer-container">
-                                <div class="footer-content">
-                                    <div class="footer-brand">
-                                        <div class="footer-logo">VERV ONE</div>
-                                        <div class="footer-tagline">Fine Property & Project Consultancy</div>
-                                        <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.</p>
-                                    </div>
-                                </div>
-                                <div class="footer-bottom">
-                                    <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
-                                </div>
-                            </div>
-                        </footer>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading shared components:', error);
-            }
-        }
 
         // Load properties from API
         async function loadProperties() {
@@ -1195,7 +1137,7 @@
 
         // Property interaction functions
         function viewProperty(propertyId) {
-            window.open(`/properties/property-details.html?id=${propertyId}`, '_blank');
+            window.open(`https://verv.one/single-property/?id=${propertyId}`, '_blank');
         }
 
         function toggleFavorite(propertyId) {
