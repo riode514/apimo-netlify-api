@@ -1336,6 +1336,32 @@
             'default': '📍'
         };
         
+        // Helper function to extract property data from API response
+        function extractPropertyData(property) {
+            if (!property) return null;
+            
+            // Log the property structure for debugging
+            console.log('Extracting data from property:', property);
+            
+            // Try different possible field names from the API
+            const extractedData = {
+                id: property.id || property.reference || property.uuid || Math.random().toString(36).substr(2, 9),
+                title: property.title || property.reference || property.name || property.description || 'Luxury Property',
+                location: property.city || property.location || property.address || property.district || 'Premium Location',
+                price: property.price || property.amount || property.value || null,
+                type: property.type || property.category || property.propertyType || 'Villa',
+                reference: property.reference || property.id || property.uuid || '',
+                description: property.description || property.title || '',
+                bedrooms: property.bedrooms || property.rooms || null,
+                bathrooms: property.bathrooms || property.baths || null,
+                size: property.size || property.area || property.surface || null,
+                image: property.image || property.picture || property.photo || property.thumbnail || null
+            };
+            
+            console.log('Extracted property data:', extractedData);
+            return extractedData;
+        }
+        
         // Property rotation system - rotate every 24 hours
         function initPropertyRotation() {
             const lastRotation = localStorage.getItem('lastPropertyRotation');
@@ -1403,9 +1429,14 @@
                 }
                 
                 const data = await response.json();
-                console.log('Featured properties loaded:', data);
+                console.log('API Response:', data);
+                console.log('Properties array:', data.properties);
                 
                 if (data.success && data.properties && data.properties.length > 0) {
+                    // Log first property to understand structure
+                    console.log('First property structure:', data.properties[0]);
+                    console.log('Property keys:', Object.keys(data.properties[0]));
+                    
                     featuredProperties = data.properties;
                     if (currentTab === 'featured') {
                         displayFeaturedProperties();
@@ -1503,23 +1534,7 @@
             displayGridProperties(gridProperties);
         }
         
-        // Display hero property
-        function displayHeroProperty(property) {
-            const heroContainer = document.getElementById('heroFeaturedProperty');
-            if (!heroContainer || !property) return;
-            
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
-            const title = property.reference || property.title || 'Luxury Property';
-            const location = property.city?.name || property.district?.name || property.location || 'Premium Location';
-            const type = property.type || 'Villa';
-            const category = property.category || 'Propiedad destacada';
-            
-            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
-            const locationIcon = locationIcons[location.split(',')[0]] || locationIcons['default'];
-            
-            heroContainer.innerHTML = `
-                <div class="hero-property-content">
-                    <div class="hero-property-icon">${propertyIcon}</div>
+hero-property-icon">${propertyIcon}</div>
                     <div class="hero-property-category">${category}</div>
                     <div class="hero-property-title">${title}</div>
                     <div class="hero-property-location">
@@ -1562,10 +1577,16 @@
             const card = document.createElement('div');
             card.className = 'property-card';
             
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
-            const title = property.reference || property.title || 'Luxury Property';
-            const location = property.city?.name || property.district?.name || property.location || 'Premium Location';
-            const type = property.type || 'Villa';
+            console.log('Creating property card for:', property);
+            
+            // Extract data using helper function
+            const data = extractPropertyData(property);
+            if (!data) return card;
+            
+            const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
+            const title = data.title;
+            const location = data.location;
+            const type = data.type;
             
             const propertyIcon = propertyIcons[type] || propertyIcons['default'];
             const locationIcon = locationIcons[location.split(',')[0]] || locationIcons['default'];
@@ -1586,7 +1607,7 @@
             
             // Add click handler
             card.addEventListener('click', () => {
-                viewProperty(property.id);
+                viewProperty(data.id);
             });
             
             return card;
@@ -1611,9 +1632,13 @@
         
         // View property function
         function viewProperty(propertyId) {
+            console.log('Viewing property:', propertyId);
+            
             // Track property clicks for popularity
-            propertyClicks[propertyId] = (propertyClicks[propertyId] || 0) + 1;
-            localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
+            if (propertyId) {
+                propertyClicks[propertyId] = (propertyClicks[propertyId] || 0) + 1;
+                localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
+            }
             
             // Track property click
             if (typeof trackPropertyInquiry === 'function') {
