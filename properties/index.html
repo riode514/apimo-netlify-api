@@ -238,6 +238,45 @@
             }
         }
 
+        /* Ensure modals are hidden by default */
+        .consultation-modal.hidden,
+        .hidden {
+            display: none !important;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .consultation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .consultation-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .consultation-modal-content {
+            position: relative;
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
         /* Main content */
         .properties-container {
             max-width: 1200px;
@@ -647,6 +686,47 @@
                         navMenu.classList.toggle('active');
                     });
                 }
+
+                // IMPORTANT: Ensure consultation modal stays closed on page load
+                setTimeout(() => {
+                    const consultationModal = document.getElementById('consultationModal');
+                    if (consultationModal) {
+                        consultationModal.classList.add('hidden');
+                        consultationModal.style.display = 'none';
+                    }
+
+                    // Also close any other potential modals
+                    const allModals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+                    allModals.forEach(modal => {
+                        modal.classList.add('hidden');
+                        modal.style.display = 'none';
+                    });
+                }, 200);
+
+                // Override any global modal functions that might auto-open
+                window.openConsultationModal = function() {
+                    const consultationModal = document.getElementById('consultationModal');
+                    if (consultationModal) {
+                        consultationModal.classList.remove('hidden');
+                        consultationModal.style.display = 'block';
+                    }
+                };
+
+                window.closeConsultationModal = function() {
+                    const consultationModal = document.getElementById('consultationModal');
+                    if (consultationModal) {
+                        consultationModal.classList.add('hidden');
+                        consultationModal.style.display = 'none';
+                    }
+                };
+
+                // Prevent any scripts in shared header from auto-opening modals
+                const scripts = document.querySelectorAll('#shared-header script');
+                scripts.forEach(script => {
+                    if (script.textContent && script.textContent.includes('openConsultationModal')) {
+                        script.remove();
+                    }
+                });
             })
             .catch(error => {
                 console.error('Error loading header:', error);
@@ -1546,11 +1626,30 @@
         async function initializePage() {
             console.log('🚀 VERV ONE Properties page loaded, initializing...');
             
+            // FIRST: Ensure any modals are hidden
+            const modals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+            modals.forEach(modal => {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            });
+            
             initializeViewControls();
             
-            // Load properties immediately
+            // Load properties after ensuring modals are closed
             await loadProperties();
         }
+
+        // Prevent any auto-opening of modals
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close any modals that might be open
+            setTimeout(() => {
+                const modals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+                modals.forEach(modal => {
+                    modal.classList.add('hidden');
+                    modal.style.display = 'none';
+                });
+            }, 100);
+        });
 
         // Start initialization when DOM is ready
         if (document.readyState === 'loading') {
