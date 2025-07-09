@@ -1,259 +1,466 @@
-// Global variables
-let allProperties = [];
-
-// Function to load properties from API
-async function loadProperties() {
-    const loadingElement = document.getElementById('loading');
-    const errorElement = document.getElementById('error-message');
-    const resultsContainer = document.getElementById('results-container');
-    
-    // Show loading state
-    loadingElement.style.display = 'block';
-    errorElement.style.display = 'none';
-    resultsContainer.innerHTML = '';
-    
-    try {
-        console.log('Fetching properties from API...');
-        
-        // Use the working endpoint
-        const response = await fetch('/.netlify/functions/properties');
-        
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedades - Verv One</title>
+    <link rel="stylesheet" href="../shared/shared-styles-css.css">
+    <style>
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
         }
         
-        const data = await response.json();
-        console.log('API Response:', data);
+        .error {
+            background-color: #fee;
+            border: 1px solid #fcc;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: #c33;
+        }
         
-        if (data.success && data.properties) {
-            // Transform Apimo data to frontend format
-            allProperties = transformApimoProperties(data.properties);
-            displayProperties(allProperties);
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .property-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .property-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+        
+        .property-info {
+            padding: 1rem;
+        }
+        
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .property-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .property-location {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .property-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .results-count {
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .section {
+            padding: 2rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .filters-section {
+            background: #f8f8f8;
+            padding: 2rem 0;
+        }
+        
+        .filters-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 150px;
+        }
+        
+        .filter-group label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .search-btn:hover {
+            background: #1e3f73;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-nav">
+        <nav class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="../assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+            </a>
             
-            console.log(`✅ Loaded ${allProperties.length} properties successfully`);
-        } else {
-            throw new Error('Invalid response format from API');
-        }
-        
-    } catch (error) {
-        console.error('Error loading properties:', error);
-        
-        // Show error message
-        errorElement.style.display = 'block';
-        errorElement.innerHTML = `
-            <strong>Error al cargar propiedades:</strong><br>
-            ${error.message}<br><br>
-            <strong>Información de depuración:</strong><br>
-            • API Endpoint: /.netlify/functions/properties<br>
-            • <a href="/.netlify/functions/properties" target="_blank">Ver respuesta API directa</a><br>
-            • Cargando datos de ejemplo como respaldo...
-        `;
-        
-        // Load sample data as fallback
-        loadSampleData();
-        
-    } finally {
-        loadingElement.style.display = 'none';
-    }
-}
-
-// Function to transform Apimo API data to frontend format
-function transformApimoProperties(apimoProperties) {
-    return apimoProperties.map((property, index) => {
-        
-        // Extract price from different possible fields
-        let price = 'Precio a consultar';
-        if (property.price) {
-            price = `€${property.price.toLocaleString()}`;
-        } else if (property.pricing && property.pricing.price) {
-            price = `€${property.pricing.price.toLocaleString()}`;
-        }
-        
-        // Extract location from different possible fields
-        let location = 'Ubicación disponible';
-        if (property.location) {
-            location = property.location;
-        } else if (property.address) {
-            location = property.address.city || property.address.area || 'España';
-        } else if (property.city) {
-            location = property.city;
-        }
-        
-        // Extract bedrooms/bathrooms from areas or rooms
-        let bedrooms = 'N/A';
-        let bathrooms = 'N/A';
-        
-        if (property.areas) {
-            const bedroomArea = property.areas.find(area => 
-                area.type === 'bedroom' || area.type === 'room' || area.name?.toLowerCase().includes('dormitorio')
-            );
-            if (bedroomArea) {
-                bedrooms = bedroomArea.count || bedroomArea.number || 'N/A';
-            }
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
+                <li><a href="/properties/" class="nav-link active">Properties</a></li>
+                <li><a href="/projects/" class="nav-link">Projects</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+            </ul>
             
-            const bathroomArea = property.areas.find(area => 
-                area.type === 'bathroom' || area.name?.toLowerCase().includes('baño')
-            );
-            if (bathroomArea) {
-                bathrooms = bathroomArea.count || bathroomArea.number || 'N/A';
-            }
-        }
-        
-        // Extract surface area
-        let size = 'N/A';
-        if (property.surface) {
-            size = `${property.surface}m²`;
-        } else if (property.area) {
-            size = `${property.area}m²`;
-        } else if (property.areas && property.areas.length > 0) {
-            const totalArea = property.areas.reduce((sum, area) => sum + (area.surface || 0), 0);
-            if (totalArea > 0) {
-                size = `${totalArea}m²`;
-            }
-        }
-        
-        // Extract image
-        let image = '../assets/images/property-placeholder.jpg';
-        if (property.pictures && property.pictures.length > 0) {
-            image = property.pictures[0].url || property.pictures[0].picture;
-        } else if (property.images && property.images.length > 0) {
-            image = property.images[0].url || property.images[0];
-        } else if (property.picture) {
-            image = property.picture;
-        }
-        
-        return {
-            id: property.id || index + 1,
-            title: property.title || property.name || 'Propiedad disponible',
-            price: price,
-            location: location,
-            bedrooms: bedrooms,
-            bathrooms: bathrooms,
-            size: size,
-            image: image,
-            featured: property.featured || property.is_featured || false,
-            // Keep original data for detailed view
-            originalData: property
-        };
-    });
-}
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+        </nav>
+    </header>
 
-// Function to display properties
-function displayProperties(properties) {
-    const resultsContainer = document.getElementById('results-container');
-    
-    if (!properties || properties.length === 0) {
-        resultsContainer.innerHTML = '<p>No se encontraron propiedades.</p>';
-        return;
-    }
-    
-    const propertiesGrid = document.createElement('div');
-    propertiesGrid.className = 'properties-grid';
-    
-    properties.forEach(property => {
-        const propertyCard = createPropertyCard(property);
-        propertiesGrid.appendChild(propertyCard);
-    });
-    
-    resultsContainer.innerHTML = '';
-    resultsContainer.appendChild(propertiesGrid);
-    
-    // Update results count
-    const countElement = document.createElement('div');
-    countElement.className = 'results-count';
-    countElement.innerHTML = `<p>Se encontraron ${properties.length} propiedades</p>`;
-    resultsContainer.insertBefore(countElement, propertiesGrid);
-}
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="inner-hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/images/costa-brava.jpg') center/cover;">
+            <div class="inner-hero-content">
+                <h1>Discover exceptional properties in Barcelona, Sitges & Costa Brava</h1>
+                <p>Find your perfect home in Spain's most desirable locations</p>
+            </div>
+        </section>
 
-// Function to create property card
-function createPropertyCard(property) {
-    const card = document.createElement('div');
-    card.className = 'property-card';
-    
-    card.innerHTML = `
-        <img src="${property.image}" alt="${property.title}" class="property-image" 
-             onerror="this.src='../assets/images/property-placeholder.jpg'">
-        <div class="property-info">
-            <div class="property-price">${property.price}</div>
-            <h3 class="property-title">${property.title}</h3>
-            <p class="property-location">📍 ${property.location}</p>
-            <div class="property-details">
-                <span>🛏️ ${property.bedrooms} hab.</span>
-                <span>🚿 ${property.bathrooms} baños</span>
-                <span>📐 ${property.size}</span>
+        <!-- Filters Section -->
+        <section class="filters-section">
+            <div class="container">
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="property-type">PROPERTY TYPE</label>
+                        <select id="property-type">
+                            <option>All Types</option>
+                            <option>Apartment</option>
+                            <option>House</option>
+                            <option>Villa</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="location">LOCATION</label>
+                        <select id="location">
+                            <option>All Locations</option>
+                            <option>Barcelona</option>
+                            <option>Sitges</option>
+                            <option>Costa Brava</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="price">PRICE</label>
+                        <select id="price">
+                            <option>Any Price</option>
+                            <option>Up to €300,000</option>
+                            <option>€300,000 - €500,000</option>
+                            <option>€500,000+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="bedrooms">BEDROOMS</label>
+                        <select id="bedrooms">
+                            <option>Any</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4+</option>
+                        </select>
+                    </div>
+                    
+                    <button class="search-btn" onclick="loadProperties()">SEARCH</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="section">
+            <div class="container">
+                <div id="loading" class="loading" style="display: none;">
+                    Loading properties...
+                </div>
+                
+                <div id="error-message" class="error" style="display: none;">
+                    Error loading properties. Please try again later.
+                </div>
+                
+                <div id="results-container" class="results-container">
+                    <!-- Properties will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">VERV ONE</div>
+                    <div class="footer-tagline">Fine Property & Project Consultancy</div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
             </div>
         </div>
-    `;
-    
-    // Add click handler
-    card.addEventListener('click', () => {
-        // Store property data in sessionStorage for the detail page
-        sessionStorage.setItem('selectedProperty', JSON.stringify(property));
-        window.location.href = `../single-property/index.html?id=${property.id}`;
-    });
-    
-    return card;
-}
+    </footer>
 
-// Function to load sample data as fallback
-function loadSampleData() {
-    console.log('Loading sample data as fallback...');
-    
-    const sampleProperties = [
-        {
-            id: 1,
-            title: "Villa Moderna en Barcelona",
-            price: "€450,000",
-            location: "Barcelona, España",
-            bedrooms: 3,
-            bathrooms: 2,
-            size: "120m²",
-            image: "../assets/images/property-placeholder.jpg"
-        },
-        {
-            id: 2,
-            title: "Apartamento Costero en Sitges",
-            price: "€320,000",
-            location: "Sitges, España",
-            bedrooms: 2,
-            bathrooms: 1,
-            size: "85m²",
-            image: "../assets/images/property-placeholder.jpg"
-        },
-        {
-            id: 3,
-            title: "Casa Histórica en Costa Brava",
-            price: "€580,000",
-            location: "Costa Brava, España",
-            bedrooms: 4,
-            bathrooms: 3,
-            size: "160m²",
-            image: "../assets/images/property-placeholder.jpg"
+    <!-- JavaScript -->
+    <script>
+        // Global variables
+        let allProperties = [];
+
+        // Function to load properties from API
+        async function loadProperties() {
+            const loadingElement = document.getElementById('loading');
+            const errorElement = document.getElementById('error-message');
+            const resultsContainer = document.getElementById('results-container');
+            
+            // Show loading state
+            loadingElement.style.display = 'block';
+            errorElement.style.display = 'none';
+            resultsContainer.innerHTML = '';
+            
+            try {
+                console.log('Fetching properties from API...');
+                
+                const response = await fetch('/.netlify/functions/properties');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                if (data.success && data.properties) {
+                    allProperties = transformApimoProperties(data.properties);
+                    displayProperties(allProperties);
+                    console.log(`✅ Loaded ${allProperties.length} properties successfully`);
+                } else {
+                    throw new Error('Invalid response format from API');
+                }
+                
+            } catch (error) {
+                console.error('Error loading properties:', error);
+                
+                errorElement.style.display = 'block';
+                errorElement.innerHTML = `<strong>Error loading properties:</strong><br>${error.message}`;
+                
+                // Load sample data as fallback
+                loadSampleData();
+                
+            } finally {
+                loadingElement.style.display = 'none';
+            }
         }
-    ];
-    
-    allProperties = sampleProperties;
-    displayProperties(allProperties);
-}
 
-// Load properties when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded, fetching properties...');
-    loadProperties();
-});
+        // Transform Apimo data to frontend format
+        function transformApimoProperties(apimoProperties) {
+            return apimoProperties.map((property, index) => {
+                
+                let price = 'Price on request';
+                if (property.price) {
+                    price = `€${property.price.toLocaleString()}`;
+                }
+                
+                let location = 'Spain';
+                if (property.location) {
+                    location = property.location;
+                } else if (property.address && property.address.city) {
+                    location = property.address.city;
+                } else if (property.city) {
+                    location = property.city;
+                }
+                
+                let bedrooms = 'N/A';
+                let bathrooms = 'N/A';
+                
+                if (property.areas) {
+                    const bedroomArea = property.areas.find(area => 
+                        area.type === 'bedroom' || area.name?.toLowerCase().includes('dormitorio')
+                    );
+                    if (bedroomArea) {
+                        bedrooms = bedroomArea.count || bedroomArea.number || 'N/A';
+                    }
+                    
+                    const bathroomArea = property.areas.find(area => 
+                        area.type === 'bathroom' || area.name?.toLowerCase().includes('baño')
+                    );
+                    if (bathroomArea) {
+                        bathrooms = bathroomArea.count || bathroomArea.number || 'N/A';
+                    }
+                }
+                
+                let size = 'N/A';
+                if (property.surface) {
+                    size = `${property.surface}m²`;
+                } else if (property.area) {
+                    size = `${property.area}m²`;
+                }
+                
+                let image = '../assets/images/property-placeholder.jpg';
+                if (property.pictures && property.pictures.length > 0) {
+                    image = property.pictures[0].url || property.pictures[0].picture;
+                } else if (property.images && property.images.length > 0) {
+                    image = property.images[0].url || property.images[0];
+                }
+                
+                return {
+                    id: property.id || index + 1,
+                    title: property.title || 'Property Available',
+                    price: price,
+                    location: location,
+                    bedrooms: bedrooms,
+                    bathrooms: bathrooms,
+                    size: size,
+                    image: image,
+                    featured: property.featured || false
+                };
+            });
+        }
 
-// Debug function
-async function debugAPI() {
-    try {
-        const response = await fetch('/.netlify/functions/properties');
-        const data = await response.json();
-        console.log('🔍 DEBUG - Full API Response:', data);
-        console.log('🔍 DEBUG - Properties count:', data.properties?.length || 0);
-        console.log('🔍 DEBUG - First property:', data.properties?.[0]);
-    } catch (error) {
-        console.error('🔍 DEBUG - API Error:', error);
-    }
-}
+        // Display properties
+        function displayProperties(properties) {
+            const resultsContainer = document.getElementById('results-container');
+            
+            if (!properties || properties.length === 0) {
+                resultsContainer.innerHTML = '<p>No properties found.</p>';
+                return;
+            }
+            
+            const countElement = document.createElement('div');
+            countElement.className = 'results-count';
+            countElement.innerHTML = `<p>Found ${properties.length} properties</p>`;
+            
+            const propertiesGrid = document.createElement('div');
+            propertiesGrid.className = 'properties-grid';
+            
+            properties.forEach(property => {
+                const propertyCard = createPropertyCard(property);
+                propertiesGrid.appendChild(propertyCard);
+            });
+            
+            resultsContainer.innerHTML = '';
+            resultsContainer.appendChild(countElement);
+            resultsContainer.appendChild(propertiesGrid);
+        }
 
-// Run debug on load
-document.addEventListener('DOMContentLoaded', debugAPI);
+        // Create property card
+        function createPropertyCard(property) {
+            const card = document.createElement('div');
+            card.className = 'property-card';
+            
+            card.innerHTML = `
+                <img src="${property.image}" alt="${property.title}" class="property-image" 
+                     onerror="this.src='../assets/images/property-placeholder.jpg'">
+                <div class="property-info">
+                    <div class="property-price">${property.price}</div>
+                    <h3 class="property-title">${property.title}</h3>
+                    <p class="property-location">📍 ${property.location}</p>
+                    <div class="property-details">
+                        <span>🛏️ ${property.bedrooms}</span>
+                        <span>🚿 ${property.bathrooms}</span>
+                        <span>📐 ${property.size}</span>
+                    </div>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => {
+                window.location.href = `../single-property/index.html?id=${property.id}`;
+            });
+            
+            return card;
+        }
+
+        // Load sample data as fallback
+        function loadSampleData() {
+            console.log('Loading sample data as fallback...');
+            
+            const sampleProperties = [
+                {
+                    id: 1,
+                    title: "Modern Villa in Barcelona",
+                    price: "€450,000",
+                    location: "Barcelona, Spain",
+                    bedrooms: "3",
+                    bathrooms: "2",
+                    size: "120m²",
+                    image: "../assets/images/property-placeholder.jpg"
+                },
+                {
+                    id: 2,
+                    title: "Coastal Apartment in Sitges",
+                    price: "€320,000",
+                    location: "Sitges, Spain",
+                    bedrooms: "2",
+                    bathrooms: "1",
+                    size: "85m²",
+                    image: "../assets/images/property-placeholder.jpg"
+                }
+            ];
+            
+            allProperties = sampleProperties;
+            displayProperties(allProperties);
+        }
+
+        // Load properties when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, fetching properties...');
+            loadProperties();
+        });
+    </script>
+
+    <!-- Shared JavaScript -->
+    <script src="../shared/shared-navigation-js.js"></script>
+</body>
+</html>
