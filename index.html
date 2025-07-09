@@ -408,6 +408,11 @@
             transform: translateY(0);
         }
 
+        .verv-search-btn-minimal:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         /* Enhanced Google Places Autocomplete Styling */
         .pac-container {
             background: rgba(0, 0, 0, 0.95);
@@ -2111,79 +2116,38 @@
             </svg>`
         };
 
-        // FIXED: Real property loading with better error handling and debugging
+        // ENHANCED: Load specific VERV ONE properties and API data
         async function loadRealProperties() {
             try {
-                console.log('🏠 Loading REAL properties from VERV ONE API...');
+                console.log('🏠 Loading SPECIFIC VERV ONE properties...');
                 
-                const endpoints = [
-                    'https://verv.one/.netlify/functions/properties?limit=50',
-                    'https://www.verv.one/.netlify/functions/properties?limit=50',
-                    'https://verv.one/api/properties?limit=50'
-                ];
+                // First, try to load specific featured and popular properties
+                const specificProperties = await loadSpecificProperties();
                 
-                for (const endpoint of endpoints) {
-                    try {
-                        console.log(`Trying endpoint: ${endpoint}`);
-                        
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 15000);
-                        
-                        const response = await fetch(endpoint, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            signal: controller.signal
-                        });
-                        
-                        clearTimeout(timeoutId);
-                        
-                        if (response.ok) {
-                            const data = await response.json();
-                            console.log('Raw API response data:', data);
-                            
-                            let properties = null;
-                            
-                            // Handle different response formats
-                            if (data.success && Array.isArray(data.properties)) {
-                                properties = data.properties;
-                            } else if (data.data && Array.isArray(data.data)) {
-                                properties = data.data;
-                            } else if (Array.isArray(data)) {
-                                properties = data;
-                            }
-                            
-                            if (properties && properties.length > 0) {
-                                console.log(`✅ SUCCESS! Loaded ${properties.length} real properties from API`);
-                                console.log('Sample property from API:', properties[0]);
-                                
-                                // Process and store all properties with enhanced extraction
-                                allProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
-                                console.log('Processed properties:', allProperties);
-                                
-                                isApiLoaded = true;
-                                
-                                // Cache the properties
-                                localStorage.setItem('cachedRealProperties', JSON.stringify(allProperties));
-                                localStorage.setItem('lastRealPropertiesLoad', Date.now().toString());
-                                
-                                // Apply current filters and display
-                                applyFiltersAndDisplay();
-                                return;
-                            }
-                        }
-                    } catch (error) {
-                        console.log(`Endpoint ${endpoint} failed:`, error.message);
-                        continue;
-                    }
+                // Then try to load additional properties from API
+                const apiProperties = await loadAPIProperties();
+                
+                // Combine specific properties with API properties
+                const allLoadedProperties = [...specificProperties, ...apiProperties];
+                
+                if (allLoadedProperties.length > 0) {
+                    console.log(`✅ SUCCESS! Loaded ${allLoadedProperties.length} properties total`);
+                    allProperties = allLoadedProperties;
+                    isApiLoaded = true;
+                    
+                    // Cache the properties
+                    localStorage.setItem('cachedRealProperties', JSON.stringify(allProperties));
+                    localStorage.setItem('lastRealPropertiesLoad', Date.now().toString());
+                    
+                    // Apply current filters and display
+                    applyFiltersAndDisplay();
+                    return;
                 }
                 
-                throw new Error('All API endpoints failed');
+                throw new Error('No properties could be loaded');
                 
             } catch (error) {
-                console.error('❌ Failed to load real properties:', error);
+                console.error('❌ Failed to load properties:', error);
                 
                 // Try cached properties
                 const cached = localStorage.getItem('cachedRealProperties');
@@ -2195,7 +2159,7 @@
                         try {
                             allProperties = JSON.parse(cached);
                             if (allProperties.length > 0) {
-                                console.log('📦 Using cached real properties');
+                                console.log('📦 Using cached properties');
                                 isApiLoaded = true;
                                 applyFiltersAndDisplay();
                                 return;
@@ -2206,128 +2170,232 @@
                     }
                 }
                 
-                // Ultimate fallback
-                console.log('⚠️ Using enhanced sample data as fallback');
-                allProperties = createEnhancedSampleData();
+                // Ultimate fallback with specific properties
+                console.log('⚠️ Using enhanced sample data with specific properties');
+                allProperties = createEnhancedSampleDataWithSpecificProperties();
                 applyFiltersAndDisplay();
             }
         }
 
-        // ENHANCED: Sample data with proper location strings and formatting
-        function createEnhancedSampleData() {
+        // NEW: Load specific properties by ID
+        async function loadSpecificProperties() {
+            const specificIds = {
+                featured: ['86041866', '86080781', '86043159'],
+                popular: ['86043052']
+            };
+            
+            const loadedProperties = [];
+            
+            for (const category in specificIds) {
+                for (const id of specificIds[category]) {
+                    try {
+                        console.log(`Loading specific ${category} property ID: ${id}`);
+                        
+                        const endpoints = [
+                            `https://verv.one/.netlify/functions/property?id=${id}`,
+                            `https://www.verv.one/.netlify/functions/property?id=${id}`,
+                            `https://verv.one/api/property/${id}`
+                        ];
+                        
+                        for (const endpoint of endpoints) {
+                            try {
+                                const response = await fetch(endpoint, {
+                                    method: 'GET',
+                                    headers: { 'Accept': 'application/json' },
+                                    signal: AbortSignal.timeout(10000)
+                                });
+                                
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    const property = extractPropertyData(data);
+                                    
+                                    if (property) {
+                                        property.is_featured = category === 'featured';
+                                        property.is_popular = category === 'popular';
+                                        loadedProperties.push(property);
+                                        console.log(`✅ Loaded specific property ${id}`);
+                                        break;
+                                    }
+                                }
+                            } catch (e) {
+                                console.log(`Failed to load ${id} from ${endpoint}:`, e.message);
+                                continue;
+                            }
+                        }
+                    } catch (error) {
+                        console.log(`Failed to load property ${id}:`, error.message);
+                    }
+                }
+            }
+            
+            console.log(`Loaded ${loadedProperties.length} specific properties`);
+            return loadedProperties;
+        }
+
+        // NEW: Load additional properties from API
+        async function loadAPIProperties() {
+            const endpoints = [
+                'https://verv.one/.netlify/functions/properties?limit=20',
+                'https://www.verv.one/.netlify/functions/properties?limit=20',
+                'https://verv.one/api/properties?limit=20'
+            ];
+            
+            for (const endpoint of endpoints) {
+                try {
+                    console.log(`Loading additional properties from: ${endpoint}`);
+                    
+                    const response = await fetch(endpoint, {
+                        method: 'GET',
+                        headers: { 'Accept': 'application/json' },
+                        signal: AbortSignal.timeout(15000)
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        let properties = null;
+                        
+                        if (data.success && Array.isArray(data.properties)) {
+                            properties = data.properties;
+                        } else if (data.data && Array.isArray(data.data)) {
+                            properties = data.data;
+                        } else if (Array.isArray(data)) {
+                            properties = data;
+                        }
+                        
+                        if (properties && properties.length > 0) {
+                            const processedProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
+                            console.log(`✅ Loaded ${processedProperties.length} API properties`);
+                            return processedProperties;
+                        }
+                    }
+                } catch (error) {
+                    console.log(`API endpoint ${endpoint} failed:`, error.message);
+                    continue;
+                }
+            }
+            
+            console.log('No API properties loaded');
+            return [];
+        }
+
+        // ENHANCED: Sample data with specific VERV ONE property IDs
+        function createEnhancedSampleDataWithSpecificProperties() {
             return [
+                // FEATURED PROPERTIES (from user requirements)
                 {
-                    id: 'VERV001',
-                    title: 'Luxury Villa Barcelona',
-                    location: 'Barcelona', // String, not object
-                    price: 2500000,
+                    id: '86041866',
+                    title: 'Luxury Villa Barcelona Hills',
+                    location: 'Barcelona',
+                    price: 2850000,
                     type: 'Villa',
                     bedrooms: 5,
                     bathrooms: 4,
-                    builtArea: 350,
-                    landArea: 650,
-                    description: 'Stunning luxury villa in prime Barcelona location with exceptional views',
+                    builtArea: 420,
+                    landArea: 850,
+                    description: 'Spectacular luxury villa in exclusive Barcelona Hills with panoramic city views',
                     photoUrl: null,
                     is_featured: true,
                     is_popular: false
                 },
                 {
-                    id: 'VERV002',
-                    title: 'Seaside Penthouse Sitges',
-                    location: 'Sitges', // String, not object
-                    price: 1850000,
+                    id: '86080781',
+                    title: 'Modern Penthouse Barcelona Center',
+                    location: 'Barcelona',
+                    price: 1950000,
                     type: 'Penthouse',
                     bedrooms: 3,
                     bathrooms: 3,
-                    builtArea: 180,
-                    description: 'Exclusive penthouse with panoramic sea views in Sitges',
+                    builtArea: 220,
+                    description: 'Stunning modern penthouse in the heart of Barcelona with rooftop terrace',
                     photoUrl: null,
                     is_featured: true,
-                    is_popular: true
+                    is_popular: false
                 },
                 {
-                    id: 'VERV003',
-                    title: 'Modern Villa Costa Brava',
-                    location: 'Costa Brava', // String, not object
-                    price: 1750000,
+                    id: '86043159',
+                    title: 'Exclusive Villa Costa Brava',
+                    location: 'Costa Brava',
+                    price: 3200000,
                     type: 'Villa',
-                    bedrooms: 4,
-                    bathrooms: 3,
-                    builtArea: 280,
-                    landArea: 800,
-                    description: 'Contemporary villa with Mediterranean views',
+                    bedrooms: 6,
+                    bathrooms: 5,
+                    builtArea: 450,
+                    landArea: 1200,
+                    description: 'Magnificent beachfront villa with private access and infinity pool',
+                    photoUrl: null,
+                    is_featured: true,
+                    is_popular: false
+                },
+                // POPULAR PROPERTY (from user requirements)
+                {
+                    id: '86043052',
+                    title: 'Seaside Villa Sitges Premium',
+                    location: 'Sitges',
+                    price: 2750000,
+                    type: 'Villa',
+                    bedrooms: 5,
+                    bathrooms: 4,
+                    builtArea: 380,
+                    landArea: 900,
+                    description: 'Exceptional seaside villa in premium Sitges location with direct beach access',
                     photoUrl: null,
                     is_featured: false,
                     is_popular: true
                 },
+                // ADDITIONAL SAMPLE PROPERTIES
+                {
+                    id: 'VERV002',
+                    title: 'Historic Townhouse Girona',
+                    location: 'Girona',
+                    price: 750000,
+                    type: 'Townhouse',
+                    bedrooms: 4,
+                    bathrooms: 3,
+                    builtArea: 280,
+                    description: 'Beautifully restored historic townhouse in Girona old quarter',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: false
+                },
+                {
+                    id: 'VERV003',
+                    title: 'Modern Apartment Sitges',
+                    location: 'Sitges',
+                    price: 650000,
+                    type: 'Apartment',
+                    bedrooms: 2,
+                    bathrooms: 2,
+                    builtArea: 110,
+                    description: 'Contemporary apartment steps from Sitges beach',
+                    photoUrl: null,
+                    is_featured: false,
+                    is_popular: false
+                },
                 {
                     id: 'VERV004',
-                    title: 'Historic Townhouse Girona',
-                    location: 'Girona', // String, not object
-                    price: 650000,
-                    type: 'Townhouse',
-                    bedrooms: 3,
-                    bathrooms: 2,
-                    builtArea: 220,
-                    description: 'Beautifully restored townhouse in Girona old town',
+                    title: 'Mountain Retreat Emporda',
+                    location: 'Emporda',
+                    price: 1400000,
+                    type: 'House',
+                    bedrooms: 4,
+                    bathrooms: 3,
+                    builtArea: 320,
+                    landArea: 2500,
+                    description: 'Peaceful mountain retreat with vineyard views in Emporda region',
                     photoUrl: null,
                     is_featured: false,
                     is_popular: false
                 },
                 {
                     id: 'VERV005',
-                    title: 'Luxury Apartment Barcelona',
-                    location: 'Barcelona', // String, not object
-                    price: 875000,
+                    title: 'Waterfront Apartment Castelldefels',
+                    location: 'Castelldefels',
+                    price: 580000,
                     type: 'Apartment',
                     bedrooms: 2,
                     bathrooms: 2,
-                    builtArea: 120,
-                    description: 'Modern apartment in prime Barcelona location',
-                    photoUrl: null,
-                    is_featured: false,
-                    is_popular: false
-                },
-                {
-                    id: 'VERV006',
-                    title: 'Beachfront Villa Sitges',
-                    location: 'Sitges', // String, not object
-                    price: 3200000,
-                    type: 'Villa',
-                    bedrooms: 6,
-                    bathrooms: 5,
-                    builtArea: 400,
-                    landArea: 1000,
-                    description: 'Exclusive beachfront villa with private access',
-                    photoUrl: null,
-                    is_featured: true,
-                    is_popular: true
-                },
-                {
-                    id: 'VERV007',
-                    title: 'Mountain Retreat Emporda',
-                    location: 'Emporda', // String, not object
-                    price: 1200000,
-                    type: 'House',
-                    bedrooms: 4,
-                    bathrooms: 3,
-                    builtArea: 250,
-                    landArea: 2000,
-                    description: 'Peaceful mountain retreat with vineyard views',
-                    photoUrl: null,
-                    is_featured: false,
-                    is_popular: false
-                },
-                {
-                    id: 'VERV008',
-                    title: 'Waterfront Apartment Castelldefels',
-                    location: 'Castelldefels', // String, not object
-                    price: 540000,
-                    type: 'Apartment',
-                    bedrooms: 2,
-                    bathrooms: 1,
-                    builtArea: 85,
-                    description: 'Charming waterfront apartment with beach access',
+                    builtArea: 95,
+                    description: 'Bright waterfront apartment with panoramic sea views',
                     photoUrl: null,
                     is_featured: false,
                     is_popular: false
@@ -2728,7 +2796,7 @@
             console.log('✅ FILTERS CLEARED');
         }
 
-        // FIXED: Display featured properties with proper filtering and display
+        // ENHANCED: Display featured properties with proper filtering by feature flag
         function displayFeaturedProperties() {
             console.log('=== DISPLAYING FEATURED PROPERTIES ===');
             console.log('Available properties:', displayedProperties.length);
@@ -2739,25 +2807,34 @@
                 return;
             }
             
+            // Filter for featured properties first, fallback to all if none
+            let featuredProperties = displayedProperties.filter(p => p.is_featured);
+            if (featuredProperties.length === 0) {
+                console.log('No featured properties found, using first 4 available properties');
+                featuredProperties = displayedProperties.slice(0, 4);
+            }
+            
+            console.log('Featured properties to display:', featuredProperties.length);
+            
             // Reset hero property index if needed
-            if (currentHeroPropertyIndex >= displayedProperties.length) {
+            if (currentHeroPropertyIndex >= featuredProperties.length) {
                 currentHeroPropertyIndex = 0;
             }
             
-            // Show hero property (first available property)
-            const heroProperty = displayedProperties[currentHeroPropertyIndex];
+            // Show hero property (first featured property)
+            const heroProperty = featuredProperties[currentHeroPropertyIndex];
             console.log('Displaying hero property:', heroProperty);
             displayHeroProperty(heroProperty);
             
-            // Show grid properties (next 2 available properties)
-            const gridProperties = displayedProperties.slice(1, 3);
+            // Show grid properties (next 2 featured properties)
+            const gridProperties = featuredProperties.slice(1, 3);
             console.log('Displaying grid properties:', gridProperties.length);
             displayGridProperties(gridProperties);
             
             console.log('=== FEATURED PROPERTIES DISPLAYED ===');
         }
 
-        // FIXED: Display popular properties with proper sorting and display
+        // ENHANCED: Display popular properties with proper filtering by popular flag
         function displayPopularProperties() {
             console.log('=== DISPLAYING POPULAR PROPERTIES ===');
             console.log('Available properties for popular:', displayedProperties.length);
@@ -2768,8 +2845,15 @@
                 return;
             }
             
+            // Filter for popular properties first, then sort by clicks and price
+            let popularProperties = displayedProperties.filter(p => p.is_popular);
+            if (popularProperties.length === 0) {
+                console.log('No popular properties found, using all available properties');
+                popularProperties = [...displayedProperties];
+            }
+            
             // Sort by clicks first, then by price (higher first)
-            const sortedProperties = [...displayedProperties].sort((a, b) => {
+            const sortedProperties = popularProperties.sort((a, b) => {
                 const aClicks = propertyClicks[a.id] || 0;
                 const bClicks = propertyClicks[b.id] || 0;
                 
@@ -2976,110 +3060,184 @@
             return card;
         }
 
-        // COMPLETELY REWRITTEN: Search functionality that actually works
+        // COMPLETELY REWRITTEN: Simple and reliable search functionality
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
+            const searchButton = document.querySelector('.verv-search-btn-minimal');
             
-            if (searchForm) {
-                console.log('=== INITIALIZING SEARCH ===');
-                
-                searchForm.addEventListener('submit', function(e) {
+            if (!searchForm) {
+                console.error('❌ Search form not found!');
+                return;
+            }
+            
+            console.log('=== INITIALIZING SEARCH ===');
+            
+            // Main search handler function
+            function handleSearch(e) {
+                if (e) {
                     e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                console.log('🔍 SEARCH TRIGGERED');
+                
+                // Add visual feedback
+                if (searchButton) {
+                    const originalText = searchButton.textContent;
+                    searchButton.textContent = 'Searching...';
+                    searchButton.disabled = true;
                     
-                    console.log('🔍 SEARCH FORM SUBMITTED');
-                    
-                    // Get form elements
-                    const propertyTypeElement = document.getElementById('vervSaleRent');
-                    const budgetElement = document.getElementById('vervBudget');
-                    const locationSelectElement = document.getElementById('vervLocationSelect');
-                    const locationInputElement = document.getElementById('vervLocationInput');
-                    
-                    // Extract values safely
-                    const propertyType = propertyTypeElement ? propertyTypeElement.value.trim() : '';
-                    const budget = budgetElement ? budgetElement.value.trim() : '';
-                    
-                    // Get location - prioritize the visible input
-                    let location = '';
-                    if (locationSelectElement && locationSelectElement.style.display !== 'none') {
-                        // Using dropdown
+                    setTimeout(() => {
+                        searchButton.textContent = originalText;
+                        searchButton.disabled = false;
+                    }, 500);
+                }
+                
+                // Get form elements
+                const propertyTypeElement = document.getElementById('vervSaleRent');
+                const budgetElement = document.getElementById('vervBudget');
+                const locationSelectElement = document.getElementById('vervLocationSelect');
+                const locationInputElement = document.getElementById('vervLocationInput');
+                
+                // Extract values safely
+                const propertyType = propertyTypeElement ? propertyTypeElement.value.trim() : '';
+                const budget = budgetElement ? budgetElement.value.trim() : '';
+                
+                // Get location - check which input is visible/active
+                let location = '';
+                try {
+                    if (locationSelectElement && getComputedStyle(locationSelectElement).display !== 'none') {
                         location = locationSelectElement.value.trim();
                         console.log('Location from dropdown:', location);
-                    } else if (locationInputElement && locationInputElement.style.display !== 'none') {
-                        // Using text input
+                    } else if (locationInputElement && getComputedStyle(locationInputElement).display !== 'none') {
                         location = locationInputElement.value.trim();
                         console.log('Location from input:', location);
+                    } else if (locationSelectElement) {
+                        location = locationSelectElement.value.trim();
+                        console.log('Location from default dropdown:', location);
                     }
-                    
-                    console.log('=== SEARCH VALUES ===');
-                    console.log('Property Type:', propertyType);
-                    console.log('Location:', location);
-                    console.log('Budget:', budget);
-                    console.log('==================');
-                    
-                    // Update filters
-                    currentFilters = {
-                        type: propertyType,
-                        location: location,
-                        budget: budget
-                    };
-                    
-                    console.log('Updated currentFilters:', currentFilters);
-                    
-                    // Apply filters immediately
-                    console.log('🎯 APPLYING SEARCH FILTERS');
-                    applyFiltersAndDisplay();
-                    
-                    // Track search
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'search', {
-                            search_term: location || 'all_locations',
-                            property_type: propertyType || 'all_types',
-                            budget_range: budget || 'all_budgets'
-                        });
-                    }
-                    
-                    console.log('✅ SEARCH COMPLETED');
-                });
+                } catch (error) {
+                    console.log('Error getting location, using fallback:', error);
+                    if (locationSelectElement) location = locationSelectElement.value.trim();
+                }
                 
-                // Handle direct button click
-                const searchButton = document.querySelector('.verv-search-btn-minimal');
-                if (searchButton) {
-                    searchButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        console.log('🔍 Search button clicked directly');
-                        searchForm.dispatchEvent(new Event('submit'));
+                console.log('=== SEARCH VALUES ===');
+                console.log('Property Type:', propertyType);
+                console.log('Location:', location);
+                console.log('Budget:', budget);
+                console.log('==================');
+                
+                // Update filters
+                currentFilters = {
+                    type: propertyType,
+                    location: location,
+                    budget: budget
+                };
+                
+                console.log('Updated currentFilters:', currentFilters);
+                
+                // Apply filters immediately
+                console.log('🎯 APPLYING SEARCH FILTERS');
+                applyFiltersAndDisplay();
+                
+                // Track search event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'search', {
+                        search_term: location || 'all_locations',
+                        property_type: propertyType || 'all_types',
+                        budget_range: budget || 'all_budgets'
                     });
                 }
                 
-                // Handle Enter key in form fields
-                const formInputs = searchForm.querySelectorAll('input, select');
-                formInputs.forEach(input => {
-                    input.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            console.log('🔍 Enter key pressed in form field');
-                            searchForm.dispatchEvent(new Event('submit'));
-                        }
-                    });
-                });
+                // Scroll to results
+                setTimeout(() => {
+                    const propertiesSection = document.querySelector('.properties-section');
+                    if (propertiesSection) {
+                        propertiesSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
                 
-                console.log('✅ Search functionality initialized');
-            } else {
-                console.error('❌ Search form not found!');
+                console.log('✅ SEARCH COMPLETED');
             }
+            
+            // Form submit handler
+            searchForm.addEventListener('submit', handleSearch);
+            
+            // Button click handler (backup)
+            if (searchButton) {
+                searchButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('🔍 Search button clicked directly');
+                    handleSearch(e);
+                });
+            }
+            
+            // Enter key handlers for all form fields
+            const formFields = searchForm.querySelectorAll('input, select');
+            formFields.forEach(field => {
+                field.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        console.log('🔍 Enter key pressed in form field');
+                        handleSearch(e);
+                    }
+                });
+            });
+            
+            // Real-time filtering on field changes (optional)
+            formFields.forEach(field => {
+                field.addEventListener('change', function() {
+                    console.log('🔄 Field changed, auto-filtering...');
+                    handleSearch();
+                });
+            });
+            
+            console.log('✅ Search functionality initialized successfully');
         }
 
-        // Hero property navigation
+        // ENHANCED: Hero property navigation that works with current tab context
         function previousHeroProperty() {
             if (displayedProperties.length === 0) return;
-            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + displayedProperties.length) % displayedProperties.length;
-            displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
+            
+            let availableProperties = displayedProperties;
+            
+            // If on featured tab, use only featured properties for navigation
+            if (currentTab === 'featured') {
+                const featuredProperties = displayedProperties.filter(p => p.is_featured);
+                if (featuredProperties.length > 0) {
+                    availableProperties = featuredProperties;
+                }
+            }
+            
+            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + availableProperties.length) % availableProperties.length;
+            
+            if (currentTab === 'featured') {
+                displayHeroProperty(availableProperties[currentHeroPropertyIndex]);
+            } else {
+                displayPopularProperty(availableProperties[currentHeroPropertyIndex]);
+            }
         }
 
         function nextHeroProperty() {
             if (displayedProperties.length === 0) return;
-            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % displayedProperties.length;
-            displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
+            
+            let availableProperties = displayedProperties;
+            
+            // If on featured tab, use only featured properties for navigation
+            if (currentTab === 'featured') {
+                const featuredProperties = displayedProperties.filter(p => p.is_featured);
+                if (featuredProperties.length > 0) {
+                    availableProperties = featuredProperties;
+                }
+            }
+            
+            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % availableProperties.length;
+            
+            if (currentTab === 'featured') {
+                displayHeroProperty(availableProperties[currentHeroPropertyIndex]);
+            } else {
+                displayPopularProperty(availableProperties[currentHeroPropertyIndex]);
+            }
         }
 
         // FIXED: View property function with correct URL format
@@ -3231,7 +3389,7 @@
 
         // COMPLETELY REWRITTEN: Initialization that ensures everything works
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE Homepage - DEEP FIX VERSION Loading...');
+            console.log('🚀 VERV ONE Homepage - COMPLETE VERSION Loading...');
             
             try {
                 // Initialize core functionality first
@@ -3266,8 +3424,8 @@
                         console.error('❌ Error loading properties:', error);
                         
                         // Fallback to sample data
-                        console.log('📋 Using sample data as fallback');
-                        allProperties = createEnhancedSampleData();
+                        console.log('📋 Using specific properties sample data as fallback');
+                        allProperties = createEnhancedSampleDataWithSpecificProperties();
                         displayedProperties = [...allProperties];
                         
                         if (currentTab === 'featured') {
@@ -3284,7 +3442,7 @@
                 
                 // Emergency fallback
                 console.log('🆘 Emergency fallback activation');
-                allProperties = createEnhancedSampleData();
+                allProperties = createEnhancedSampleDataWithSpecificProperties();
                 displayedProperties = [...allProperties];
                 
                 if (currentTab === 'featured') {
@@ -3294,20 +3452,6 @@
                 }
             }
         });
-
-        // Consultation modal
-        function openConsultationModal() {
-            console.log('Opening consultation modal...');
-            
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'consultation_request', {
-                    source: 'hero_section',
-                    method: 'schedule_form'
-                });
-            }
-            
-            window.location.href = '/contact/';
-        }
 
         // Make functions global for HTML onclick handlers
         window.previousHeroProperty = previousHeroProperty;
