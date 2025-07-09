@@ -1,147 +1,192 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propiedades - Verv One</title>
+    <title>Properties - VERV ONE</title>
     <link rel="stylesheet" href="../shared/shared-styles-css.css">
+    
     <style>
-        .loading {
-            text-align: center;
+        .properties-container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
-            font-size: 1.2rem;
+            margin-top: 100px;
         }
         
-        .error {
-            background-color: #fee;
-            border: 1px solid #fcc;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 4px;
-            color: #c33;
+        .properties-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .properties-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .properties-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
         }
         
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            padding: 2rem;
+            margin-bottom: 3rem;
         }
         
         .property-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            background: white;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
             cursor: pointer;
         }
         
         .property-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+        
+        .property-image-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
         }
         
         .property-image {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            background-color: #f0f0f0;
+            transition: transform 0.3s ease;
+        }
+        
+        .property-card:hover .property-image {
+            transform: scale(1.05);
         }
         
         .property-info {
-            padding: 1rem;
+            padding: 1.5rem;
         }
         
         .property-price {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
             color: #2c5aa0;
             margin-bottom: 0.5rem;
         }
         
         .property-title {
             font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 0.5rem;
             line-height: 1.4;
         }
         
         .property-location {
             color: #666;
+            font-size: 0.9rem;
             margin-bottom: 1rem;
         }
         
         .property-details {
             display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #777;
+            flex-direction: column;
+            gap: 0.5rem;
         }
         
-        .results-count {
+        .property-detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25rem 0;
+            font-size: 0.85rem;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .loading-state {
             text-align: center;
-            padding: 1rem;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 8px;
+            color: #c33;
+            margin: 2rem 0;
+        }
+        
+        .properties-count {
+            text-align: center;
+            margin-bottom: 2rem;
             font-size: 1.1rem;
             color: #666;
         }
         
-        .section {
-            padding: 2rem 0;
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #2c5aa0;
+            text-decoration: none;
+            font-weight: 600;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .back-link:hover {
+            text-decoration: underline;
         }
         
-        .filters-section {
-            background: #f8f8f8;
-            padding: 2rem 0;
+        @media (max-width: 768px) {
+            .properties-container {
+                padding: 1rem;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .properties-title {
+                font-size: 2rem;
+            }
+            
+            .property-image-container {
+                height: 200px;
+            }
         }
         
-        .filters-container {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: end;
-        }
-        
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            min-width: 150px;
-        }
-        
-        .filter-group label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-        
-        .filter-group select {
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .search-btn {
-            background: #2c5aa0;
-            color: white;
-            border: none;
-            padding: 0.7rem 2rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .search-btn:hover {
-            background: #1e3f73;
+        @media (max-width: 480px) {
+            .properties-title {
+                font-size: 1.8rem;
+            }
+            
+            .property-info {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header Navigation -->
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
@@ -161,82 +206,36 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="inner-hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/images/costa-brava.jpg') center/cover;">
-            <div class="inner-hero-content">
-                <h1>Discover exceptional properties in Barcelona, Sitges & Costa Brava</h1>
-                <p>Find your perfect home in Spain's most desirable locations</p>
-            </div>
-        </section>
+    <main class="properties-container">
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <div class="properties-header">
+            <h1 class="properties-title">Exceptional Properties</h1>
+            <p class="properties-subtitle">Discover luxury homes across Barcelona, Sitges & Costa Brava</p>
+        </div>
 
-        <!-- Filters Section -->
-        <section class="filters-section">
-            <div class="container">
-                <div class="filters-container">
-                    <div class="filter-group">
-                        <label for="property-type">PROPERTY TYPE</label>
-                        <select id="property-type">
-                            <option>All Types</option>
-                            <option>Apartment</option>
-                            <option>House</option>
-                            <option>Villa</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="location">LOCATION</label>
-                        <select id="location">
-                            <option>All Locations</option>
-                            <option>Barcelona</option>
-                            <option>Sitges</option>
-                            <option>Costa Brava</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="price">PRICE</label>
-                        <select id="price">
-                            <option>Any Price</option>
-                            <option>Up to €300,000</option>
-                            <option>€300,000 - €500,000</option>
-                            <option>€500,000+</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="bedrooms">BEDROOMS</label>
-                        <select id="bedrooms">
-                            <option>Any</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4+</option>
-                        </select>
-                    </div>
-                    
-                    <button class="search-btn" onclick="loadProperties()">SEARCH</button>
-                </div>
-            </div>
-        </section>
+        <!-- Properties Count -->
+        <div id="propertiesCount" class="properties-count" style="display: none;">
+            Found <span id="countNumber">0</span> properties
+        </div>
 
-        <!-- Results Section -->
-        <section class="section">
-            <div class="container">
-                <div id="loading" class="loading" style="display: none;">
-                    Loading properties...
-                </div>
-                
-                <div id="error-message" class="error" style="display: none;">
-                    Error loading properties. Please try again later.
-                </div>
-                
-                <div id="results-container" class="results-container">
-                    <!-- Properties will be loaded here -->
-                </div>
-            </div>
-        </section>
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state">
+            <h2>Loading properties...</h2>
+            <p>Please wait while we fetch the latest listings from our database.</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="error-state" style="display: none;">
+            <h2>Unable to Load Properties</h2>
+            <p id="errorMessage">There was an error loading the properties. Please try again later.</p>
+            <button onclick="loadProperties()" style="background: #2c5aa0; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-top: 1rem;">Retry</button>
+        </div>
+
+        <!-- Properties Grid -->
+        <div id="propertiesGrid" class="properties-grid">
+            <!-- Properties will be inserted here -->
+        </div>
     </main>
 
     <!-- Footer -->
@@ -254,213 +253,163 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <script src="../shared/shared-navigation-js.js"></script>
+    
     <script>
-        // Global variables
-        let allProperties = [];
+        // Render Property Card Function
+        function renderPropertyCard(property) {
+            // Title
+            const title = property.title || `${property.type?.label || 'Property'} in ${property.location?.city || 'Unknown Location'}`;
+            
+            // Location
+            const location = property.location?.city || 'N/A';
+            
+            // Image
+            const image = property.pictures?.[0]?.url || '../assets/images/masia-emporda.jpg';
+            
+            // Bedrooms
+            const bedrooms = property.rooms?.bedrooms || 'N/A';
+            
+            // Bathrooms
+            const bathrooms = property.rooms?.bathrooms || 'N/A';
+            
+            // Built area
+            const builtArea = property.area?.total || property.area?.value || 'N/A';
+            const builtAreaDisplay = builtArea !== 'N/A' ? `${builtArea}m²` : 'N/A';
+            
+            // Land area (sum of areas with type 49, 50, or 51)
+            let landArea = 'N/A';
+            if (property.areas && Array.isArray(property.areas)) {
+                const landAreas = property.areas.filter(area => [49, 50, 51].includes(area.type));
+                if (landAreas.length > 0) {
+                    const totalLandArea = landAreas.reduce((sum, area) => sum + (area.value || 0), 0);
+                    landArea = totalLandArea > 0 ? `${totalLandArea}m²` : 'N/A';
+                }
+            }
+            
+            // Price
+            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            
+            // Property ID
+            const propertyId = property.id || 'N/A';
+            
+            return `
+                <div class="property-card" data-property-id="${propertyId}">
+                    <div class="property-image-container">
+                        <img src="${image}" alt="${title}" class="property-image" onerror="this.src='../assets/images/masia-emporda.jpg'">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">${price}</div>
+                        <h3 class="property-title">${title}</h3>
+                        <p class="property-location">📍 ${location}</p>
+                        <div class="property-details">
+                            <div class="property-detail-item">
+                                <span class="detail-label">🛏️ Bedrooms:</span>
+                                <span class="detail-value">${bedrooms}</span>
+                            </div>
+                            <div class="property-detail-item">
+                                <span class="detail-label">🚿 Bathrooms:</span>
+                                <span class="detail-value">${bathrooms}</span>
+                            </div>
+                            <div class="property-detail-item">
+                                <span class="detail-label">🏠 Built Area:</span>
+                                <span class="detail-value">${builtAreaDisplay}</span>
+                            </div>
+                            <div class="property-detail-item">
+                                <span class="detail-label">🌿 Land Area:</span>
+                                <span class="detail-value">${landArea}</span>
+                            </div>
+                            <div class="property-detail-item">
+                                <span class="detail-label">🆔 Property ID:</span>
+                                <span class="detail-value">${propertyId}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
-        // Function to load properties from API
+        // Load properties from API
         async function loadProperties() {
-            const loadingElement = document.getElementById('loading');
-            const errorElement = document.getElementById('error-message');
-            const resultsContainer = document.getElementById('results-container');
-            
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const propertiesGrid = document.getElementById('propertiesGrid');
+            const propertiesCount = document.getElementById('propertiesCount');
+            const countNumber = document.getElementById('countNumber');
+
             // Show loading state
-            loadingElement.style.display = 'block';
-            errorElement.style.display = 'none';
-            resultsContainer.innerHTML = '';
-            
+            loadingState.style.display = 'block';
+            errorState.style.display = 'none';
+            propertiesCount.style.display = 'none';
+            propertiesGrid.innerHTML = '';
+
             try {
-                console.log('Fetching properties from API...');
+                console.log('🔄 Loading properties from Apimo API...');
                 
                 const response = await fetch('/.netlify/functions/properties');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                
+
                 const data = await response.json();
-                console.log('API Response:', data);
-                
-                if (data.success && data.properties) {
-                    allProperties = transformApimoProperties(data.properties);
-                    displayProperties(allProperties);
-                    console.log(`✅ Loaded ${allProperties.length} properties successfully`);
-                } else {
-                    throw new Error('Invalid response format from API');
-                }
-                
-            } catch (error) {
-                console.error('Error loading properties:', error);
-                
-                errorElement.style.display = 'block';
-                errorElement.innerHTML = `<strong>Error loading properties:</strong><br>${error.message}`;
-                
-                // Load sample data as fallback
-                loadSampleData();
-                
-            } finally {
-                loadingElement.style.display = 'none';
-            }
-        }
+                console.log('📊 API Response:', data);
 
-        // Transform Apimo data to frontend format
-        function transformApimoProperties(apimoProperties) {
-            return apimoProperties.map((property, index) => {
-                
-                let price = 'Price on request';
-                if (property.price) {
-                    price = `€${property.price.toLocaleString()}`;
-                }
-                
-                let location = 'Spain';
-                if (property.location) {
-                    location = property.location;
-                } else if (property.address && property.address.city) {
-                    location = property.address.city;
-                } else if (property.city) {
-                    location = property.city;
-                }
-                
-                let bedrooms = 'N/A';
-                let bathrooms = 'N/A';
-                
-                if (property.areas) {
-                    const bedroomArea = property.areas.find(area => 
-                        area.type === 'bedroom' || area.name?.toLowerCase().includes('dormitorio')
-                    );
-                    if (bedroomArea) {
-                        bedrooms = bedroomArea.count || bedroomArea.number || 'N/A';
-                    }
+                if (data.success && data.properties && data.properties.length > 0) {
+                    // Hide loading state
+                    loadingState.style.display = 'none';
                     
-                    const bathroomArea = property.areas.find(area => 
-                        area.type === 'bathroom' || area.name?.toLowerCase().includes('baño')
-                    );
-                    if (bathroomArea) {
-                        bathrooms = bathroomArea.count || bathroomArea.number || 'N/A';
-                    }
+                    // Show properties count
+                    countNumber.textContent = data.properties.length;
+                    propertiesCount.style.display = 'block';
+                    
+                    // Render properties
+                    data.properties.forEach(property => {
+                        const propertyHTML = renderPropertyCard(property);
+                        propertiesGrid.innerHTML += propertyHTML;
+                    });
+                    
+                    // Add click handlers to property cards
+                    addPropertyClickHandlers();
+                    
+                    console.log(`✅ Successfully loaded ${data.properties.length} properties`);
+                } else {
+                    throw new Error('No properties found in the response');
                 }
-                
-                let size = 'N/A';
-                if (property.surface) {
-                    size = `${property.surface}m²`;
-                } else if (property.area) {
-                    size = `${property.area}m²`;
-                }
-                
-                let image = '../assets/images/property-placeholder.jpg';
-                if (property.pictures && property.pictures.length > 0) {
-                    image = property.pictures[0].url || property.pictures[0].picture;
-                } else if (property.images && property.images.length > 0) {
-                    image = property.images[0].url || property.images[0];
-                }
-                
-                return {
-                    id: property.id || index + 1,
-                    title: property.title || 'Property Available',
-                    price: price,
-                    location: location,
-                    bedrooms: bedrooms,
-                    bathrooms: bathrooms,
-                    size: size,
-                    image: image,
-                    featured: property.featured || false
-                };
-            });
-        }
 
-        // Display properties
-        function displayProperties(properties) {
-            const resultsContainer = document.getElementById('results-container');
-            
-            if (!properties || properties.length === 0) {
-                resultsContainer.innerHTML = '<p>No properties found.</p>';
-                return;
+            } catch (error) {
+                console.error('❌ Error loading properties:', error);
+                
+                // Hide loading state
+                loadingState.style.display = 'none';
+                
+                // Show error state
+                errorState.style.display = 'block';
+                document.getElementById('errorMessage').textContent = `Error: ${error.message}`;
             }
+        }
+
+        // Add click handlers to property cards
+        function addPropertyClickHandlers() {
+            const propertyCards = document.querySelectorAll('.property-card');
             
-            const countElement = document.createElement('div');
-            countElement.className = 'results-count';
-            countElement.innerHTML = `<p>Found ${properties.length} properties</p>`;
-            
-            const propertiesGrid = document.createElement('div');
-            propertiesGrid.className = 'properties-grid';
-            
-            properties.forEach(property => {
-                const propertyCard = createPropertyCard(property);
-                propertiesGrid.appendChild(propertyCard);
+            propertyCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const propertyId = this.getAttribute('data-property-id');
+                    
+                    if (propertyId && propertyId !== 'N/A') {
+                        // Navigate to single property page
+                        window.location.href = `/single-property/?id=${propertyId}`;
+                    }
+                });
             });
-            
-            resultsContainer.innerHTML = '';
-            resultsContainer.appendChild(countElement);
-            resultsContainer.appendChild(propertiesGrid);
         }
 
-        // Create property card
-        function createPropertyCard(property) {
-            const card = document.createElement('div');
-            card.className = 'property-card';
-            
-            card.innerHTML = `
-                <img src="${property.image}" alt="${property.title}" class="property-image" 
-                     onerror="this.src='../assets/images/property-placeholder.jpg'">
-                <div class="property-info">
-                    <div class="property-price">${property.price}</div>
-                    <h3 class="property-title">${property.title}</h3>
-                    <p class="property-location">📍 ${property.location}</p>
-                    <div class="property-details">
-                        <span>🛏️ ${property.bedrooms}</span>
-                        <span>🚿 ${property.bathrooms}</span>
-                        <span>📐 ${property.size}</span>
-                    </div>
-                </div>
-            `;
-            
-            card.addEventListener('click', () => {
-                window.location.href = `../single-property/index.html?id=${property.id}`;
-            });
-            
-            return card;
-        }
-
-        // Load sample data as fallback
-        function loadSampleData() {
-            console.log('Loading sample data as fallback...');
-            
-            const sampleProperties = [
-                {
-                    id: 1,
-                    title: "Modern Villa in Barcelona",
-                    price: "€450,000",
-                    location: "Barcelona, Spain",
-                    bedrooms: "3",
-                    bathrooms: "2",
-                    size: "120m²",
-                    image: "../assets/images/property-placeholder.jpg"
-                },
-                {
-                    id: 2,
-                    title: "Coastal Apartment in Sitges",
-                    price: "€320,000",
-                    location: "Sitges, Spain",
-                    bedrooms: "2",
-                    bathrooms: "1",
-                    size: "85m²",
-                    image: "../assets/images/property-placeholder.jpg"
-                }
-            ];
-            
-            allProperties = sampleProperties;
-            displayProperties(allProperties);
-        }
-
-        // Load properties when page loads
+        // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded, fetching properties...');
+            console.log('🚀 Properties page loaded, initializing...');
             loadProperties();
         });
     </script>
-
-    <!-- Shared JavaScript -->
-    <script src="../shared/shared-navigation-js.js"></script>
 </body>
 </html>
