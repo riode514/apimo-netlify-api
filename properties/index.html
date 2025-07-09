@@ -476,8 +476,7 @@
     <header class="header">
         <div class="header-content">
             <a href="/" class="logo">
-                <div class="logo-icon">V</div>
-                <span class="logo-text">VERV ONE</span>
+                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE" style="height: 40px;">
             </a>
             
             <nav>
@@ -709,13 +708,44 @@
                 locationString = property.location.trim();
             }
             
-            // Clean up and validate result
+            // Method 4: Try additional location fields from API
+            else if (property.address_components && Array.isArray(property.address_components)) {
+                // Look for locality or administrative_area_level_2 in address components
+                const cityComponent = property.address_components.find(comp => 
+                    comp.types && (comp.types.includes('locality') || comp.types.includes('administrative_area_level_2'))
+                );
+                if (cityComponent && cityComponent.long_name) {
+                    locationString = cityComponent.long_name;
+                }
+            }
+            
+            // Method 5: Check for nested location data
+            else if (property.property && property.property.location) {
+                return extractLocationString(property.property);
+            }
+            
+            // Clean up and validate result - ONLY fallback if truly empty
             if (!locationString || locationString === '' || locationString === 'null' || locationString === 'undefined') {
-                locationString = 'Premium Location';
+                // Try to extract from title or description as last resort
+                if (property.title && typeof property.title === 'string') {
+                    const titleWords = property.title.split(' ');
+                    // Look for common Spanish city patterns
+                    const possibleCity = titleWords.find(word => 
+                        word.length > 4 && /^[A-Z][a-z]+$/.test(word)
+                    );
+                    if (possibleCity) {
+                        locationString = possibleCity;
+                    }
+                }
+                
+                // If still no location found, keep it minimal
+                if (!locationString) {
+                    locationString = 'Spain'; // More specific than "Premium Location"
+                }
             }
             
             if (locationString.includes('[object Object]')) {
-                locationString = 'Premium Location';
+                locationString = 'Spain';
             }
             
             console.log('Final extracted location:', locationString);
@@ -748,22 +778,77 @@
                 }
             }
             
-            // Extract property type
-            let propertyType = 'Villa';
+            // Extract property type with more comprehensive logic
+            let propertyType = 'Property'; // Default fallback
+            
+            // Method 1: Direct type field
             if (property.type) {
-                if (typeof property.type === 'string') {
-                    propertyType = property.type;
-                } else if (property.type.label) {
-                    propertyType = property.type.label;
-                } else if (property.type.name) {
-                    propertyType = property.type.name;
+                if (typeof property.type === 'string' && property.type.trim()) {
+                    propertyType = property.type.trim();
+                } else if (property.type.label && typeof property.type.label === 'string') {
+                    propertyType = property.type.label.trim();
+                } else if (property.type.name && typeof property.type.name === 'string') {
+                    propertyType = property.type.name.trim();
+                } else if (property.type.type && typeof property.type.type === 'string') {
+                    propertyType = property.type.type.trim();
                 }
-            } else if (property.subtype) {
-                if (typeof property.subtype === 'string') {
-                    propertyType = property.subtype;
-                } else if (property.subtype.label) {
-                    propertyType = property.subtype.label;
+            }
+            
+            // Method 2: Subtype field
+            else if (property.subtype) {
+                if (typeof property.subtype === 'string' && property.subtype.trim()) {
+                    propertyType = property.subtype.trim();
+                } else if (property.subtype.label && typeof property.subtype.label === 'string') {
+                    propertyType = property.subtype.label.trim();
+                } else if (property.subtype.name && typeof property.subtype.name === 'string') {
+                    propertyType = property.subtype.name.trim();
                 }
+            }
+            
+            // Method 3: Category field
+            else if (property.category) {
+                if (typeof property.category === 'string' && property.category.trim()) {
+                    propertyType = property.category.trim();
+                } else if (property.category.label && typeof property.category.label === 'string') {
+                    propertyType = property.category.label.trim();
+                }
+            }
+            
+            // Method 4: Property class or classification
+            else if (property.property_type && typeof property.property_type === 'string') {
+                propertyType = property.property_type.trim();
+            } else if (property.classification && typeof property.classification === 'string') {
+                propertyType = property.classification.trim();
+            }
+            
+            // Method 5: Try to infer from title or description
+            else if (property.title && typeof property.title === 'string') {
+                const title = property.title.toLowerCase();
+                if (title.includes('villa')) propertyType = 'Villa';
+                else if (title.includes('apartment') || title.includes('piso')) propertyType = 'Apartment';
+                else if (title.includes('penthouse') || title.includes('ático')) propertyType = 'Penthouse';
+                else if (title.includes('house') || title.includes('casa')) propertyType = 'House';
+                else if (title.includes('plot') || title.includes('terreno') || title.includes('solar')) propertyType = 'Plot';
+                else if (title.includes('townhouse') || title.includes('adosado')) propertyType = 'Townhouse';
+            }
+            
+            // Normalize property type for consistency
+            propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
+            
+            // Map common Spanish terms to English
+            const typeMapping = {
+                'Piso': 'Apartment',
+                'Casa': 'House',
+                'Chalet': 'Villa',
+                'Ático': 'Penthouse',
+                'Adosado': 'Townhouse',
+                'Terreno': 'Plot',
+                'Solar': 'Plot',
+                'Unifamiliar': 'House'
+            };
+            
+            if (typeMapping[propertyType]) {
+                propertyType = typeMapping[propertyType];
             }
             
             // Extract bedrooms and bathrooms
@@ -839,25 +924,42 @@
             // Get property type icon
             const propertyIcon = propertyTypeIcons[property.type] || propertyTypeIcons['default'];
             
-            // Prepare features array
+            // Prepare features array based on property type
             const features = [];
-            if (property.bedrooms) {
-                features.push(`<div class="property-detail">${featureIcons.bed}<span>${property.bedrooms} bed</span></div>`);
-            }
-            if (property.bathrooms) {
-                features.push(`<div class="property-detail">${featureIcons.bath}<span>${property.bathrooms} bath</span></div>`);
-            }
-            if (property.builtArea) {
-                features.push(`<div class="property-detail">${featureIcons.area}<span>${property.builtArea}m² built</span></div>`);
-            }
-            if (property.landArea) {
-                features.push(`<div class="property-detail">${featureIcons.plot}<span>${property.landArea}m² plot</span></div>`);
+            
+            // For plots, show different information
+            if (property.type === 'Plot') {
+                if (property.landArea) {
+                    features.push(`<div class="property-detail">${featureIcons.plot}<span>${property.landArea}m² plot</span></div>`);
+                }
+                features.push(`<div class="property-detail">${featureIcons.area}<span>Building plot</span></div>`);
+                if (property.builtArea) {
+                    features.push(`<div class="property-detail">${featureIcons.area}<span>${property.builtArea}m² buildable</span></div>`);
+                }
+                // Add a generic feature if we don't have much info
+                if (features.length < 2) {
+                    features.push(`<div class="property-detail">${featureIcons.location}<span>Prime location</span></div>`);
+                }
+            } else {
+                // For regular properties (Villa, Apartment, House, etc.)
+                if (property.bedrooms) {
+                    features.push(`<div class="property-detail">${featureIcons.bed}<span>${property.bedrooms} bed</span></div>`);
+                }
+                if (property.bathrooms) {
+                    features.push(`<div class="property-detail">${featureIcons.bath}<span>${property.bathrooms} bath</span></div>`);
+                }
+                if (property.builtArea) {
+                    features.push(`<div class="property-detail">${featureIcons.area}<span>${property.builtArea}m² built</span></div>`);
+                }
+                if (property.landArea) {
+                    features.push(`<div class="property-detail">${featureIcons.plot}<span>${property.landArea}m² plot</span></div>`);
+                }
             }
             
             // If no features, add some placeholders
             if (features.length === 0) {
-                features.push(`<div class="property-detail">${featureIcons.area}<span>Area available</span></div>`);
-                features.push(`<div class="property-detail">${featureIcons.bed}<span>Details available</span></div>`);
+                features.push(`<div class="property-detail">${featureIcons.area}<span>Details available</span></div>`);
+                features.push(`<div class="property-detail">${featureIcons.location}<span>Contact for info</span></div>`);
             }
             
             return `
@@ -868,7 +970,7 @@
                             <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">${propertyIcon}</div>` :
                             `${propertyIcon}`
                         }
-                        <div class="property-type-badge">${property.type}</div>
+                        <div class="property-type-badge">${property.type.toUpperCase()}</div>
                     </div>
                     <div class="property-info">
                         <div class="property-location">
@@ -884,7 +986,7 @@
             `;
         }
 
-        // Enhanced load properties from API with better error handling
+        // Enhanced load properties from API with simplified error handling
         async function loadProperties() {
             const loadingState = document.getElementById('loadingState');
             const errorState = document.getElementById('errorState');
@@ -903,20 +1005,11 @@
             try {
                 console.log('🔄 Loading properties from VERV ONE API...');
                 
-                // Enhanced endpoint list with better error handling
+                // Simplified endpoint list without AbortSignal
                 const endpoints = [
-                    {
-                        url: 'https://verv.one/.netlify/functions/properties?limit=50',
-                        timeout: 15000
-                    },
-                    {
-                        url: 'https://www.verv.one/.netlify/functions/properties?limit=50',
-                        timeout: 15000
-                    },
-                    {
-                        url: 'https://verv.one/.netlify/functions/properties',
-                        timeout: 20000
-                    }
+                    'https://verv.one/.netlify/functions/properties?limit=50',
+                    'https://www.verv.one/.netlify/functions/properties?limit=50',
+                    'https://verv.one/.netlify/functions/properties'
                 ];
                 
                 let response = null;
@@ -925,24 +1018,23 @@
                 
                 for (const endpoint of endpoints) {
                     try {
-                        console.log(`🔍 Trying endpoint: ${endpoint.url}`);
+                        console.log(`🔍 Trying endpoint: ${endpoint}`);
                         
-                        const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), endpoint.timeout);
-                        
-                        response = await fetch(endpoint.url, {
+                        // Simple fetch with timeout using Promise.race
+                        const fetchPromise = fetch(endpoint, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                'User-Agent': 'VERV-ONE-PropertyPortal/1.0'
+                                'Content-Type': 'application/json'
                             },
-                            signal: controller.signal,
-                            cache: 'no-cache',
-                            credentials: 'omit'
+                            cache: 'no-cache'
                         });
                         
-                        clearTimeout(timeoutId);
+                        const timeoutPromise = new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('Request timeout')), 15000)
+                        );
+                        
+                        response = await Promise.race([fetchPromise, timeoutPromise]);
                         
                         console.log(`📡 Response status: ${response.status} ${response.statusText}`);
                         
@@ -963,13 +1055,15 @@
                         }
                     } catch (error) {
                         lastError = error;
-                        console.log(`❌ Endpoint ${endpoint.url} failed:`, error.message);
+                        console.log(`❌ Endpoint ${endpoint} failed:`, error.message);
                         continue;
                     }
                 }
                 
                 if (!data) {
-                    throw new Error(`All API endpoints failed. Last error: ${lastError?.message || 'Unknown error'}`);
+                    // If API fails, show sample properties for demonstration
+                    console.log('⚠️ API failed, loading sample properties for demonstration');
+                    return loadSampleProperties();
                 }
                 
                 // Handle different response formats
@@ -989,7 +1083,8 @@
                     console.log('✅ Found properties in data.results');
                 } else {
                     console.log('❌ Unknown data structure:', data);
-                    throw new Error('Properties not found in response data structure');
+                    // Fall back to sample properties
+                    return loadSampleProperties();
                 }
 
                 if (properties && properties.length > 0) {
@@ -1014,20 +1109,135 @@
                     
                     console.log(`🎉 Successfully rendered ${allProperties.length} properties`);
                 } else {
-                    throw new Error('No properties found in the response data');
+                    // Fall back to sample properties
+                    return loadSampleProperties();
                 }
 
             } catch (error) {
                 console.error('💥 Error loading properties:', error);
                 
-                // Hide loading state
-                loadingState.style.display = 'none';
-                
-                // Show error state
-                errorState.style.display = 'block';
-                document.getElementById('errorMessage').textContent = 
-                    `Unable to load properties: ${error.message}. Please check your internet connection and try again.`;
+                // Fall back to sample properties for demonstration
+                console.log('🔄 Loading sample properties as fallback...');
+                return loadSampleProperties();
             }
+        }
+
+        // Load sample properties for demonstration when API fails
+        function loadSampleProperties() {
+            console.log('📋 Loading sample properties for demonstration');
+            
+            const sampleProperties = [
+                {
+                    id: 'sample-1',
+                    title: 'Luxury Villa in Sitges',
+                    location: 'Sitges',
+                    price: 2500000,
+                    type: 'Villa',
+                    bedrooms: 5,
+                    bathrooms: 4,
+                    builtArea: 400,
+                    landArea: 1200,
+                    description: 'Stunning luxury villa with sea views',
+                    photoUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop',
+                    is_featured: true
+                },
+                {
+                    id: 'sample-2',
+                    title: 'Modern Apartment in Castelldefels',
+                    location: 'Castelldefels',
+                    price: 850000,
+                    type: 'Apartment',
+                    bedrooms: 3,
+                    bathrooms: 2,
+                    builtArea: 120,
+                    landArea: null,
+                    description: 'Contemporary apartment in prime location',
+                    photoUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop',
+                    is_featured: false
+                },
+                {
+                    id: 'sample-3',
+                    title: 'Penthouse with Terrace in Begur',
+                    location: 'Begur',
+                    price: 1200000,
+                    type: 'Penthouse',
+                    bedrooms: 4,
+                    bathrooms: 3,
+                    builtArea: 200,
+                    landArea: null,
+                    description: 'Exclusive penthouse with private terrace',
+                    photoUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
+                    is_featured: true
+                },
+                {
+                    id: 'sample-4',
+                    title: 'Townhouse in Gavà',
+                    location: 'Gavà',
+                    price: 650000,
+                    type: 'Townhouse',
+                    bedrooms: 4,
+                    bathrooms: 3,
+                    builtArea: 180,
+                    landArea: 300,
+                    description: 'Beautiful townhouse with garden',
+                    photoUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=600&fit=crop',
+                    is_featured: false
+                },
+                {
+                    id: 'sample-5',
+                    title: 'Building Plot in Calella de Palafrugell',
+                    location: 'Calella de Palafrugell',
+                    price: 450000,
+                    type: 'Plot',
+                    bedrooms: null,
+                    bathrooms: null,
+                    builtArea: null,
+                    landArea: 800,
+                    description: 'Prime building plot with sea views',
+                    photoUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
+                    is_featured: true
+                },
+                {
+                    id: 'sample-6',
+                    title: 'Historic House in Cadaqués',
+                    location: 'Cadaqués',
+                    price: 980000,
+                    type: 'House',
+                    bedrooms: 3,
+                    bathrooms: 2,
+                    builtArea: 150,
+                    landArea: 200,
+                    description: 'Charming house in historic fishing village',
+                    photoUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop',
+                    is_featured: false
+                }
+            ];
+            
+            allProperties = sampleProperties;
+            displayedProperties = [...allProperties];
+            
+            // Hide loading state
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const countNumber = document.getElementById('countNumber');
+            const countNumberSmall = document.getElementById('countNumberSmall');
+            const propertiesCount = document.getElementById('propertiesCount');
+            
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+            
+            // Update count in title and controls
+            countNumber.textContent = allProperties.length;
+            countNumberSmall.textContent = allProperties.length;
+            propertiesCount.style.display = 'block';
+            
+            // Add sample data indicator
+            document.querySelector('.search-results-text').textContent = 'Sample Portfolio (API Demo)';
+            
+            // Render properties
+            renderPropertiesGrid();
+            
+            console.log(`✅ Successfully loaded ${allProperties.length} sample properties`);
         }
 
         // Render properties grid
