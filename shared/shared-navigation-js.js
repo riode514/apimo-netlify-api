@@ -43,6 +43,8 @@ function initNavigation() {
     if (mobileMenuToggle && navMenu) {
         mobileMenuToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
+            // Update button text
+            this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
         });
     }
     
@@ -50,6 +52,10 @@ function initNavigation() {
     window.addEventListener('resize', function() {
         if (navMenu && window.innerWidth > 768) {
             navMenu.classList.remove('active');
+            // Reset button text
+            if (mobileMenuToggle) {
+                mobileMenuToggle.textContent = '☰';
+            }
         }
     });
     
@@ -59,6 +65,10 @@ function initNavigation() {
         link.addEventListener('click', function() {
             if (navMenu) {
                 navMenu.classList.remove('active');
+                // Reset button text
+                if (mobileMenuToggle) {
+                    mobileMenuToggle.textContent = '☰';
+                }
             }
         });
     });
@@ -67,6 +77,8 @@ function initNavigation() {
     let lastScrollTop = 0;
     window.addEventListener('scroll', function() {
         const header = document.querySelector('.header-nav');
+        if (!header) return;
+        
         const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
         
         if (currentScroll > lastScrollTop && currentScroll > 100) {
@@ -173,9 +185,27 @@ function handleConsultationSubmit(e) {
         }
     }
     
-    // Here you would typically send the data to your backend
-    // For now, show success message
-    alert('Thank you for your consultation request! We will contact you within 24 hours to schedule your personalized consultation.');
+    // Send to Formspree (same as property details page)
+    fetch('https://formspree.io/f/xgveqbqk', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            ...consultationData,
+            _subject: `Consultation Request: ${consultationData.interest || 'General Consultation'}`,
+            _cc: 'ronei@verv.one'
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert('Thank you for your consultation request! We will contact you within 24 hours to schedule your personalized consultation.');
+        } else {
+            alert('There was an error sending your request. Please try again or contact us directly.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('There was an error sending your request. Please try again or contact us directly.');
+    });
     
     // Close modal and reset form
     closeConsultationModal();
@@ -280,7 +310,8 @@ async function initProperties() {
 
 async function fetchPropertiesFromAPI() {
     try {
-        const response = await fetch(`https://resplendent-brigadeiros-48cf1c.netlify.app/.netlify/functions/properties?provider=4352&agency=24985&token=68460111a25a4d1ba2508ead22a2b59e16cfcfcd&cache_bust=${Date.now()}`);
+        // Updated to use the same API endpoint as the property details page
+        const response = await fetch(`https://verv.one/.netlify/functions/properties?limit=50&cache_bust=${Date.now()}`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -288,18 +319,14 @@ async function fetchPropertiesFromAPI() {
         
         const data = await response.json();
         
-        if (data.success && data.data) {
-            let properties = [];
-            
-            if (Array.isArray(data.data)) {
-                properties = data.data;
-            } else if (data.data.properties && Array.isArray(data.data.properties)) {
-                properties = data.data.properties;
-            } else if (data.data.id) {
-                properties = [data.data];
-            }
-            
-            return properties;
+        if (data.success && data.properties) {
+            return data.properties;
+        } else if (data.data && Array.isArray(data.data)) {
+            return data.data;
+        } else if (Array.isArray(data)) {
+            return data;
+        } else if (data.results && Array.isArray(data.results)) {
+            return data.results;
         }
         
         throw new Error('No properties found in API response');
@@ -419,8 +446,16 @@ function createPropertyCard(property) {
     const type = extractPropertyType(property);
     const imageUrl = getMainImageUrl(property.pictures || property.images || []);
     
+    // Determine the correct property details page URL
+    let propertyUrl = '/properties/property-details.html?id=' + property.id;
+    
+    // If we're on a different domain structure, adapt accordingly
+    if (window.location.pathname.includes('/single-property/')) {
+        propertyUrl = '/single-property/?id=' + property.id;
+    }
+    
     return `
-        <div class="property-card" onclick="window.open('/single-property/?id=${property.id}', '_blank')">
+        <div class="property-card" onclick="window.open('${propertyUrl}', '_blank')">
             <div class="property-badge">${type}</div>
             <img src="${imageUrl}" alt="${title}" class="property-image" loading="lazy">
             <div class="property-info">
@@ -591,10 +626,28 @@ function handleContactSubmit(e) {
         }
     }
     
-    // Here you would typically send the data to your backend
-    // For now, just show a success message
-    alert('Thank you for your message! We will get back to you soon.');
-    e.target.reset();
+    // Send to Formspree (same as other forms)
+    fetch('https://formspree.io/f/xgveqbqk', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            ...contactData,
+            _subject: `Contact Form: ${contactData.interest || 'General Inquiry'}`,
+            _cc: 'ronei@verv.one'
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert('Thank you for your message! We will get back to you soon.');
+            e.target.reset();
+        } else {
+            alert('There was an error sending your message. Please try again or contact us directly.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('There was an error sending your message. Please try again or contact us directly.');
+    });
 }
 
 // Animations
