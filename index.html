@@ -199,7 +199,7 @@
         }
 
         .logo {
-            height: 68px;
+            height: 95px; /* Increased by 40% from 68px */
             transition: height 0.3s ease;
         }
 
@@ -738,10 +738,10 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        /* FIXED: Properties Grid - Better design */
+        /* UPDATED: Properties Grid - 2 smaller cards for featured */
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 2rem;
             max-width: 1400px;
             margin: 0 auto;
@@ -762,6 +762,164 @@
         .property-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        /* NEW: Popular properties single layout */
+        .popular-property-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            padding: 0;
+            margin-bottom: 2rem;
+        }
+
+        .popular-property-visual {
+            height: 400px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .popular-property-visual svg {
+            width: 120px;
+            height: 120px;
+            color: #666;
+        }
+
+        .popular-property-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+
+        .popular-property-container:hover .popular-property-visual::before {
+            transform: translateX(100%);
+        }
+
+        .popular-property-content {
+            padding: 3rem;
+        }
+
+        .popular-property-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .popular-property-title {
+            font-size: 2.2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+            color: #000;
+            line-height: 1.3;
+        }
+
+        .popular-property-location {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .popular-property-location svg {
+            width: 20px;
+            height: 20px;
+            color: #666;
+        }
+
+        .popular-property-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .popular-property-features {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .popular-property-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .popular-property-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .popular-property-price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #000;
+            font-family: 'Lora', serif;
+            margin-bottom: 2rem;
+        }
+
+        .popular-property-action {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .popular-property-btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .popular-property-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .popular-property-btn.secondary {
+            background: transparent;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .popular-property-btn.secondary:hover {
+            background: #000;
+            color: white;
         }
 
         .property-icon-container {
@@ -1128,7 +1286,7 @@
             }
             
             .logo {
-                height: 50px;
+                height: 70px; /* Scaled down for mobile but still 40% larger than original mobile */
             }
 
             /* FIXED: Mobile hero spacing - Account for header */
@@ -1247,6 +1405,43 @@
 
             .property-card {
                 height: 250px;
+            }
+
+            /* Mobile styles for popular property layout */
+            .popular-property-container {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .popular-property-visual {
+                height: 250px;
+            }
+
+            .popular-property-visual svg {
+                width: 80px;
+                height: 80px;
+            }
+
+            .popular-property-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .popular-property-title {
+                font-size: 1.8rem;
+            }
+
+            .popular-property-features {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .popular-property-action {
+                flex-direction: column;
+            }
+
+            .popular-property-btn {
+                padding: 0.875rem 1.5rem;
+                justify-content: center;
             }
 
             .properties-tabs {
@@ -1901,123 +2096,261 @@
             return extractedData;
         }
         
-        // FIXED: Improved property rotation system
+        // ENHANCED: Property rotation system with caching
         function initPropertyRotation() {
             const lastRotation = localStorage.getItem('lastPropertyRotation');
             const now = new Date().getTime();
             const twentyFourHours = 24 * 60 * 60 * 1000;
             
             if (!lastRotation || (now - parseInt(lastRotation)) > twentyFourHours) {
+                console.log('Time for property rotation (24h passed)');
                 rotateProperties();
                 localStorage.setItem('lastPropertyRotation', now.toString());
+            } else {
+                const timeRemaining = twentyFourHours - (now - parseInt(lastRotation));
+                console.log(`Next property rotation in ${Math.round(timeRemaining / (1000 * 60 * 60))} hours`);
             }
             
             const timeSinceLastRotation = lastRotation ? (now - parseInt(lastRotation)) : 0;
             const timeUntilNextRotation = Math.max(twentyFourHours - timeSinceLastRotation, 60000); // Min 1 minute
             
             propertyRotationInterval = setTimeout(() => {
+                console.log('24-hour rotation timer triggered');
                 rotateProperties();
                 localStorage.setItem('lastPropertyRotation', new Date().getTime().toString());
                 
+                // Set up recurring 24-hour rotation
                 setInterval(() => {
+                    console.log('Daily property rotation');
                     rotateProperties();
                     localStorage.setItem('lastPropertyRotation', new Date().getTime().toString());
                 }, twentyFourHours);
             }, timeUntilNextRotation);
+            
+            console.log(`Property rotation initialized. Next rotation in ${Math.round(timeUntilNextRotation / (1000 * 60 * 60))} hours`);
         }
         
         function rotateProperties() {
             console.log('Rotating properties...');
+            
             if (featuredProperties.length > 0) {
-                // Shuffle the properties array
+                // Shuffle the properties array for daily rotation
                 featuredProperties = [...featuredProperties].sort(() => Math.random() - 0.5);
+                
+                // Cache the rotated properties
+                try {
+                    localStorage.setItem('cachedFeaturedProperties', JSON.stringify(featuredProperties));
+                } catch (error) {
+                    console.log('Error caching properties:', error);
+                }
+                
                 if (currentTab === 'featured') {
                     displayFeaturedProperties();
                 }
+                
+                console.log('Featured properties rotated');
             }
+            
             if (popularProperties.length > 0) {
-                // Re-sort popular properties by clicks
+                // Re-sort popular properties by clicks, then by price
                 const sortedProperties = [...popularProperties].sort((a, b) => {
                     const aClicks = propertyClicks[a.id] || 0;
                     const bClicks = propertyClicks[b.id] || 0;
-                    return bClicks - aClicks;
+                    
+                    if (bClicks !== aClicks) {
+                        return bClicks - aClicks;
+                    }
+                    
+                    // Secondary sort by price
+                    const aPrice = extractPropertyData(a)?.price || 0;
+                    const bPrice = extractPropertyData(b)?.price || 0;
+                    return bPrice - aPrice;
                 });
+                
                 popularProperties = sortedProperties;
                 if (currentTab === 'popular') {
                     displayPopularProperties();
                 }
+                
+                console.log('Popular properties re-sorted');
+            }
+            
+            // Try to refresh from API if it's been a while
+            const lastSuccessfulLoad = localStorage.getItem('lastSuccessfulLoad');
+            if (!lastSuccessfulLoad || (new Date().getTime() - parseInt(lastSuccessfulLoad)) > (6 * 60 * 60 * 1000)) {
+                console.log('Attempting to refresh properties from API...');
+                loadFeaturedProperties();
             }
         }
         
-        // FIXED: Initialize Google Places Autocomplete with better error handling
+        // FIXED: Initialize Google Places Autocomplete with enhanced functionality
         function initPlacesAutocomplete() {
             try {
                 const locationInput = document.getElementById('vervLocationInput');
                 if (locationInput && typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    console.log('Initializing Google Places Autocomplete...');
+                    
                     const autocomplete = new google.maps.places.Autocomplete(locationInput, {
                         types: ['(cities)'],
                         componentRestrictions: { country: 'es' },
-                        fields: ['formatted_address', 'geometry', 'name']
+                        fields: ['formatted_address', 'geometry', 'name', 'place_id']
                     });
+                    
+                    // Store selected place data
+                    let selectedPlace = null;
                     
                     autocomplete.addListener('place_changed', function() {
                         const place = autocomplete.getPlace();
+                        console.log('Place selected:', place);
+                        
                         if (place.formatted_address) {
                             locationInput.value = place.formatted_address;
+                            selectedPlace = place;
+                        } else if (place.name) {
+                            locationInput.value = place.name;
+                            selectedPlace = place;
+                        }
+                        
+                        // Store place data for form submission
+                        locationInput.setAttribute('data-place-id', place.place_id || '');
+                        locationInput.setAttribute('data-formatted-address', place.formatted_address || place.name || '');
+                    });
+                    
+                    // Handle manual input (when user types without selecting from dropdown)
+                    locationInput.addEventListener('input', function() {
+                        // Clear stored place data if user is typing manually
+                        if (this.value !== (selectedPlace?.formatted_address || selectedPlace?.name || '')) {
+                            this.removeAttribute('data-place-id');
+                            this.removeAttribute('data-formatted-address');
+                            selectedPlace = null;
                         }
                     });
                     
-                    console.log('Google Places Autocomplete initialized');
+                    // Handle blur event to ensure proper value is set
+                    locationInput.addEventListener('blur', function() {
+                        // If there's a selected place, use its formatted address
+                        if (selectedPlace && selectedPlace.formatted_address) {
+                            this.value = selectedPlace.formatted_address;
+                        }
+                    });
+                    
+                    console.log('Google Places Autocomplete initialized successfully');
+                    return autocomplete;
                 } else {
                     console.log('Google Maps API not available for autocomplete');
+                    return null;
                 }
             } catch (error) {
                 console.error('Error initializing Google Places:', error);
+                return null;
             }
         }
         
-        // FIXED: Enhanced property loading with better error handling and retries
+        // ENHANCED: Property loading with better API integration and rotation
         async function loadFeaturedProperties() {
             try {
                 console.log('Loading featured properties from API...');
                 
-                // Add timeout to the fetch request
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                // Try multiple endpoints to ensure we get real properties
+                const endpoints = [
+                    'https://verv.one/.netlify/functions/properties?limit=20',
+                    'https://www.verv.one/properties/?api=true&limit=20'
+                ];
                 
-                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=10', {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    signal: controller.signal
-                });
+                let response = null;
+                let data = null;
                 
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                console.log('API Response:', data);
-                
-                if (data.success && data.properties && data.properties.length > 0) {
-                    console.log('Properties loaded successfully:', data.properties.length);
-                    featuredProperties = data.properties;
-                    isApiLoaded = true;
-                    if (currentTab === 'featured') {
-                        displayFeaturedProperties();
+                for (const endpoint of endpoints) {
+                    try {
+                        console.log(`Trying endpoint: ${endpoint}`);
+                        
+                        // Add timeout to the fetch request
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+                        
+                        response = await fetch(endpoint, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                                'Cache-Control': 'no-cache'
+                            },
+                            signal: controller.signal
+                        });
+                        
+                        clearTimeout(timeoutId);
+                        
+                        if (response.ok) {
+                            data = await response.json();
+                            console.log(`Success with ${endpoint}:`, data);
+                            break;
+                        } else {
+                            console.log(`Failed with ${endpoint}: ${response.status}`);
+                        }
+                        
+                    } catch (error) {
+                        console.log(`Error with ${endpoint}:`, error);
+                        continue;
                     }
-                } else {
-                    throw new Error('No properties found in API response');
                 }
+                
+                // Process successful API response
+                if (data && ((data.success && data.properties) || Array.isArray(data))) {
+                    const properties = data.properties || data;
+                    
+                    if (Array.isArray(properties) && properties.length > 0) {
+                        console.log('Real properties loaded successfully:', properties.length);
+                        
+                        // Shuffle properties for daily rotation
+                        const shuffledProperties = [...properties].sort(() => Math.random() - 0.5);
+                        
+                        // Take first 6 properties for featured (1 hero + 2 grid + rotation buffer)
+                        featuredProperties = shuffledProperties.slice(0, 6);
+                        isApiLoaded = true;
+                        
+                        if (currentTab === 'featured') {
+                            displayFeaturedProperties();
+                        }
+                        
+                        // Store successful load time
+                        localStorage.setItem('lastSuccessfulLoad', new Date().getTime().toString());
+                        
+                        return;
+                    }
+                }
+                
+                throw new Error('No valid properties found in API response');
                 
             } catch (error) {
                 console.error('Error loading featured properties:', error);
                 
-                // Use sample data as fallback
+                // Check if we have recent cached data
+                const lastSuccessfulLoad = localStorage.getItem('lastSuccessfulLoad');
+                const cachedProperties = localStorage.getItem('cachedFeaturedProperties');
+                
+                if (lastSuccessfulLoad && cachedProperties) {
+                    const timeSinceLastLoad = new Date().getTime() - parseInt(lastSuccessfulLoad);
+                    const oneHour = 60 * 60 * 1000;
+                    
+                    // Use cached data if less than 1 hour old
+                    if (timeSinceLastLoad < oneHour) {
+                        try {
+                            const cached = JSON.parse(cachedProperties);
+                            if (Array.isArray(cached) && cached.length > 0) {
+                                console.log('Using cached properties from recent successful load');
+                                featuredProperties = cached;
+                                if (currentTab === 'featured') {
+                                    displayFeaturedProperties();
+                                }
+                                return;
+                            }
+                        } catch (cacheError) {
+                            console.log('Error parsing cached properties:', cacheError);
+                        }
+                    }
+                }
+                
+                // Use enhanced sample data as fallback
                 console.log('Using enhanced sample data as fallback');
                 featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
                 
@@ -2027,17 +2360,28 @@
             }
         }
         
-        // FIXED: Enhanced popular properties loading
+        // ENHANCED: Popular properties loading with click tracking
         async function loadPopularProperties() {
             try {
                 console.log('Loading popular properties...');
                 
-                // If we have API data, use it
+                // If we have real API data, use it
                 if (isApiLoaded && featuredProperties.length > 0) {
+                    console.log('Using real API data for popular properties');
+                    
+                    // Sort by click count (most popular first), then by price (higher first) as secondary
                     const sortedProperties = [...featuredProperties].sort((a, b) => {
                         const aClicks = propertyClicks[a.id] || 0;
                         const bClicks = propertyClicks[b.id] || 0;
-                        return bClicks - aClicks;
+                        
+                        if (bClicks !== aClicks) {
+                            return bClicks - aClicks; // Most clicks first
+                        }
+                        
+                        // If same click count, sort by price (higher first)
+                        const aPrice = extractPropertyData(a)?.price || 0;
+                        const bPrice = extractPropertyData(b)?.price || 0;
+                        return bPrice - aPrice;
                     });
                     
                     popularProperties = sortedProperties;
@@ -2047,11 +2391,11 @@
                     return;
                 }
                 
-                // Otherwise try to load from API
+                // Otherwise try to load from API specifically for popular
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 10000);
                 
-                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=20', {
+                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=10&sort=price_desc', {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -2062,35 +2406,39 @@
                 
                 clearTimeout(timeoutId);
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.success && data.properties && data.properties.length > 0) {
-                    const sortedProperties = data.properties.sort((a, b) => {
-                        const aClicks = propertyClicks[a.id] || 0;
-                        const bClicks = propertyClicks[b.id] || 0;
-                        return bClicks - aClicks;
-                    });
+                if (response.ok) {
+                    const data = await response.json();
                     
-                    popularProperties = sortedProperties;
-                    if (currentTab === 'popular') {
-                        displayPopularProperties();
+                    if (data.success && data.properties && data.properties.length > 0) {
+                        const sortedProperties = data.properties.sort((a, b) => {
+                            const aClicks = propertyClicks[a.id] || 0;
+                            const bClicks = propertyClicks[b.id] || 0;
+                            return bClicks - aClicks;
+                        });
+                        
+                        popularProperties = sortedProperties;
+                        if (currentTab === 'popular') {
+                            displayPopularProperties();
+                        }
+                        return;
                     }
-                } else {
-                    throw new Error('No properties found in API response');
                 }
+                
+                throw new Error('No properties found in popular API response');
                 
             } catch (error) {
                 console.error('Error loading popular properties:', error);
                 
-                // Use sample data as fallback, sorted by clicks
+                // Use sample data as fallback, sorted by clicks then price
                 const sortedSample = [...sampleProperties].sort((a, b) => {
                     const aClicks = propertyClicks[a.id] || 0;
                     const bClicks = propertyClicks[b.id] || 0;
-                    return bClicks - aClicks;
+                    
+                    if (bClicks !== aClicks) {
+                        return bClicks - aClicks;
+                    }
+                    
+                    return (b.price || 0) - (a.price || 0);
                 });
                 
                 popularProperties = sortedSample;
@@ -2100,7 +2448,7 @@
             }
         }
         
-        // FIXED: Display featured properties with better error handling
+        // UPDATED: Display featured properties (1 large + 2 smaller cards)
         function displayFeaturedProperties() {
             if (featuredProperties.length === 0) {
                 displayErrorState('No featured properties available');
@@ -2110,24 +2458,86 @@
             // Display hero property
             displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
             
-            // Display grid properties (skip the hero property)
-            const gridProperties = featuredProperties.slice(1, 5);
+            // Display only 2 grid properties (skip the hero property)
+            const gridProperties = featuredProperties.slice(1, 3); // Only 2 properties
             displayGridProperties(gridProperties);
         }
         
-        // Display popular properties
+        // UPDATED: Display popular properties (single property in card + description layout)
         function displayPopularProperties() {
             if (popularProperties.length === 0) {
                 displayErrorState('No popular properties available');
                 return;
             }
             
-            // Display hero property
-            displayHeroProperty(popularProperties[0]);
+            // Display single popular property in new layout
+            displayPopularProperty(popularProperties[0]);
             
-            // Display grid properties
-            const gridProperties = popularProperties.slice(1, 5);
-            displayGridProperties(gridProperties);
+            // Clear the grid for popular tab
+            const grid = document.getElementById('propertiesGrid');
+            if (grid) {
+                grid.innerHTML = '';
+            }
+        }
+        
+        // NEW: Display single popular property in card + description layout
+        function displayPopularProperty(property) {
+            const hero = document.getElementById('heroFeaturedProperty');
+            if (!hero || !property) return;
+            
+            const data = extractPropertyData(property);
+            if (!data) return;
+            
+            const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
+            const title = data.title || 'Luxury Property';
+            const location = data.location || 'Premium Location';
+            const type = data.type || 'Villa';
+            const description = data.description || 'Exceptional property in a prime location.';
+            
+            // Clean up location string
+            const cleanLocation = location.split(',')[0] || location;
+            
+            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
+            const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
+            
+            // Build features array
+            const features = [];
+            if (data.bedrooms) features.push(`<div class="popular-property-feature">🛏️ ${data.bedrooms} Bedrooms</div>`);
+            if (data.bathrooms) features.push(`<div class="popular-property-feature">🚿 ${data.bathrooms} Bathrooms</div>`);
+            if (data.builtArea) features.push(`<div class="popular-property-feature">📐 ${data.builtArea}m² Built</div>`);
+            if (data.landArea) features.push(`<div class="popular-property-feature">🌳 ${data.landArea}m² Plot</div>`);
+            
+            const featuresHTML = features.length > 0 ? 
+                `<div class="popular-property-features">${features.join('')}</div>` : '';
+            
+            hero.innerHTML = `
+                <div class="popular-property-container">
+                    <div class="popular-property-visual">
+                        ${propertyIcon}
+                    </div>
+                    <div class="popular-property-content">
+                        <div class="popular-property-badge">Most Popular</div>
+                        <h3 class="popular-property-title">${title}</h3>
+                        <div class="popular-property-location">
+                            ${locationIcon}
+                            <span>${cleanLocation}</span>
+                        </div>
+                        <div class="popular-property-details">
+                            ${featuresHTML}
+                        </div>
+                        <p class="popular-property-description">${description}</p>
+                        <div class="popular-property-price">${price}</div>
+                        <div class="popular-property-action">
+                            <button class="popular-property-btn" onclick="viewProperty('${data.id}')" aria-label="View property details">
+                                View Property
+                            </button>
+                            <button class="popular-property-btn secondary" onclick="openConsultationModal()" aria-label="Schedule consultation">
+                                Schedule Visit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
         
         // FIXED: Enhanced hero property display with SVG icons
@@ -2329,7 +2739,7 @@
             window.location.href = `/properties/?id=${propertyId}`;
         }
         
-        // FIXED: Enhanced hero search functionality
+        // FIXED: Enhanced hero search functionality with proper location handling
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             
@@ -2338,34 +2748,62 @@
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
+                    console.log('Search form submitted');
+                    
                     const formData = new FormData(searchForm);
                     const searchParams = new URLSearchParams();
                     
+                    // Get location input and its data
+                    const locationInput = document.getElementById('vervLocationInput');
+                    const locationValue = locationInput ? locationInput.value.trim() : '';
+                    const placeId = locationInput ? locationInput.getAttribute('data-place-id') : '';
+                    const formattedAddress = locationInput ? locationInput.getAttribute('data-formatted-address') : '';
+                    
+                    console.log('Location data:', {
+                        value: locationValue,
+                        placeId: placeId,
+                        formattedAddress: formattedAddress
+                    });
+                    
                     // Build search parameters
                     for (let [key, value] of formData.entries()) {
-                        if (value.trim()) {
-                            searchParams.append(key, value);
+                        if (value && value.trim()) {
+                            searchParams.append(key, value.trim());
+                        }
+                    }
+                    
+                    // Add enhanced location data if available
+                    if (locationValue) {
+                        searchParams.set('location', locationValue);
+                        if (placeId) {
+                            searchParams.set('place_id', placeId);
+                        }
+                        if (formattedAddress) {
+                            searchParams.set('formatted_address', formattedAddress);
                         }
                     }
                     
                     // Track search with enhanced analytics
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'search', {
-                            search_term: formData.get('location') || '',
+                            search_term: locationValue || '',
                             property_type: formData.get('sale-rent') || '',
-                            budget_range: formData.get('budget') || ''
+                            budget_range: formData.get('budget') || '',
+                            has_location_data: !!placeId
                         });
                     }
                     
                     // Track with custom analytics if available
                     if (typeof trackPropertyInquiry === 'function') {
-                        trackPropertyInquiry('search', formData.get('location') || 'general', 0);
+                        trackPropertyInquiry('search', locationValue || 'general', 0);
                     }
                     
-                    console.log('Search submitted:', Object.fromEntries(searchParams));
+                    console.log('Search parameters:', Object.fromEntries(searchParams));
                     
                     // Navigate to properties page with search parameters
-                    window.location.href = `/properties/?${searchParams.toString()}`;
+                    const searchUrl = `/properties/?${searchParams.toString()}`;
+                    console.log('Navigating to:', searchUrl);
+                    window.location.href = searchUrl;
                 });
                 
                 // Handle search button click specifically
@@ -2374,6 +2812,27 @@
                     searchButton.addEventListener('click', function(e) {
                         e.preventDefault();
                         console.log('Search button clicked');
+                        
+                        // Validate form before submission
+                        const locationInput = document.getElementById('vervLocationInput');
+                        const typeSelect = document.getElementById('vervSaleRent');
+                        
+                        let hasValidInput = false;
+                        if (locationInput && locationInput.value.trim()) hasValidInput = true;
+                        if (typeSelect && typeSelect.value) hasValidInput = true;
+                        
+                        if (!hasValidInput) {
+                            // Highlight the location input if no input provided
+                            if (locationInput) {
+                                locationInput.style.borderColor = '#ff6b6b';
+                                locationInput.focus();
+                                setTimeout(() => {
+                                    locationInput.style.borderColor = '';
+                                }, 3000);
+                            }
+                            return;
+                        }
+                        
                         searchForm.dispatchEvent(new Event('submit'));
                     });
                 }
@@ -2383,6 +2842,11 @@
                 inputs.forEach(input => {
                     input.addEventListener('change', function() {
                         // Remove any error styling
+                        this.style.borderColor = '';
+                    });
+                    
+                    input.addEventListener('input', function() {
+                        // Remove any error styling while typing
                         this.style.borderColor = '';
                     });
                 });
@@ -2497,58 +2961,77 @@
             window.location.href = '/contact/';
         }
         
-        // Performance optimization: Lazy load Google Maps
+        // ENHANCED: Performance optimization and Google Maps loading
         function loadGoogleMaps() {
             if (typeof google === 'undefined') {
-                window.initGoogleMaps();
+                console.log('Loading Google Maps API...');
+                const script = document.createElement('script');
+                script.async = true;
+                script.defer = true;
+                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initPlacesAutocomplete';
+                script.onerror = function() {
+                    console.log('Google Maps failed to load, search will work without autocomplete');
+                };
+                document.head.appendChild(script);
+            } else {
+                console.log('Google Maps already loaded');
+                initPlacesAutocomplete();
             }
         }
         
-        // FIXED: Enhanced initialization with Apimo catalog loading
+        // ENHANCED: Initialization with comprehensive setup
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Homepage loaded, initializing...');
+            console.log('Homepage loaded, initializing enhanced version...');
             
             try {
-                // Initialize core functionality
+                // Initialize core functionality first
                 initHeroSearch();
                 initTabs();
                 initMobileMenu();
                 initPropertyRotation();
                 
-                // Load Apimo property type catalogs first
-                loadPropertyTypeCatalogs().then(() => {
-                    console.log('Property catalogs loaded, now loading properties...');
-                    // Load featured properties after catalogs are loaded
-                    loadFeaturedProperties();
-                }).catch((error) => {
-                    console.log('Error loading catalogs, proceeding with fallback:', error);
-                    // Load properties even if catalogs fail
-                    loadFeaturedProperties();
-                });
-                
-                // Lazy load Google Maps after a delay
-                setTimeout(loadGoogleMaps, 2000);
-                
-                // Initialize Google Places API when available
-                if (typeof google !== 'undefined' && google.maps) {
-                    initPlacesAutocomplete();
-                } else {
-                    // Wait for Google Maps to load
-                    window.addEventListener('load', function() {
-                        setTimeout(() => {
-                            try {
-                                initPlacesAutocomplete();
-                            } catch (error) {
-                                console.log('Google Places not available:', error);
-                            }
-                        }, 1000);
+                // Load Apimo property type catalogs first, then properties
+                loadPropertyTypeCatalogs()
+                    .then(() => {
+                        console.log('Property catalogs loaded, now loading properties...');
+                        return loadFeaturedProperties();
+                    })
+                    .then(() => {
+                        console.log('Featured properties loaded successfully');
+                    })
+                    .catch((error) => {
+                        console.log('Error in property loading chain:', error);
+                        // Ensure properties load even if catalogs fail
+                        loadFeaturedProperties();
                     });
+                
+                // Initialize Google Maps with delay for better performance
+                setTimeout(() => {
+                    loadGoogleMaps();
+                }, 2000);
+                
+                // Initialize Google Places immediately if already available
+                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    initPlacesAutocomplete();
                 }
                 
                 console.log('Homepage initialization complete');
                 
+                // Set up periodic property refresh (every 6 hours)
+                setInterval(() => {
+                    console.log('Periodic property refresh...');
+                    if (isApiLoaded) {
+                        loadFeaturedProperties();
+                    }
+                }, 6 * 60 * 60 * 1000); // 6 hours
+                
             } catch (error) {
                 console.error('Error during initialization:', error);
+                // Fallback initialization
+                featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
+                if (currentTab === 'featured') {
+                    displayFeaturedProperties();
+                }
             }
         });
         
