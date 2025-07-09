@@ -4,3 +4,13 @@
 
 [functions]
   node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/single/property/*"
+  to = "/property/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/property-detail/*"
+  to = "/property/:splat"
+  status = 301
