@@ -129,35 +129,11 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Hero Section */
-        .hero-section {
-            position: relative;
-            height: 70vh;
-            min-height: 600px;
-            overflow: hidden;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-            cursor: zoom-in;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.4));
-            padding: 60px 40px 40px;
-        }
-
-        .hero-content {
+        /* Property Header */
+        .property-header {
             max-width: 1400px;
             margin: 0 auto;
-            color: white;
+            padding: 0 40px 40px;
         }
 
         .property-title {
@@ -167,6 +143,7 @@
             margin-bottom: 16px;
             line-height: 1.2;
             letter-spacing: -1px;
+            color: #000;
         }
 
         .property-location {
@@ -175,7 +152,7 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 24px;
-            opacity: 0.9;
+            color: #666;
         }
 
         .property-price {
@@ -183,14 +160,34 @@
             font-size: 32px;
             font-weight: 600;
             letter-spacing: -0.5px;
+            color: #000;
+            margin-bottom: 20px;
         }
 
         .property-meta {
             display: flex;
             gap: 2rem;
-            margin-top: 20px;
             font-size: 14px;
-            opacity: 0.9;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hero Image Gallery */
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            min-height: 600px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
         }
 
         /* Gallery Controls */
@@ -209,6 +206,7 @@
             justify-content: center;
             font-size: 1.5rem;
             transition: background 0.3s ease;
+            font-weight: 300;
         }
 
         .gallery-controls:hover {
@@ -229,48 +227,7 @@
             left: 20px;
             background: rgba(0,0,0,0.7);
             color: white;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        /* Image Gallery */
-        .gallery-section {
-            padding: 0;
-            background: #000;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            max-height: 60vh;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 4/3;
-            cursor: pointer;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .gallery-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.8);
-            color: white;
             padding: 8px 16px;
-            border-radius: 4px;
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.5px;
@@ -402,6 +359,53 @@
             justify-content: center;
             color: #666;
             font-size: 14px;
+        }
+
+        /* Agent Section */
+        .agent-section {
+            background: #f8f8f8;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .agent-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .agent-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #ddd;
+        }
+
+        .agent-info {
+            flex: 1;
+        }
+
+        .agent-name {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .agent-contact {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .agent-contact a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .agent-contact a:hover {
+            opacity: 0.6;
         }
 
         /* Contact Section */
@@ -545,6 +549,7 @@
             color: white;
             font-size: 2rem;
             cursor: pointer;
+            font-weight: 300;
         }
 
         /* Responsive Design */
@@ -559,13 +564,12 @@
                 position: static;
             }
 
-            .gallery-grid {
-                grid-template-columns: 1fr;
-                max-height: none;
-            }
-
             .header-content {
                 padding: 0 30px;
+            }
+
+            .property-header {
+                padding: 0 30px 40px;
             }
         }
 
@@ -574,8 +578,8 @@
                 padding: 0 20px;
             }
 
-            .hero-overlay {
-                padding: 40px 20px 30px;
+            .property-header {
+                padding: 0 20px 40px;
             }
 
             .property-title {
@@ -627,6 +631,10 @@
                 padding: 30px 20px;
             }
 
+            .agent-section {
+                padding: 30px 20px;
+            }
+
             .gallery-controls {
                 width: 40px;
                 height: 40px;
@@ -654,6 +662,11 @@
 
             .contact-title {
                 font-size: 24px;
+            }
+
+            .agent-card {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
@@ -694,33 +707,26 @@
 
         <!-- Property Content -->
         <div id="property-content" style="display: none;">
-            <!-- Hero Section -->
+            <!-- Property Header -->
+            <div class="property-header">
+                <h1 class="property-title" id="propertyTitle">Property Title</h1>
+                <p class="property-location" id="propertyLocation">Location</p>
+                <div class="property-price" id="propertyPrice">Price on Request</div>
+                <div class="property-meta">
+                    <span id="bedroomCount">- bedrooms</span>
+                    <span id="bathroomCount">- bathrooms</span>
+                    <span id="builtArea">- m² built</span>
+                    <span id="plotArea">- m² plot</span>
+                </div>
+            </div>
+
+            <!-- Hero Image Gallery -->
             <section class="hero-section">
                 <img id="heroImage" src="" alt="Property Image" class="hero-image">
                 <button class="gallery-controls prev-btn" onclick="previousImage()">‹</button>
                 <button class="gallery-controls next-btn" onclick="nextImage()">›</button>
                 <div class="gallery-info">
                     <span id="imageCounter">1 of 1</span>
-                </div>
-                <div class="hero-overlay">
-                    <div class="hero-content">
-                        <h1 class="property-title" id="propertyTitle">Property Title</h1>
-                        <p class="property-location" id="propertyLocation">Location</p>
-                        <div class="property-price" id="propertyPrice">Price on Request</div>
-                        <div class="property-meta">
-                            <span id="bedroomCount">- bedrooms</span>
-                            <span id="bathroomCount">- bathrooms</span>
-                            <span id="builtArea">- m² built</span>
-                            <span id="plotArea">- m² plot</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Image Gallery -->
-            <section class="gallery-section">
-                <div class="gallery-grid" id="galleryGrid">
-                    <!-- Gallery items will be populated dynamically -->
                 </div>
             </section>
 
@@ -743,6 +749,13 @@
                         <h3 class="details-title serif">Property Details</h3>
                         <div id="propertyDetails">
                             <!-- Property details will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="agent-section">
+                        <h3 class="details-title serif">Your Agent</h3>
+                        <div class="agent-card" id="agentCard">
+                            <!-- Agent details will be populated dynamically -->
                         </div>
                     </div>
 
@@ -796,27 +809,23 @@
             return urlParams.get('id');
         }
 
-        // Extract property data according to specifications
+        // Extract property data from API response
         function extractPropertyData(property) {
             console.log('🔍 Extracting property data from:', property);
-            
-            // Extract bedrooms and bathrooms
-            const bedrooms = property.rooms?.bedroom || 'N/A';
-            const bathrooms = property.rooms?.bathroom || 'N/A';
             
             // Extract title and description from comments
             let title = null;
             let description = null;
             
             if (property.comments && Array.isArray(property.comments)) {
-                // Look for supported languages in order of preference
-                const supportedLanguages = ['en_GB', 'es_ES', 'fr_FR', 'en', 'es', 'fr'];
+                // Look for English first, then fallback to other languages
+                const supportedLanguages = ['en', 'en_GB', 'es', 'es_ES', 'fr', 'fr_FR'];
                 
                 for (const lang of supportedLanguages) {
-                    const comment = property.comments.find(c => c.culture === lang);
+                    const comment = property.comments.find(c => c.language === lang);
                     if (comment) {
                         title = comment.title || null;
-                        description = comment.text || null;
+                        description = comment.comment || null;
                         break;
                     }
                 }
@@ -824,8 +833,8 @@
             
             // Fallback title if not found in comments
             if (!title) {
-                const typeLabel = property.type?.label || 'Property';
-                const cityName = property.address?.city || 'Unknown Location';
+                const typeLabel = property.type?.name || 'Property';
+                const cityName = property.city?.name || 'Unknown Location';
                 title = `${typeLabel} in ${cityName}`;
             }
             
@@ -835,42 +844,48 @@
             }
             
             // Extract location and coordinates
-            const location = property.address?.label || property.address?.city || 'Location not available';
+            const location = property.city?.name || 'Location not available';
             const coordinates = {
-                lat: property.address?.latitude || null,
-                lng: property.address?.longitude || null
+                lat: property.latitude || null,
+                lng: property.longitude || null
             };
             
             // Extract price
             let price = null;
-            if (property.prices && Array.isArray(property.prices) && property.prices.length > 0) {
-                price = property.prices[0].price || property.prices[0].amount || null;
+            if (property.price && property.price.value) {
+                price = property.price.value;
             }
+            
+            // Extract bedrooms and bathrooms
+            const bedrooms = property.bedrooms || 0;
+            const bathrooms = property.bathrooms || 0;
             
             // Extract areas
             let builtArea = 'N/A';
             let plotArea = 'N/A';
             
-            if (property.areas && Array.isArray(property.areas)) {
-                // Built area (types 1-10 typically)
-                const builtAreaObj = property.areas.find(area => area.type >= 1 && area.type <= 10);
-                if (builtAreaObj) {
-                    builtArea = builtAreaObj.value;
-                }
-                
-                // Plot/land area (types 49, 50, 51 as specified)
-                const plotAreas = property.areas.filter(area => [49, 50, 51].includes(area.type));
-                if (plotAreas.length > 0) {
-                    const totalPlotArea = plotAreas.reduce((sum, area) => sum + (area.value || 0), 0);
-                    plotArea = totalPlotArea > 0 ? totalPlotArea : 'N/A';
-                }
+            if (property.area && property.area.value) {
+                builtArea = property.area.value;
+            }
+            
+            if (property.plot && property.plot.net_floor) {
+                plotArea = property.plot.net_floor;
             }
             
             // Extract images
             const images = property.pictures || [];
             
+            // Extract agent details
+            const agent = property.user ? {
+                name: `${property.user.firstname} ${property.user.lastname}`,
+                email: property.user.email,
+                phone: property.user.mobile || property.user.phone,
+                photo: property.user.picture
+            } : null;
+            
             return {
                 id: property.id,
+                reference: property.reference,
                 title,
                 description,
                 bedrooms,
@@ -878,23 +893,26 @@
                 location,
                 coordinates,
                 price,
+                currency: property.price?.currency || 'EUR',
                 builtArea,
                 plotArea,
                 images,
-                type: property.type?.label || 'Property',
-                reference: property.reference || property.id
+                agent,
+                type: property.type?.name || 'Property',
+                rooms: property.rooms || 0
             };
         }
 
         // Format price
-        function formatPrice(price) {
+        function formatPrice(price, currency = 'EUR') {
             if (!price || price === 0) return 'Price on Request';
             
             const numPrice = typeof price === 'string' ? parseFloat(price.replace(/[^\d.-]/g, '')) : price;
             
             if (isNaN(numPrice) || numPrice <= 0) return 'Price on Request';
             
-            return `€${numPrice.toLocaleString('en-US')}`;
+            const symbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : currency;
+            return `${symbol}${numPrice.toLocaleString('en-US')}`;
         }
 
         // Load property data
@@ -957,11 +975,11 @@
             // Populate header
             document.getElementById('propertyTitle').textContent = data.title;
             document.getElementById('propertyLocation').textContent = data.location;
-            document.getElementById('propertyPrice').textContent = formatPrice(data.price);
+            document.getElementById('propertyPrice').textContent = formatPrice(data.price, data.currency);
             
             // Populate meta info
-            document.getElementById('bedroomCount').textContent = data.bedrooms !== 'N/A' ? `${data.bedrooms} bedrooms` : 'N/A bedrooms';
-            document.getElementById('bathroomCount').textContent = data.bathrooms !== 'N/A' ? `${data.bathrooms} bathrooms` : 'N/A bathrooms';
+            document.getElementById('bedroomCount').textContent = data.bedrooms > 0 ? `${data.bedrooms} bedrooms` : 'N/A bedrooms';
+            document.getElementById('bathroomCount').textContent = data.bathrooms > 0 ? `${data.bathrooms} bathrooms` : 'N/A bathrooms';
             document.getElementById('builtArea').textContent = data.builtArea !== 'N/A' ? `${data.builtArea} m² built` : 'N/A m² built';
             document.getElementById('plotArea').textContent = data.plotArea !== 'N/A' ? `${data.plotArea} m² plot` : 'N/A m² plot';
             
@@ -976,6 +994,9 @@
             
             // Populate details sidebar
             populateDetails(data);
+            
+            // Populate agent details
+            populateAgent(data.agent);
             
             // Setup map
             setupMap(data.coordinates, data.location);
@@ -1007,39 +1028,22 @@
             // Update counter
             document.getElementById('imageCounter').textContent = `1 of ${allImages.length}`;
             
-            // Create gallery grid
-            const galleryGrid = document.getElementById('galleryGrid');
-            galleryGrid.innerHTML = '';
+            // Show/hide navigation arrows
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
             
-            // Show up to 4 images in the grid
-            const displayImages = allImages.slice(0, 4);
-            
-            displayImages.forEach((image, index) => {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item';
-                galleryItem.onclick = () => switchToImage(index);
-                
-                const img = document.createElement('img');
-                img.src = image.url || image.src || image;
-                img.alt = `Property Image ${index + 1}`;
-                
-                galleryItem.appendChild(img);
-                
-                // Add counter to last image if there are more
-                if (index === 3 && allImages.length > 4) {
-                    const counter = document.createElement('div');
-                    counter.className = 'gallery-counter';
-                    counter.textContent = `+${allImages.length - 4} More`;
-                    galleryItem.appendChild(counter);
-                }
-                
-                galleryGrid.appendChild(galleryItem);
-            });
+            if (allImages.length <= 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+            }
         }
 
         // Switch to image
         function switchToImage(index) {
-            if (index >= allImages.length) return;
+            if (index >= allImages.length || index < 0) return;
             
             currentImageIndex = index;
             
@@ -1091,11 +1095,11 @@
             const featuresGrid = document.getElementById('featuresGrid');
             const features = [];
             
-            if (data.bedrooms !== 'N/A') {
+            if (data.bedrooms > 0) {
                 features.push({ label: 'Bedrooms', value: data.bedrooms });
             }
             
-            if (data.bathrooms !== 'N/A') {
+            if (data.bathrooms > 0) {
                 features.push({ label: 'Bathrooms', value: data.bathrooms });
             }
             
@@ -1105,6 +1109,10 @@
             
             if (data.plotArea !== 'N/A') {
                 features.push({ label: 'Plot Area', value: `${data.plotArea} m²` });
+            }
+            
+            if (data.rooms > 0) {
+                features.push({ label: 'Total Rooms', value: data.rooms });
             }
             
             features.push({ label: 'Property Type', value: data.type });
@@ -1124,11 +1132,12 @@
             const details = [
                 { label: 'Reference', value: data.reference },
                 { label: 'Property Type', value: data.type },
-                { label: 'Price', value: formatPrice(data.price) },
-                { label: 'Bedrooms', value: data.bedrooms },
-                { label: 'Bathrooms', value: data.bathrooms },
+                { label: 'Price', value: formatPrice(data.price, data.currency) },
+                { label: 'Bedrooms', value: data.bedrooms > 0 ? data.bedrooms : 'N/A' },
+                { label: 'Bathrooms', value: data.bathrooms > 0 ? data.bathrooms : 'N/A' },
                 { label: 'Built Area', value: data.builtArea !== 'N/A' ? `${data.builtArea} m²` : 'N/A' },
-                { label: 'Plot Area', value: data.plotArea !== 'N/A' ? `${data.plotArea} m²` : 'N/A' }
+                { label: 'Plot Area', value: data.plotArea !== 'N/A' ? `${data.plotArea} m²` : 'N/A' },
+                { label: 'Total Rooms', value: data.rooms > 0 ? data.rooms : 'N/A' }
             ];
             
             detailsContainer.innerHTML = details.map(detail => `
@@ -1137,6 +1146,31 @@
                     <span class="detail-value">${detail.value}</span>
                 </div>
             `).join('');
+        }
+
+        // Populate agent details
+        function populateAgent(agent) {
+            const agentCard = document.getElementById('agentCard');
+            
+            if (agent) {
+                agentCard.innerHTML = `
+                    <img src="${agent.photo || '/default-agent.jpg'}" alt="${agent.name}" class="agent-photo" onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 100\\"><circle cx=\\"50\\" cy=\\"50\\" r=\\"50\\" fill=\\"#f0f0f0\\"/><circle cx=\\"50\\" cy=\\"35\\" r=\\"15\\" fill=\\"#ccc\\"/><path d=\\"M20 85 Q20 65 50 65 Q80 65 80 85\\" fill=\\"#ccc\\"/></svg>'">
+                    <div class="agent-info">
+                        <div class="agent-name">${agent.name}</div>
+                        <div class="agent-contact"><a href="mailto:${agent.email}">${agent.email}</a></div>
+                        ${agent.phone ? `<div class="agent-contact"><a href="tel:${agent.phone}">${agent.phone}</a></div>` : ''}
+                    </div>
+                `;
+            } else {
+                agentCard.innerHTML = `
+                    <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='#f0f0f0'/><circle cx='50' cy='35' r='15' fill='#ccc'/><path d='M20 85 Q20 65 50 65 Q80 65 80 85' fill='#ccc'/></svg>" alt="VERV ONE Agent" class="agent-photo">
+                    <div class="agent-info">
+                        <div class="agent-name">VERV ONE Agent</div>
+                        <div class="agent-contact"><a href="mailto:hello@verv.one">hello@verv.one</a></div>
+                        <div class="agent-contact"><a href="tel:+34XXX">+34 XXX XXX XXX</a></div>
+                    </div>
+                `;
+            }
         }
 
         // Setup map
