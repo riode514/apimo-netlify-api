@@ -4,280 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Properties - VERV ONE</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="/shared/shared-styles.css">
+    
+    <!-- Shared Navigation JavaScript -->
+    <script src="/shared/shared-navigation-js.js" defer></script>
+    
     <style>
-        /* Reset and base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #fafafa;
-        }
-
-        /* Shared component styles */
-        .header-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid #eee;
-            z-index: 1000;
-            height: 80px;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            height: 100%;
-        }
-
-        .logo-link .logo {
-            height: 60px;
-            width: auto;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: #666;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: #000;
-            background: #f8f9fa;
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 1rem;
-                border-top: 1px solid #eee;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-        }
-
-        /* Footer styles */
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-brand .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-tagline {
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
-        .footer-description {
-            color: #999;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .footer-social a {
-            color: #ccc;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-social a:hover {
-            color: white;
-        }
-
-        .footer-social .icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .footer-section h3 {
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .footer-credentials {
-            border-top: 1px solid #333;
-            padding-top: 2rem;
-            margin-top: 2rem;
-        }
-
-        .credentials-container {
-            text-align: center;
-        }
-
-        .credentials-logos {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .credential-logo {
-            height: 40px;
-            width: auto;
-        }
-
-        .credentials-info p {
-            color: #999;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #333;
-            padding-top: 1rem;
-            text-align: center;
-        }
-
-        .footer-copyright {
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .credentials-logos {
-                flex-wrap: wrap;
-                gap: 1rem;
-            }
-        }
-
-        /* Ensure modals are hidden by default */
-        .consultation-modal.hidden,
-        .hidden {
-            display: none !important;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .consultation-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .consultation-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .consultation-modal-content {
-            position: relative;
-            background: white;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 8px;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        /* Main content */
+        /* Properties page specific styles */
         .properties-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -293,11 +37,13 @@
             font-weight: 500;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
         
         .back-link:hover {
             text-decoration: underline;
             transform: translateX(-3px);
+            color: #000;
         }
         
         .properties-header {
@@ -313,6 +59,7 @@
             margin-bottom: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
         
         .properties-title {
@@ -336,6 +83,7 @@
         .properties-count {
             font-size: 1rem;
             color: #666;
+            font-family: 'Inter', sans-serif;
         }
         
         .view-controls {
@@ -351,6 +99,7 @@
             font-size: 0.9rem;
             cursor: pointer;
             border-radius: 4px;
+            font-family: 'Inter', sans-serif;
         }
         
         .view-buttons {
@@ -367,6 +116,7 @@
             cursor: pointer;
             font-weight: 500;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
         
         .view-button.active {
@@ -442,6 +192,7 @@
             letter-spacing: 0.5px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
+            font-family: 'Inter', sans-serif;
         }
         
         .property-info {
@@ -456,6 +207,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
         }
         
         .location-icon {
@@ -484,6 +236,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
         }
         
         .property-detail svg {
@@ -501,7 +254,7 @@
         
         .loading-spinner {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border-top: 3px solid #000;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -525,7 +278,7 @@
         }
         
         .error-button {
-            background: #667eea;
+            background: #000;
             color: white;
             border: none;
             padding: 0.8rem 1.5rem;
@@ -534,10 +287,11 @@
             margin-top: 1rem;
             border-radius: 6px;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
         
         .error-button:hover {
-            background: #5a67d8;
+            background: #333;
             transform: translateY(-2px);
         }
         
@@ -659,125 +413,6 @@
 
     <!-- Shared Footer -->
     <div id="shared-footer"></div>
-
-    <!-- Load Shared Components -->
-    <script>
-        // Load shared header
-        fetch('/shared/shared-header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('shared-header').innerHTML = html;
-                // Set active navigation
-                const navLinks = document.querySelectorAll('.nav-link');
-                navLinks.forEach(link => {
-                    if (link.getAttribute('href') === '/properties/' || link.getAttribute('data-page') === 'properties') {
-                        link.classList.add('active');
-                    } else {
-                        link.classList.remove('active');
-                    }
-                });
-                
-                // Initialize mobile menu for shared header
-                const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-                const navMenu = document.getElementById('navMenu');
-                
-                if (mobileMenuToggle && navMenu) {
-                    mobileMenuToggle.addEventListener('click', function() {
-                        navMenu.classList.toggle('active');
-                    });
-                }
-
-                // IMPORTANT: Ensure consultation modal stays closed on page load
-                setTimeout(() => {
-                    const consultationModal = document.getElementById('consultationModal');
-                    if (consultationModal) {
-                        consultationModal.classList.add('hidden');
-                        consultationModal.style.display = 'none';
-                    }
-
-                    // Also close any other potential modals
-                    const allModals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
-                    allModals.forEach(modal => {
-                        modal.classList.add('hidden');
-                        modal.style.display = 'none';
-                    });
-                }, 200);
-
-                // Override any global modal functions that might auto-open
-                window.openConsultationModal = function() {
-                    const consultationModal = document.getElementById('consultationModal');
-                    if (consultationModal) {
-                        consultationModal.classList.remove('hidden');
-                        consultationModal.style.display = 'block';
-                    }
-                };
-
-                window.closeConsultationModal = function() {
-                    const consultationModal = document.getElementById('consultationModal');
-                    if (consultationModal) {
-                        consultationModal.classList.add('hidden');
-                        consultationModal.style.display = 'none';
-                    }
-                };
-
-                // Prevent any scripts in shared header from auto-opening modals
-                const scripts = document.querySelectorAll('#shared-header script');
-                scripts.forEach(script => {
-                    if (script.textContent && script.textContent.includes('openConsultationModal')) {
-                        script.remove();
-                    }
-                });
-            })
-            .catch(error => {
-                console.error('Error loading header:', error);
-                // Fallback: Show basic header with VERV ONE logo
-                document.getElementById('shared-header').innerHTML = `
-                    <header class="header-nav">
-                        <nav class="nav-container">
-                            <a href="/" class="logo-link">
-                                <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" style="height: 60px;">
-                            </a>
-                            <ul class="nav-menu" id="navMenu">
-                                <li><a href="/" class="nav-link">Home</a></li>
-                                <li><a href="/about/" class="nav-link">About</a></li>
-                                <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
-                                <li><a href="/properties/" class="nav-link active">Properties</a></li>
-                                <li><a href="/projects/" class="nav-link">Projects</a></li>
-                                <li><a href="/contact/" class="nav-link">Contact</a></li>
-                            </ul>
-                            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
-                        </nav>
-                    </header>
-                `;
-            });
-
-        // Load shared footer
-        fetch('/shared/shared-footer.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('shared-footer').innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading footer:', error);
-                // Fallback: Show basic footer
-                document.getElementById('shared-footer').innerHTML = `
-                    <footer class="footer">
-                        <div class="footer-container">
-                            <div class="footer-content">
-                                <div class="footer-brand">
-                                    <div class="footer-logo">VERV ONE</div>
-                                    <div class="footer-tagline">Fine Property & Project Consultancy</div>
-                                    <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.</p>
-                                </div>
-                            </div>
-                            <div class="footer-bottom">
-                                <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
-                            </div>
-                        </div>
-                    </footer>
-                `;
-            });
-    </script>
 
     <script>
         // Global variables
@@ -904,122 +539,41 @@
             </svg>`
         };
 
-        // Extract location string with enhanced city parsing
+        // Extract location string
         function extractLocationString(property) {
-            console.log('Raw property object for location extraction:', property);
-            
             let locationString = '';
             
-            // Method 1: City object structure - PRIORITY for API like { "city": { "id": 147207, "name": "Sitges", "zipcode": "08860" } }
             if (property.city && typeof property.city === 'object' && property.city.name) {
                 locationString = property.city.name.trim();
-                console.log('Found city from city object:', locationString);
-            }
-            
-            // Method 2: Direct string city field
-            else if (typeof property.city === 'string' && property.city.trim()) {
+            } else if (typeof property.city === 'string' && property.city.trim()) {
                 locationString = property.city.trim();
-                console.log('Found city from city string:', locationString);
-            } 
-            
-            // Method 3: District field
-            else if (typeof property.district === 'string' && property.district.trim()) {
+            } else if (typeof property.district === 'string' && property.district.trim()) {
                 locationString = property.district.trim();
-                console.log('Found district:', locationString);
-            } 
-            
-            // Method 4: Location object parsing
-            else if (property.location && typeof property.location === 'object') {
+            } else if (property.location && typeof property.location === 'object') {
                 const loc = property.location;
-                
-                // Check for city in location object
                 if (loc.city && typeof loc.city === 'object' && loc.city.name) {
                     locationString = loc.city.name.trim();
                 } else if (typeof loc.city === 'string' && loc.city.trim()) {
                     locationString = loc.city.trim();
-                } else if (typeof loc.label === 'string' && loc.label.trim()) {
-                    locationString = loc.label.trim();
-                } else if (typeof loc.name === 'string' && loc.name.trim()) {
-                    locationString = loc.name.trim();
-                } else if (typeof loc.address === 'string' && loc.address.trim()) {
-                    locationString = loc.address.trim();
-                } else if (typeof loc.formatted_address === 'string' && loc.formatted_address.trim()) {
-                    locationString = loc.formatted_address.trim();
                 }
-                console.log('Found location from location object:', locationString);
-            }
-            
-            // Method 5: String location field
-            else if (typeof property.location === 'string' && property.location.trim()) {
+            } else if (typeof property.location === 'string' && property.location.trim()) {
                 locationString = property.location.trim();
-                console.log('Found location from location string:', locationString);
             }
             
-            // Method 6: Address parsing for city name
-            else if (typeof property.address === 'string' && property.address.trim()) {
-                // Try to extract city from address string
-                const addressParts = property.address.split(',');
-                if (addressParts.length > 1) {
-                    locationString = addressParts[addressParts.length - 2].trim(); // Usually city is second to last
-                } else {
-                    locationString = property.address.trim();
-                }
-                console.log('Found location from address:', locationString);
-            }
-            
-            // Method 7: Try nested property structure
-            else if (property.property && property.property.city) {
-                return extractLocationString(property.property);
-            }
-            
-            // Clean up and validate result
-            if (!locationString || locationString === '' || locationString === 'null' || locationString === 'undefined') {
-                // Try to extract from title as last resort
-                if (property.title && typeof property.title === 'string') {
-                    const title = property.title.toLowerCase();
-                    const spanishCities = ['sitges', 'barcelona', 'girona', 'cadaqués', 'begur', 'calella', 'palamós', 'roses', 'empuriabrava', 'castell', 'gavà', 'vilanova'];
-                    
-                    for (const city of spanishCities) {
-                        if (title.includes(city)) {
-                            locationString = city.charAt(0).toUpperCase() + city.slice(1);
-                            break;
-                        }
-                    }
-                }
-                
-                // Final fallback
-                if (!locationString) {
-                    locationString = 'Costa Brava'; // More specific than just "Spain"
-                }
-            }
-            
-            // Clean up common issues
-            if (locationString.includes('[object Object]')) {
+            if (!locationString || locationString === '' || locationString === 'null') {
                 locationString = 'Costa Brava';
             }
             
-            // Remove any postal codes or extra info, keep just city name
-            locationString = locationString.split(/[\d{5}]/)[0].trim();
-            locationString = locationString.replace(/\d+/g, '').trim();
-            
-            console.log('Final extracted location:', locationString);
             return locationString;
         }
 
         // Extract property data
         function extractPropertyData(property) {
-            if (!property) {
-                console.log('No property provided to extract');
-                return null;
-            }
+            if (!property) return null;
             
-            console.log('=== EXTRACTING PROPERTY DATA ===');
-            console.log('Raw property:', property);
-            
-            // Extract location with bulletproof method
             const locationString = extractLocationString(property);
             
-            // Extract price with multiple fallbacks
+            // Extract price
             let priceValue = null;
             if (property.price !== null && property.price !== undefined) {
                 if (typeof property.price === 'number') {
@@ -1032,121 +586,48 @@
                 }
             }
             
-            // Extract property type with comprehensive logic
-            let propertyType = 'Property'; // Default fallback
-            
-            console.log('=== PROPERTY TYPE EXTRACTION ===');
-            console.log('Raw property for type extraction:', property);
-            
-            // Method 1: Direct type field with various structures
+            // Extract property type
+            let propertyType = 'Property';
             if (property.type) {
-                console.log('Found property.type:', property.type);
                 if (typeof property.type === 'string' && property.type.trim()) {
                     propertyType = property.type.trim();
-                    console.log('Using string type:', propertyType);
                 } else if (property.type.label && typeof property.type.label === 'string') {
                     propertyType = property.type.label.trim();
-                    console.log('Using type.label:', propertyType);
                 } else if (property.type.name && typeof property.type.name === 'string') {
                     propertyType = property.type.name.trim();
-                    console.log('Using type.name:', propertyType);
-                } else if (property.type.type && typeof property.type.type === 'string') {
-                    propertyType = property.type.type.trim();
-                    console.log('Using type.type:', propertyType);
                 }
-            }
-            
-            // Method 2: Subtype field
-            else if (property.subtype) {
-                console.log('Found property.subtype:', property.subtype);
+            } else if (property.subtype) {
                 if (typeof property.subtype === 'string' && property.subtype.trim()) {
                     propertyType = property.subtype.trim();
-                    console.log('Using string subtype:', propertyType);
                 } else if (property.subtype.label && typeof property.subtype.label === 'string') {
                     propertyType = property.subtype.label.trim();
-                    console.log('Using subtype.label:', propertyType);
                 } else if (property.subtype.name && typeof property.subtype.name === 'string') {
                     propertyType = property.subtype.name.trim();
-                    console.log('Using subtype.name:', propertyType);
                 }
             }
             
-            // Method 3: Category field
-            else if (property.category) {
-                console.log('Found property.category:', property.category);
-                if (typeof property.category === 'string' && property.category.trim()) {
-                    propertyType = property.category.trim();
-                    console.log('Using string category:', propertyType);
-                } else if (property.category.label && typeof property.category.label === 'string') {
-                    propertyType = property.category.label.trim();
-                    console.log('Using category.label:', propertyType);
-                }
-            }
-            
-            // Method 4: Property class or classification
-            else if (property.property_type && typeof property.property_type === 'string') {
-                propertyType = property.property_type.trim();
-                console.log('Using property_type:', propertyType);
-            } else if (property.classification && typeof property.classification === 'string') {
-                propertyType = property.classification.trim();
-                console.log('Using classification:', propertyType);
-            }
-            
-            // Method 5: Try to infer from title or description
-            else if (property.title && typeof property.title === 'string') {
-                const title = property.title.toLowerCase();
-                console.log('Inferring from title:', title);
-                
-                if (title.includes('villa') || title.includes('chalet')) {
-                    propertyType = 'Villa';
-                } else if (title.includes('apartment') || title.includes('piso') || title.includes('flat')) {
-                    propertyType = 'Apartment';
-                } else if (title.includes('penthouse') || title.includes('ático')) {
-                    propertyType = 'Penthouse';
-                } else if (title.includes('house') || title.includes('casa') || title.includes('home')) {
-                    propertyType = 'House';
-                } else if (title.includes('plot') || title.includes('terreno') || title.includes('solar') || title.includes('land')) {
-                    propertyType = 'Plot';
-                } else if (title.includes('townhouse') || title.includes('adosado')) {
-                    propertyType = 'Townhouse';
-                }
-                
-                console.log('Inferred type from title:', propertyType);
-            }
-            
-            // Clean and normalize property type for consistency
+            // Normalize property type
             if (propertyType && propertyType !== 'Property') {
                 propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
                 
-                // Map common Spanish terms to English
                 const typeMapping = {
                     'Piso': 'Apartment',
                     'Casa': 'House',
                     'Chalet': 'Villa',
                     'Ático': 'Penthouse',
                     'Adosado': 'Townhouse',
-                    'Terreno': 'Plot',
-                    'Solar': 'Plot',
-                    'Unifamiliar': 'House',
-                    'Duplex': 'Duplex',
-                    'Studio': 'Studio',
-                    'Loft': 'Loft'
+                    'Terreno': 'Plot'
                 };
                 
                 if (typeMapping[propertyType]) {
                     propertyType = typeMapping[propertyType];
-                    console.log('Mapped Spanish term to English:', propertyType);
                 }
             }
             
-            console.log('Final property type:', propertyType);
-            console.log('=== END PROPERTY TYPE EXTRACTION ===');
-            
-            // Extract bedrooms and bathrooms
+            // Extract other details
             let bedrooms = property.bedrooms || null;
             let bathrooms = property.bathrooms || null;
             
-            // Try to extract from areas array if available
             if (Array.isArray(property.areas)) {
                 property.areas.forEach(area => {
                     if (area.type === 1) bedrooms = bedrooms || area.number;
@@ -1154,17 +635,13 @@
                 });
             }
             
-            // Extract built area
             let builtArea = null;
             if (property.area) {
                 builtArea = property.area.total || property.area.value || property.area.built || null;
             } else if (property.surface) {
                 builtArea = property.surface;
-            } else if (property.built_area) {
-                builtArea = property.built_area;
             }
             
-            // Extract land area
             let landArea = null;
             if (Array.isArray(property.areas)) {
                 property.areas.forEach(area => {
@@ -1176,9 +653,9 @@
                 landArea = property.land_area;
             }
             
-            const extractedData = {
+            return {
                 id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
-                title: property.title || property.reference || property.name || `${propertyType} Property`,
+                title: property.title || property.reference || `${propertyType} Property`,
                 location: locationString,
                 price: priceValue,
                 type: propertyType,
@@ -1187,22 +664,12 @@
                 builtArea: builtArea,
                 landArea: landArea,
                 description: property.description || property.title || 'Exceptional property in prime location',
-                photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || property.pictures?.[0]?.url || null,
-                is_featured: property.is_featured || false,
-                is_popular: property.is_popular || false
+                photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || property.pictures?.[0]?.url || null
             };
-            
-            console.log('=== EXTRACTED PROPERTY DATA ===');
-            console.log(extractedData);
-            console.log('================================');
-            
-            return extractedData;
         }
 
         // Render Property Card Function
         function renderPropertyCard(property) {
-            console.log('Rendering property card:', property);
-            
             // Format price
             let price = 'Price on request';
             if (property.price && property.price !== null) {
@@ -1215,24 +682,15 @@
             // Get property type icon
             const propertyIcon = propertyTypeIcons[property.type] || propertyTypeIcons['default'];
             
-            // Prepare features array based on property type
+            // Prepare features array
             const features = [];
             
-            // For plots, show different information
             if (property.type === 'Plot') {
                 if (property.landArea) {
                     features.push(`<div class="property-detail">${featureIcons.plot}<span>${property.landArea}m² plot</span></div>`);
                 }
                 features.push(`<div class="property-detail">${featureIcons.area}<span>Building plot</span></div>`);
-                if (property.builtArea) {
-                    features.push(`<div class="property-detail">${featureIcons.area}<span>${property.builtArea}m² buildable</span></div>`);
-                }
-                // Add a generic feature if we don't have much info
-                if (features.length < 2) {
-                    features.push(`<div class="property-detail">${featureIcons.location}<span>Prime location</span></div>`);
-                }
             } else {
-                // For regular properties (Villa, Apartment, House, etc.)
                 if (property.bedrooms) {
                     features.push(`<div class="property-detail">${featureIcons.bed}<span>${property.bedrooms} bed</span></div>`);
                 }
@@ -1247,7 +705,6 @@
                 }
             }
             
-            // If no features, add some placeholders
             if (features.length === 0) {
                 features.push(`<div class="property-detail">${featureIcons.area}<span>Details available</span></div>`);
                 features.push(`<div class="property-detail">${featureIcons.location}<span>Contact for info</span></div>`);
@@ -1277,17 +734,15 @@
             `;
         }
 
-        // Enhanced load properties from API with simplified error handling
+        // Load properties from API
         async function loadProperties() {
             const loadingState = document.getElementById('loadingState');
             const errorState = document.getElementById('errorState');
             const propertiesGrid = document.getElementById('propertiesGrid');
-            const propertiesTitle = document.getElementById('propertiesTitle');
             const countNumber = document.getElementById('countNumber');
             const countNumberSmall = document.getElementById('countNumberSmall');
             const propertiesCount = document.getElementById('propertiesCount');
 
-            // Show loading state
             loadingState.style.display = 'block';
             errorState.style.display = 'none';
             propertiesCount.style.display = 'none';
@@ -1296,7 +751,6 @@
             try {
                 console.log('🔄 Loading properties from VERV ONE API...');
                 
-                // Simplified endpoint list without AbortSignal
                 const endpoints = [
                     'https://verv.one/.netlify/functions/properties?limit=50',
                     'https://www.verv.one/.netlify/functions/properties?limit=50',
@@ -1305,13 +759,11 @@
                 
                 let response = null;
                 let data = null;
-                let lastError = null;
                 
                 for (const endpoint of endpoints) {
                     try {
                         console.log(`🔍 Trying endpoint: ${endpoint}`);
                         
-                        // Simple fetch with timeout using Promise.race
                         const fetchPromise = fetch(endpoint, {
                             method: 'GET',
                             headers: {
@@ -1327,93 +779,56 @@
                         
                         response = await Promise.race([fetchPromise, timeoutPromise]);
                         
-                        console.log(`📡 Response status: ${response.status} ${response.statusText}`);
-                        
                         if (response.ok) {
                             const text = await response.text();
-                            console.log('📄 Raw response text:', text.substring(0, 500) + '...');
-                            
-                            try {
-                                data = JSON.parse(text);
-                                console.log('✅ Successfully parsed JSON data:', data);
-                                break;
-                            } catch (parseError) {
-                                console.error('❌ JSON parsing failed:', parseError);
-                                throw new Error(`Invalid JSON response: ${parseError.message}`);
-                            }
-                        } else {
-                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                            data = JSON.parse(text);
+                            break;
                         }
                     } catch (error) {
-                        lastError = error;
                         console.log(`❌ Endpoint ${endpoint} failed:`, error.message);
                         continue;
                     }
                 }
                 
                 if (!data) {
-                    // If API fails, show sample properties for demonstration
-                    console.log('⚠️ API failed, loading sample properties for demonstration');
                     return loadSampleProperties();
                 }
                 
-                // Handle different response formats
                 let properties = null;
-                
                 if (data.success && Array.isArray(data.properties)) {
                     properties = data.properties;
-                    console.log('✅ Found properties in data.properties');
                 } else if (data.data && Array.isArray(data.data)) {
                     properties = data.data;
-                    console.log('✅ Found properties in data.data');
                 } else if (Array.isArray(data)) {
                     properties = data;
-                    console.log('✅ Found properties as direct array');
                 } else if (data.results && Array.isArray(data.results)) {
                     properties = data.results;
-                    console.log('✅ Found properties in data.results');
                 } else {
-                    console.log('❌ Unknown data structure:', data);
-                    // Fall back to sample properties
                     return loadSampleProperties();
                 }
 
                 if (properties && properties.length > 0) {
-                    console.log(`✅ SUCCESS! Loaded ${properties.length} properties from API`);
-                    
-                    // Process all properties with enhanced extraction
                     allProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
                     displayedProperties = [...allProperties];
                     
-                    console.log('📊 Processed properties:', allProperties);
-                    
-                    // Hide loading state
                     loadingState.style.display = 'none';
-                    
-                    // Update count in title and controls
                     countNumber.textContent = allProperties.length;
                     countNumberSmall.textContent = allProperties.length;
                     propertiesCount.style.display = 'block';
                     
-                    // Render properties
                     renderPropertiesGrid();
-                    
-                    console.log(`🎉 Successfully rendered ${allProperties.length} properties`);
+                    console.log(`✅ Successfully rendered ${allProperties.length} properties`);
                 } else {
-                    // Fall back to sample properties
                     return loadSampleProperties();
                 }
 
             } catch (error) {
                 console.error('💥 Error loading properties:', error);
-                
-                // Fall back to sample properties for demonstration
-                console.log('🔄 Loading sample properties as fallback...');
                 return loadSampleProperties();
             }
         }
 
-        // Load sample properties for demonstration when API fails
+        // Load sample properties
         function loadSampleProperties() {
             console.log('📋 Loading sample properties for demonstration');
             
@@ -1428,9 +843,7 @@
                     bathrooms: 4,
                     builtArea: 400,
                     landArea: 1200,
-                    description: 'Stunning luxury villa with sea views',
-                    photoUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop',
-                    is_featured: true
+                    photoUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop'
                 },
                 {
                     id: 'sample-2',
@@ -1441,10 +854,7 @@
                     bedrooms: 3,
                     bathrooms: 2,
                     builtArea: 120,
-                    landArea: null,
-                    description: 'Contemporary apartment in prime location',
-                    photoUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop',
-                    is_featured: false
+                    photoUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop'
                 },
                 {
                     id: 'sample-3',
@@ -1455,10 +865,7 @@
                     bedrooms: 4,
                     bathrooms: 3,
                     builtArea: 200,
-                    landArea: null,
-                    description: 'Exclusive penthouse with private terrace',
-                    photoUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
-                    is_featured: true
+                    photoUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop'
                 },
                 {
                     id: 'sample-4',
@@ -1470,9 +877,7 @@
                     bathrooms: 3,
                     builtArea: 180,
                     landArea: 300,
-                    description: 'Beautiful townhouse with garden',
-                    photoUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=600&fit=crop',
-                    is_featured: false
+                    photoUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=600&fit=crop'
                 },
                 {
                     id: 'sample-5',
@@ -1480,13 +885,8 @@
                     location: 'Calella de Palafrugell',
                     price: 450000,
                     type: 'Plot',
-                    bedrooms: null,
-                    bathrooms: null,
-                    builtArea: null,
                     landArea: 800,
-                    description: 'Prime building plot with sea views',
-                    photoUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
-                    is_featured: true
+                    photoUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop'
                 },
                 {
                     id: 'sample-6',
@@ -1498,16 +898,13 @@
                     bathrooms: 2,
                     builtArea: 150,
                     landArea: 200,
-                    description: 'Charming house in historic fishing village',
-                    photoUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop',
-                    is_featured: false
+                    photoUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'
                 }
             ];
             
             allProperties = sampleProperties;
             displayedProperties = [...allProperties];
             
-            // Hide loading state
             const loadingState = document.getElementById('loadingState');
             const errorState = document.getElementById('errorState');
             const countNumber = document.getElementById('countNumber');
@@ -1517,17 +914,13 @@
             loadingState.style.display = 'none';
             errorState.style.display = 'none';
             
-            // Update count in title and controls
             countNumber.textContent = allProperties.length;
             countNumberSmall.textContent = allProperties.length;
             propertiesCount.style.display = 'block';
             
-            // Add sample data indicator
             document.querySelector('.search-results-text').textContent = 'Sample Portfolio (API Demo)';
             
-            // Render properties
             renderPropertiesGrid();
-            
             console.log(`✅ Successfully loaded ${allProperties.length} sample properties`);
         }
 
@@ -1552,7 +945,6 @@
                 propertiesGrid.innerHTML += propertyHTML;
             });
             
-            // Add click handlers to property cards
             addPropertyClickHandlers();
         }
 
@@ -1566,7 +958,7 @@
                     
                     if (propertyId && propertyId !== 'N/A') {
                         console.log('🔗 Navigating to property:', propertyId);
-                        window.location.href = `/single-property/?id=${propertyId}`;
+                        window.location.href = `/properties/property-details.html?id=${propertyId}`;
                     }
                 });
             });
@@ -1574,8 +966,6 @@
 
         // Sort properties
         function sortProperties(sortType) {
-            console.log('🔀 Sorting properties by:', sortType);
-            
             displayedProperties.sort((a, b) => {
                 switch (sortType) {
                     case 'price-high':
@@ -1612,7 +1002,6 @@
             mapView.addEventListener('click', function() {
                 mapView.classList.add('active');
                 listView.classList.remove('active');
-                // Map view placeholder
                 alert('Map view would be implemented here with Google Maps integration');
             });
 
@@ -1622,36 +1011,105 @@
             });
         }
 
+        // Load shared components
+        async function loadSharedComponents() {
+            try {
+                // Load shared header
+                const headerResponse = await fetch('/shared/shared-header.html');
+                if (headerResponse.ok) {
+                    const headerHTML = await headerResponse.text();
+                    document.getElementById('shared-header').innerHTML = headerHTML;
+                    
+                    // Mark current page as active
+                    setTimeout(() => {
+                        const propertiesLink = document.querySelector('a[href="/properties/"]');
+                        if (propertiesLink) {
+                            propertiesLink.classList.add('active');
+                        }
+                    }, 100);
+                    
+                    // CRITICAL: Protect against modal auto-opening
+                    setTimeout(() => {
+                        const consultationModal = document.getElementById('consultationModal');
+                        if (consultationModal) {
+                            consultationModal.classList.add('hidden');
+                            consultationModal.style.display = 'none';
+                        }
+                        
+                        const allModals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+                        allModals.forEach(modal => {
+                            modal.classList.add('hidden');
+                            modal.style.display = 'none';
+                        });
+                    }, 200);
+                } else {
+                    console.log('Shared header not found, using fallback');
+                    document.getElementById('shared-header').innerHTML = `
+                        <header class="header-nav">
+                            <nav class="nav-container">
+                                <a href="/" class="logo-link">
+                                    <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" style="height: 60px;">
+                                </a>
+                                <ul class="nav-menu" id="navMenu">
+                                    <li><a href="/" class="nav-link">Home</a></li>
+                                    <li><a href="/about/" class="nav-link">About</a></li>
+                                    <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
+                                    <li><a href="/properties/" class="nav-link active">Properties</a></li>
+                                    <li><a href="/projects/" class="nav-link">Projects</a></li>
+                                    <li><a href="/contact/" class="nav-link">Contact</a></li>
+                                </ul>
+                                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+                            </nav>
+                        </header>
+                    `;
+                }
+
+                // Load shared footer
+                const footerResponse = await fetch('/shared/shared-footer.html');
+                if (footerResponse.ok) {
+                    const footerHTML = await footerResponse.text();
+                    document.getElementById('shared-footer').innerHTML = footerHTML;
+                } else {
+                    console.log('Shared footer not found, using fallback');
+                    document.getElementById('shared-footer').innerHTML = `
+                        <footer class="footer">
+                            <div class="footer-container">
+                                <div class="footer-content">
+                                    <div class="footer-brand">
+                                        <div class="footer-logo">VERV ONE</div>
+                                        <div class="footer-tagline">Fine Property & Project Consultancy</div>
+                                        <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.</p>
+                                    </div>
+                                </div>
+                                <div class="footer-bottom">
+                                    <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </footer>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading shared components:', error);
+            }
+        }
+
         // Initialize page
         async function initializePage() {
             console.log('🚀 VERV ONE Properties page loaded, initializing...');
             
-            // FIRST: Ensure any modals are hidden
+            // Ensure any modals are hidden
             const modals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
             modals.forEach(modal => {
                 modal.classList.add('hidden');
                 modal.style.display = 'none';
             });
             
+            await loadSharedComponents();
             initializeViewControls();
-            
-            // Load properties after ensuring modals are closed
             await loadProperties();
         }
 
-        // Prevent any auto-opening of modals
-        document.addEventListener('DOMContentLoaded', function() {
-            // Close any modals that might be open
-            setTimeout(() => {
-                const modals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
-                modals.forEach(modal => {
-                    modal.classList.add('hidden');
-                    modal.style.display = 'none';
-                });
-            }, 100);
-        });
-
-        // Start initialization when DOM is ready
+        // Start initialization
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializePage);
         } else {
