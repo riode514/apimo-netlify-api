@@ -1,16 +1,126 @@
+<!-- Header Navigation -->
 <header class="header-nav">
     <nav class="nav-container">
         <a href="/" class="logo-link">
-            <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" class="logo">
+            <!-- Primary logo - try image first, fallback to SVG -->
+            <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" class="logo" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <svg width="180" height="90" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="logo" style="display: none;">
+                <rect width="800" height="400" fill="transparent"/>
+                <text x="400" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="#000">VERV ONE</text>
+                <text x="400" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="#666">Fine Property & Project Consultancy</text>
+            </svg>
         </a>
+        
         <ul class="nav-menu" id="navMenu">
-            <li><a href="/" class="nav-link">Home</a></li>
-            <li><a href="/about/" class="nav-link">About</a></li>
-            <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
-            <li><a href="/properties/" class="nav-link">Properties</a></li>
-            <li><a href="/projects/" class="nav-link">Projects</a></li>
-            <li><a href="/contact/" class="nav-link">Contact</a></li>
+            <li><a href="/" class="nav-link" data-page="home">Home</a></li>
+            <li><a href="/about/" class="nav-link" data-page="about">About</a></li>
+            <li><a href="/how-we-work/" class="nav-link" data-page="how-we-work">How we work</a></li>
+            <li><a href="/properties/" class="nav-link" data-page="properties">Properties</a></li>
+            <li><a href="/projects/" class="nav-link" data-page="projects">Projects</a></li>
+            <li><a href="/contact/" class="nav-link" data-page="contact">Contact</a></li>
+            <li><div id="weglot-container"></div></li>
         </ul>
-        <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
     </nav>
 </header>
+
+<!-- Consultation Modal -->
+<div id="consultationModal" class="consultation-modal hidden">
+    <div class="consultation-modal-overlay" onclick="closeConsultationModal()"></div>
+    <div class="consultation-modal-content">
+        <div class="consultation-modal-header">
+            <h2>Schedule Your Consultation</h2>
+            <button class="consultation-modal-close" onclick="closeConsultationModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="consultation-modal-body">
+            <p>Book a personalized consultation with our real estate experts. We'll discuss your property needs, preferences, and provide tailored advice for your investment journey.</p>
+            
+            <form id="consultationForm" class="consultation-form">
+                <div class="consultation-form-row">
+                    <div class="consultation-form-group">
+                        <label for="consultationName">Full Name *</label>
+                        <input type="text" id="consultationName" name="name" required>
+                    </div>
+                    <div class="consultation-form-group">
+                        <label for="consultationEmail">Email Address *</label>
+                        <input type="email" id="consultationEmail" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="consultation-form-row">
+                    <div class="consultation-form-group">
+                        <label for="consultationPhone">Phone Number</label>
+                        <input type="tel" id="consultationPhone" name="phone">
+                    </div>
+                    <div class="consultation-form-group">
+                        <label for="consultationCountry">Country</label>
+                        <input type="text" id="consultationCountry" name="country">
+                    </div>
+                </div>
+                
+                <div class="consultation-form-group">
+                    <label for="consultationInterest">I'm interested in</label>
+                    <select id="consultationInterest" name="interest">
+                        <option value="">Select an option</option>
+                        <option value="buying">Buying a property</option>
+                        <option value="selling">Selling a property</option>
+                        <option value="investment">Investment opportunities</option>
+                        <option value="project">Project management</option>
+                        <option value="consultation">General consultation</option>
+                    </select>
+                </div>
+                
+                <div class="consultation-form-row">
+                    <div class="consultation-form-group">
+                        <label for="consultationLocation">Preferred Location</label>
+                        <input type="text" id="consultationLocation" name="location" placeholder="Barcelona, Sitges, Costa Brava, etc.">
+                    </div>
+                    <div class="consultation-form-group">
+                        <label for="consultationBudget">Budget Range</label>
+                        <select id="consultationBudget" name="budget">
+                            <option value="">Select budget range</option>
+                            <option value="under-500k">Under €500K</option>
+                            <option value="500k-1m">€500K - €1M</option>
+                            <option value="1m-2m">€1M - €2M</option>
+                            <option value="2m-5m">€2M - €5M</option>
+                            <option value="over-5m">Over €5M</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="consultation-form-group">
+                    <label for="consultationPreferredTime">Preferred Consultation Time</label>
+                    <select id="consultationPreferredTime" name="preferredTime">
+                        <option value="">Select preferred time</option>
+                        <option value="morning">Morning (9:00 - 12:00)</option>
+                        <option value="afternoon">Afternoon (12:00 - 18:00)</option>
+                        <option value="evening">Evening (18:00 - 20:00)</option>
+                        <option value="flexible">I'm flexible</option>
+                    </select>
+                </div>
+                
+                <div class="consultation-form-group">
+                    <label for="consultationMessage">Tell us about your requirements</label>
+                    <textarea id="consultationMessage" name="message" placeholder="Share details about your property needs, timeline, specific requirements, or any questions you have..." rows="4"></textarea>
+                </div>
+                
+                <div class="consultation-form-buttons">
+                    <button type="button" onclick="closeConsultationModal()" class="consultation-btn-secondary">Cancel</button>
+                    <button type="submit" class="consultation-btn-primary">Schedule Consultation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced WhatsApp Floating Button -->
+<div class="chat-widgets-container">
+    <a href="https://wa.me/34657271220" target="_blank" class="whatsapp-float">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+        </svg>
+        <span class="whatsapp-text">WhatsApp</span>
+    </a>
+</div>
