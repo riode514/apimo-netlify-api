@@ -94,6 +94,14 @@
             color: #666;
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .property-location svg {
+            color: #999;
+            flex-shrink: 0;
         }
         
         .property-details {
@@ -113,6 +121,14 @@
         .detail-label {
             color: #666;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .detail-label svg {
+            color: #999;
+            flex-shrink: 0;
         }
         
         .detail-value {
@@ -258,24 +274,39 @@
     <script>
         // Render Property Card Function
         function renderPropertyCard(property) {
+            console.log('Rendering property:', property);
+            
             // Title
-            const title = property.title || property.comments?.title || 
-                `${property.type?.label || property.subtype?.label || 'Property'} in ${property.location?.city || 'Unknown Location'}`;
+            let title = 'Property';
+            if (property.title) {
+                title = property.title;
+            } else if (property.comments && property.comments.title) {
+                title = property.comments.title;
+            } else {
+                const propertyType = (property.type && property.type.label) || 
+                                   (property.subtype && property.subtype.label) || 
+                                   'Property';
+                const city = (property.location && property.location.city) || 'Unknown Location';
+                title = `${propertyType} in ${city}`;
+            }
             
             // Location
-            const location = property.location?.city || 'N/A';
+            const location = (property.location && property.location.city) || 'N/A';
             
             // Image
-            const image = property.pictures?.[0]?.url || '/default.jpg';
+            const image = (property.pictures && property.pictures.length > 0 && property.pictures[0].url) || '/default.jpg';
             
             // Bedrooms
-            const bedrooms = property.rooms?.bedrooms || 'N/A';
+            const bedrooms = (property.rooms && property.rooms.bedrooms) || 'N/A';
             
             // Bathrooms
-            const bathrooms = property.rooms?.bathrooms || 'N/A';
+            const bathrooms = (property.rooms && property.rooms.bathrooms) || 'N/A';
             
             // Built area
-            const builtArea = property.area?.total || property.area?.value || 'N/A';
+            let builtArea = 'N/A';
+            if (property.area) {
+                builtArea = property.area.total || property.area.value || 'N/A';
+            }
             const builtAreaDisplay = builtArea !== 'N/A' ? `${builtArea}m²` : 'N/A';
             
             // Land area (sum of areas with type 49, 50, or 51)
@@ -291,8 +322,11 @@
             // Price
             let price = 'Price on request';
             if (property.prices && property.prices.length > 0) {
-                price = property.prices[0].price_formatted || 
-                    (property.prices[0].price ? `€${property.prices[0].price.toLocaleString()}` : 'Price on request');
+                if (property.prices[0].price_formatted) {
+                    price = property.prices[0].price_formatted;
+                } else if (property.prices[0].price) {
+                    price = `€${property.prices[0].price.toLocaleString()}`;
+                }
             }
             
             // Property ID
@@ -391,7 +425,7 @@
             try {
                 console.log('🔄 Loading properties from Apimo API...');
                 
-                const response = await fetch('/.netlify/functions/properties');
+                const response = await fetch('https://verv.one/.netlify/functions/properties');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
