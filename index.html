@@ -328,6 +328,10 @@
             min-width: 0;
         }
 
+        .verv-search-section.location-section {
+            position: relative;
+        }
+
         .verv-search-section:not(:last-child)::after {
             content: '';
             position: absolute;
@@ -351,6 +355,24 @@
             font-family: 'Inter', sans-serif;
             outline: none;
             cursor: pointer;
+        }
+
+        .verv-location-select,
+        .verv-location-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .verv-location-input {
+            cursor: text;
         }
 
         .verv-search-section:first-child select,
@@ -420,7 +442,7 @@
             font-weight: 600;
         }
 
-        /* Consultation Section */
+        /* Consultation Section - Simplified */
         .verv-consultation-section {
             margin-top: 2rem;
         }
@@ -429,13 +451,6 @@
             margin-bottom: 1rem;
             opacity: 0.9;
             font-size: 1rem;
-        }
-
-        .consultation-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
         }
 
         .verv-btn-black {
@@ -461,32 +476,20 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        .verv-btn-whatsapp {
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-            text-decoration: none;
-            display: inline-flex;
+        /* Enhanced feature icons styling */
+        .popular-property-feature {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.95rem;
+            color: #666;
         }
 
-        .verv-btn-whatsapp:hover {
-            background: #20b858;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-        }
-
-        .verv-btn-whatsapp svg {
+        .popular-property-feature svg {
             width: 20px;
             height: 20px;
+            color: #666;
+            flex-shrink: 0;
         }
 
         /* Main sections */
@@ -1377,14 +1380,7 @@
                 font-size: 1rem;
             }
 
-            /* Mobile consultation buttons */
-            .consultation-buttons {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .verv-btn-black, 
-            .verv-btn-whatsapp {
+            .verv-btn-black {
                 padding: 0.875rem 1.5rem;
                 font-size: 0.9rem;
                 justify-content: center;
@@ -1401,7 +1397,9 @@
             }
             
             .verv-search-section select,
-            .verv-search-section input {
+            .verv-search-section input,
+            .verv-location-select,
+            .verv-location-input {
                 border-radius: 12px;
                 padding: 1rem;
             }
@@ -1683,7 +1681,7 @@
                     Curating extraordinary homes in Catalunya's most coveted destinations.
                 </p>
                 
-                <!-- FIXED: Modern High-Tech Search Bar - Now functional -->
+                <!-- FIXED: Enhanced Search Bar with fallback locations -->
                 <div class="verv-minimal-search">
                     <form class="verv-search-form-minimal" id="vervPropertySearch" role="search" aria-label="Property search">
                         <div class="verv-search-section">
@@ -1694,13 +1692,24 @@
                             </select>
                         </div>
                         
-                        <div class="verv-search-section">
-                            <input type="text" class="verv-location-input" name="location" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location">
+                        <div class="verv-search-section location-section">
+                            <select class="verv-location-select" name="location" id="vervLocationSelect" aria-label="Location" style="display: none;">
+                                <option value="">Select Location</option>
+                                <option value="Barcelona">Barcelona</option>
+                                <option value="Sitges">Sitges</option>
+                                <option value="Castelldefels">Castelldefels</option>
+                                <option value="Sant Pere de Ribes">Sant Pere de Ribes</option>
+                                <option value="Girona">Girona</option>
+                                <option value="Costa Brava">Costa Brava</option>
+                                <option value="Emporda">Emporda</option>
+                            </select>
+                            <input type="text" class="verv-location-input" name="location-input" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location">
                         </div>
                         
                         <div class="verv-search-section">
                             <select class="verv-budget-select" name="budget" id="vervBudget" aria-label="Budget range">
                                 <option value="">Any Budget</option>
+                                <option value="0-500k">Up to €500K</option>
                                 <option value="500k-1m">€500K - €1M</option>
                                 <option value="1m-2m">€1M - €2M</option>
                                 <option value="2m-5m">€2M - €5M</option>
@@ -1714,19 +1723,7 @@
                 
                 <div class="verv-consultation-section">
                     <p class="verv-consultation-text">Need personalized guidance? Speak with our experts.</p>
-                    <div class="consultation-buttons">
-                        <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
-                        <a href="https://wa.me/34657271220?text=Hello! I'm interested in your luxury properties. Could you please provide more information?" 
-                           target="_blank" 
-                           rel="noopener" 
-                           class="verv-btn-whatsapp" 
-                           aria-label="Contact via WhatsApp">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-                            </svg>
-                            WhatsApp
-                        </a>
-                    </div>
+                    <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
                 </div>
             </div>
         </section>
@@ -2090,7 +2087,13 @@
             }
         ];
         
-        // Property type icons - The Noun Project style SVG icons
+        // Property feature icons - The Noun Project style SVG icons
+        const featureIcons = {
+            'bed': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM19 7h-8v7H9V7H2v11h1v2h2v-2h12v2h2v-2h1V7h-1zm-1 9H4V9h14v7z"/></svg>`,
+            'bath': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 2C8.45 2 8 2.45 8 3s.45 1 1 1 1-.45 1-1-.45-1-1-1zM7 4c-.55 0-1 .45-1 1v3H4c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V5c0-.55-.45-1-1-1s-1 .45-1 1v3H8V5c0-.55-.45-1-1-1z"/></svg>`,
+            'area': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3v18h18V3H3zm16 16H5V5h14v14z"/><path d="M11 7h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2z"/></svg>`,
+            'plot': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`
+        };
         const propertyIcons = {
             'Villa': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M24 4L6 14v26h12V28h12v12h12V14L24 4zm-6 32H10V18.5l14-7 14 7V36h-8V26H18v10z"/></svg>`,
             'Apartment': `<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor"><path d="M8 40V8h32v32h-8V24H16v16H8zm4-4h4v-8h16v8h4V12H12v24zm4-12h4v-4h-4v4zm8 0h4v-4h-4v4zm-8-8h4v-4h-4v4zm8 0h4v-4h-4v4z"/></svg>`,
@@ -2409,112 +2412,155 @@
             }
         }
         
-        // ENHANCED: Property loading with better API integration and rotation
+        // COMPLETELY REWRITTEN: Real property loading with multiple API attempts and proper data handling
         async function loadFeaturedProperties() {
             try {
-                console.log('Loading featured properties from API...');
+                console.log('Loading REAL properties from VERV ONE API...');
                 
-                // Try multiple endpoints to ensure we get real properties
+                // Multiple API endpoints with different approaches
                 const endpoints = [
                     'https://verv.one/.netlify/functions/properties?limit=20',
-                    'https://www.verv.one/properties/?api=true&limit=20'
+                    'https://www.verv.one/.netlify/functions/properties?limit=20',
+                    'https://verv.one/api/properties?limit=20',
+                    'https://www.verv.one/api/properties?limit=20'
                 ];
                 
-                let response = null;
-                let data = null;
+                let successfulData = null;
                 
                 for (const endpoint of endpoints) {
                     try {
-                        console.log(`Trying endpoint: ${endpoint}`);
+                        console.log(`Attempting to load real properties from: ${endpoint}`);
                         
-                        // Add timeout to the fetch request
                         const controller = new AbortController();
-                        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+                        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
                         
-                        response = await fetch(endpoint, {
+                        const response = await fetch(endpoint, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json',
-                                'Cache-Control': 'no-cache'
+                                'Cache-Control': 'no-cache',
+                                'Pragma': 'no-cache'
                             },
                             signal: controller.signal
                         });
                         
                         clearTimeout(timeoutId);
                         
+                        console.log(`Response from ${endpoint}:`, response.status, response.statusText);
+                        
                         if (response.ok) {
-                            data = await response.json();
-                            console.log(`Success with ${endpoint}:`, data);
-                            break;
+                            const data = await response.json();
+                            console.log(`Data received from ${endpoint}:`, data);
+                            
+                            // Check if we got valid property data
+                            if (data) {
+                                // Handle different API response formats
+                                let properties = null;
+                                
+                                if (data.success && Array.isArray(data.properties)) {
+                                    properties = data.properties;
+                                } else if (data.data && Array.isArray(data.data)) {
+                                    properties = data.data;
+                                } else if (Array.isArray(data)) {
+                                    properties = data;
+                                } else if (data.properties && Array.isArray(data.properties)) {
+                                    properties = data.properties;
+                                }
+                                
+                                if (properties && properties.length > 0) {
+                                    console.log(`SUCCESS! Found ${properties.length} real properties from ${endpoint}`);
+                                    successfulData = properties;
+                                    break;
+                                } else {
+                                    console.log(`No properties in response from ${endpoint}`);
+                                }
+                            }
                         } else {
-                            console.log(`Failed with ${endpoint}: ${response.status}`);
+                            console.log(`HTTP error from ${endpoint}: ${response.status}`);
                         }
                         
-                    } catch (error) {
-                        console.log(`Error with ${endpoint}:`, error);
+                    } catch (endpointError) {
+                        console.log(`Error with ${endpoint}:`, endpointError.message);
                         continue;
                     }
                 }
                 
-                // Process successful API response
-                if (data && ((data.success && data.properties) || Array.isArray(data))) {
-                    const properties = data.properties || data;
+                // Process successful real property data
+                if (successfulData && successfulData.length > 0) {
+                    console.log('Processing real properties:', successfulData);
                     
-                    if (Array.isArray(properties) && properties.length > 0) {
-                        console.log('Real properties loaded successfully:', properties.length);
+                    // Filter out invalid properties and ensure they have required fields
+                    const validProperties = successfulData.filter(property => {
+                        return property && (
+                            property.id || 
+                            property.reference || 
+                            property.title ||
+                            property.city ||
+                            property.price
+                        );
+                    });
+                    
+                    if (validProperties.length > 0) {
+                        console.log(`${validProperties.length} valid real properties loaded`);
                         
                         // Shuffle properties for daily rotation
-                        const shuffledProperties = [...properties].sort(() => Math.random() - 0.5);
+                        const shuffledProperties = [...validProperties].sort(() => Math.random() - 0.5);
                         
-                        // Take first 6 properties for featured (1 hero + 2 grid + rotation buffer)
-                        featuredProperties = shuffledProperties.slice(0, 6);
+                        // Take properties for featured display
+                        featuredProperties = shuffledProperties;
                         isApiLoaded = true;
+                        
+                        // Cache the real properties
+                        try {
+                            localStorage.setItem('cachedRealProperties', JSON.stringify(featuredProperties));
+                            localStorage.setItem('lastRealPropertiesLoad', new Date().getTime().toString());
+                        } catch (cacheError) {
+                            console.log('Error caching real properties:', cacheError);
+                        }
                         
                         if (currentTab === 'featured') {
                             displayFeaturedProperties();
                         }
                         
-                        // Store successful load time
-                        localStorage.setItem('lastSuccessfulLoad', new Date().getTime().toString());
-                        
+                        console.log('REAL PROPERTIES SUCCESSFULLY LOADED AND DISPLAYED');
                         return;
                     }
                 }
                 
-                throw new Error('No valid properties found in API response');
+                throw new Error('No valid real properties found from any API endpoint');
                 
             } catch (error) {
-                console.error('Error loading featured properties:', error);
+                console.error('Failed to load real properties:', error);
                 
-                // Check if we have recent cached data
-                const lastSuccessfulLoad = localStorage.getItem('lastSuccessfulLoad');
-                const cachedProperties = localStorage.getItem('cachedFeaturedProperties');
+                // Try to use recently cached real properties
+                const lastRealLoad = localStorage.getItem('lastRealPropertiesLoad');
+                const cachedRealProperties = localStorage.getItem('cachedRealProperties');
                 
-                if (lastSuccessfulLoad && cachedProperties) {
-                    const timeSinceLastLoad = new Date().getTime() - parseInt(lastSuccessfulLoad);
-                    const oneHour = 60 * 60 * 1000;
+                if (lastRealLoad && cachedRealProperties) {
+                    const timeSinceLastLoad = new Date().getTime() - parseInt(lastRealLoad);
+                    const sixHours = 6 * 60 * 60 * 1000;
                     
-                    // Use cached data if less than 1 hour old
-                    if (timeSinceLastLoad < oneHour) {
+                    if (timeSinceLastLoad < sixHours) {
                         try {
-                            const cached = JSON.parse(cachedProperties);
+                            const cached = JSON.parse(cachedRealProperties);
                             if (Array.isArray(cached) && cached.length > 0) {
-                                console.log('Using cached properties from recent successful load');
+                                console.log('Using cached real properties from recent load');
                                 featuredProperties = cached;
+                                isApiLoaded = true;
                                 if (currentTab === 'featured') {
                                     displayFeaturedProperties();
                                 }
                                 return;
                             }
                         } catch (cacheError) {
-                            console.log('Error parsing cached properties:', cacheError);
+                            console.log('Error parsing cached real properties:', cacheError);
                         }
                     }
                 }
                 
-                // Use enhanced sample data as fallback
-                console.log('Using enhanced sample data as fallback');
+                // Final fallback to enhanced sample data (but log it clearly)
+                console.warn('⚠️ FALLBACK: Using sample data because real API failed');
                 featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
                 
                 if (currentTab === 'featured') {
@@ -2643,7 +2689,7 @@
             }
         }
         
-        // NEW: Display single popular property in card + description layout
+        // NEW: Display single popular property in card + description layout with proper icons
         function displayPopularProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
@@ -2663,12 +2709,20 @@
             const propertyIcon = propertyIcons[type] || propertyIcons['default'];
             const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
             
-            // Build features array
+            // Build features array with proper SVG icons
             const features = [];
-            if (data.bedrooms) features.push(`<div class="popular-property-feature">🛏️ ${data.bedrooms} Bedrooms</div>`);
-            if (data.bathrooms) features.push(`<div class="popular-property-feature">🚿 ${data.bathrooms} Bathrooms</div>`);
-            if (data.builtArea) features.push(`<div class="popular-property-feature">📐 ${data.builtArea}m² Built</div>`);
-            if (data.landArea) features.push(`<div class="popular-property-feature">🌳 ${data.landArea}m² Plot</div>`);
+            if (data.bedrooms) {
+                features.push(`<div class="popular-property-feature">${featureIcons.bed} ${data.bedrooms} Bedrooms</div>`);
+            }
+            if (data.bathrooms) {
+                features.push(`<div class="popular-property-feature">${featureIcons.bath} ${data.bathrooms} Bathrooms</div>`);
+            }
+            if (data.builtArea) {
+                features.push(`<div class="popular-property-feature">${featureIcons.area} ${data.builtArea}m² Built</div>`);
+            }
+            if (data.landArea) {
+                features.push(`<div class="popular-property-feature">${featureIcons.plot} ${data.landArea}m² Plot</div>`);
+            }
             
             const featuresHTML = features.length > 0 ? 
                 `<div class="popular-property-features">${features.join('')}</div>` : '';
@@ -2902,63 +2956,71 @@
             window.location.href = `/properties/?id=${propertyId}`;
         }
         
-        // FIXED: Enhanced hero search functionality with proper location handling
+        // COMPLETELY FIXED: Enhanced hero search functionality with working location and filters
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
+            const locationInput = document.getElementById('vervLocationInput');
+            const locationSelect = document.getElementById('vervLocationSelect');
             
             if (searchForm) {
+                console.log('Initializing enhanced search functionality...');
+                
+                // Initialize location switching functionality
+                initLocationSwitching();
+                
                 // Handle form submission
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
                     console.log('Search form submitted');
                     
-                    const formData = new FormData(searchForm);
                     const searchParams = new URLSearchParams();
                     
-                    // Get location input and its data
-                    const locationInput = document.getElementById('vervLocationInput');
-                    const locationValue = locationInput ? locationInput.value.trim() : '';
-                    const placeId = locationInput ? locationInput.getAttribute('data-place-id') : '';
-                    const formattedAddress = locationInput ? locationInput.getAttribute('data-formatted-address') : '';
+                    // Get all form values
+                    const propertyType = document.getElementById('vervSaleRent')?.value;
+                    const budget = document.getElementById('vervBudget')?.value;
                     
-                    console.log('Location data:', {
-                        value: locationValue,
-                        placeId: placeId,
-                        formattedAddress: formattedAddress
+                    // Get location from either input or select
+                    let location = '';
+                    if (locationInput && !locationInput.style.display === 'none' && locationInput.value.trim()) {
+                        location = locationInput.value.trim();
+                    } else if (locationSelect && locationSelect.style.display !== 'none' && locationSelect.value) {
+                        location = locationSelect.value;
+                    }
+                    
+                    console.log('Search values:', {
+                        propertyType,
+                        location,
+                        budget
                     });
                     
-                    // Build search parameters
-                    for (let [key, value] of formData.entries()) {
-                        if (value && value.trim()) {
-                            searchParams.append(key, value.trim());
-                        }
+                    // Build search parameters - always search even without filters
+                    if (propertyType) {
+                        searchParams.set('type', propertyType);
+                    }
+                    if (location) {
+                        searchParams.set('location', location);
+                    }
+                    if (budget) {
+                        searchParams.set('budget', budget);
                     }
                     
-                    // Add enhanced location data if available
-                    if (locationValue) {
-                        searchParams.set('location', locationValue);
-                        if (placeId) {
-                            searchParams.set('place_id', placeId);
-                        }
-                        if (formattedAddress) {
-                            searchParams.set('formatted_address', formattedAddress);
-                        }
-                    }
+                    // Always perform search, even without parameters (show all properties)
+                    searchParams.set('search', 'true');
                     
                     // Track search with enhanced analytics
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'search', {
-                            search_term: locationValue || '',
-                            property_type: formData.get('sale-rent') || '',
-                            budget_range: formData.get('budget') || '',
-                            has_location_data: !!placeId
+                            search_term: location || 'all_locations',
+                            property_type: propertyType || 'all_types',
+                            budget_range: budget || 'all_budgets',
+                            has_filters: !!(propertyType || location || budget)
                         });
                     }
                     
                     // Track with custom analytics if available
                     if (typeof trackPropertyInquiry === 'function') {
-                        trackPropertyInquiry('search', locationValue || 'general', 0);
+                        trackPropertyInquiry('search', location || 'general', 0);
                     }
                     
                     console.log('Search parameters:', Object.fromEntries(searchParams));
@@ -2976,26 +3038,7 @@
                         e.preventDefault();
                         console.log('Search button clicked');
                         
-                        // Validate form before submission
-                        const locationInput = document.getElementById('vervLocationInput');
-                        const typeSelect = document.getElementById('vervSaleRent');
-                        
-                        let hasValidInput = false;
-                        if (locationInput && locationInput.value.trim()) hasValidInput = true;
-                        if (typeSelect && typeSelect.value) hasValidInput = true;
-                        
-                        if (!hasValidInput) {
-                            // Highlight the location input if no input provided
-                            if (locationInput) {
-                                locationInput.style.borderColor = '#ff6b6b';
-                                locationInput.focus();
-                                setTimeout(() => {
-                                    locationInput.style.borderColor = '';
-                                }, 3000);
-                            }
-                            return;
-                        }
-                        
+                        // Always submit - no validation required
                         searchForm.dispatchEvent(new Event('submit'));
                     });
                 }
@@ -3014,7 +3057,59 @@
                     });
                 });
                 
-                console.log('Hero search functionality initialized');
+                console.log('Enhanced search functionality initialized');
+            }
+        }
+        
+        // NEW: Location switching between Google Places input and fallback select
+        function initLocationSwitching() {
+            const locationInput = document.getElementById('vervLocationInput');
+            const locationSelect = document.getElementById('vervLocationSelect');
+            
+            if (!locationInput || !locationSelect) return;
+            
+            console.log('Initializing location switching...');
+            
+            // Try to initialize Google Places first
+            setTimeout(() => {
+                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    console.log('Google Places available, using autocomplete input');
+                    showLocationInput();
+                    initPlacesAutocomplete();
+                } else {
+                    console.log('Google Places not available, using fallback select');
+                    showLocationSelect();
+                }
+            }, 1000);
+            
+            // Fallback after 5 seconds if Google Places doesn't load
+            setTimeout(() => {
+                if (locationInput.style.display !== 'none' && typeof google === 'undefined') {
+                    console.log('Google Places failed to load, switching to fallback select');
+                    showLocationSelect();
+                }
+            }, 5000);
+        }
+        
+        function showLocationInput() {
+            const locationInput = document.getElementById('vervLocationInput');
+            const locationSelect = document.getElementById('vervLocationSelect');
+            
+            if (locationInput && locationSelect) {
+                locationInput.style.display = 'block';
+                locationSelect.style.display = 'none';
+                console.log('Showing Google Places input');
+            }
+        }
+        
+        function showLocationSelect() {
+            const locationInput = document.getElementById('vervLocationInput');
+            const locationSelect = document.getElementById('vervLocationSelect');
+            
+            if (locationInput && locationSelect) {
+                locationInput.style.display = 'none';
+                locationSelect.style.display = 'block';
+                console.log('Showing fallback location select');
             }
         }
         
@@ -3173,62 +3268,74 @@
             }
         }
         
-        // ENHANCED: Initialization with Chatbase support
+        // COMPLETELY REWRITTEN: Initialization focusing on real property loading and working search
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Homepage loaded, initializing enhanced version...');
+            console.log('🚀 VERV ONE Homepage - Enhanced Version Loading...');
             
             try {
-                // Initialize core functionality first
-                initHeroSearch();
+                // Initialize all core functionality
+                console.log('Initializing core functionality...');
+                initHeroSearch(); // This now includes the new location switching
                 initTabs();
                 initMobileMenu();
                 initPropertyRotation();
-                initWhatsAppTracking(); // NEW: Initialize WhatsApp tracking
+                initWhatsAppTracking();
                 
-                // Load Apimo property type catalogs first, then properties
+                // PRIORITY: Load real properties immediately
+                console.log('🏠 Loading REAL properties from VERV ONE...');
                 loadPropertyTypeCatalogs()
                     .then(() => {
-                        console.log('Property catalogs loaded, now loading properties...');
+                        console.log('✅ Property catalogs loaded');
                         return loadFeaturedProperties();
                     })
                     .then(() => {
-                        console.log('Featured properties loaded successfully');
+                        console.log('✅ Featured properties loaded');
+                        // Also load popular properties
+                        return loadPopularProperties();
+                    })
+                    .then(() => {
+                        console.log('✅ All properties loaded successfully');
                     })
                     .catch((error) => {
-                        console.log('Error in property loading chain:', error);
-                        // Ensure properties load even if catalogs fail
+                        console.error('❌ Error in property loading:', error);
+                        // Ensure fallback properties load
                         loadFeaturedProperties();
+                        loadPopularProperties();
                     });
                 
                 // Initialize Google Maps with delay for better performance
                 setTimeout(() => {
+                    console.log('🗺️ Loading Google Maps...');
                     loadGoogleMaps();
                 }, 2000);
                 
                 // Initialize Google Places immediately if already available
                 if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    console.log('✅ Google Places already available');
                     initPlacesAutocomplete();
                 }
                 
                 // Initialize Chatbase monitoring
+                console.log('💬 Initializing Chatbase...');
                 initChatbaseMonitoring();
                 
-                console.log('Homepage initialization complete');
+                console.log('✅ VERV ONE Homepage initialization complete');
                 
-                // Set up periodic property refresh (every 6 hours)
+                // Set up periodic property refresh to get fresh real properties
                 setInterval(() => {
-                    console.log('Periodic property refresh...');
-                    if (isApiLoaded) {
-                        loadFeaturedProperties();
-                    }
-                }, 6 * 60 * 60 * 1000); // 6 hours
+                    console.log('🔄 Periodic real property refresh...');
+                    loadFeaturedProperties();
+                }, 4 * 60 * 60 * 1000); // Every 4 hours
                 
             } catch (error) {
-                console.error('Error during initialization:', error);
-                // Fallback initialization
+                console.error('❌ Critical error during initialization:', error);
+                // Emergency fallback
                 featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
+                popularProperties = [...sampleProperties].sort((a, b) => (b.price || 0) - (a.price || 0));
                 if (currentTab === 'featured') {
                     displayFeaturedProperties();
+                } else if (currentTab === 'popular') {
+                    displayPopularProperties();
                 }
             }
         });
@@ -3308,20 +3415,42 @@
             }
         });
         
-        // Enhanced timeout fallback with progressive checks
-        let fallbackTimeout = 8000; // Start with 8 seconds
+        // Enhanced timeout fallback focusing on real properties
+        let fallbackTimeout = 10000; // Start with 10 seconds for real API
         const maxFallbackTimeout = 30000; // Max 30 seconds
         
         function checkAndFallback() {
             if (featuredProperties.length === 0) {
-                console.log(`API timeout after ${fallbackTimeout}ms, using enhanced sample data`);
+                console.log(`⚠️ Real property API timeout after ${fallbackTimeout}ms`);
+                console.log('🔄 Attempting to load from cache or sample data...');
+                
+                // Try cached real properties first
+                const cachedRealProperties = localStorage.getItem('cachedRealProperties');
+                if (cachedRealProperties) {
+                    try {
+                        const cached = JSON.parse(cachedRealProperties);
+                        if (Array.isArray(cached) && cached.length > 0) {
+                            console.log('✅ Using cached real properties');
+                            featuredProperties = cached;
+                            if (currentTab === 'featured') {
+                                displayFeaturedProperties();
+                            }
+                            return;
+                        }
+                    } catch (error) {
+                        console.log('❌ Cached properties invalid:', error);
+                    }
+                }
+                
+                // Fallback to enhanced sample data
+                console.log('📋 Using enhanced sample data as final fallback');
                 featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
                 
                 if (currentTab === 'featured') {
                     displayFeaturedProperties();
                 }
                 
-                // Also set up popular properties
+                // Also set up popular properties if needed
                 if (popularProperties.length === 0) {
                     const sortedSample = [...sampleProperties].sort((a, b) => {
                         const aClicks = propertyClicks[a.id] || 0;
@@ -3333,14 +3462,14 @@
                 }
             }
             
-            // Set up next fallback check with exponential backoff
+            // Continue checking for real properties if still needed
             if (fallbackTimeout < maxFallbackTimeout && featuredProperties.length === 0) {
                 fallbackTimeout *= 1.5;
                 setTimeout(checkAndFallback, fallbackTimeout);
             }
         }
         
-        // Start fallback system
+        // Start fallback system after initial load time
         setTimeout(checkAndFallback, fallbackTimeout);
         
         // Make functions globally available for HTML onclick handlers
