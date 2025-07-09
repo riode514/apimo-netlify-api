@@ -91,13 +91,7 @@
     
     <!-- Google Maps API - Only load when needed -->
     <script>
-        window.initGoogleMaps = function() {
-            const script = document.createElement('script');
-            script.async = true;
-            script.defer = true;
-            script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initPlacesAutocomplete';
-            document.head.appendChild(script);
-        };
+        // Google Maps will be loaded dynamically by JavaScript when needed
     </script>
     
     <!-- Enhanced Real Estate Schema -->
@@ -437,6 +431,13 @@
             font-size: 1rem;
         }
 
+        .consultation-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .verv-btn-black {
             background: #000;
             color: white;
@@ -448,12 +449,44 @@
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .verv-btn-black:hover {
             background: #333;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .verv-btn-whatsapp {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .verv-btn-whatsapp:hover {
+            background: #20b858;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        }
+
+        .verv-btn-whatsapp svg {
+            width: 20px;
+            height: 20px;
         }
 
         /* Main sections */
@@ -1209,39 +1242,67 @@
             font-weight: 300;
         }
 
-        /* Chat Widgets Container */
+        /* UPDATED: Chat Widgets Container - Better positioning to avoid Chatbase conflicts */
         .chat-widgets-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            left: 30px; /* Moved to left side to avoid Chatbase bubble conflict */
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            z-index: 1000;
+            gap: 15px;
+            z-index: 999; /* Lower than Chatbase which typically uses 1000+ */
         }
 
-        .whatsapp-float {
+        .whatsapp-btn {
             background: #25d366;
             color: white;
             border-radius: 50px;
-            padding: 1rem 1.5rem;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
             text-decoration: none;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
         }
 
-        .whatsapp-float:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            background: #20b858;
         }
 
-        .whatsapp-float svg {
-            width: 24px;
-            height: 24px;
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-text {
+            white-space: nowrap;
+        }
+
+        /* Chatbase widget positioning adjustments */
+        #chatbase-bubble-window {
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 1000 !important;
+        }
+
+        #chatbase-bubble-button {
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 1000 !important;
+        }
+
+        /* Ensure Chatbase doesn't conflict with our elements */
+        .chatbase-chat-iframe {
+            z-index: 1001 !important;
         }
 
         /* FIXED: Mobile Responsive Design - Better spacing */
@@ -1314,6 +1375,19 @@
 
             .verv-hero-description {
                 font-size: 1rem;
+            }
+
+            /* Mobile consultation buttons */
+            .consultation-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .verv-btn-black, 
+            .verv-btn-whatsapp {
+                padding: 0.875rem 1.5rem;
+                font-size: 0.9rem;
+                justify-content: center;
             }
             
             /* FIXED: Mobile search form */
@@ -1478,12 +1552,36 @@
                 padding-right: 1rem;
             }
 
-            .whatsapp-float {
-                padding: 0.8rem 1.2rem;
+            /* Mobile WhatsApp positioning */
+            .chat-widgets-container {
+                bottom: 20px;
+                left: 20px;
+                gap: 10px;
+            }
+
+            .whatsapp-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .whatsapp-btn svg {
+                width: 18px;
+                height: 18px;
             }
 
             .whatsapp-text {
-                display: none;
+                display: none; /* Hide text on very small screens */
+            }
+
+            /* Adjust Chatbase for mobile */
+            #chatbase-bubble-window {
+                bottom: 20px !important;
+                right: 20px !important;
+            }
+
+            #chatbase-bubble-button {
+                bottom: 20px !important;
+                right: 20px !important;
             }
         }
 
@@ -1616,7 +1714,19 @@
                 
                 <div class="verv-consultation-section">
                     <p class="verv-consultation-text">Need personalized guidance? Speak with our experts.</p>
-                    <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
+                    <div class="consultation-buttons">
+                        <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
+                        <a href="https://wa.me/34657271220?text=Hello! I'm interested in your luxury properties. Could you please provide more information?" 
+                           target="_blank" 
+                           rel="noopener" 
+                           class="verv-btn-whatsapp" 
+                           aria-label="Contact via WhatsApp">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                            </svg>
+                            WhatsApp
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1791,15 +1901,68 @@
         </div>
     </footer>
 
-    <!-- Chat Widgets Container -->
+    <!-- Chat Widgets Container - Updated positioning -->
     <div class="chat-widgets-container">
-        <a href="https://wa.me/34657271220" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contact via WhatsApp">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/34657271220" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Contact via WhatsApp">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
             </svg>
             <span class="whatsapp-text">WhatsApp</span>
         </a>
     </div>
+
+    <!-- Chatbase Integration -->
+    <script>
+        (function(){
+            if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+                window.chatbase=(...arguments)=>{
+                    if(!window.chatbase.q){
+                        window.chatbase.q=[]
+                    }
+                    window.chatbase.q.push(arguments)
+                };
+                window.chatbase=new Proxy(window.chatbase,{
+                    get(target,prop){
+                        if(prop==="q"){
+                            return target.q
+                        }
+                        return(...args)=>target(prop,...args)
+                    }
+                })
+            }
+            
+            const onLoad=function(){
+                try {
+                    const script=document.createElement("script");
+                    script.src="https://www.chatbase.co/embed.min.js";
+                    script.id="82Jd8DV0roWCZlMeoeqbk";
+                    script.setAttribute("data-chatbot-id", "82Jd8DV0roWCZlMeoeqbk");
+                    script.setAttribute("data-domain", "www.chatbase.co");
+                    script.async = true;
+                    script.defer = true;
+                    
+                    script.onload = function() {
+                        console.log('Chatbase script loaded successfully');
+                    };
+                    
+                    script.onerror = function() {
+                        console.log('Chatbase script failed to load');
+                    };
+                    
+                    document.body.appendChild(script);
+                } catch (error) {
+                    console.error('Error loading Chatbase:', error);
+                }
+            };
+            
+            if(document.readyState==="complete"){
+                onLoad()
+            } else {
+                window.addEventListener("load", onLoad)
+            }
+        })();
+    </script>
 
     <!-- FIXED: Enhanced JavaScript with better functionality -->
     <script>
@@ -2947,18 +3110,49 @@
             }
         }
         
-        // Enhanced consultation modal
+        // Enhanced consultation modal with WhatsApp tracking
         function openConsultationModal() {
             console.log('Opening consultation modal...');
             
             // Track consultation request
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'consultation_request', {
-                    source: 'hero_section'
+                    source: 'hero_section',
+                    method: 'schedule_form'
                 });
             }
             
             window.location.href = '/contact/';
+        }
+        
+        // NEW: WhatsApp click tracking
+        function trackWhatsAppClick(source = 'unknown') {
+            console.log('WhatsApp clicked from:', source);
+            
+            // Track WhatsApp engagement
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'whatsapp_click', {
+                    source: source,
+                    contact_method: 'whatsapp'
+                });
+            }
+            
+            // Track with custom analytics if available
+            if (typeof trackContactSubmission === 'function') {
+                trackContactSubmission('whatsapp');
+            }
+        }
+        
+        // NEW: Initialize WhatsApp tracking on page load
+        function initWhatsAppTracking() {
+            // Track clicks on WhatsApp buttons
+            document.querySelectorAll('[href*="wa.me"], .whatsapp-btn, .verv-btn-whatsapp').forEach(button => {
+                button.addEventListener('click', function() {
+                    const source = this.classList.contains('whatsapp-btn') ? 'floating_button' : 
+                                  this.classList.contains('verv-btn-whatsapp') ? 'hero_section' : 'unknown';
+                    trackWhatsAppClick(source);
+                });
+            });
         }
         
         // ENHANCED: Performance optimization and Google Maps loading
@@ -2979,7 +3173,7 @@
             }
         }
         
-        // ENHANCED: Initialization with comprehensive setup
+        // ENHANCED: Initialization with Chatbase support
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Homepage loaded, initializing enhanced version...');
             
@@ -2989,6 +3183,7 @@
                 initTabs();
                 initMobileMenu();
                 initPropertyRotation();
+                initWhatsAppTracking(); // NEW: Initialize WhatsApp tracking
                 
                 // Load Apimo property type catalogs first, then properties
                 loadPropertyTypeCatalogs()
@@ -3015,6 +3210,9 @@
                     initPlacesAutocomplete();
                 }
                 
+                // Initialize Chatbase monitoring
+                initChatbaseMonitoring();
+                
                 console.log('Homepage initialization complete');
                 
                 // Set up periodic property refresh (every 6 hours)
@@ -3034,6 +3232,59 @@
                 }
             }
         });
+        
+        // NEW: Chatbase monitoring and initialization support
+        function initChatbaseMonitoring() {
+            console.log('Initializing Chatbase monitoring...');
+            
+            // Check if Chatbase loaded successfully after a delay
+            setTimeout(() => {
+                if (typeof window.chatbase === 'function') {
+                    console.log('Chatbase loaded successfully');
+                    
+                    // Optional: Configure Chatbase if needed
+                    try {
+                        window.chatbase('config', {
+                            chatbotId: '82Jd8DV0roWCZlMeoeqbk'
+                        });
+                    } catch (error) {
+                        console.log('Chatbase config error (non-critical):', error);
+                    }
+                } else {
+                    console.log('Chatbase not detected - this is normal if the script is still loading');
+                }
+            }, 3000);
+            
+            // Monitor for Chatbase elements in the DOM
+            const chatbaseObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === 1) { // Element node
+                            if (node.id && (node.id.includes('chatbase') || node.id.includes('chatbot'))) {
+                                console.log('Chatbase widget detected in DOM:', node.id);
+                                
+                                // Ensure proper positioning
+                                if (node.style) {
+                                    node.style.zIndex = '1000';
+                                }
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // Start observing
+            chatbaseObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            
+            // Stop observing after 30 seconds to avoid performance issues
+            setTimeout(() => {
+                chatbaseObserver.disconnect();
+                console.log('Chatbase monitoring stopped');
+            }, 30000);
+        }
         
         // Global callback for Google Maps
         window.initPlacesAutocomplete = initPlacesAutocomplete;
@@ -3057,26 +3308,39 @@
             }
         });
         
-        // Timeout fallback with exponential backoff
-        let fallbackTimeout = 5000;
-        const maxFallbackTimeout = 20000;
+        // Enhanced timeout fallback with progressive checks
+        let fallbackTimeout = 8000; // Start with 8 seconds
+        const maxFallbackTimeout = 30000; // Max 30 seconds
         
         function checkAndFallback() {
             if (featuredProperties.length === 0) {
-                console.log(`API timeout after ${fallbackTimeout}ms, using sample data`);
+                console.log(`API timeout after ${fallbackTimeout}ms, using enhanced sample data`);
                 featuredProperties = [...sampleProperties].sort(() => Math.random() - 0.5);
+                
                 if (currentTab === 'featured') {
                     displayFeaturedProperties();
+                }
+                
+                // Also set up popular properties
+                if (popularProperties.length === 0) {
+                    const sortedSample = [...sampleProperties].sort((a, b) => {
+                        const aClicks = propertyClicks[a.id] || 0;
+                        const bClicks = propertyClicks[b.id] || 0;
+                        if (bClicks !== aClicks) return bClicks - aClicks;
+                        return (b.price || 0) - (a.price || 0);
+                    });
+                    popularProperties = sortedSample;
                 }
             }
             
             // Set up next fallback check with exponential backoff
-            if (fallbackTimeout < maxFallbackTimeout) {
-                fallbackTimeout *= 2;
+            if (fallbackTimeout < maxFallbackTimeout && featuredProperties.length === 0) {
+                fallbackTimeout *= 1.5;
                 setTimeout(checkAndFallback, fallbackTimeout);
             }
         }
         
+        // Start fallback system
         setTimeout(checkAndFallback, fallbackTimeout);
         
         // Make functions globally available for HTML onclick handlers
