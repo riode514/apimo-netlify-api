@@ -23,8 +23,8 @@
             background-color: #fafafa;
         }
 
-        /* Header Styles */
-        .header {
+        /* Shared component styles */
+        .header-nav {
             position: fixed;
             top: 0;
             left: 0;
@@ -36,7 +36,7 @@
             height: 80px;
         }
 
-        .header-content {
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
@@ -46,32 +46,9 @@
             height: 100%;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .logo-text {
-            font-family: 'Lora', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #000;
+        .logo-link .logo {
+            height: 60px;
+            width: auto;
         }
 
         .nav-menu {
@@ -96,8 +73,7 @@
             background: #f8f9fa;
         }
 
-        /* Mobile menu */
-        .mobile-menu-btn {
+        .mobile-menu-toggle {
             display: none;
             background: none;
             border: none;
@@ -122,8 +98,143 @@
                 display: flex;
             }
 
-            .mobile-menu-btn {
+            .mobile-menu-toggle {
                 display: block;
+            }
+        }
+
+        /* Footer styles */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: #999;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            color: #ccc;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+
+        .footer-social .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-credentials {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .credentials-container {
+            text-align: center;
+        }
+
+        .credentials-logos {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .credential-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .credentials-info p {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+            text-align: center;
+        }
+
+        .footer-copyright {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .credentials-logos {
+                flex-wrap: wrap;
+                gap: 1rem;
             }
         }
 
@@ -404,25 +515,6 @@
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
         }
-
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            text-align: center;
-        }
-
-        .footer-text {
-            margin-bottom: 1rem;
-            color: #ccc;
-        }
         
         @media (max-width: 768px) {
             .properties-container {
@@ -472,25 +564,8 @@
     </style>
 </head>
 <body>
-    <!-- Fixed Header with VERV ONE Logo -->
-    <header class="header">
-        <div class="header-content">
-            <a href="/" class="logo">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE" style="height: 40px;">
-            </a>
-            
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/properties/" class="nav-link active">Properties</a></li>
-                    <li><a href="/about/" class="nav-link">About</a></li>
-                    <li><a href="/contact/" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        </div>
-    </header>
+    <!-- Shared Header -->
+    <div id="shared-header"></div>
 
     <main class="properties-container">
         <a href="/" class="back-link">← Back to Home</a>
@@ -543,24 +618,92 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <p class="footer-text">© 2024 VERV ONE. All rights reserved.</p>
-        </div>
-    </footer>
+    <!-- Shared Footer -->
+    <div id="shared-footer"></div>
+
+    <!-- Load Shared Components -->
+    <script>
+        // Load shared header
+        fetch('/shared/shared-header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('shared-header').innerHTML = html;
+                // Set active navigation
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === '/properties/' || link.getAttribute('data-page') === 'properties') {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                // Initialize mobile menu for shared header
+                const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+                const navMenu = document.getElementById('navMenu');
+                
+                if (mobileMenuToggle && navMenu) {
+                    mobileMenuToggle.addEventListener('click', function() {
+                        navMenu.classList.toggle('active');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                // Fallback: Show basic header with VERV ONE logo
+                document.getElementById('shared-header').innerHTML = `
+                    <header class="header-nav">
+                        <nav class="nav-container">
+                            <a href="/" class="logo-link">
+                                <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" style="height: 60px;">
+                            </a>
+                            <ul class="nav-menu" id="navMenu">
+                                <li><a href="/" class="nav-link">Home</a></li>
+                                <li><a href="/about/" class="nav-link">About</a></li>
+                                <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
+                                <li><a href="/properties/" class="nav-link active">Properties</a></li>
+                                <li><a href="/projects/" class="nav-link">Projects</a></li>
+                                <li><a href="/contact/" class="nav-link">Contact</a></li>
+                            </ul>
+                            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+                        </nav>
+                    </header>
+                `;
+            });
+
+        // Load shared footer
+        fetch('/shared/shared-footer.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('shared-footer').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading footer:', error);
+                // Fallback: Show basic footer
+                document.getElementById('shared-footer').innerHTML = `
+                    <footer class="footer">
+                        <div class="footer-container">
+                            <div class="footer-content">
+                                <div class="footer-brand">
+                                    <div class="footer-logo">VERV ONE</div>
+                                    <div class="footer-tagline">Fine Property & Project Consultancy</div>
+                                    <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.</p>
+                                </div>
+                            </div>
+                            <div class="footer-bottom">
+                                <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                `;
+            });
+    </script>
 
     <script>
         // Global variables
         let allProperties = [];
         let displayedProperties = [];
         let currentSort = 'newest';
-
-        // Mobile menu functionality
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-        });
 
         // The Noun Project style icons for property types
         const propertyTypeIcons = {
@@ -639,6 +782,18 @@
                 <rect x="46" y="18" width="8" height="4" fill="currentColor"/>
             </svg>`,
             
+            'Plot': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
+                <rect x="10" y="20" width="80" height="60" stroke="currentColor" stroke-width="3" fill="none"/>
+                <path d="M20 30 L30 25 L40 35 L50 20 L60 30 L70 25 L80 35" stroke="currentColor" stroke-width="2" fill="none"/>
+                <circle cx="25" cy="45" r="3" fill="currentColor"/>
+                <circle cx="45" cy="50" r="3" fill="currentColor"/>
+                <circle cx="65" cy="45" r="3" fill="currentColor"/>
+                <path d="M20 60 Q30 55 40 60 Q50 65 60 60 Q70 55 80 60" stroke="currentColor" stroke-width="2" fill="none"/>
+                <rect x="15" y="75" width="8" height="8" fill="currentColor"/>
+                <rect x="77" y="75" width="8" height="8" fill="currentColor"/>
+                <text x="50" y="90" text-anchor="middle" font-family="Arial" font-size="8" fill="currentColor">PLOT</text>
+            </svg>`,
+            
             'default': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
                 <path d="M50 15L20 35v40h60V35L50 15z"/>
                 <rect x="25" y="45" width="6" height="6" fill="white"/>
@@ -669,29 +824,39 @@
             </svg>`
         };
 
-        // Extract location string
+        // Extract location string with enhanced city parsing
         function extractLocationString(property) {
             console.log('Raw property object for location extraction:', property);
             
             let locationString = '';
             
-            // Method 1: Direct string fields
-            if (typeof property.city === 'string' && property.city.trim()) {
-                locationString = property.city.trim();
-            } else if (typeof property.district === 'string' && property.district.trim()) {
-                locationString = property.district.trim();
-            } else if (typeof property.address === 'string' && property.address.trim()) {
-                locationString = property.address.trim();
+            // Method 1: City object structure - PRIORITY for API like { "city": { "id": 147207, "name": "Sitges", "zipcode": "08860" } }
+            if (property.city && typeof property.city === 'object' && property.city.name) {
+                locationString = property.city.name.trim();
+                console.log('Found city from city object:', locationString);
             }
             
-            // Method 2: Location object parsing
+            // Method 2: Direct string city field
+            else if (typeof property.city === 'string' && property.city.trim()) {
+                locationString = property.city.trim();
+                console.log('Found city from city string:', locationString);
+            } 
+            
+            // Method 3: District field
+            else if (typeof property.district === 'string' && property.district.trim()) {
+                locationString = property.district.trim();
+                console.log('Found district:', locationString);
+            } 
+            
+            // Method 4: Location object parsing
             else if (property.location && typeof property.location === 'object') {
                 const loc = property.location;
                 
-                if (typeof loc.city === 'string' && loc.city.trim()) {
-                    const city = loc.city.trim();
-                    const state = (typeof loc.state === 'string' && loc.state.trim()) ? loc.state.trim() : '';
-                    locationString = state ? `${city}, ${state}` : city;
+                // Check for city in location object
+                if (loc.city && typeof loc.city === 'object' && loc.city.name) {
+                    locationString = loc.city.name.trim();
+                } else if (typeof loc.city === 'string' && loc.city.trim()) {
+                    locationString = loc.city.trim();
                 } else if (typeof loc.label === 'string' && loc.label.trim()) {
                     locationString = loc.label.trim();
                 } else if (typeof loc.name === 'string' && loc.name.trim()) {
@@ -701,52 +866,61 @@
                 } else if (typeof loc.formatted_address === 'string' && loc.formatted_address.trim()) {
                     locationString = loc.formatted_address.trim();
                 }
+                console.log('Found location from location object:', locationString);
             }
             
-            // Method 3: String location field
+            // Method 5: String location field
             else if (typeof property.location === 'string' && property.location.trim()) {
                 locationString = property.location.trim();
+                console.log('Found location from location string:', locationString);
             }
             
-            // Method 4: Try additional location fields from API
-            else if (property.address_components && Array.isArray(property.address_components)) {
-                // Look for locality or administrative_area_level_2 in address components
-                const cityComponent = property.address_components.find(comp => 
-                    comp.types && (comp.types.includes('locality') || comp.types.includes('administrative_area_level_2'))
-                );
-                if (cityComponent && cityComponent.long_name) {
-                    locationString = cityComponent.long_name;
+            // Method 6: Address parsing for city name
+            else if (typeof property.address === 'string' && property.address.trim()) {
+                // Try to extract city from address string
+                const addressParts = property.address.split(',');
+                if (addressParts.length > 1) {
+                    locationString = addressParts[addressParts.length - 2].trim(); // Usually city is second to last
+                } else {
+                    locationString = property.address.trim();
                 }
+                console.log('Found location from address:', locationString);
             }
             
-            // Method 5: Check for nested location data
-            else if (property.property && property.property.location) {
+            // Method 7: Try nested property structure
+            else if (property.property && property.property.city) {
                 return extractLocationString(property.property);
             }
             
-            // Clean up and validate result - ONLY fallback if truly empty
+            // Clean up and validate result
             if (!locationString || locationString === '' || locationString === 'null' || locationString === 'undefined') {
-                // Try to extract from title or description as last resort
+                // Try to extract from title as last resort
                 if (property.title && typeof property.title === 'string') {
-                    const titleWords = property.title.split(' ');
-                    // Look for common Spanish city patterns
-                    const possibleCity = titleWords.find(word => 
-                        word.length > 4 && /^[A-Z][a-z]+$/.test(word)
-                    );
-                    if (possibleCity) {
-                        locationString = possibleCity;
+                    const title = property.title.toLowerCase();
+                    const spanishCities = ['sitges', 'barcelona', 'girona', 'cadaqués', 'begur', 'calella', 'palamós', 'roses', 'empuriabrava', 'castell', 'gavà', 'vilanova'];
+                    
+                    for (const city of spanishCities) {
+                        if (title.includes(city)) {
+                            locationString = city.charAt(0).toUpperCase() + city.slice(1);
+                            break;
+                        }
                     }
                 }
                 
-                // If still no location found, keep it minimal
+                // Final fallback
                 if (!locationString) {
-                    locationString = 'Spain'; // More specific than "Premium Location"
+                    locationString = 'Costa Brava'; // More specific than just "Spain"
                 }
             }
             
+            // Clean up common issues
             if (locationString.includes('[object Object]')) {
-                locationString = 'Spain';
+                locationString = 'Costa Brava';
             }
+            
+            // Remove any postal codes or extra info, keep just city name
+            locationString = locationString.split(/[\d{5}]/)[0].trim();
+            locationString = locationString.replace(/\d+/g, '').trim();
             
             console.log('Final extracted location:', locationString);
             return locationString;
@@ -778,78 +952,115 @@
                 }
             }
             
-            // Extract property type with more comprehensive logic
+            // Extract property type with comprehensive logic
             let propertyType = 'Property'; // Default fallback
             
-            // Method 1: Direct type field
+            console.log('=== PROPERTY TYPE EXTRACTION ===');
+            console.log('Raw property for type extraction:', property);
+            
+            // Method 1: Direct type field with various structures
             if (property.type) {
+                console.log('Found property.type:', property.type);
                 if (typeof property.type === 'string' && property.type.trim()) {
                     propertyType = property.type.trim();
+                    console.log('Using string type:', propertyType);
                 } else if (property.type.label && typeof property.type.label === 'string') {
                     propertyType = property.type.label.trim();
+                    console.log('Using type.label:', propertyType);
                 } else if (property.type.name && typeof property.type.name === 'string') {
                     propertyType = property.type.name.trim();
+                    console.log('Using type.name:', propertyType);
                 } else if (property.type.type && typeof property.type.type === 'string') {
                     propertyType = property.type.type.trim();
+                    console.log('Using type.type:', propertyType);
                 }
             }
             
             // Method 2: Subtype field
             else if (property.subtype) {
+                console.log('Found property.subtype:', property.subtype);
                 if (typeof property.subtype === 'string' && property.subtype.trim()) {
                     propertyType = property.subtype.trim();
+                    console.log('Using string subtype:', propertyType);
                 } else if (property.subtype.label && typeof property.subtype.label === 'string') {
                     propertyType = property.subtype.label.trim();
+                    console.log('Using subtype.label:', propertyType);
                 } else if (property.subtype.name && typeof property.subtype.name === 'string') {
                     propertyType = property.subtype.name.trim();
+                    console.log('Using subtype.name:', propertyType);
                 }
             }
             
             // Method 3: Category field
             else if (property.category) {
+                console.log('Found property.category:', property.category);
                 if (typeof property.category === 'string' && property.category.trim()) {
                     propertyType = property.category.trim();
+                    console.log('Using string category:', propertyType);
                 } else if (property.category.label && typeof property.category.label === 'string') {
                     propertyType = property.category.label.trim();
+                    console.log('Using category.label:', propertyType);
                 }
             }
             
             // Method 4: Property class or classification
             else if (property.property_type && typeof property.property_type === 'string') {
                 propertyType = property.property_type.trim();
+                console.log('Using property_type:', propertyType);
             } else if (property.classification && typeof property.classification === 'string') {
                 propertyType = property.classification.trim();
+                console.log('Using classification:', propertyType);
             }
             
             // Method 5: Try to infer from title or description
             else if (property.title && typeof property.title === 'string') {
                 const title = property.title.toLowerCase();
-                if (title.includes('villa')) propertyType = 'Villa';
-                else if (title.includes('apartment') || title.includes('piso')) propertyType = 'Apartment';
-                else if (title.includes('penthouse') || title.includes('ático')) propertyType = 'Penthouse';
-                else if (title.includes('house') || title.includes('casa')) propertyType = 'House';
-                else if (title.includes('plot') || title.includes('terreno') || title.includes('solar')) propertyType = 'Plot';
-                else if (title.includes('townhouse') || title.includes('adosado')) propertyType = 'Townhouse';
+                console.log('Inferring from title:', title);
+                
+                if (title.includes('villa') || title.includes('chalet')) {
+                    propertyType = 'Villa';
+                } else if (title.includes('apartment') || title.includes('piso') || title.includes('flat')) {
+                    propertyType = 'Apartment';
+                } else if (title.includes('penthouse') || title.includes('ático')) {
+                    propertyType = 'Penthouse';
+                } else if (title.includes('house') || title.includes('casa') || title.includes('home')) {
+                    propertyType = 'House';
+                } else if (title.includes('plot') || title.includes('terreno') || title.includes('solar') || title.includes('land')) {
+                    propertyType = 'Plot';
+                } else if (title.includes('townhouse') || title.includes('adosado')) {
+                    propertyType = 'Townhouse';
+                }
+                
+                console.log('Inferred type from title:', propertyType);
             }
             
-            // Normalize property type for consistency
-            propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
-            
-            // Map common Spanish terms to English
-            const typeMapping = {
-                'Piso': 'Apartment',
-                'Casa': 'House',
-                'Chalet': 'Villa',
-                'Ático': 'Penthouse',
-                'Adosado': 'Townhouse',
-                'Terreno': 'Plot',
-                'Solar': 'Plot',
-                'Unifamiliar': 'House'
-            };
-            
-            if (typeMapping[propertyType]) {
-                propertyType = typeMapping[propertyType];
+            // Clean and normalize property type for consistency
+            if (propertyType && propertyType !== 'Property') {
+                propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
+                
+                // Map common Spanish terms to English
+                const typeMapping = {
+                    'Piso': 'Apartment',
+                    'Casa': 'House',
+                    'Chalet': 'Villa',
+                    'Ático': 'Penthouse',
+                    'Adosado': 'Townhouse',
+                    'Terreno': 'Plot',
+                    'Solar': 'Plot',
+                    'Unifamiliar': 'House',
+                    'Duplex': 'Duplex',
+                    'Studio': 'Studio',
+                    'Loft': 'Loft'
+                };
+                
+                if (typeMapping[propertyType]) {
+                    propertyType = typeMapping[propertyType];
+                    console.log('Mapped Spanish term to English:', propertyType);
+                }
             }
+            
+            console.log('Final property type:', propertyType);
+            console.log('=== END PROPERTY TYPE EXTRACTION ===');
             
             // Extract bedrooms and bathrooms
             let bedrooms = property.bedrooms || null;
@@ -970,7 +1181,7 @@
                             <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">${propertyIcon}</div>` :
                             `${propertyIcon}`
                         }
-                        <div class="property-type-badge">${property.type.toUpperCase()}</div>
+                        <div class="property-type-badge">${property.type}</div>
                     </div>
                     <div class="property-info">
                         <div class="property-location">
