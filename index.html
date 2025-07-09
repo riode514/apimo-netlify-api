@@ -1709,17 +1709,17 @@
                         </div>
                         
                         <div class="verv-search-section location-section">
-                            <select class="verv-location-select" name="location" id="vervLocationSelect" aria-label="Location" style="display: none;">
+                            <select class="verv-location-select" name="location" id="vervLocationSelect" aria-label="Location">
                                 <option value="">Select Location</option>
                                 <option value="Barcelona">Barcelona</option>
                                 <option value="Sitges">Sitges</option>
-                                <option value="Castelldefels">Castelldefels</option>
                                 <option value="Sant Pere de Ribes">Sant Pere de Ribes</option>
+                                <option value="Castelldefels">Castelldefels</option>
                                 <option value="Girona">Girona</option>
                                 <option value="Costa Brava">Costa Brava</option>
                                 <option value="Emporda">Emporda</option>
                             </select>
-                            <input type="text" class="verv-location-input" name="location-input" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location">
+                            <input type="text" class="verv-location-input" name="location-input" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location" style="display: none;">
                         </div>
                         
                         <div class="verv-search-section">
@@ -2335,73 +2335,193 @@
             ];
         }
 
-        // FIXED: Extract property data from API response with proper location handling
-        function extractPropertyData(property) {
-            if (!property) return null;
+        // COMPLETELY REWRITTEN: bulletproof location extraction
+        function extractLocationString(property) {
+            console.log('Raw property object for location extraction:', property);
             
-            console.log('Extracting property data:', property);
+            // Try different location sources in order of preference
+            let locationString = '';
             
-            // FIXED: Properly handle location object
-            let locationString = 'Premium Location';
-            
-            if (property.location) {
-                if (typeof property.location === 'string') {
-                    locationString = property.location;
-                } else if (typeof property.location === 'object') {
-                    // Handle location object with various possible structures
-                    const city = property.location.city || property.location.label || property.location.name || '';
-                    const state = property.location.state || property.location.region || '';
-                    const country = property.location.country || '';
-                    
-                    if (city && state) {
-                        locationString = `${city}, ${state}`;
-                    } else if (city) {
-                        locationString = city;
-                    } else if (state) {
-                        locationString = state;
-                    } else if (property.location.label) {
-                        locationString = property.location.label;
-                    } else {
-                        locationString = 'Premium Location';
-                    }
-                }
-            } else if (property.city) {
-                locationString = property.city;
-            } else if (property.district) {
-                locationString = property.district;
-            } else if (property.address) {
-                locationString = property.address;
+            // Method 1: Direct string fields
+            if (typeof property.city === 'string' && property.city.trim()) {
+                locationString = property.city.trim();
+            } else if (typeof property.district === 'string' && property.district.trim()) {
+                locationString = property.district.trim();
+            } else if (typeof property.address === 'string' && property.address.trim()) {
+                locationString = property.address.trim();
             }
             
-            // FIXED: Properly handle price object
+            // Method 2: Location object parsing
+            else if (property.location && typeof property.location === 'object') {
+                const loc = property.location;
+                console.log('Parsing location object:', loc);
+                
+                // Try various object structures
+                if (typeof loc.city === 'string' && loc.city.trim()) {
+                    const city = loc.city.trim();
+                    const state = (typeof loc.state === 'string' && loc.state.trim()) ? loc.state.trim() : '';
+                    locationString = state ? `${city}, ${state}` : city;
+                } else if (typeof loc.label === 'string' && loc.label.trim()) {
+                    locationString = loc.label.trim();
+                } else if (typeof loc.name === 'string' && loc.name.trim()) {
+                    locationString = loc.name.trim();
+                } else if (typeof loc.address === 'string' && loc.address.trim()) {
+                    locationString = loc.address.trim();
+                } else if (typeof loc.formatted_address === 'string' && loc.formatted_address.trim()) {
+                    locationString = loc.formatted_address.trim();
+                }
+                
+                // Try to extract from nested objects
+                else if (loc.address && typeof loc.address === 'object') {
+                    const addr = loc.address;
+                    if (typeof addr.city === 'string' && addr.city.trim()) {
+                        locationString = addr.city.trim();
+                    } else if (typeof addr.town === 'string' && addr.town.trim()) {
+                        locationString = addr.town.trim();
+                    }
+                }
+                
+                // Last resort: try to stringify and clean up
+                else {
+                    try {
+                        const locStr = JSON.stringify(loc);
+                        console.log('Location object stringified:', locStr);
+                        
+                        // Look for city patterns in the JSON
+                        const cityMatch = locStr.match(/"city":"([^"]+)"/);
+                        const labelMatch = locStr.match(/"label":"([^"]+)"/);
+                        const nameMatch = locStr.match(/"name":"([^"]+)"/);
+                        
+                        if (cityMatch) {
+                            locationString = cityMatch[1];
+                        } else if (labelMatch) {
+                            locationString = labelMatch[1];
+                        } else if (nameMatch) {
+                            locationString = nameMatch[1];
+                        }
+                    } catch (e) {
+                        console.log('Error stringifying location object:', e);
+                    }
+                }
+            }
+            
+            // Method 3: String location field
+            else if (typeof property.location === 'string' && property.location.trim()) {
+                locationString = property.location.trim();
+            }
+            
+            // Clean up and validate result
+            if (!locationString || locationString === '' || locationString === 'null' || locationString === 'undefined') {
+                locationString = 'Premium Location';
+            }
+            
+            // Remove any remaining object references
+            if (locationString.includes('[object Object]')) {
+                locationString = 'Premium Location';
+            }
+            
+            console.log('Final extracted location:', locationString);
+            return locationString;
+        }
+
+        // COMPLETELY REWRITTEN: Enhanced property data extraction with bulletproof parsing
+        function extractPropertyData(property) {
+            if (!property) {
+                console.log('No property provided to extract');
+                return null;
+            }
+            
+            console.log('=== EXTRACTING PROPERTY DATA ===');
+            console.log('Raw property:', property);
+            
+            // Extract location with bulletproof method
+            const locationString = extractLocationString(property);
+            
+            // Extract price with multiple fallbacks
             let priceValue = null;
-            if (property.price) {
+            if (property.price !== null && property.price !== undefined) {
                 if (typeof property.price === 'number') {
                     priceValue = property.price;
-                } else if (typeof property.price === 'object' && property.price.value) {
-                    priceValue = property.price.value;
-                } else if (typeof property.price === 'object' && property.price.amount) {
-                    priceValue = property.price.amount;
+                } else if (typeof property.price === 'object') {
+                    priceValue = property.price.value || property.price.amount || property.price.price || null;
+                } else if (typeof property.price === 'string') {
+                    const parsed = parseFloat(property.price.replace(/[^0-9.]/g, ''));
+                    priceValue = isNaN(parsed) ? null : parsed;
                 }
+            }
+            
+            // Extract property type
+            let propertyType = 'Villa';
+            if (property.type) {
+                if (typeof property.type === 'string') {
+                    propertyType = property.type;
+                } else if (property.type.label) {
+                    propertyType = property.type.label;
+                } else if (property.type.name) {
+                    propertyType = property.type.name;
+                }
+            } else if (property.subtype) {
+                if (typeof property.subtype === 'string') {
+                    propertyType = property.subtype;
+                } else if (property.subtype.label) {
+                    propertyType = property.subtype.label;
+                }
+            }
+            
+            // Extract bedrooms and bathrooms
+            let bedrooms = property.bedrooms || null;
+            let bathrooms = property.bathrooms || null;
+            
+            // Try to extract from areas array if available
+            if (Array.isArray(property.areas)) {
+                property.areas.forEach(area => {
+                    if (area.type === 1) bedrooms = bedrooms || area.number;
+                    if (area.type === 8) bathrooms = bathrooms || area.number;
+                });
+            }
+            
+            // Extract built area
+            let builtArea = null;
+            if (property.area) {
+                builtArea = property.area.total || property.area.value || property.area.built || null;
+            } else if (property.surface) {
+                builtArea = property.surface;
+            } else if (property.built_area) {
+                builtArea = property.built_area;
+            }
+            
+            // Extract land area
+            let landArea = null;
+            if (Array.isArray(property.areas)) {
+                property.areas.forEach(area => {
+                    if ([49, 50, 51].includes(area.type) && area.area) {
+                        landArea = (landArea || 0) + area.area;
+                    }
+                });
+            } else if (property.land_area) {
+                landArea = property.land_area;
             }
             
             const extractedData = {
                 id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
-                title: property.title || property.reference || 'Luxury Property',
-                location: locationString, // Now guaranteed to be a string
+                title: property.title || property.reference || property.name || `${propertyType} Property`,
+                location: locationString, // Now guaranteed to be a clean string
                 price: priceValue,
-                type: getPropertyType(property),
-                bedrooms: property.bedrooms || extractFromAreas(property.areas, 1) || null,
-                bathrooms: property.bathrooms || extractFromAreas(property.areas, 8) || null,
-                builtArea: property.area?.total || property.area?.value || property.surface || null,
-                landArea: calculateLandArea(property.areas) || null,
+                type: propertyType,
+                bedrooms: bedrooms,
+                bathrooms: bathrooms,
+                builtArea: builtArea,
+                landArea: landArea,
                 description: property.description || property.title || 'Exceptional property in prime location',
                 photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || null,
                 is_featured: property.is_featured || false,
                 is_popular: property.is_popular || false
             };
             
-            console.log('Extracted property data:', extractedData);
+            console.log('=== EXTRACTED PROPERTY DATA ===');
+            console.log(extractedData);
+            console.log('================================');
+            
             return extractedData;
         }
 
@@ -2432,11 +2552,14 @@
             return total > 0 ? total : null;
         }
 
-        // COMPLETELY FIXED: Filter functionality with proper string handling
+        // COMPLETELY REWRITTEN: Working filter functionality that actually updates display
         function applyFiltersAndDisplay() {
-            console.log('Applying filters:', currentFilters);
+            console.log('=== APPLYING FILTERS ===');
+            console.log('Current filters:', currentFilters);
+            console.log('All properties available:', allProperties.length);
             
             if (allProperties.length === 0) {
+                console.log('No properties to filter');
                 displayedProperties = [];
                 showNoResults();
                 return;
@@ -2444,44 +2567,53 @@
             
             // Start with all properties
             let filtered = [...allProperties];
+            console.log('Starting with properties:', filtered.length);
             
-            // FIXED: Safely handle location filter with string conversion
-            if (currentFilters.location) {
+            // Apply location filter FIRST
+            if (currentFilters.location && currentFilters.location.trim()) {
                 const searchLocation = currentFilters.location.toLowerCase().trim();
                 console.log('Filtering by location:', searchLocation);
                 
+                const beforeFilter = filtered.length;
                 filtered = filtered.filter(property => {
-                    // Ensure location is always a string
                     const propertyLocation = (property.location || '').toString().toLowerCase();
                     const propertyTitle = (property.title || '').toString().toLowerCase();
                     
                     const matchesLocation = propertyLocation.includes(searchLocation) || 
-                                          propertyTitle.includes(searchLocation);
+                                          propertyTitle.includes(searchLocation) ||
+                                          propertyLocation === searchLocation;
                     
-                    console.log(`Property "${property.title}" location "${propertyLocation}" matches "${searchLocation}":`, matchesLocation);
+                    console.log(`Property "${property.title}" location "${propertyLocation}" vs search "${searchLocation}": ${matchesLocation}`);
                     return matchesLocation;
                 });
+                console.log(`Location filter: ${beforeFilter} → ${filtered.length} properties`);
             }
             
-            // Apply type filter
-            if (currentFilters.type) {
+            // Apply property type filter
+            if (currentFilters.type && currentFilters.type.trim()) {
+                const beforeFilter = filtered.length;
                 console.log('Filtering by type:', currentFilters.type);
-                // "sale" means show all, "rent" means show none (since we don't have rental properties)
+                
                 if (currentFilters.type === 'rent') {
+                    // We don't have rental properties, so show none
                     filtered = [];
+                    console.log('Rent filter applied - no rental properties available');
                 } else if (currentFilters.type === 'sale') {
-                    // Show all remaining properties (already filtered by location if applicable)
+                    // Keep all remaining properties (they're all for sale)
+                    console.log('Sale filter applied - keeping all properties');
                 }
+                console.log(`Type filter: ${beforeFilter} → ${filtered.length} properties`);
             }
             
-            // FIXED: Apply budget filter with proper number handling
-            if (currentFilters.budget) {
+            // Apply budget filter
+            if (currentFilters.budget && currentFilters.budget.trim()) {
+                const beforeFilter = filtered.length;
                 console.log('Filtering by budget:', currentFilters.budget);
                 
                 filtered = filtered.filter(property => {
-                    if (!property.price || property.price === null) {
+                    if (!property.price || property.price === null || property.price === 0) {
                         console.log(`Property "${property.title}" has no price, including in results`);
-                        return true; // Show properties without price
+                        return true; // Include properties without price
                     }
                     
                     const price = typeof property.price === 'number' ? property.price : parseInt(property.price) || 0;
@@ -2507,19 +2639,29 @@
                             matches = true;
                     }
                     
-                    console.log(`Property "${property.title}" price €${price} matches budget "${currentFilters.budget}":`, matches);
+                    console.log(`Property "${property.title}" price €${price} matches budget "${currentFilters.budget}": ${matches}`);
                     return matches;
                 });
+                console.log(`Budget filter: ${beforeFilter} → ${filtered.length} properties`);
             }
             
             displayedProperties = filtered;
-            console.log(`✅ Filtered from ${allProperties.length} to ${displayedProperties.length} properties`);
+            console.log(`✅ FINAL RESULT: ${allProperties.length} → ${displayedProperties.length} properties after filtering`);
+            console.log('Final filtered properties:', displayedProperties);
             
+            // Force update the display immediately
             if (displayedProperties.length === 0) {
                 showNoResults();
             } else {
-                displayFilteredProperties();
+                console.log('Displaying filtered properties for tab:', currentTab);
+                if (currentTab === 'featured') {
+                    displayFeaturedProperties();
+                } else if (currentTab === 'popular') {
+                    displayPopularProperties();
+                }
             }
+            
+            console.log('=== FILTERS APPLIED ===');
         }
 
         // Display filtered properties
@@ -2551,18 +2693,30 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // Clear all filters
+        // ENHANCED: Clear all filters function
         function clearFilters() {
+            console.log('🧹 CLEARING ALL FILTERS');
+            
+            // Reset filters
             currentFilters = { type: '', location: '', budget: '' };
             
             // Reset form values
             const form = document.getElementById('vervPropertySearch');
             if (form) {
                 form.reset();
+                console.log('Form reset completed');
             }
             
-            // Reapply filters (which will now show all properties)
-            applyFiltersAndDisplay();
+            // Reset displayed properties to show all
+            displayedProperties = [...allProperties];
+            console.log('Reset to show all properties:', displayedProperties.length);
+            
+            // Refresh display
+            if (currentTab === 'featured') {
+                displayFeaturedProperties();
+            } else if (currentTab === 'popular') {
+                displayPopularProperties();
+            }
             
             // Track filter clear
             if (typeof gtag !== 'undefined') {
@@ -2570,39 +2724,79 @@
                     page_location: window.location.href
                 });
             }
+            
+            console.log('✅ FILTERS CLEARED');
         }
 
-        // Display featured properties
+        // FIXED: Display featured properties with proper filtering and display
         function displayFeaturedProperties() {
-            if (displayedProperties.length === 0) return;
+            console.log('=== DISPLAYING FEATURED PROPERTIES ===');
+            console.log('Available properties:', displayedProperties.length);
             
-            // Show hero property
-            displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
+            if (displayedProperties.length === 0) {
+                console.log('No properties to display');
+                showNoResults();
+                return;
+            }
             
-            // Show grid properties (next 2)
+            // Reset hero property index if needed
+            if (currentHeroPropertyIndex >= displayedProperties.length) {
+                currentHeroPropertyIndex = 0;
+            }
+            
+            // Show hero property (first available property)
+            const heroProperty = displayedProperties[currentHeroPropertyIndex];
+            console.log('Displaying hero property:', heroProperty);
+            displayHeroProperty(heroProperty);
+            
+            // Show grid properties (next 2 available properties)
             const gridProperties = displayedProperties.slice(1, 3);
+            console.log('Displaying grid properties:', gridProperties.length);
             displayGridProperties(gridProperties);
+            
+            console.log('=== FEATURED PROPERTIES DISPLAYED ===');
         }
 
-        // Display popular properties
+        // FIXED: Display popular properties with proper sorting and display
         function displayPopularProperties() {
-            if (displayedProperties.length === 0) return;
+            console.log('=== DISPLAYING POPULAR PROPERTIES ===');
+            console.log('Available properties for popular:', displayedProperties.length);
             
-            // Sort by clicks, then by price
+            if (displayedProperties.length === 0) {
+                console.log('No properties to display');
+                showNoResults();
+                return;
+            }
+            
+            // Sort by clicks first, then by price (higher first)
             const sortedProperties = [...displayedProperties].sort((a, b) => {
                 const aClicks = propertyClicks[a.id] || 0;
                 const bClicks = propertyClicks[b.id] || 0;
                 
-                if (bClicks !== aClicks) return bClicks - aClicks;
-                return (b.price || 0) - (a.price || 0);
+                if (bClicks !== aClicks) {
+                    return bClicks - aClicks; // Most clicks first
+                }
+                
+                // If same click count, sort by price (higher first)
+                const aPrice = a.price || 0;
+                const bPrice = b.price || 0;
+                return bPrice - aPrice;
             });
             
-            // Display single popular property
-            displayPopularProperty(sortedProperties[0]);
+            console.log('Sorted popular properties:', sortedProperties);
             
-            // Clear grid
+            // Display the most popular property
+            const popularProperty = sortedProperties[0];
+            console.log('Displaying most popular property:', popularProperty);
+            displayPopularProperty(popularProperty);
+            
+            // Clear the grid for popular tab
             const grid = document.getElementById('propertiesGrid');
-            if (grid) grid.innerHTML = '';
+            if (grid) {
+                grid.innerHTML = '';
+            }
+            
+            console.log('=== POPULAR PROPERTIES DISPLAYED ===');
         }
 
         // FIXED: Display hero property with proper price formatting
@@ -2782,40 +2976,47 @@
             return card;
         }
 
-        // FIXED: Search functionality with proper string handling
+        // COMPLETELY REWRITTEN: Search functionality that actually works
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             
             if (searchForm) {
-                console.log('Initializing search functionality...');
+                console.log('=== INITIALIZING SEARCH ===');
                 
                 searchForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    // FIXED: Get form values and ensure they're strings
+                    console.log('🔍 SEARCH FORM SUBMITTED');
+                    
+                    // Get form elements
                     const propertyTypeElement = document.getElementById('vervSaleRent');
                     const budgetElement = document.getElementById('vervBudget');
-                    const locationInputElement = document.getElementById('vervLocationInput');
                     const locationSelectElement = document.getElementById('vervLocationSelect');
+                    const locationInputElement = document.getElementById('vervLocationInput');
                     
+                    // Extract values safely
                     const propertyType = propertyTypeElement ? propertyTypeElement.value.trim() : '';
                     const budget = budgetElement ? budgetElement.value.trim() : '';
                     
-                    // Get location from either input or select
+                    // Get location - prioritize the visible input
                     let location = '';
-                    if (locationInputElement && locationInputElement.style.display !== 'none' && locationInputElement.value.trim()) {
-                        location = locationInputElement.value.trim();
-                    } else if (locationSelectElement && locationSelectElement.style.display !== 'none' && locationSelectElement.value) {
+                    if (locationSelectElement && locationSelectElement.style.display !== 'none') {
+                        // Using dropdown
                         location = locationSelectElement.value.trim();
+                        console.log('Location from dropdown:', location);
+                    } else if (locationInputElement && locationInputElement.style.display !== 'none') {
+                        // Using text input
+                        location = locationInputElement.value.trim();
+                        console.log('Location from input:', location);
                     }
                     
-                    console.log('Search form values extracted:', {
-                        propertyType: propertyType,
-                        location: location,
-                        budget: budget
-                    });
+                    console.log('=== SEARCH VALUES ===');
+                    console.log('Property Type:', propertyType);
+                    console.log('Location:', location);
+                    console.log('Budget:', budget);
+                    console.log('==================');
                     
-                    // FIXED: Update current filters with guaranteed strings
+                    // Update filters
                     currentFilters = {
                         type: propertyType,
                         location: location,
@@ -2824,7 +3025,8 @@
                     
                     console.log('Updated currentFilters:', currentFilters);
                     
-                    // Apply filters and display results
+                    // Apply filters immediately
+                    console.log('🎯 APPLYING SEARCH FILTERS');
                     applyFiltersAndDisplay();
                     
                     // Track search
@@ -2835,17 +3037,35 @@
                             budget_range: budget || 'all_budgets'
                         });
                     }
+                    
+                    console.log('✅ SEARCH COMPLETED');
                 });
                 
-                // FIXED: Also handle direct button click
+                // Handle direct button click
                 const searchButton = document.querySelector('.verv-search-btn-minimal');
                 if (searchButton) {
                     searchButton.addEventListener('click', function(e) {
                         e.preventDefault();
-                        console.log('Search button clicked directly');
+                        console.log('🔍 Search button clicked directly');
                         searchForm.dispatchEvent(new Event('submit'));
                     });
                 }
+                
+                // Handle Enter key in form fields
+                const formInputs = searchForm.querySelectorAll('input, select');
+                formInputs.forEach(input => {
+                    input.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            console.log('🔍 Enter key pressed in form field');
+                            searchForm.dispatchEvent(new Event('submit'));
+                        }
+                    });
+                });
+                
+                console.log('✅ Search functionality initialized');
+            } else {
+                console.error('❌ Search form not found!');
             }
         }
 
@@ -2862,7 +3082,7 @@
             displayHeroProperty(displayedProperties[currentHeroPropertyIndex]);
         }
 
-        // View property function
+        // FIXED: View property function with correct URL format
         function viewProperty(propertyId) {
             console.log('Viewing property:', propertyId);
             
@@ -2881,16 +3101,21 @@
                 });
             }
             
-            // Navigate to property details
-            window.location.href = `/properties/?id=${propertyId}`;
+            // FIXED: Navigate with correct URL format
+            const propertyUrl = `/single-property/?id=${propertyId}`;
+            console.log('Navigating to:', propertyUrl);
+            window.location.href = propertyUrl;
         }
 
-        // Tab functionality
+        // FIXED: Tab functionality that properly switches between featured and popular
         function initTabs() {
             const tabButtons = document.querySelectorAll('.tab-button');
             
             tabButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    console.log('=== TAB CLICKED ===');
+                    console.log('Tab clicked:', this.dataset.tab);
+                    
                     // Update active states
                     tabButtons.forEach(btn => {
                         btn.classList.remove('active');
@@ -2901,13 +3126,33 @@
                     this.setAttribute('aria-selected', 'true');
                     
                     // Update current tab
-                    currentTab = this.dataset.tab;
+                    const newTab = this.dataset.tab;
+                    console.log('Switching from', currentTab, 'to', newTab);
+                    currentTab = newTab;
                     currentHeroPropertyIndex = 0;
                     
-                    // Display appropriate properties
-                    applyFiltersAndDisplay();
+                    // Force display update based on current tab
+                    console.log('Available properties for display:', displayedProperties.length);
+                    
+                    if (displayedProperties.length === 0) {
+                        console.log('No properties available, loading all properties');
+                        // If no filtered properties, show all
+                        displayedProperties = [...allProperties];
+                    }
+                    
+                    if (currentTab === 'featured') {
+                        console.log('🎯 Displaying Featured properties');
+                        displayFeaturedProperties();
+                    } else if (currentTab === 'popular') {
+                        console.log('🎯 Displaying Popular properties');
+                        displayPopularProperties();
+                    }
+                    
+                    console.log('=== TAB SWITCH COMPLETE ===');
                 });
             });
+            
+            console.log('✅ Tab functionality initialized');
         }
 
         // Mobile menu functionality
@@ -2984,23 +3229,85 @@
             window.location.href = '/contact/';
         }
 
-        // Initialize everything on DOM ready
+        // COMPLETELY REWRITTEN: Initialization that ensures everything works
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE Homepage - Fixed Version Loading...');
+            console.log('🚀 VERV ONE Homepage - DEEP FIX VERSION Loading...');
             
-            // Initialize core functionality
-            initHeroSearch();
-            initTabs();
-            initMobileMenu();
-            
-            // Load real properties
-            loadRealProperties();
-            
-            // Load Google Maps with delay
-            setTimeout(loadGoogleMaps, 2000);
-            
-            console.log('✅ Initialization complete');
+            try {
+                // Initialize core functionality first
+                console.log('1️⃣ Initializing core functionality...');
+                initHeroSearch();
+                initTabs();
+                initMobileMenu();
+                
+                // Load real properties immediately
+                console.log('2️⃣ Loading REAL properties from VERV ONE API...');
+                loadRealProperties()
+                    .then(() => {
+                        console.log('3️⃣ Properties loaded, setting up initial display...');
+                        
+                        // Ensure we have displayedProperties for initial load
+                        if (allProperties.length > 0 && displayedProperties.length === 0) {
+                            console.log('Setting up initial displayed properties');
+                            displayedProperties = [...allProperties];
+                        }
+                        
+                        // Display initial tab content
+                        console.log('4️⃣ Displaying initial tab content for:', currentTab);
+                        if (currentTab === 'featured') {
+                            displayFeaturedProperties();
+                        } else if (currentTab === 'popular') {
+                            displayPopularProperties();
+                        }
+                        
+                        console.log('✅ Initial setup complete');
+                    })
+                    .catch((error) => {
+                        console.error('❌ Error loading properties:', error);
+                        
+                        // Fallback to sample data
+                        console.log('📋 Using sample data as fallback');
+                        allProperties = createEnhancedSampleData();
+                        displayedProperties = [...allProperties];
+                        
+                        if (currentTab === 'featured') {
+                            displayFeaturedProperties();
+                        } else if (currentTab === 'popular') {
+                            displayPopularProperties();
+                        }
+                    });
+                
+                console.log('✅ VERV ONE Homepage initialization complete');
+                
+            } catch (error) {
+                console.error('❌ Critical error during initialization:', error);
+                
+                // Emergency fallback
+                console.log('🆘 Emergency fallback activation');
+                allProperties = createEnhancedSampleData();
+                displayedProperties = [...allProperties];
+                
+                if (currentTab === 'featured') {
+                    displayFeaturedProperties();
+                } else if (currentTab === 'popular') {
+                    displayPopularProperties();
+                }
+            }
         });
+
+        // Consultation modal
+        function openConsultationModal() {
+            console.log('Opening consultation modal...');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'consultation_request', {
+                    source: 'hero_section',
+                    method: 'schedule_form'
+                });
+            }
+            
+            window.location.href = '/contact/';
+        }
 
         // Make functions global for HTML onclick handlers
         window.previousHeroProperty = previousHeroProperty;
