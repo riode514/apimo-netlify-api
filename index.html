@@ -120,55 +120,25 @@
             "postalCode": "17111",
             "addressCountry": "ES"
         },
-        "additionalProperty": {
-            "@type": "PropertyValue",
-            "name": "Secondary Office",
-            "value": "Carrer Anselm Clavé 13, Sitges 08870"
-        },
         "areaServed": [
             {
                 "@type": "City",
-                "name": "Barcelona",
-                "sameAs": "https://en.wikipedia.org/wiki/Barcelona"
+                "name": "Barcelona"
             },
             {
                 "@type": "City", 
-                "name": "Sitges",
-                "sameAs": "https://en.wikipedia.org/wiki/Sitges"
+                "name": "Sitges"
             },
             {
                 "@type": "AdministrativeArea",
-                "name": "Costa Brava",
-                "sameAs": "https://en.wikipedia.org/wiki/Costa_Brava"
-            },
-            {
-                "@type": "City",
-                "name": "Girona",
-                "sameAs": "https://en.wikipedia.org/wiki/Girona"
+                "name": "Costa Brava"
             }
         ],
         "serviceType": [
             "Luxury Real Estate Sales",
             "Property Management", 
             "Real Estate Consultation",
-            "Project Management",
-            "Investment Advisory",
-            "International Real Estate Services"
-        ],
-        "priceRange": "€500,000-€10,000,000+",
-        "currenciesAccepted": "EUR",
-        "paymentAccepted": ["Cash", "Bank Transfer", "Mortgage"],
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "bestRating": "5",
-            "worstRating": "1",
-            "ratingCount": "127"
-        },
-        "sameAs": [
-            "https://www.linkedin.com/company/106199945",
-            "https://www.instagram.com/verv.one_",
-            "https://www.facebook.com/verv.one_"
+            "Investment Advisory"
         ]
     }
     </script>
@@ -187,7 +157,7 @@
             line-height: 1.6;
             color: #000;
             background: #fff;
-            padding: 0 2rem; /* Add edge spacing */
+            padding: 0 2rem;
         }
 
         .container {
@@ -206,7 +176,7 @@
             right: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 0 2rem; /* Add padding to header */
+            padding: 0 2rem;
         }
 
         .nav-container {
@@ -219,8 +189,7 @@
         }
 
         .logo {
-            height: 68px; /* Increased by 70% */
-            /* Removed filter to fix black square issue */
+            height: 68px;
         }
 
         .nav-menu {
@@ -259,7 +228,7 @@
             overflow: hidden;
             color: white;
             text-align: center;
-            margin: 0 -2rem; /* Compensate for body padding */
+            margin: 0 -2rem;
         }
 
         .hero-video-container {
@@ -538,7 +507,7 @@
             border-radius: 12px;
         }
 
-        /* Featured Properties Section - Redesigned as per screenshot */
+        /* Featured Properties Section - Simplified */
         .properties-section {
             padding: 5rem 0;
             background: #f8f9fa;
@@ -571,30 +540,30 @@
             border-bottom-color: #000;
         }
 
-        /* Hero Featured Property */
+        /* Hero Featured Property - Simplified */
         .hero-featured-property {
             position: relative;
             margin-bottom: 3rem;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-        }
-
-        .hero-property-image {
-            width: 100%;
+            background: #fff;
             height: 400px;
-            object-fit: cover;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .hero-property-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white;
-            padding: 3rem 2rem 2rem;
+        .hero-property-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .hero-property-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #333;
         }
 
         .hero-property-category {
@@ -602,7 +571,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 0.5rem;
-            opacity: 0.8;
+            color: #666;
         }
 
         .hero-property-title {
@@ -610,18 +579,24 @@
             font-weight: 600;
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
+            color: #000;
         }
 
         .hero-property-location {
             font-size: 1.1rem;
             margin-bottom: 1rem;
-            opacity: 0.9;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .hero-property-price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #fff;
+            color: #000;
+            font-family: 'Lora', serif;
         }
 
         .hero-property-nav {
@@ -640,7 +615,6 @@
 
         .hero-property-nav:hover {
             background: rgba(0,0,0,0.8);
-            transform: translateY(-50%) scale(1.1);
         }
 
         .hero-property-nav.prev {
@@ -655,8 +629,8 @@
             position: absolute;
             bottom: 2rem;
             right: 2rem;
-            background: rgba(255,255,255,0.9);
-            color: #000;
+            background: #000;
+            color: #fff;
             border: none;
             padding: 0.75rem 1.5rem;
             border-radius: 6px;
@@ -666,11 +640,10 @@
         }
 
         .hero-property-view-btn:hover {
-            background: #fff;
-            transform: translateY(-2px);
+            background: #333;
         }
 
-        /* Properties Grid - Smaller Cards Below */
+        /* Properties Grid - Simplified */
         .properties-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -679,13 +652,16 @@
             margin: 0 auto;
         }
 
-        .property-card, .loading-card {
+        .property-card {
             background: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 250px;
         }
 
         .property-card:hover {
@@ -693,104 +669,83 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
 
-        .property-image-container {
-            position: relative;
-            overflow: hidden;
+        .property-icon-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 3rem;
         }
 
-        .property-image, .loading-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+        .property-info {
+            padding: 1.5rem;
+            text-align: center;
+            background: #fff;
         }
 
-        .property-card:hover .property-image {
-            transform: scale(1.05);
-        }
-
-        .property-type-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
+        .property-type {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        .loading-image {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .property-info, .loading-info {
-            padding: 1.5rem;
-            text-align: left;
         }
 
         .property-location {
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 1rem;
+            color: #000;
             margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .property-price {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #000;
-            margin-bottom: 0.5rem;
             font-family: 'Lora', serif;
         }
 
-        .property-details {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .property-detail {
+        .loading-state {
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            justify-content: center;
+            padding: 3rem;
+            color: #666;
         }
 
-        .property-size {
-            font-size: 0.9rem;
-            color: #999;
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
         }
 
-        .loading-title, .loading-location, .loading-price {
-            height: 16px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            animation: loading 1.5s infinite;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .loading-title { width: 70%; }
-        .loading-location { width: 50%; }
-        .loading-price { width: 60%; }
+        .error-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
 
         /* Footer */
         .footer {
             background: #000;
             color: white;
             padding: 3rem 0 1rem;
-            margin: 0 -2rem; /* Compensate for body padding */
+            margin: 0 -2rem;
         }
 
         .footer-content {
@@ -876,7 +831,7 @@
             height: 20px;
         }
 
-        /* Footer Credentials - Fixed logos */
+        /* Footer Credentials */
         .footer-credentials {
             background: #000;
             padding: 2rem 0;
@@ -901,7 +856,7 @@
         .credential-logo {
             height: 50px;
             opacity: 0.8;
-            filter: brightness(0) invert(1); /* Make logos white */
+            filter: brightness(0) invert(1);
         }
 
         .credentials-info {
@@ -1021,10 +976,7 @@
 
             .hero-featured-property {
                 margin-bottom: 2rem;
-            }
-
-            .hero-property-image {
-                height: 250px;
+                height: 300px;
             }
 
             .hero-property-title {
@@ -1035,8 +987,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .property-image {
-                height: 180px;
+            .property-card {
+                height: 200px;
             }
 
             .credentials-logos {
@@ -1169,7 +1121,7 @@
             </div>
         </section>
 
-        <!-- Featured Properties Section - Redesigned as per screenshot -->
+        <!-- Featured Properties Section -->
         <section class="properties-section section">
             <div class="section-container">
                 <div class="section-header">
@@ -1184,33 +1136,17 @@
                 
                 <!-- Hero Featured Property -->
                 <div class="hero-featured-property" id="heroFeaturedProperty">
-                    <div class="loading-image" style="height: 400px;"></div>
-                    <div class="hero-property-info">
-                        <div class="hero-property-category">LOADING...</div>
-                        <div class="hero-property-title">Loading Property...</div>
-                        <div class="hero-property-location">Loading Location...</div>
-                        <div class="hero-property-price">Loading Price...</div>
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <span>Loading featured property...</span>
                     </div>
                 </div>
                 
                 <!-- Properties Grid -->
                 <div class="properties-grid" id="propertiesGrid">
-                    <!-- Loading state for smaller properties -->
-                    <div class="loading-card">
-                        <div class="loading-image"></div>
-                        <div class="loading-info">
-                            <div class="loading-location"></div>
-                            <div class="loading-price"></div>
-                            <div class="loading-title"></div>
-                        </div>
-                    </div>
-                    <div class="loading-card">
-                        <div class="loading-image"></div>
-                        <div class="loading-info">
-                            <div class="loading-location"></div>
-                            <div class="loading-price"></div>
-                            <div class="loading-title"></div>
-                        </div>
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <span>Loading properties...</span>
                     </div>
                 </div>
             </div>
@@ -1287,7 +1223,7 @@
             </div>
         </div>
         
-        <!-- Professional Credentials Section with Fixed Logos -->
+        <!-- Professional Credentials Section -->
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
@@ -1341,6 +1277,65 @@
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
         
+        // Sample property data for fallback
+        const sampleProperties = [
+            {
+                id: 1,
+                title: "Luxury Villa Barcelona",
+                location: "Barcelona, Spain",
+                price: 2500000,
+                status: "For Sale",
+                type: "Villa",
+                category: "Propiedad destacada"
+            },
+            {
+                id: 2,
+                title: "Seaside Apartment Sitges",
+                location: "Sitges, Spain", 
+                price: 850000,
+                status: "For Sale",
+                type: "Apartment",
+                category: "Apartamento"
+            },
+            {
+                id: 3,
+                title: "Modern Villa Costa Brava",
+                location: "Costa Brava, Spain",
+                price: 1750000,
+                status: "For Sale",
+                type: "Villa",
+                category: "Villa"
+            },
+            {
+                id: 4,
+                title: "Penthouse Barcelona",
+                location: "Barcelona, Spain",
+                price: 3200000,
+                status: "For Sale",
+                type: "Penthouse",
+                category: "Penthouse"
+            }
+        ];
+        
+        // Property type icons
+        const propertyIcons = {
+            'Villa': '🏡',
+            'Apartment': '🏢',
+            'Penthouse': '🏙️',
+            'House': '🏠',
+            'Townhouse': '🏘️',
+            'default': '🏠'
+        };
+        
+        // Location icons
+        const locationIcons = {
+            'Barcelona': '🏛️',
+            'Sitges': '🏖️',
+            'Costa Brava': '🌊',
+            'Girona': '🏰',
+            'default': '📍'
+        };
+        
         // Property rotation system - rotate every 24 hours
         function initPropertyRotation() {
             const lastRotation = localStorage.getItem('lastPropertyRotation');
@@ -1390,12 +1385,18 @@
             }
         }
         
-        // Load featured properties from API
+        // Load featured properties from API with fallback
         async function loadFeaturedProperties() {
             try {
                 console.log('Loading featured properties from API...');
                 
-                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=10');
+                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=10', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -1415,8 +1416,12 @@
                 
             } catch (error) {
                 console.error('Error loading featured properties:', error);
+                console.log('Using sample data as fallback');
+                
+                // Use sample data as fallback
+                featuredProperties = sampleProperties;
                 if (currentTab === 'featured') {
-                    displayPropertiesError();
+                    displayFeaturedProperties();
                 }
             }
         }
@@ -1426,7 +1431,13 @@
             try {
                 console.log('Loading popular properties from API...');
                 
-                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=20');
+                const response = await fetch('https://verv.one/.netlify/functions/properties?limit=20', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -1452,8 +1463,18 @@
                 
             } catch (error) {
                 console.error('Error loading popular properties:', error);
+                console.log('Using sample data as fallback');
+                
+                // Use sample data as fallback, sorted by clicks
+                const sortedSample = sampleProperties.sort((a, b) => {
+                    const aClicks = propertyClicks[a.id] || 0;
+                    const bClicks = propertyClicks[b.id] || 0;
+                    return bClicks - aClicks;
+                });
+                
+                popularProperties = sortedSample;
                 if (currentTab === 'popular') {
-                    displayPropertiesError();
+                    displayPopularProperties();
                 }
             }
         }
@@ -1490,15 +1511,21 @@
             const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
             const title = property.reference || property.title || 'Luxury Property';
             const location = property.city?.name || property.district?.name || property.location || 'Premium Location';
-            const imageUrl = property.picture || property.image || 'assets/images/property-placeholder.jpg';
+            const type = property.type || 'Villa';
+            const category = property.category || 'Propiedad destacada';
+            
+            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
+            const locationIcon = locationIcons[location.split(',')[0]] || locationIcons['default'];
             
             heroContainer.innerHTML = `
-                <img src="${imageUrl}" alt="${title}" class="hero-property-image" 
-                     onerror="this.src='assets/images/property-placeholder.jpg'">
-                <div class="hero-property-info">
-                    <div class="hero-property-category">Propiedad destacada</div>
+                <div class="hero-property-content">
+                    <div class="hero-property-icon">${propertyIcon}</div>
+                    <div class="hero-property-category">${category}</div>
                     <div class="hero-property-title">${title}</div>
-                    <div class="hero-property-location">${location}</div>
+                    <div class="hero-property-location">
+                        <span>${locationIcon}</span>
+                        <span>${location}</span>
+                    </div>
                     <div class="hero-property-price">${price}</div>
                 </div>
                 <button class="hero-property-nav prev" onclick="previousHeroProperty()">‹</button>
@@ -1514,6 +1541,16 @@
             
             grid.innerHTML = '';
             
+            if (properties.length === 0) {
+                grid.innerHTML = `
+                    <div class="error-state">
+                        <p>No properties available at the moment.</p>
+                        <p><a href="/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
+                    </div>
+                `;
+                return;
+            }
+            
             properties.forEach(property => {
                 const card = createPropertyCard(property);
                 grid.appendChild(card);
@@ -1528,32 +1565,22 @@
             const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
             const title = property.reference || property.title || 'Luxury Property';
             const location = property.city?.name || property.district?.name || property.location || 'Premium Location';
-            const bedrooms = property.areas?.find(area => area.type === 3)?.value || property.bedrooms || 'N/A';
-            const bathrooms = property.areas?.find(area => area.type === 5)?.value || property.bathrooms || 'N/A';
-            const size = property.areas?.find(area => area.type === 1)?.value || property.size || 'N/A';
-            const imageUrl = property.picture || property.image || 'assets/images/property-placeholder.jpg';
-            const propertyType = property.type || 'VILLA';
+            const type = property.type || 'Villa';
+            
+            const propertyIcon = propertyIcons[type] || propertyIcons['default'];
+            const locationIcon = locationIcons[location.split(',')[0]] || locationIcons['default'];
             
             card.innerHTML = `
-                <div class="property-image-container">
-                    <img src="${imageUrl}" alt="${title}" class="property-image" 
-                         onerror="this.src='assets/images/property-placeholder.jpg'">
-                    <div class="property-type-badge">${propertyType}</div>
+                <div class="property-icon-container">
+                    <span>${propertyIcon}</span>
                 </div>
                 <div class="property-info">
-                    <div class="property-location">${location}</div>
-                    <div class="property-price">${price}</div>
-                    <div class="property-details">
-                        <div class="property-detail">
-                            <span>${bedrooms} hab</span>
-                        </div>
-                        <div class="property-detail">
-                            <span>${bathrooms} baños</span>
-                        </div>
-                        <div class="property-detail">
-                            <span>${size}${typeof size === 'number' ? 'm²' : ''}</span>
-                        </div>
+                    <div class="property-type">${type}</div>
+                    <div class="property-location">
+                        <span>${locationIcon}</span>
+                        <span>${location}</span>
                     </div>
+                    <div class="property-price">${price}</div>
                 </div>
             `;
             
@@ -1567,15 +1594,19 @@
         
         // Hero property navigation
         function previousHeroProperty() {
-            if (featuredProperties.length === 0) return;
-            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + featuredProperties.length) % featuredProperties.length;
-            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
+            const properties = currentTab === 'featured' ? featuredProperties : popularProperties;
+            if (properties.length === 0) return;
+            
+            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + properties.length) % properties.length;
+            displayHeroProperty(properties[currentHeroPropertyIndex]);
         }
         
         function nextHeroProperty() {
-            if (featuredProperties.length === 0) return;
-            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % featuredProperties.length;
-            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
+            const properties = currentTab === 'featured' ? featuredProperties : popularProperties;
+            if (properties.length === 0) return;
+            
+            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % properties.length;
+            displayHeroProperty(properties[currentHeroPropertyIndex]);
         }
         
         // View property function
@@ -1591,29 +1622,6 @@
             
             // Navigate to property details
             window.location.href = `/properties/?id=${propertyId}`;
-        }
-        
-        // Display error state
-        function displayPropertiesError() {
-            const heroContainer = document.getElementById('heroFeaturedProperty');
-            const grid = document.getElementById('propertiesGrid');
-            
-            if (heroContainer) {
-                heroContainer.innerHTML = `
-                    <div class="hero-property-error" style="height: 400px; display: flex; align-items: center; justify-content: center; background: #f0f0f0; color: #666;">
-                        <p>Unable to load featured property at the moment.</p>
-                    </div>
-                `;
-            }
-            
-            if (grid) {
-                grid.innerHTML = `
-                    <div class="properties-error" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                        <p style="font-size: 1.1rem; color: #666; margin-bottom: 1rem;">Unable to load properties at the moment.</p>
-                        <p><a href="/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
-                    </div>
-                `;
-            }
         }
         
         // Initialize hero search functionality
@@ -1735,6 +1743,22 @@
             console.log('Opening consultation modal...');
             window.location.href = '/contact/';
         }
+        
+        // Error handling for failed requests
+        window.addEventListener('error', function(e) {
+            console.log('Handled error:', e.message);
+        });
+        
+        // Timeout fallback - if API takes too long, show sample data
+        setTimeout(() => {
+            if (featuredProperties.length === 0) {
+                console.log('API timeout, using sample data');
+                featuredProperties = sampleProperties;
+                if (currentTab === 'featured') {
+                    displayFeaturedProperties();
+                }
+            }
+        }, 5000);
     </script>
 </body>
 </html>
