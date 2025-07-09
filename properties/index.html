@@ -14,22 +14,93 @@
             margin-top: 100px;
         }
         
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
         .properties-header {
             text-align: center;
             margin-bottom: 3rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 2rem;
+        }
+        
+        .search-results-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .properties-title {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 1rem;
+            font-weight: 300;
+            color: #000;
+            margin-bottom: 2rem;
+            line-height: 1.2;
         }
         
-        .properties-subtitle {
-            font-size: 1.2rem;
-            color: #666;
+        .properties-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .properties-count {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .view-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .view-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .view-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #000;
+            background: white;
+            color: #000;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .view-button.active {
+            background: #000;
+            color: white;
+        }
+        
+        .view-button:hover {
+            background: #000;
+            color: white;
         }
         
         .properties-grid {
@@ -41,16 +112,12 @@
         
         .property-card {
             background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         
         .property-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
         }
         
         .property-image-container {
@@ -58,6 +125,7 @@
             width: 100%;
             height: 250px;
             overflow: hidden;
+            margin-bottom: 1rem;
         }
         
         .property-image {
@@ -71,104 +139,84 @@
             transform: scale(1.05);
         }
         
+        .property-type-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: white;
+            color: #000;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 20px;
+        }
+        
         .property-info {
-            padding: 1.5rem;
-        }
-        
-        .property-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2c5aa0;
-            margin-bottom: 0.5rem;
-        }
-        
-        .property-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
+            padding: 0;
         }
         
         .property-location {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 1rem;
+            color: #000;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
         
-        .property-location svg {
-            color: #999;
-            flex-shrink: 0;
+        .property-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 1rem;
         }
         
         .property-details {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .property-detail-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.25rem 0;
-            font-size: 0.85rem;
-        }
-        
-        .detail-label {
+            gap: 1.5rem;
+            font-size: 0.9rem;
             color: #666;
-            font-weight: 500;
+        }
+        
+        .property-detail {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
         
-        .detail-label svg {
-            color: #999;
-            flex-shrink: 0;
-        }
-        
-        .detail-value {
-            color: #333;
-            font-weight: 600;
+        .property-detail svg {
+            width: 16px;
+            height: 16px;
+            fill: #666;
         }
         
         .loading-state {
             text-align: center;
-            padding: 3rem;
+            padding: 4rem 2rem;
             color: #666;
         }
         
         .error-state {
             text-align: center;
-            padding: 3rem;
-            background: #fee;
-            border: 1px solid #fcc;
-            border-radius: 8px;
-            color: #c33;
+            padding: 4rem 2rem;
+            background: #f8f8f8;
+            border: 1px solid #eee;
+            color: #666;
             margin: 2rem 0;
         }
         
-        .properties-count {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-            color: #666;
+        .error-button {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 1rem;
         }
         
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #2c5aa0;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .back-link:hover {
-            text-decoration: underline;
+        .error-button:hover {
+            background: #333;
         }
         
         @media (max-width: 768px) {
@@ -185,6 +233,17 @@
                 font-size: 2rem;
             }
             
+            .properties-controls {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .view-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
             .property-image-container {
                 height: 200px;
             }
@@ -195,8 +254,9 @@
                 font-size: 1.8rem;
             }
             
-            .property-info {
-                padding: 1rem;
+            .property-details {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
@@ -226,13 +286,29 @@
         <a href="/" class="back-link">← Back to Home</a>
         
         <div class="properties-header">
-            <h1 class="properties-title">Exceptional Properties</h1>
-            <p class="properties-subtitle">Discover luxury homes across Barcelona, Sitges & Costa Brava</p>
+            <div class="search-results-text">Search Results</div>
+            <h1 class="properties-title" id="propertiesTitle">We have <span id="countNumber">0</span> Properties</h1>
         </div>
 
-        <!-- Properties Count -->
-        <div id="propertiesCount" class="properties-count" style="display: none;">
-            Found <span id="countNumber">0</span> properties
+        <!-- Properties Controls -->
+        <div class="properties-controls">
+            <div class="properties-count" id="propertiesCount" style="display: none;">
+                Found <span id="countNumberSmall">0</span> properties
+            </div>
+            
+            <div class="view-controls">
+                <select class="sort-select" id="sortSelect">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="price-low">Price: Low to High</option>
+                </select>
+                
+                <div class="view-buttons">
+                    <button class="view-button active" id="listView">LIST</button>
+                    <button class="view-button" id="mapView">MAP</button>
+                </div>
+            </div>
         </div>
 
         <!-- Loading State -->
@@ -245,7 +321,7 @@
         <div id="errorState" class="error-state" style="display: none;">
             <h2>Unable to Load Properties</h2>
             <p id="errorMessage">There was an error loading the properties. Please try again later.</p>
-            <button onclick="loadProperties()" style="background: #2c5aa0; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; margin-top: 1rem;">Retry</button>
+            <button onclick="loadProperties()" class="error-button">Retry</button>
         </div>
 
         <!-- Properties Grid -->
@@ -291,16 +367,21 @@
             }
             
             // Location
-            const location = (property.location && property.location.city) || 'N/A';
+            const location = (property.location && property.location.city) || 'Location not available';
             
             // Image
             const image = (property.pictures && property.pictures.length > 0 && property.pictures[0].url) || '/default.jpg';
             
+            // Property type for badge
+            const propertyType = (property.type && property.type.label) || 
+                               (property.subtype && property.subtype.label) || 
+                               'Property';
+            
             // Bedrooms
-            const bedrooms = (property.rooms && property.rooms.bedrooms) || 'N/A';
+            const bedrooms = (property.rooms && property.rooms.bedrooms) || 0;
             
             // Bathrooms
-            const bathrooms = (property.rooms && property.rooms.bathrooms) || 'N/A';
+            const bathrooms = (property.rooms && property.rooms.bathrooms) || 0;
             
             // Built area
             let builtArea = 'N/A';
@@ -308,16 +389,6 @@
                 builtArea = property.area.total || property.area.value || 'N/A';
             }
             const builtAreaDisplay = builtArea !== 'N/A' ? `${builtArea}m²` : 'N/A';
-            
-            // Land area (sum of areas with type 49, 50, or 51)
-            let landArea = 'N/A';
-            if (property.areas && Array.isArray(property.areas)) {
-                const landAreas = property.areas.filter(area => [49, 50, 51].includes(area.type));
-                if (landAreas.length > 0) {
-                    const totalLandArea = landAreas.reduce((sum, area) => sum + (area.value || 0), 0);
-                    landArea = totalLandArea > 0 ? `${totalLandArea}m²` : 'N/A';
-                }
-            }
             
             // Price
             let price = 'Price on request';
@@ -336,71 +407,32 @@
                 <div class="property-card" data-property-id="${propertyId}">
                     <div class="property-image-container">
                         <img src="${image}" alt="${title}" class="property-image" onerror="this.src='/default.jpg'">
+                        <div class="property-type-badge">${propertyType}</div>
                     </div>
                     <div class="property-info">
+                        <div class="property-location">${location}</div>
                         <div class="property-price">${price}</div>
-                        <h3 class="property-title">${title}</h3>
-                        <p class="property-location">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                            ${location}
-                        </p>
                         <div class="property-details">
-                            <div class="property-detail-item">
-                                <span class="detail-label">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                                        <polyline points="9,22 9,12 15,12 15,22"/>
-                                    </svg>
-                                    Bedrooms:
-                                </span>
-                                <span class="detail-value">${bedrooms}</span>
+                            <div class="property-detail">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    <polyline points="9,22 9,12 15,12 15,22"/>
+                                </svg>
+                                <span>${bedrooms}</span>
                             </div>
-                            <div class="property-detail-item">
-                                <span class="detail-label">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M9 22H5a2 2 0 0 1-2-2V9l9-7 9 7v11a2 2 0 0 1-2 2h-4"/>
-                                        <polyline points="6,9 6,22"/>
-                                        <polyline points="18,9 18,22"/>
-                                    </svg>
-                                    Bathrooms:
-                                </span>
-                                <span class="detail-value">${bathrooms}</span>
+                            <div class="property-detail">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 22H5a2 2 0 0 1-2-2V9l9-7 9 7v11a2 2 0 0 1-2 2h-4"/>
+                                    <polyline points="6,9 6,22"/>
+                                    <polyline points="18,9 18,22"/>
+                                </svg>
+                                <span>${bathrooms}</span>
                             </div>
-                            <div class="property-detail-item">
-                                <span class="detail-label">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                                    </svg>
-                                    Built Area:
-                                </span>
-                                <span class="detail-value">${builtAreaDisplay}</span>
-                            </div>
-                            <div class="property-detail-item">
-                                <span class="detail-label">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0"/>
-                                        <path d="M8 12h8"/>
-                                        <path d="M12 8v8"/>
-                                    </svg>
-                                    Land Area:
-                                </span>
-                                <span class="detail-value">${landArea}</span>
-                            </div>
-                            <div class="property-detail-item">
-                                <span class="detail-label">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                        <polyline points="14,2 14,8 20,8"/>
-                                        <line x1="16" y1="13" x2="8" y2="13"/>
-                                        <line x1="16" y1="17" x2="8" y2="17"/>
-                                        <polyline points="10,9 9,9 8,9"/>
-                                    </svg>
-                                    Property ID:
-                                </span>
-                                <span class="detail-value">${propertyId}</span>
+                            <div class="property-detail">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                </svg>
+                                <span>${builtAreaDisplay}</span>
                             </div>
                         </div>
                     </div>
@@ -413,8 +445,10 @@
             const loadingState = document.getElementById('loadingState');
             const errorState = document.getElementById('errorState');
             const propertiesGrid = document.getElementById('propertiesGrid');
-            const propertiesCount = document.getElementById('propertiesCount');
+            const propertiesTitle = document.getElementById('propertiesTitle');
             const countNumber = document.getElementById('countNumber');
+            const countNumberSmall = document.getElementById('countNumberSmall');
+            const propertiesCount = document.getElementById('propertiesCount');
 
             // Show loading state
             loadingState.style.display = 'block';
@@ -438,8 +472,9 @@
                     // Hide loading state
                     loadingState.style.display = 'none';
                     
-                    // Show properties count
+                    // Update count in title and controls
                     countNumber.textContent = data.properties.length;
+                    countNumberSmall.textContent = data.properties.length;
                     propertiesCount.style.display = 'block';
                     
                     // Render properties
@@ -478,9 +513,36 @@
                     
                     if (propertyId && propertyId !== 'N/A') {
                         // Navigate to single property page
-                        window.location.href = `https://verv.one/single-property/?id=${propertyId}`;
+                        window.location.href = `https://verv.one/property/?id=${propertyId}`;
                     }
                 });
+            });
+        }
+
+        // View control handlers
+        function initializeViewControls() {
+            const listView = document.getElementById('listView');
+            const mapView = document.getElementById('mapView');
+            const sortSelect = document.getElementById('sortSelect');
+
+            listView.addEventListener('click', function() {
+                listView.classList.add('active');
+                mapView.classList.remove('active');
+                // Show list view
+                document.getElementById('propertiesGrid').style.display = 'grid';
+            });
+
+            mapView.addEventListener('click', function() {
+                mapView.classList.add('active');
+                listView.classList.remove('active');
+                // Show map view - for now just alert
+                alert('Map view would be implemented here');
+            });
+
+            sortSelect.addEventListener('change', function() {
+                const value = this.value;
+                console.log('Sort by:', value);
+                // Implement sorting logic here
             });
         }
 
@@ -488,6 +550,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Properties page loaded, initializing...');
             loadProperties();
+            initializeViewControls();
         });
     </script>
 </body>
