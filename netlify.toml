@@ -1,16 +1,13 @@
 [build]
   functions = "netlify/functions"
   publish = "."
-
 [functions]
   node_bundler = "esbuild"
-
 [[redirects]]
   from = "/single/property/*"
-  to = "/property/:splat"
+  to = "/single-property/:splat"
   status = 301
-
 [[redirects]]
   from = "/property-detail/*"
-  to = "/property/:splat"
+  to = "/single-property/:splat"
   status = 301
