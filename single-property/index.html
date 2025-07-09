@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Details | VERV ONE</title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/verv-one-favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/verv-one-favicon.png">
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -85,22 +89,6 @@
             min-height: 100vh;
         }
 
-        /* Back Link */
-        .back-link {
-            display: inline-block;
-            margin: 40px;
-            color: #000;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-
-        .back-link:hover {
-            opacity: 0.6;
-        }
-
         /* Loading */
         .loading {
             display: flex;
@@ -133,53 +121,28 @@
         .property-header {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px 40px;
+            padding: 40px 40px 0;
+            text-align: center;
         }
 
         .property-title {
             font-family: 'Lora', serif;
             font-size: clamp(32px, 4vw, 56px);
             font-weight: 400;
-            margin-bottom: 16px;
+            margin-bottom: 40px;
             line-height: 1.2;
             letter-spacing: -1px;
             color: #000;
         }
 
-        .property-location {
-            font-size: 18px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-            color: #666;
-        }
-
-        .property-price {
-            font-family: 'Lora', serif;
-            font-size: 32px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            color: #000;
-            margin-bottom: 20px;
-        }
-
-        .property-meta {
-            display: flex;
-            gap: 2rem;
-            font-size: 14px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         /* Hero Image Gallery */
         .hero-section {
             position: relative;
-            height: 70vh;
+            height: 80vh;
             min-height: 600px;
             overflow: hidden;
             background: #000;
+            margin-bottom: 40px;
         }
 
         .hero-image {
@@ -233,11 +196,47 @@
             letter-spacing: 0.5px;
         }
 
+        /* Property Info */
+        .property-info {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 40px;
+            text-align: center;
+        }
+
+        .property-location {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            color: #666;
+        }
+
+        .property-price {
+            font-family: 'Lora', serif;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .property-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         /* Content Section */
         .content-section {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 80px 40px;
+            padding: 40px 40px 80px;
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 80px;
@@ -264,48 +263,7 @@
             font-weight: 300;
         }
 
-        .features-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
-        }
-
-        .feature-item {
-            padding: 24px 0;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .feature-label {
-            font-size: 14px;
-            color: #666;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .feature-value {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: sticky;
-            top: 120px;
-            height: fit-content;
-        }
-
+        /* Property Details */
         .property-details {
             background: #f8f8f8;
             padding: 40px;
@@ -343,29 +301,19 @@
             text-align: right;
         }
 
-        /* Map */
-        .map-section {
-            background: #f8f8f8;
-            padding: 40px;
-            margin-bottom: 40px;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 250px;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 14px;
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+            display: grid;
+            gap: 40px;
         }
 
         /* Agent Section */
         .agent-section {
             background: #f8f8f8;
             padding: 40px;
-            margin-bottom: 40px;
         }
 
         .agent-card {
@@ -406,6 +354,18 @@
 
         .agent-contact a:hover {
             opacity: 0.6;
+        }
+
+        /* Map */
+        .map-section {
+            background: #f8f8f8;
+            padding: 40px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 250px;
+            background: #e0e0e0;
         }
 
         /* Contact Section */
@@ -562,6 +522,7 @@
 
             .sidebar {
                 position: static;
+                grid-template-columns: 1fr 1fr;
             }
 
             .header-content {
@@ -569,6 +530,10 @@
             }
 
             .property-header {
+                padding: 40px 30px 0;
+            }
+
+            .property-info {
                 padding: 0 30px 40px;
             }
         }
@@ -579,6 +544,10 @@
             }
 
             .property-header {
+                padding: 40px 20px 0;
+            }
+
+            .property-info {
                 padding: 0 20px 40px;
             }
 
@@ -603,6 +572,10 @@
                 padding: 40px 20px;
             }
 
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
             .contact-section {
                 padding: 40px 20px;
             }
@@ -617,10 +590,6 @@
 
             .nav-link {
                 font-size: 12px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
             }
 
             .property-details {
@@ -648,7 +617,7 @@
             }
 
             .hero-section {
-                height: 50vh;
+                height: 60vh;
                 min-height: 400px;
             }
 
@@ -685,9 +654,6 @@
     </header>
 
     <main class="main-container">
-        <!-- Back Link -->
-        <a href="/properties" class="back-link">← Back to Properties</a>
-
         <!-- Loading -->
         <div id="loading" class="loading">
             Loading property details
@@ -710,14 +676,6 @@
             <!-- Property Header -->
             <div class="property-header">
                 <h1 class="property-title" id="propertyTitle">Property Title</h1>
-                <p class="property-location" id="propertyLocation">Location</p>
-                <div class="property-price" id="propertyPrice">Price on Request</div>
-                <div class="property-meta">
-                    <span id="bedroomCount">- bedrooms</span>
-                    <span id="bathroomCount">- bathrooms</span>
-                    <span id="builtArea">- m² built</span>
-                    <span id="plotArea">- m² plot</span>
-                </div>
             </div>
 
             <!-- Hero Image Gallery -->
@@ -730,6 +688,18 @@
                 </div>
             </section>
 
+            <!-- Property Info -->
+            <div class="property-info">
+                <p class="property-location" id="propertyLocation">Location</p>
+                <div class="property-price" id="propertyPrice">Price on Request</div>
+                <div class="property-meta">
+                    <span id="bedroomCount">- bedrooms</span>
+                    <span id="bathroomCount">- bathrooms</span>
+                    <span id="builtArea">- m² built</span>
+                    <span id="plotArea">- m² plot</span>
+                </div>
+            </div>
+
             <!-- Content Section -->
             <section class="content-section">
                 <div class="main-content">
@@ -738,22 +708,18 @@
                         Loading property description...
                     </div>
 
-                    <h3 class="features-title">Property Features</h3>
-                    <div id="featuresGrid" class="features-grid">
-                        <!-- Features will be populated dynamically -->
-                    </div>
-                </div>
-
-                <aside class="sidebar">
+                    <!-- Property Details -->
                     <div class="property-details">
                         <h3 class="details-title serif">Property Details</h3>
                         <div id="propertyDetails">
                             <!-- Property details will be populated dynamically -->
                         </div>
                     </div>
+                </div>
 
+                <aside class="sidebar">
                     <div class="agent-section">
-                        <h3 class="details-title serif">Your Agent</h3>
+                        <h3 class="details-title serif">Agent <span id="agentLocation"></span></h3>
                         <div class="agent-card" id="agentCard">
                             <!-- Agent details will be populated dynamically -->
                         </div>
@@ -762,7 +728,7 @@
                     <div class="map-section">
                         <h3 class="details-title serif">Location</h3>
                         <div class="map-container" id="mapContainer">
-                            <span id="mapLocation">Loading map...</span>
+                            <!-- Google Map will be loaded here -->
                         </div>
                     </div>
                 </aside>
@@ -776,15 +742,15 @@
                     
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
-                            <input type="text" class="form-input" placeholder="Your Name" required>
-                            <input type="email" class="form-input" placeholder="Your Email" required>
+                            <input type="text" class="form-input" name="name" placeholder="Your Name" required>
+                            <input type="email" class="form-input" name="email" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <input type="tel" class="form-input" placeholder="Your Phone" required>
-                            <input type="text" class="form-input" placeholder="Subject" required>
+                            <input type="tel" class="form-input" name="phone" placeholder="Your Phone" required>
+                            <input type="text" class="form-input" name="subject" placeholder="Subject" required>
                         </div>
-                        <textarea class="form-textarea" placeholder="Your Message" required></textarea>
-                        <button type="submit" class="contact-button">Send Message</button>
+                        <textarea class="form-textarea" name="message" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="contact-button">Send Enquiry</button>
                     </form>
                 </div>
             </section>
@@ -797,11 +763,15 @@
         <img id="modalImage" class="modal-image" alt="Property Image">
     </div>
 
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU"></script>
+
     <script>
         // Global variables
         let currentProperty = null;
         let currentImageIndex = 0;
         let allImages = [];
+        let map = null;
 
         // Get property ID from URL
         function getPropertyId() {
@@ -989,14 +959,11 @@
             // Populate description
             document.getElementById('propertyDescription').textContent = data.description;
             
-            // Populate features
-            populateFeatures(data);
-            
-            // Populate details sidebar
+            // Populate details
             populateDetails(data);
             
             // Populate agent details
-            populateAgent(data.agent);
+            populateAgent(data.agent, data.location);
             
             // Setup map
             setupMap(data.coordinates, data.location);
@@ -1090,43 +1057,7 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        // Populate features
-        function populateFeatures(data) {
-            const featuresGrid = document.getElementById('featuresGrid');
-            const features = [];
-            
-            if (data.bedrooms > 0) {
-                features.push({ label: 'Bedrooms', value: data.bedrooms });
-            }
-            
-            if (data.bathrooms > 0) {
-                features.push({ label: 'Bathrooms', value: data.bathrooms });
-            }
-            
-            if (data.builtArea !== 'N/A') {
-                features.push({ label: 'Built Area', value: `${data.builtArea} m²` });
-            }
-            
-            if (data.plotArea !== 'N/A') {
-                features.push({ label: 'Plot Area', value: `${data.plotArea} m²` });
-            }
-            
-            if (data.rooms > 0) {
-                features.push({ label: 'Total Rooms', value: data.rooms });
-            }
-            
-            features.push({ label: 'Property Type', value: data.type });
-            features.push({ label: 'Reference', value: data.reference });
-            
-            featuresGrid.innerHTML = features.map(feature => `
-                <div class="feature-item">
-                    <span class="feature-label">${feature.label}</span>
-                    <span class="feature-value">${feature.value}</span>
-                </div>
-            `).join('');
-        }
-
-        // Populate details sidebar
+        // Populate details
         function populateDetails(data) {
             const detailsContainer = document.getElementById('propertyDetails');
             const details = [
@@ -1149,8 +1080,12 @@
         }
 
         // Populate agent details
-        function populateAgent(agent) {
+        function populateAgent(agent, location) {
             const agentCard = document.getElementById('agentCard');
+            const agentLocation = document.getElementById('agentLocation');
+            
+            // Set agent location
+            agentLocation.textContent = `- ${location}`;
             
             if (agent) {
                 agentCard.innerHTML = `
@@ -1173,24 +1108,34 @@
             }
         }
 
-        // Setup map
+        // Setup Google Map
         function setupMap(coordinates, location) {
             const mapContainer = document.getElementById('mapContainer');
-            const mapLocation = document.getElementById('mapLocation');
             
             if (coordinates.lat && coordinates.lng) {
-                mapLocation.textContent = `${location} (${coordinates.lat}, ${coordinates.lng})`;
-                // Here you would integrate with a map service like Google Maps or OpenStreetMap
-                mapContainer.innerHTML = `
-                    <div style="width: 100%; height: 100%; background: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #666;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 14px; margin-bottom: 8px;">${location}</div>
-                            <div style="font-size: 12px; opacity: 0.7;">${coordinates.lat}, ${coordinates.lng}</div>
-                        </div>
-                    </div>
-                `;
+                // Initialize Google Map
+                map = new google.maps.Map(mapContainer, {
+                    center: { lat: parseFloat(coordinates.lat), lng: parseFloat(coordinates.lng) },
+                    zoom: 15,
+                    styles: [
+                        {
+                            "featureType": "all",
+                            "elementType": "all",
+                            "stylers": [
+                                {"saturation": -100},
+                                {"gamma": 0.5}
+                            ]
+                        }
+                    ]
+                });
+                
+                // Add marker
+                new google.maps.Marker({
+                    position: { lat: parseFloat(coordinates.lat), lng: parseFloat(coordinates.lng) },
+                    map: map,
+                    title: location
+                });
             } else {
-                mapLocation.textContent = location;
                 mapContainer.innerHTML = `
                     <div style="width: 100%; height: 100%; background: #e0e0e0; display: flex; align-items: center; justify-content: center; color: #666;">
                         <div style="text-align: center;">
@@ -1217,8 +1162,50 @@
         // Contact form handler
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your inquiry! We will contact you soon.');
-            this.reset();
+            
+            const formData = new FormData(this);
+            const propertyId = getPropertyId();
+            
+            // Add property information to the form data
+            const propertyInfo = currentProperty ? extractPropertyData(currentProperty) : null;
+            
+            const emailData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                subject: formData.get('subject'),
+                message: formData.get('message'),
+                property_id: propertyId,
+                property_title: propertyInfo ? propertyInfo.title : 'Unknown Property',
+                property_location: propertyInfo ? propertyInfo.location : 'Unknown Location',
+                property_price: propertyInfo ? formatPrice(propertyInfo.price, propertyInfo.currency) : 'Price on Request'
+            };
+            
+            // Send email to lead@apilead3.net with CC to ronei@verv.one
+            fetch('https://formspree.io/f/lead@apilead3.net', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...emailData,
+                    _cc: 'ronei@verv.one',
+                    _subject: `Property Inquiry: ${emailData.subject}`,
+                    _template: 'basic'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Thank you for your inquiry! We will contact you soon.');
+                    this.reset();
+                } else {
+                    alert('There was an error sending your message. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error sending your message. Please try again.');
+            });
         });
 
         // Keyboard navigation
