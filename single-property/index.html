@@ -6,8 +6,8 @@
     <title>Property Details | VERV ONE</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/verv-one-favicon.png">
-    <link rel="apple-touch-icon" href="assets/images/verv-one-favicon.png">
+    <link rel="icon" type="image/png" href="/assets/images/verv-one-favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/verv-one-favicon.png">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -642,16 +642,7 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="/" class="logo">VERV ONE</a>
-            <nav class="header-nav">
-                <a href="/properties" class="nav-link">Properties</a>
-                <a href="/about" class="nav-link">About</a>
-                <a href="/contact" class="nav-link">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <div id="header-container"></div>
 
     <main class="main-container">
         <!-- Loading -->
@@ -719,7 +710,7 @@
 
                 <aside class="sidebar">
                     <div class="agent-section">
-                        <h3 class="details-title serif">Agent <span id="agentLocation"></span></h3>
+                        <h3 class="details-title serif">Agent</h3>
                         <div class="agent-card" id="agentCard">
                             <!-- Agent details will be populated dynamically -->
                         </div>
@@ -963,7 +954,7 @@
             populateDetails(data);
             
             // Populate agent details
-            populateAgent(data.agent, data.location);
+            populateAgent(data.agent);
             
             // Setup map
             setupMap(data.coordinates, data.location);
@@ -1080,16 +1071,12 @@
         }
 
         // Populate agent details
-        function populateAgent(agent, location) {
+        function populateAgent(agent) {
             const agentCard = document.getElementById('agentCard');
-            const agentLocation = document.getElementById('agentLocation');
-            
-            // Set agent location
-            agentLocation.textContent = `- ${location}`;
             
             if (agent) {
                 agentCard.innerHTML = `
-                    <img src="${agent.photo || '/default-agent.jpg'}" alt="${agent.name}" class="agent-photo" onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 100\\"><circle cx=\\"50\\" cy=\\"50\\" r=\\"50\\" fill=\\"#f0f0f0\\"/><circle cx=\\"50\\" cy=\\"35\\" r=\\"15\\" fill=\\"#ccc\\"/><path d=\\"M20 85 Q20 65 50 65 Q80 65 80 85\\" fill=\\"#ccc\\"/></svg>'">
+                    <img src="${agent.photo || '/default-agent.jpg'}" alt="${agent.name}" class="agent-photo" onerror="this.src='data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 100 100&quot;><circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;50&quot; fill=&quot;#f0f0f0&quot;/><circle cx=&quot;50&quot; cy=&quot;35&quot; r=&quot;15&quot; fill=&quot;#ccc&quot;/><path d=&quot;M20 85 Q20 65 50 65 Q80 65 80 85&quot; fill=&quot;#ccc&quot;/></svg>'">
                     <div class="agent-info">
                         <div class="agent-name">${agent.name}</div>
                         <div class="agent-contact"><a href="mailto:${agent.email}">${agent.email}</a></div>
@@ -1219,9 +1206,31 @@
             }
         });
 
+        // Load shared header and footer
+        async function loadSharedComponents() {
+            try {
+                // Load header
+                const headerResponse = await fetch('/shared/shared-header.html');
+                if (headerResponse.ok) {
+                    const headerHTML = await headerResponse.text();
+                    document.getElementById('header-container').innerHTML = headerHTML;
+                }
+                
+                // Load footer
+                const footerResponse = await fetch('/shared/shared-footer.html');
+                if (footerResponse.ok) {
+                    const footerHTML = await footerResponse.text();
+                    document.getElementById('footer-container').innerHTML = footerHTML;
+                }
+            } catch (error) {
+                console.error('Error loading shared components:', error);
+            }
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Single property page loaded, initializing...');
+            loadSharedComponents();
             loadProperty();
         });
     </script>
