@@ -857,6 +857,11 @@
             height: 50px;
             opacity: 0.8;
             filter: brightness(0) invert(1);
+            display: block;
+        }
+
+        .credential-logo[style*="display: none"] {
+            display: none !important;
         }
 
         .credentials-info {
@@ -1229,20 +1234,16 @@
                 <div class="credentials-logos">
                     <img src="assets/images/api119bmow.png" 
                          alt="API Professional Association" 
-                         class="credential-logo"
-                         onerror="this.style.display='none'">
+                         class="credential-logo">
                     <img src="assets/images/aicat.png" 
                          alt="AICAT Registry" 
-                         class="credential-logo"
-                         onerror="this.style.display='none'">
+                         class="credential-logo">
                     <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
-                         class="credential-logo"
-                         onerror="this.style.display='none'">
+                         class="credential-logo">
                     <img src="assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
-                         class="credential-logo"
-                         onerror="this.style.display='none'">
+                         class="credential-logo">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
@@ -1277,43 +1278,51 @@
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
         
-        // Sample property data for fallback
+        // Sample property data for fallback (matching Apimo structure)
         const sampleProperties = [
             {
                 id: 1,
+                reference: "VERV001",
                 title: "Luxury Villa Barcelona",
-                location: "Barcelona, Spain",
+                city: "Barcelona",
                 price: 2500000,
-                status: "For Sale",
-                type: "Villa",
-                category: "Propiedad destacada"
+                type: { label: "Villa" },
+                area: { total: 450, value: 650 },
+                bedrooms: 5,
+                bathrooms: 4
             },
             {
                 id: 2,
+                reference: "VERV002", 
                 title: "Seaside Apartment Sitges",
-                location: "Sitges, Spain", 
+                city: "Sitges",
                 price: 850000,
-                status: "For Sale",
-                type: "Apartment",
-                category: "Apartamento"
+                type: { label: "Apartment" },
+                area: { total: 180, value: 0 },
+                bedrooms: 3,
+                bathrooms: 2
             },
             {
                 id: 3,
+                reference: "VERV003",
                 title: "Modern Villa Costa Brava",
-                location: "Costa Brava, Spain",
+                city: "Costa Brava",
                 price: 1750000,
-                status: "For Sale",
-                type: "Villa",
-                category: "Villa"
+                type: { label: "Villa" },
+                area: { total: 320, value: 800 },
+                bedrooms: 4,
+                bathrooms: 3
             },
             {
                 id: 4,
+                reference: "VERV004",
                 title: "Penthouse Barcelona",
-                location: "Barcelona, Spain",
+                city: "Barcelona",
                 price: 3200000,
-                status: "For Sale",
-                type: "Penthouse",
-                category: "Penthouse"
+                type: { label: "Penthouse" },
+                area: { total: 280, value: 0 },
+                bedrooms: 3,
+                bathrooms: 3
             }
         ];
         
@@ -1336,26 +1345,27 @@
             'default': '📍'
         };
         
-        // Helper function to extract property data from API response
+        // Helper function to extract property data from Apimo API response
         function extractPropertyData(property) {
             if (!property) return null;
             
             // Log the property structure for debugging
             console.log('Extracting data from property:', property);
             
-            // Try different possible field names from the API
+            // Extract data according to Apimo API structure
             const extractedData = {
-                id: property.id || property.reference || property.uuid || Math.random().toString(36).substr(2, 9),
-                title: property.title || property.reference || property.name || property.description || 'Luxury Property',
-                location: property.city || property.location || property.address || property.district || 'Premium Location',
-                price: property.price || property.amount || property.value || null,
-                type: property.type || property.category || property.propertyType || 'Villa',
-                reference: property.reference || property.id || property.uuid || '',
+                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
+                title: property.reference || property.title || 'Luxury Property',
+                location: property.city || property.district || property.address || 'Premium Location',
+                price: property.price || null,
+                type: property.type?.label || property.type || 'Villa',
+                reference: property.reference || property.id || '',
                 description: property.description || property.title || '',
                 bedrooms: property.bedrooms || property.rooms || null,
-                bathrooms: property.bathrooms || property.baths || null,
-                size: property.size || property.area || property.surface || null,
-                image: property.image || property.picture || property.photo || property.thumbnail || null
+                bathrooms: property.bathrooms || null,
+                builtArea: property.area?.total || property.area || null,  // Built area (m² built)
+                landArea: property.area?.value || null,  // Land area (m² plot)
+                image: property.images && property.images.length > 0 ? property.images[0] : null
             };
             
             console.log('Extracted property data:', extractedData);
@@ -1430,19 +1440,21 @@
                 
                 const data = await response.json();
                 console.log('API Response:', data);
-                console.log('Properties array:', data.properties);
                 
                 if (data.success && data.properties && data.properties.length > 0) {
-                    // Log first property to understand structure
+                    console.log('Properties array:', data.properties);
                     console.log('First property structure:', data.properties[0]);
-                    console.log('Property keys:', Object.keys(data.properties[0]));
                     
                     featuredProperties = data.properties;
                     if (currentTab === 'featured') {
                         displayFeaturedProperties();
                     }
                 } else {
-                    throw new Error('No properties found in API response');
+                    console.log('No properties found, using sample data');
+                    featuredProperties = sampleProperties;
+                    if (currentTab === 'featured') {
+                        displayFeaturedProperties();
+                    }
                 }
                 
             } catch (error) {
@@ -1584,12 +1596,15 @@ hero-property-icon">${propertyIcon}</div>
             if (!data) return card;
             
             const price = data.price ? `€${data.price.toLocaleString()}` : 'Price on request';
-            const title = data.title;
-            const location = data.location;
-            const type = data.type;
+            const title = data.title || 'Luxury Property';
+            const location = data.location || 'Premium Location';
+            const type = data.type || 'Villa';
+            
+            // Clean up location string
+            const cleanLocation = location.split(',')[0] || location;
             
             const propertyIcon = propertyIcons[type] || propertyIcons['default'];
-            const locationIcon = locationIcons[location.split(',')[0]] || locationIcons['default'];
+            const locationIcon = locationIcons[cleanLocation] || locationIcons['default'];
             
             card.innerHTML = `
                 <div class="property-icon-container">
@@ -1599,7 +1614,7 @@ hero-property-icon">${propertyIcon}</div>
                     <div class="property-type">${type}</div>
                     <div class="property-location">
                         <span>${locationIcon}</span>
-                        <span>${location}</span>
+                        <span>${cleanLocation}</span>
                     </div>
                     <div class="property-price">${price}</div>
                 </div>
@@ -1679,6 +1694,15 @@ hero-property-icon">${propertyIcon}</div>
                     // Navigate to properties page with search parameters
                     window.location.href = `/properties/?${searchParams.toString()}`;
                 });
+                
+                // Add click handler to search button
+                const searchButton = document.querySelector('.verv-search-btn-minimal');
+                if (searchButton) {
+                    searchButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        searchForm.dispatchEvent(new Event('submit'));
+                    });
+                }
             }
         }
         
