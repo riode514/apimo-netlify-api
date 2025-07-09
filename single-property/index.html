@@ -55,12 +55,18 @@
         }
 
         .logo {
-            font-family: 'Lora', serif;
-            font-size: 24px;
-            font-weight: 600;
-            color: #000000;
-            text-decoration: none;
-            letter-spacing: -0.5px;
+            height: 32px;
+            width: auto;
+            transition: opacity 0.2s ease;
+        }
+        
+        .logo:hover {
+            opacity: 0.8;
+        }
+        
+        .logo img {
+            height: 100%;
+            width: auto;
         }
 
         .header-nav {
@@ -1214,6 +1220,28 @@
                 if (headerResponse.ok) {
                     const headerHTML = await headerResponse.text();
                     document.getElementById('header-container').innerHTML = headerHTML;
+                    
+                    // Update logo to use SVG
+                    const logoElement = document.querySelector('.logo');
+                    if (logoElement) {
+                        logoElement.innerHTML = '<img src="/assets/images/verv_one_logo.svg" alt="VERV ONE Logo">';
+                    }
+                } else {
+                    // Fallback header if shared file doesn't exist
+                    document.getElementById('header-container').innerHTML = `
+                        <header class="header">
+                            <div class="header-content">
+                                <a href="/" class="logo">
+                                    <img src="/assets/images/verv_one_logo.svg" alt="VERV ONE Logo">
+                                </a>
+                                <nav class="header-nav">
+                                    <a href="/properties" class="nav-link">Properties</a>
+                                    <a href="/about" class="nav-link">About</a>
+                                    <a href="/contact" class="nav-link">Contact</a>
+                                </nav>
+                            </div>
+                        </header>
+                    `;
                 }
                 
                 // Load footer
@@ -1221,9 +1249,41 @@
                 if (footerResponse.ok) {
                     const footerHTML = await footerResponse.text();
                     document.getElementById('footer-container').innerHTML = footerHTML;
+                } else {
+                    // Fallback footer if shared file doesn't exist
+                    document.getElementById('footer-container').innerHTML = `
+                        <footer class="footer">
+                            <div class="footer-container">
+                                <div class="footer-content">
+                                    <div class="footer-brand">
+                                        <div class="footer-logo">VERV ONE</div>
+                                        <div class="footer-tagline">Fine Property & Project Consultancy</div>
+                                    </div>
+                                </div>
+                                <div class="footer-bottom">
+                                    <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </footer>
+                    `;
                 }
             } catch (error) {
                 console.error('Error loading shared components:', error);
+                // Fallback to inline header and footer
+                document.getElementById('header-container').innerHTML = `
+                    <header class="header">
+                        <div class="header-content">
+                            <a href="/" class="logo">
+                                <img src="/assets/images/verv_one_logo.svg" alt="VERV ONE Logo">
+                            </a>
+                            <nav class="header-nav">
+                                <a href="/properties" class="nav-link">Properties</a>
+                                <a href="/about" class="nav-link">About</a>
+                                <a href="/contact" class="nav-link">Contact</a>
+                            </nav>
+                        </div>
+                    </header>
+                `;
             }
         }
 
