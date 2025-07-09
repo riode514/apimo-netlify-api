@@ -32,6 +32,262 @@
             font-family: 'Lora', serif;
         }
 
+        /* MODAL PROTECTION - Ensure modals are hidden by default */
+        .consultation-modal.hidden,
+        .hidden,
+        .modal.hidden,
+        [id*="modal"].hidden {
+            display: none !important;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .consultation-modal,
+        .modal,
+        [id*="modal"] {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .consultation-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .consultation-modal-content {
+            position: relative;
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* Shared component styles */
+        .header-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #eee;
+            z-index: 1000;
+            height: 80px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 100%;
+        }
+
+        .logo-link .logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #000;
+            background: #f8f9fa;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Footer styles */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: #999;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            color: #ccc;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+
+        .footer-social .icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-credentials {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .credentials-container {
+            text-align: center;
+        }
+
+        .credentials-logos {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .credential-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .credentials-info p {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+            text-align: center;
+        }
+
+        .footer-copyright {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                border-top: 1px solid #eee;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .credentials-logos {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+
         /* Main Container */
         .main-container {
             margin-top: 120px; /* Account for shared header */
@@ -946,29 +1202,39 @@
             return urlParams.get('id');
         }
 
-        // ENHANCED: Extract location string (same logic as homepage)
+        // ENHANCED: Extract location string (same logic as properties page)
         function extractLocationString(property) {
             console.log('Raw property object for location extraction:', property);
             
             let locationString = '';
             
-            // Method 1: Direct string fields
-            if (typeof property.city === 'string' && property.city.trim()) {
-                locationString = property.city.trim();
-            } else if (typeof property.district === 'string' && property.district.trim()) {
-                locationString = property.district.trim();
-            } else if (typeof property.address === 'string' && property.address.trim()) {
-                locationString = property.address.trim();
+            // Method 1: City object structure - PRIORITY for API like { "city": { "id": 147207, "name": "Sitges", "zipcode": "08860" } }
+            if (property.city && typeof property.city === 'object' && property.city.name) {
+                locationString = property.city.name.trim();
+                console.log('Found city from city object:', locationString);
             }
             
-            // Method 2: Location object parsing
+            // Method 2: Direct string city field
+            else if (typeof property.city === 'string' && property.city.trim()) {
+                locationString = property.city.trim();
+                console.log('Found city from city string:', locationString);
+            } 
+            
+            // Method 3: District field
+            else if (typeof property.district === 'string' && property.district.trim()) {
+                locationString = property.district.trim();
+                console.log('Found district:', locationString);
+            } 
+            
+            // Method 4: Location object parsing
             else if (property.location && typeof property.location === 'object') {
                 const loc = property.location;
                 
-                if (typeof loc.city === 'string' && loc.city.trim()) {
-                    const city = loc.city.trim();
-                    const state = (typeof loc.state === 'string' && loc.state.trim()) ? loc.state.trim() : '';
-                    locationString = state ? `${city}, ${state}` : city;
+                // Check for city in location object
+                if (loc.city && typeof loc.city === 'object' && loc.city.name) {
+                    locationString = loc.city.name.trim();
+                } else if (typeof loc.city === 'string' && loc.city.trim()) {
+                    locationString = loc.city.trim();
                 } else if (typeof loc.label === 'string' && loc.label.trim()) {
                     locationString = loc.label.trim();
                 } else if (typeof loc.name === 'string' && loc.name.trim()) {
@@ -978,27 +1244,67 @@
                 } else if (typeof loc.formatted_address === 'string' && loc.formatted_address.trim()) {
                     locationString = loc.formatted_address.trim();
                 }
+                console.log('Found location from location object:', locationString);
             }
             
-            // Method 3: String location field
+            // Method 5: String location field
             else if (typeof property.location === 'string' && property.location.trim()) {
                 locationString = property.location.trim();
+                console.log('Found location from location string:', locationString);
+            }
+            
+            // Method 6: Address parsing for city name
+            else if (typeof property.address === 'string' && property.address.trim()) {
+                // Try to extract city from address string
+                const addressParts = property.address.split(',');
+                if (addressParts.length > 1) {
+                    locationString = addressParts[addressParts.length - 2].trim(); // Usually city is second to last
+                } else {
+                    locationString = property.address.trim();
+                }
+                console.log('Found location from address:', locationString);
+            }
+            
+            // Method 7: Try nested property structure
+            else if (property.property && property.property.city) {
+                return extractLocationString(property.property);
             }
             
             // Clean up and validate result
             if (!locationString || locationString === '' || locationString === 'null' || locationString === 'undefined') {
-                locationString = 'Premium Location';
+                // Try to extract from title as last resort
+                if (property.title && typeof property.title === 'string') {
+                    const title = property.title.toLowerCase();
+                    const spanishCities = ['sitges', 'barcelona', 'girona', 'cadaqués', 'begur', 'calella', 'palamós', 'roses', 'empuriabrava', 'castell', 'gavà', 'vilanova'];
+                    
+                    for (const city of spanishCities) {
+                        if (title.includes(city)) {
+                            locationString = city.charAt(0).toUpperCase() + city.slice(1);
+                            break;
+                        }
+                    }
+                }
+                
+                // Final fallback
+                if (!locationString) {
+                    locationString = 'Costa Brava'; // More specific than just "Spain"
+                }
             }
             
+            // Clean up common issues
             if (locationString.includes('[object Object]')) {
-                locationString = 'Premium Location';
+                locationString = 'Costa Brava';
             }
+            
+            // Remove any postal codes or extra info, keep just city name
+            locationString = locationString.split(/[\d{5}]/)[0].trim();
+            locationString = locationString.replace(/\d+/g, '').trim();
             
             console.log('Final extracted location:', locationString);
             return locationString;
         }
 
-        // ENHANCED: Extract property data (same logic as homepage/properties)
+        // ENHANCED: Extract property data (same logic as properties page)
         function extractPropertyData(property) {
             if (!property) {
                 console.log('No property provided to extract');
@@ -1024,23 +1330,115 @@
                 }
             }
             
-            // Extract property type
-            let propertyType = 'Villa';
+            // Extract property type with comprehensive logic
+            let propertyType = 'Property'; // Default fallback
+            
+            console.log('=== PROPERTY TYPE EXTRACTION ===');
+            console.log('Raw property for type extraction:', property);
+            
+            // Method 1: Direct type field with various structures
             if (property.type) {
-                if (typeof property.type === 'string') {
-                    propertyType = property.type;
-                } else if (property.type.label) {
-                    propertyType = property.type.label;
-                } else if (property.type.name) {
-                    propertyType = property.type.name;
-                }
-            } else if (property.subtype) {
-                if (typeof property.subtype === 'string') {
-                    propertyType = property.subtype;
-                } else if (property.subtype.label) {
-                    propertyType = property.subtype.label;
+                console.log('Found property.type:', property.type);
+                if (typeof property.type === 'string' && property.type.trim()) {
+                    propertyType = property.type.trim();
+                    console.log('Using string type:', propertyType);
+                } else if (property.type.label && typeof property.type.label === 'string') {
+                    propertyType = property.type.label.trim();
+                    console.log('Using type.label:', propertyType);
+                } else if (property.type.name && typeof property.type.name === 'string') {
+                    propertyType = property.type.name.trim();
+                    console.log('Using type.name:', propertyType);
+                } else if (property.type.type && typeof property.type.type === 'string') {
+                    propertyType = property.type.type.trim();
+                    console.log('Using type.type:', propertyType);
                 }
             }
+            
+            // Method 2: Subtype field
+            else if (property.subtype) {
+                console.log('Found property.subtype:', property.subtype);
+                if (typeof property.subtype === 'string' && property.subtype.trim()) {
+                    propertyType = property.subtype.trim();
+                    console.log('Using string subtype:', propertyType);
+                } else if (property.subtype.label && typeof property.subtype.label === 'string') {
+                    propertyType = property.subtype.label.trim();
+                    console.log('Using subtype.label:', propertyType);
+                } else if (property.subtype.name && typeof property.subtype.name === 'string') {
+                    propertyType = property.subtype.name.trim();
+                    console.log('Using subtype.name:', propertyType);
+                }
+            }
+            
+            // Method 3: Category field
+            else if (property.category) {
+                console.log('Found property.category:', property.category);
+                if (typeof property.category === 'string' && property.category.trim()) {
+                    propertyType = property.category.trim();
+                    console.log('Using string category:', propertyType);
+                } else if (property.category.label && typeof property.category.label === 'string') {
+                    propertyType = property.category.label.trim();
+                    console.log('Using category.label:', propertyType);
+                }
+            }
+            
+            // Method 4: Property class or classification
+            else if (property.property_type && typeof property.property_type === 'string') {
+                propertyType = property.property_type.trim();
+                console.log('Using property_type:', propertyType);
+            } else if (property.classification && typeof property.classification === 'string') {
+                propertyType = property.classification.trim();
+                console.log('Using classification:', propertyType);
+            }
+            
+            // Method 5: Try to infer from title or description
+            else if (property.title && typeof property.title === 'string') {
+                const title = property.title.toLowerCase();
+                console.log('Inferring from title:', title);
+                
+                if (title.includes('villa') || title.includes('chalet')) {
+                    propertyType = 'Villa';
+                } else if (title.includes('apartment') || title.includes('piso') || title.includes('flat')) {
+                    propertyType = 'Apartment';
+                } else if (title.includes('penthouse') || title.includes('ático')) {
+                    propertyType = 'Penthouse';
+                } else if (title.includes('house') || title.includes('casa') || title.includes('home')) {
+                    propertyType = 'House';
+                } else if (title.includes('plot') || title.includes('terreno') || title.includes('solar') || title.includes('land')) {
+                    propertyType = 'Plot';
+                } else if (title.includes('townhouse') || title.includes('adosado')) {
+                    propertyType = 'Townhouse';
+                }
+                
+                console.log('Inferred type from title:', propertyType);
+            }
+            
+            // Clean and normalize property type for consistency
+            if (propertyType && propertyType !== 'Property') {
+                propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
+                
+                // Map common Spanish terms to English
+                const typeMapping = {
+                    'Piso': 'Apartment',
+                    'Casa': 'House',
+                    'Chalet': 'Villa',
+                    'Ático': 'Penthouse',
+                    'Adosado': 'Townhouse',
+                    'Terreno': 'Plot',
+                    'Solar': 'Plot',
+                    'Unifamiliar': 'House',
+                    'Duplex': 'Duplex',
+                    'Studio': 'Studio',
+                    'Loft': 'Loft'
+                };
+                
+                if (typeMapping[propertyType]) {
+                    propertyType = typeMapping[propertyType];
+                    console.log('Mapped Spanish term to English:', propertyType);
+                }
+            }
+            
+            console.log('Final property type:', propertyType);
+            console.log('=== END PROPERTY TYPE EXTRACTION ===');
             
             // Extract bedrooms and bathrooms from areas array
             let bedrooms = property.bedrooms || null;
@@ -1158,7 +1556,7 @@
             return `${symbol}${numPrice.toLocaleString('en-US')}`;
         }
 
-        // Load property data
+        // Load property data with enhanced API handling
         async function loadProperty() {
             const propertyId = getPropertyId();
             
@@ -1171,45 +1569,66 @@
             try {
                 console.log('🔍 Loading property:', propertyId);
                 
-                // Try multiple endpoints (same as homepage/properties)
+                // Try multiple endpoints with simplified timeout
                 const endpoints = [
                     'https://verv.one/.netlify/functions/properties?limit=50',
                     'https://www.verv.one/.netlify/functions/properties?limit=50',
-                    'https://verv.one/api/properties?limit=50'
+                    'https://verv.one/.netlify/functions/properties'
                 ];
                 
                 let response = null;
                 let data = null;
+                let lastError = null;
                 
                 for (const endpoint of endpoints) {
                     try {
-                        console.log(`Trying endpoint: ${endpoint}`);
+                        console.log(`🔍 Trying endpoint: ${endpoint}`);
                         
-                        response = await fetch(endpoint, {
+                        // Simple fetch with timeout using Promise.race
+                        const fetchPromise = fetch(endpoint, {
                             method: 'GET',
                             headers: {
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json'
                             },
-                            signal: AbortSignal.timeout(15000)
+                            cache: 'no-cache'
                         });
                         
+                        const timeoutPromise = new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('Request timeout')), 15000)
+                        );
+                        
+                        response = await Promise.race([fetchPromise, timeoutPromise]);
+                        
+                        console.log(`📡 Response status: ${response.status} ${response.statusText}`);
+                        
                         if (response.ok) {
-                            data = await response.json();
-                            console.log('Raw API response data:', data);
-                            break;
+                            const text = await response.text();
+                            console.log('📄 Raw response text:', text.substring(0, 500) + '...');
+                            
+                            try {
+                                data = JSON.parse(text);
+                                console.log('✅ Successfully parsed JSON data:', data);
+                                break;
+                            } catch (parseError) {
+                                console.error('❌ JSON parsing failed:', parseError);
+                                throw new Error(`Invalid JSON response: ${parseError.message}`);
+                            }
+                        } else {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                         }
                     } catch (error) {
-                        console.log(`Endpoint ${endpoint} failed:`, error.message);
+                        lastError = error;
+                        console.log(`❌ Endpoint ${endpoint} failed:`, error.message);
                         continue;
                     }
                 }
                 
                 if (!data) {
-                    throw new Error('All API endpoints failed');
+                    throw new Error(`All API endpoints failed. Last error: ${lastError?.message || 'Unknown error'}`);
                 }
                 
-                // Handle different response formats (same as homepage)
+                // Handle different response formats
                 let properties = null;
                 if (data.success && Array.isArray(data.properties)) {
                     properties = data.properties;
@@ -1217,6 +1636,8 @@
                     properties = data.data;
                 } else if (Array.isArray(data)) {
                     properties = data;
+                } else if (data.results && Array.isArray(data.results)) {
+                    properties = data.results;
                 }
                 
                 if (!properties || properties.length === 0) {
@@ -1606,40 +2027,143 @@
             }
         });
 
-        // Load shared components
+        // Load shared components with modal protection
         async function loadSharedComponents() {
             try {
                 // Load shared header
-                const headerResponse = await fetch('../shared/shared-header.html');
+                const headerResponse = await fetch('/shared/shared-header.html');
                 if (headerResponse.ok) {
                     const headerHTML = await headerResponse.text();
                     document.getElementById('shared-header').innerHTML = headerHTML;
+                    
+                    // CRITICAL: Protect against modal auto-opening after header loads
+                    setTimeout(() => {
+                        const consultationModal = document.getElementById('consultationModal');
+                        if (consultationModal) {
+                            consultationModal.classList.add('hidden');
+                            consultationModal.style.display = 'none';
+                        }
+
+                        // Also close any other potential modals
+                        const allModals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+                        allModals.forEach(modal => {
+                            modal.classList.add('hidden');
+                            modal.style.display = 'none';
+                        });
+                    }, 200);
+
+                    // Override any global modal functions that might auto-open
+                    window.openConsultationModal = function() {
+                        const consultationModal = document.getElementById('consultationModal');
+                        if (consultationModal) {
+                            consultationModal.classList.remove('hidden');
+                            consultationModal.style.display = 'block';
+                        }
+                    };
+
+                    window.closeConsultationModal = function() {
+                        const consultationModal = document.getElementById('consultationModal');
+                        if (consultationModal) {
+                            consultationModal.classList.add('hidden');
+                            consultationModal.style.display = 'none';
+                        }
+                    };
+
+                    // Prevent any scripts in shared header from auto-opening modals
+                    const scripts = document.querySelectorAll('#shared-header script');
+                    scripts.forEach(script => {
+                        if (script.textContent && script.textContent.includes('openConsultationModal')) {
+                            script.remove();
+                        }
+                    });
                 } else {
                     console.log('Shared header not found, using fallback');
+                    // Fallback header
+                    document.getElementById('shared-header').innerHTML = `
+                        <header class="header-nav">
+                            <nav class="nav-container">
+                                <a href="/" class="logo-link">
+                                    <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" style="height: 60px;">
+                                </a>
+                                <ul class="nav-menu" id="navMenu">
+                                    <li><a href="/" class="nav-link">Home</a></li>
+                                    <li><a href="/about/" class="nav-link">About</a></li>
+                                    <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
+                                    <li><a href="/properties/" class="nav-link">Properties</a></li>
+                                    <li><a href="/projects/" class="nav-link">Projects</a></li>
+                                    <li><a href="/contact/" class="nav-link">Contact</a></li>
+                                </ul>
+                                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+                            </nav>
+                        </header>
+                    `;
                 }
 
                 // Load shared footer
-                const footerResponse = await fetch('../shared/shared-footer.html');
+                const footerResponse = await fetch('/shared/shared-footer.html');
                 if (footerResponse.ok) {
                     const footerHTML = await footerResponse.text();
                     document.getElementById('shared-footer').innerHTML = footerHTML;
                 } else {
                     console.log('Shared footer not found, using fallback');
+                    // Fallback footer
+                    document.getElementById('shared-footer').innerHTML = `
+                        <footer class="footer">
+                            <div class="footer-container">
+                                <div class="footer-content">
+                                    <div class="footer-brand">
+                                        <div class="footer-logo">VERV ONE</div>
+                                        <div class="footer-tagline">Fine Property & Project Consultancy</div>
+                                        <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.</p>
+                                    </div>
+                                </div>
+                                <div class="footer-bottom">
+                                    <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </footer>
+                    `;
                 }
             } catch (error) {
                 console.error('Error loading shared components:', error);
             }
         }
 
-        // Initialize page
+        // Initialize page with modal protection
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🚀 VERV ONE Single property page loaded, initializing...');
             
+            // FIRST: Ensure any modals are hidden
+            const modals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+            modals.forEach(modal => {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+            });
+            
             await loadSharedComponents();
             
-            // Small delay to ensure shared components load
+            // Additional protection after components load
             setTimeout(() => {
+                const allModals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+                allModals.forEach(modal => {
+                    modal.classList.add('hidden');
+                    modal.style.display = 'none';
+                });
+                
+                // Load property after ensuring modals are closed
                 loadProperty();
+            }, 300);
+        });
+
+        // Prevent any auto-opening of modals
+        document.addEventListener('DOMContentLoaded', function() {
+            // Close any modals that might be open
+            setTimeout(() => {
+                const modals = document.querySelectorAll('.consultation-modal, .modal, [id*="modal"], [class*="modal"]');
+                modals.forEach(modal => {
+                    modal.classList.add('hidden');
+                    modal.style.display = 'none';
+                });
             }, 100);
         });
     </script>
