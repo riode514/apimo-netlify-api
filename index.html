@@ -95,8 +95,21 @@
     <!-- Shared CSS -->
     <link rel="stylesheet" href="shared/shared-styles-css.css">
     
-    <!-- Weglot Translation Script -->
+    <!-- Weglot Translation Script with No-Translate Config -->
     <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script type="text/javascript">
+        Weglot.initialize({
+            api_key: 'wg_73eb4d1c3459c5424a6b0ec888a7b58c0'
+        });
+        
+        // Prevent translation of logos and brand names
+        Weglot.on("initialized", function() {
+            // Add no-translate class to elements that shouldn't be translated
+            document.querySelectorAll('.logo, .footer-logo, .verv-hero-brand, .partner-logo, .credential-logo').forEach(function(el) {
+                el.classList.add('notranslate');
+            });
+        });
+    </script>
     
     <!-- Chatbase Integration -->
     <script>
@@ -219,13 +232,154 @@
         ]
     }
     </script>
+
+    <!-- Improved Responsive CSS -->
+    <style>
+        /* Logo size fix */
+        .logo {
+            transform: scale(1.5);
+            transform-origin: left center;
+        }
+
+        /* Minimalist responsive improvements */
+        @media (max-width: 768px) {
+            .logo {
+                transform: scale(1.2);
+            }
+            
+            .verv-hero-content {
+                padding: 2rem 1rem;
+            }
+            
+            .verv-minimal-search {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .verv-search-section {
+                width: 100%;
+            }
+            
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+            
+            .about-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .verv-hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .verv-hero-slogan {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Fade animation improvements */
+        .fade-ready {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-ready.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* About section visibility fix */
+        .about-section {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Property card improvements */
+        .property-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .property-info {
+            padding: 1.5rem;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+        }
+
+        .property-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .property-location {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .property-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #777;
+            gap: 0.5rem;
+        }
+
+        .property-details span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* No-translate class for Weglot */
+        .notranslate {
+            /* Weglot respects this class */
+        }
+    </style>
 </head>
 <body>
     <!-- Header Navigation -->
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo notranslate">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -344,7 +498,7 @@
             </div>
             <div class="verv-hero-overlay"></div>
             <div class="verv-hero-content">
-                <div class="verv-hero-brand">VERV ONE</div>
+                <div class="verv-hero-brand notranslate">VERV ONE</div>
                 <div class="verv-hero-slogan">Exceptional properties, unparalleled expertise.<br>The essence of luxury living.</div>
                 
                 <h1 class="verv-hero-title">Barcelona • Sitges • Costa Brava</h1>
@@ -417,7 +571,7 @@
                     </div>
                 </div>
                 <div class="about-image-container">
-                    <img src="assets/images/villa-mediterranean-sitges.jpg" alt="Villa Mediterranean Sitges luxury property" class="about-image">
+                    <img src="assets/images/masia-emporda.jpg" alt="Masia Emporda luxury property" class="about-image">
                 </div>
             </div>
         </section>
@@ -551,15 +705,15 @@
                 
                 <div class="partners-carousel">
                     <div class="partners-track">
-                        <img src="assets/images/lefigaro-logo.png" alt="Le Figaro" class="partner-logo">
-                        <img src="assets/images/realtor-logo.jpg" alt="Realtor" class="partner-logo">
-                        <img src="assets/images/mansion-global.jpg" alt="Mansion Global" class="partner-logo">
-                        <img src="assets/images/rightmove-logo.jpg" alt="Rightmove" class="partner-logo">
-                        <img src="assets/images/LuxuryEstate_Logo.png" alt="Luxury Estate" class="partner-logo">
-                        <img src="assets/images/Logo_SeLoger.jpg" alt="SeLoger" class="partner-logo">
-                        <img src="assets/images/immoweltlogo.jpg" alt="Immowelt" class="partner-logo">
-                        <img src="assets/images/Idealista-logo.jpg" alt="Idealista" class="partner-logo">
-                        <img src="assets/images/James_Edition_logo.png" alt="James Edition" class="partner-logo">
+                        <img src="assets/images/lefigaro-logo.png" alt="Le Figaro" class="partner-logo notranslate">
+                        <img src="assets/images/realtor-logo.jpg" alt="Realtor" class="partner-logo notranslate">
+                        <img src="assets/images/mansion-global.jpg" alt="Mansion Global" class="partner-logo notranslate">
+                        <img src="assets/images/rightmove-logo.jpg" alt="Rightmove" class="partner-logo notranslate">
+                        <img src="assets/images/LuxuryEstate_Logo.png" alt="Luxury Estate" class="partner-logo notranslate">
+                        <img src="assets/images/Logo_SeLoger.jpg" alt="SeLoger" class="partner-logo notranslate">
+                        <img src="assets/images/immoweltlogo.jpg" alt="Immowelt" class="partner-logo notranslate">
+                        <img src="assets/images/Idealista-logo.jpg" alt="Idealista" class="partner-logo notranslate">
+                        <img src="assets/images/James_Edition_logo.png" alt="James Edition" class="partner-logo notranslate">
                     </div>
                 </div>
             </div>
@@ -571,7 +725,7 @@
         <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="footer-logo">VERV ONE</div>
+                    <div class="footer-logo notranslate">VERV ONE</div>
                     <div class="footer-tagline">Fine Property & Project Consultancy</div>
                     <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
                     <div class="footer-social">
@@ -643,19 +797,19 @@
                     <div class="credentials-logos">
                         <img src="assets/images/aicat.png" 
                              alt="AICAT Registry" 
-                             class="credential-logo"
+                             class="credential-logo notranslate"
                              onerror="this.style.display='none'">
                         <img src="assets/images/api1190bnw.png" 
                              alt="API Professional Association" 
-                             class="credential-logo"
+                             class="credential-logo notranslate"
                              onerror="this.style.display='none'">
                         <img src="assets/images/PRIME-REALTOR.png" 
                              alt="Realtor" 
-                             class="credential-logo"
+                             class="credential-logo notranslate"
                              onerror="this.style.display='none'">
                         <img src="assets/images/concierge-auctions-logo.jpg" 
                              alt="Concierge Auctions" 
-                             class="credential-logo"
+                             class="credential-logo notranslate"
                              onerror="this.style.display='none'">
                     </div>
                     <div class="credentials-info">
@@ -689,7 +843,7 @@
     <script>
         // Global variables
         let featuredProperties = [];
-        
+
         // Load featured properties from APIMO API
         async function loadFeaturedProperties() {
             try {
@@ -702,21 +856,136 @@
                 }
                 
                 const data = await response.json();
-                console.log('Featured properties loaded:', data);
+                console.log('🔍 Featured properties raw API response:', data);
                 
                 if (data.success && data.properties && data.properties.length > 0) {
-                    featuredProperties = data.properties.slice(0, 3); // Take first 3
+                    // ✅ Enhanced transformation with better debugging
+                    featuredProperties = transformApimoPropertiesForHomepage(data.properties.slice(0, 3));
                     displayFeaturedProperties(featuredProperties);
+                    console.log('✅ Featured properties transformed and displayed:', featuredProperties);
                 } else {
                     throw new Error('No properties found in API response');
                 }
                 
             } catch (error) {
-                console.error('Error loading featured properties:', error);
+                console.error('❌ Error loading featured properties:', error);
                 displayFeaturedPropertiesError();
             }
         }
-        
+
+        // ✅ Improved transformation function with better debugging
+        function transformApimoPropertiesForHomepage(apimoProperties) {
+            return apimoProperties.map((property, index) => {
+                console.log(`🔍 Transforming property ${index + 1}:`, property);
+                
+                // Extract price with multiple fallbacks
+                let price = 'Price on request';
+                if (property.price && typeof property.price === 'number') {
+                    price = `€${property.price.toLocaleString()}`;
+                } else if (property.price && typeof property.price === 'string') {
+                    price = property.price;
+                } else if (property.pricing && property.pricing.price) {
+                    price = `€${property.pricing.price.toLocaleString()}`;
+                }
+                
+                // Extract location with multiple fallbacks
+                let location = 'Costa Brava, Spain';
+                if (property.city && typeof property.city === 'string') {
+                    location = property.city;
+                } else if (property.city && property.city.name) {
+                    location = property.city.name;
+                } else if (property.location && typeof property.location === 'string') {
+                    location = property.location;
+                } else if (property.address) {
+                    if (property.address.city) {
+                        location = property.address.city;
+                    } else if (property.address.region) {
+                        location = property.address.region;
+                    }
+                } else if (property.district && property.district.name) {
+                    location = property.district.name;
+                }
+                
+                // Extract title with fallbacks
+                let title = 'Luxury Property Available';
+                if (property.title && typeof property.title === 'string') {
+                    title = property.title;
+                } else if (property.reference) {
+                    title = `Property ${property.reference}`;
+                } else if (property.type && property.type.name) {
+                    title = property.type.name;
+                }
+                
+                // Extract bedrooms and bathrooms from areas array
+                let bedrooms = 'N/A';
+                let bathrooms = 'N/A';
+                
+                if (property.areas && Array.isArray(property.areas)) {
+                    // Find bedroom area (type might be number or string)
+                    const bedroomArea = property.areas.find(area => 
+                        area.type === 3 || area.type === 'bedroom' || 
+                        area.name?.toLowerCase().includes('bedroom') ||
+                        area.name?.toLowerCase().includes('dormitorio')
+                    );
+                    if (bedroomArea && bedroomArea.value) {
+                        bedrooms = bedroomArea.value;
+                    }
+                    
+                    // Find bathroom area (type might be number or string)
+                    const bathroomArea = property.areas.find(area => 
+                        area.type === 5 || area.type === 'bathroom' ||
+                        area.name?.toLowerCase().includes('bathroom') ||
+                        area.name?.toLowerCase().includes('baño')
+                    );
+                    if (bathroomArea && bathroomArea.value) {
+                        bathrooms = bathroomArea.value;
+                    }
+                }
+                
+                // Extract surface area
+                let size = 'N/A';
+                if (property.surface && typeof property.surface === 'number') {
+                    size = `${property.surface}m²`;
+                } else if (property.area && typeof property.area === 'number') {
+                    size = `${property.area}m²`;
+                } else if (property.areas && Array.isArray(property.areas)) {
+                    const surfaceArea = property.areas.find(area => 
+                        area.type === 1 || area.type === 'surface' ||
+                        area.name?.toLowerCase().includes('surface')
+                    );
+                    if (surfaceArea && surfaceArea.value) {
+                        size = `${surfaceArea.value}m²`;
+                    }
+                }
+                
+                // Extract image URL
+                let image = 'assets/images/masia-emporda.jpg';
+                if (property.picture && typeof property.picture === 'string') {
+                    image = property.picture;
+                } else if (property.pictures && Array.isArray(property.pictures) && property.pictures.length > 0) {
+                    image = property.pictures[0].url || property.pictures[0].picture || property.pictures[0];
+                } else if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+                    image = property.images[0].url || property.images[0];
+                }
+                
+                const transformedProperty = {
+                    id: property.id || property.reference || index + 1,
+                    title: title,
+                    price: price,
+                    location: location,
+                    bedrooms: bedrooms,
+                    bathrooms: bathrooms,
+                    size: size,
+                    image: image,
+                    featured: property.featured || false,
+                    originalData: property
+                };
+                
+                console.log(`✅ Transformed property ${index + 1}:`, transformedProperty);
+                return transformedProperty;
+            });
+        }
+
         // Display featured properties
         function displayFeaturedProperties(properties) {
             const grid = document.getElementById('propertiesGrid');
@@ -729,65 +998,56 @@
                 grid.appendChild(propertyCard);
             });
         }
-        
+
         // Create property card for homepage
         function createFeaturedPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card featured-property';
             
-            // Get property details from APIMO response
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
-            const title = property.reference || 'Luxury Property';
-            const location = property.city?.name || property.district?.name || 'Premium Location';
-            const bedrooms = property.areas?.find(area => area.type === 3)?.value || property.bedrooms || 'N/A';
-            const bathrooms = property.areas?.find(area => area.type === 5)?.value || property.bathrooms || 'N/A';
-            const size = property.areas?.find(area => area.type === 1)?.value || property.size || 'N/A';
-            const imageUrl = property.picture || 'assets/images/property-placeholder.jpg';
-            
             card.innerHTML = `
                 <div class="property-image-container">
-                    <img src="${imageUrl}" alt="${title}" class="property-image" 
-                         onerror="this.src='assets/images/property-placeholder.jpg'">
+                    <img src="${property.image}" alt="${property.title}" class="property-image" 
+                         onerror="this.src='assets/images/masia-emporda.jpg'" loading="lazy">
                 </div>
                 <div class="property-info">
-                    <div class="property-price">${price}</div>
-                    <h3 class="property-title">${title}</h3>
-                    <p class="property-location">${location}</p>
+                    <div class="property-price">${property.price}</div>
+                    <h3 class="property-title">${property.title}</h3>
+                    <p class="property-location">📍 ${property.location}</p>
                     <div class="property-details">
-                        <span>${bedrooms} beds</span>
-                        <span>${bathrooms} baths</span>
-                        <span>${size}${typeof size === 'number' ? 'm²' : ''}</span>
+                        <span>🛏️ ${property.bedrooms}</span>
+                        <span>🚿 ${property.bathrooms}</span>
+                        <span>📐 ${property.size}</span>
                     </div>
                 </div>
             `;
             
-            // Add click handler
+            // Add click handler - navigate to properties page with specific property
             card.addEventListener('click', () => {
                 // Track property click
                 if (typeof trackPropertyInquiry === 'function') {
-                    trackPropertyInquiry(property.id, location, property.price);
+                    trackPropertyInquiry(property.id, property.location, property.price);
                 }
                 
-                // Navigate to properties page or single property page
+                // Navigate to properties page with the specific property ID
                 window.location.href = `/properties/?id=${property.id}`;
             });
             
             return card;
         }
-        
+
         // Display error state for featured properties
         function displayFeaturedPropertiesError() {
             const grid = document.getElementById('propertiesGrid');
             if (!grid) return;
             
             grid.innerHTML = `
-                <div class="properties-error">
+                <div class="properties-error" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
                     <p>Unable to load featured properties at the moment.</p>
                     <a href="/properties/" class="view-all-btn">Browse All Properties</a>
                 </div>
             `;
         }
-        
+
         // Initialize hero search functionality
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
@@ -820,30 +1080,36 @@
                 });
             }
         }
-        
-        // Initialize fade in animations
+
+        // Fixed fade in animations
         function initFadeInAnimations() {
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.2,
+                rootMargin: '0px 0px -100px 0px'
             };
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
             
-            // Observe sections
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => observer.observe(section));
+            // Observe sections with delay to prevent immediate triggering
+            setTimeout(() => {
+                const sections = document.querySelectorAll('.section');
+                sections.forEach(section => {
+                    section.classList.add('fade-ready');
+                    observer.observe(section);
+                });
+            }, 500);
         }
-        
+
         // Homepage specific functionality
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Homepage loaded, initializing...');
+            console.log('🚀 Homepage loaded, initializing...');
             
             // Initialize hero search
             initHeroSearch();
@@ -851,12 +1117,12 @@
             // Load featured properties
             loadFeaturedProperties();
             
-            // Initialize fade in animations
+            // Initialize fade in animations with delay
             initFadeInAnimations();
             
-            console.log('Homepage initialization complete');
+            console.log('✅ Homepage initialization complete');
         });
-        
+
         // Consultation modal functions
         function openConsultationModal() {
             const modal = document.getElementById('consultationModal');
@@ -881,7 +1147,7 @@
                 document.body.style.overflow = '';
             }
         }
-        
+
         // Handle consultation form submission
         document.addEventListener('DOMContentLoaded', function() {
             const consultationForm = document.getElementById('consultationForm');
