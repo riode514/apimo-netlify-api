@@ -31,8 +31,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Shared Styles - Multiple paths for reliability -->
-    <link rel="stylesheet" href="/shared/shared-styles.css" onerror="this.href='/shared/shared-styles-css.css'">
+
     
     <!-- Single Property Specific Styles -->
     <style>
@@ -796,8 +795,7 @@
     <script src="https://www.chatbase.co/embed.min.js" chatbotId="4hhpqfO_wy7DjPi9l6VZI" domain="www.chatbase.co" defer></script>
 </head>
 <body>
-    <!-- Shared Header -->
-    <div id="shared-header"></div>
+
 
     <!-- Back Button -->
     <a href="/properties/" class="back-button">
@@ -916,8 +914,7 @@
         </div>
     </main>
 
-    <!-- Shared Footer -->
-    <div id="shared-footer"></div>
+
 
     <!-- Image Modal -->
     <div class="image-modal" id="imageModal">
@@ -928,8 +925,7 @@
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU"></script>
 
-    <!-- Shared Navigation JS - Multiple paths for reliability -->
-    <script src="/shared/shared-navigation.js" onerror="loadFallbackJS()"></script>
+
 
     <!-- Single Property Specific JavaScript -->
     <script>
@@ -939,22 +935,7 @@
         let allImages = [];
         let map = null;
 
-        // Fallback JS loader
-        function loadFallbackJS() {
-            console.log('Loading fallback JavaScript...');
-            // Minimal navigation functionality if shared JS fails
-            document.addEventListener('DOMContentLoaded', function() {
-                const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-                const navMenu = document.getElementById('navMenu');
-                
-                if (mobileMenuToggle && navMenu) {
-                    mobileMenuToggle.addEventListener('click', function() {
-                        navMenu.classList.toggle('active');
-                        this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
-                    });
-                }
-            });
-        }
+
 
         // The Noun Project style icons
         const propertyIcons = {
@@ -1736,110 +1717,11 @@
             }
         });
 
-        // Load shared components with enhanced error handling
-        async function loadSharedComponents() {
-            try {
-                // Load shared header with multiple fallback paths
-                const headerPaths = [
-                    '/shared/shared-header.html',
-                    '/shared-header.html',
-                    './shared/shared-header.html'
-                ];
-                
-                let headerLoaded = false;
-                for (const path of headerPaths) {
-                    try {
-                        const headerResponse = await fetch(path);
-                        if (headerResponse.ok) {
-                            const headerHTML = await headerResponse.text();
-                            document.getElementById('shared-header').innerHTML = headerHTML;
-                            headerLoaded = true;
-                            console.log(`✅ Header loaded from: ${path}`);
-                            break;
-                        }
-                    } catch (e) {
-                        console.log(`❌ Failed to load header from: ${path}`);
-                    }
-                }
-                
-                if (!headerLoaded) {
-                    console.log('Using fallback header');
-                    document.getElementById('shared-header').innerHTML = `
-                        <header class="header-nav">
-                            <nav class="nav-container">
-                                <a href="/" class="logo-link">
-                                    <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                    <svg width="180" height="90" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="logo" style="display: none;">
-                                        <text x="400" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="#000">VERV ONE</text>
-                                        <text x="400" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="#666">Fine Property & Project Consultancy</text>
-                                    </svg>
-                                </a>
-                                <ul class="nav-menu" id="navMenu">
-                                    <li><a href="/" class="nav-link">Home</a></li>
-                                    <li><a href="/about/" class="nav-link">About</a></li>
-                                    <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
-                                    <li><a href="/properties/" class="nav-link">Properties</a></li>
-                                    <li><a href="/projects/" class="nav-link">Projects</a></li>
-                                    <li><a href="/contact/" class="nav-link">Contact</a></li>
-                                </ul>
-                                <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
-                            </nav>
-                        </header>
-                    `;
-                }
 
-                // Load shared footer with multiple fallback paths
-                const footerPaths = [
-                    '/shared/shared-footer.html',
-                    '/shared-footer.html',
-                    './shared/shared-footer.html'
-                ];
-                
-                let footerLoaded = false;
-                for (const path of footerPaths) {
-                    try {
-                        const footerResponse = await fetch(path);
-                        if (footerResponse.ok) {
-                            const footerHTML = await footerResponse.text();
-                            document.getElementById('shared-footer').innerHTML = footerHTML;
-                            footerLoaded = true;
-                            console.log(`✅ Footer loaded from: ${path}`);
-                            break;
-                        }
-                    } catch (e) {
-                        console.log(`❌ Failed to load footer from: ${path}`);
-                    }
-                }
-                
-                if (!footerLoaded) {
-                    console.log('Using fallback footer');
-                    document.getElementById('shared-footer').innerHTML = `
-                        <footer class="footer">
-                            <div class="footer-container">
-                                <div class="footer-content">
-                                    <div class="footer-brand">
-                                        <div class="footer-logo">VERV ONE</div>
-                                        <div class="footer-tagline">Fine Property & Project Consultancy</div>
-                                        <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.</p>
-                                    </div>
-                                </div>
-                                <div class="footer-bottom">
-                                    <p class="footer-copyright">© 2024 VERV ONE. All rights reserved.</p>
-                                </div>
-                            </div>
-                        </footer>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading shared components:', error);
-            }
-        }
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🚀 VERV ONE Single property page loaded, initializing...');
-            
-            await loadSharedComponents();
             
             setTimeout(() => {
                 loadProperty();
