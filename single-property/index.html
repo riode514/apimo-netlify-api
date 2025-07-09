@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Details | VERV ONE</title>
+    <title>Property Details | VERV ONE - Premium Real Estate Costa Brava</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Barcelona, Sitges, and Costa Brava.">
+    <meta name="keywords" content="Property details, luxury real estate, Barcelona properties, Sitges villas, Costa Brava homes, VERV ONE">
+    <meta name="author" content="VERV ONE">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Property Details | VERV ONE - Premium Real Estate Costa Brava">
+    <meta property="og:description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Barcelona, Sitges, and Costa Brava.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://verv.one/single-property/">
+    <meta property="og:image" content="https://verv.one/assets/images/verv-one-property-og.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Property Details | VERV ONE - Premium Real Estate Costa Brava">
+    <meta name="twitter:description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Barcelona, Sitges, and Costa Brava.">
+    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-property-og.jpg">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
@@ -13,13 +31,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Shared Styles -->
-    <link rel="stylesheet" href="/shared/shared-styles.css">
+    <!-- Shared Styles - Multiple paths for reliability -->
+    <link rel="stylesheet" href="/shared/shared-styles.css" onerror="this.href='/shared/shared-styles-css.css'">
     
-    <!-- Property Details Specific Styles -->
+    <!-- Single Property Specific Styles -->
     <style>
-        /* Property Details Page Specific Styles */
+        /* Single Property Page Specific Styles */
         
+        /* Ensure proper layout and spacing */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+        }
+
+        .serif {
+            font-family: 'Lora', serif;
+        }
+
         /* Loading State */
         .loading {
             display: flex;
@@ -48,7 +81,45 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Property Header */
+        .property-header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 40px 0;
+            text-align: center;
+        }
+
+        .property-title {
+            font-family: 'Lora', serif;
+            font-size: clamp(22px, 4vw, 39px);
+            font-weight: 400;
+            margin-bottom: 40px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            color: #000;
+        }
+
         /* Hero Image Gallery */
+        .hero-section {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            overflow: hidden;
+            background: #f8f9fa;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+
         .hero-placeholder {
             display: flex;
             flex-direction: column;
@@ -112,6 +183,80 @@
             letter-spacing: 0.5px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
+        }
+
+        /* Property Info */
+        .property-info {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 40px;
+            text-align: center;
+        }
+
+        .property-location {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .location-icon {
+            width: 20px;
+            height: 20px;
+            color: #666;
+        }
+
+        .property-price {
+            font-family: 'Lora', serif;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .property-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .meta-item svg {
+            width: 24px;
+            height: 24px;
+            color: #666;
+        }
+
+        .meta-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .meta-value {
+            font-weight: 600;
+            color: #000;
         }
 
         /* Content Section */
@@ -454,6 +599,41 @@
             background: rgba(0,0,0,0.7);
         }
 
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 140px;
+            left: 40px;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e0e0e0;
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,1);
+            transform: translateX(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            color: #000;
+            text-decoration: none;
+        }
+
+        .back-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
         /* Hide content initially to prevent flash */
         #property-content {
             display: none;
@@ -463,7 +643,7 @@
             display: none;
         }
 
-        /* Responsive Design for Property Details */
+        /* Responsive Design */
         @media (max-width: 1024px) {
             .content-section {
                 grid-template-columns: 1fr;
@@ -475,9 +655,50 @@
                 position: static;
                 grid-template-columns: 1fr 1fr;
             }
+
+            .property-header {
+                padding: 40px 30px 0;
+            }
+
+            .property-info {
+                padding: 0 30px 40px;
+            }
+
+            .back-button {
+                left: 30px;
+            }
         }
 
         @media (max-width: 768px) {
+            .main-container {
+                margin-top: 100px;
+            }
+
+            .property-header {
+                padding: 40px 20px 0;
+            }
+
+            .property-info {
+                padding: 0 20px 40px;
+            }
+
+            .property-title {
+                font-size: 20px;
+            }
+
+            .property-location {
+                font-size: 14px;
+            }
+
+            .property-price {
+                font-size: 24px;
+            }
+
+            .property-meta {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
             .content-section {
                 padding: 40px 20px;
             }
@@ -511,12 +732,44 @@
                 height: 40px;
                 font-size: 1.2rem;
             }
+
+            .back-button {
+                left: 20px;
+                top: 120px;
+                padding: 10px 16px;
+                font-size: 13px;
+            }
         }
 
         @media (max-width: 480px) {
+            .hero-section {
+                height: 60vh;
+                min-height: 400px;
+            }
+
+            .property-title {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .contact-title {
+                font-size: 24px;
+            }
+
             .agent-card {
                 flex-direction: column;
                 text-align: center;
+            }
+
+            .property-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .meta-item {
+                padding: 0.75rem;
             }
         }
     </style>
@@ -675,16 +928,33 @@
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU"></script>
 
-    <!-- Shared Navigation JS -->
-    <script src="/shared/shared-navigation.js"></script>
+    <!-- Shared Navigation JS - Multiple paths for reliability -->
+    <script src="/shared/shared-navigation.js" onerror="loadFallbackJS()"></script>
 
-    <!-- Property Details Specific JavaScript -->
+    <!-- Single Property Specific JavaScript -->
     <script>
         // Global variables
         let currentProperty = null;
         let currentImageIndex = 0;
         let allImages = [];
         let map = null;
+
+        // Fallback JS loader
+        function loadFallbackJS() {
+            console.log('Loading fallback JavaScript...');
+            // Minimal navigation functionality if shared JS fails
+            document.addEventListener('DOMContentLoaded', function() {
+                const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+                const navMenu = document.getElementById('navMenu');
+                
+                if (mobileMenuToggle && navMenu) {
+                    mobileMenuToggle.addEventListener('click', function() {
+                        navMenu.classList.toggle('active');
+                        this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+                    });
+                }
+            });
+        }
 
         // The Noun Project style icons
         const propertyIcons = {
@@ -1466,21 +1736,43 @@
             }
         });
 
-        // Load shared components
+        // Load shared components with enhanced error handling
         async function loadSharedComponents() {
             try {
-                // Load shared header
-                const headerResponse = await fetch('/shared/shared-header.html');
-                if (headerResponse.ok) {
-                    const headerHTML = await headerResponse.text();
-                    document.getElementById('shared-header').innerHTML = headerHTML;
-                } else {
-                    console.log('Shared header not found, using fallback');
+                // Load shared header with multiple fallback paths
+                const headerPaths = [
+                    '/shared/shared-header.html',
+                    '/shared-header.html',
+                    './shared/shared-header.html'
+                ];
+                
+                let headerLoaded = false;
+                for (const path of headerPaths) {
+                    try {
+                        const headerResponse = await fetch(path);
+                        if (headerResponse.ok) {
+                            const headerHTML = await headerResponse.text();
+                            document.getElementById('shared-header').innerHTML = headerHTML;
+                            headerLoaded = true;
+                            console.log(`✅ Header loaded from: ${path}`);
+                            break;
+                        }
+                    } catch (e) {
+                        console.log(`❌ Failed to load header from: ${path}`);
+                    }
+                }
+                
+                if (!headerLoaded) {
+                    console.log('Using fallback header');
                     document.getElementById('shared-header').innerHTML = `
                         <header class="header-nav">
                             <nav class="nav-container">
                                 <a href="/" class="logo-link">
-                                    <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" style="height: 60px;">
+                                    <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <svg width="180" height="90" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="logo" style="display: none;">
+                                        <text x="400" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="#000">VERV ONE</text>
+                                        <text x="400" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="#666">Fine Property & Project Consultancy</text>
+                                    </svg>
                                 </a>
                                 <ul class="nav-menu" id="navMenu">
                                     <li><a href="/" class="nav-link">Home</a></li>
@@ -1496,13 +1788,31 @@
                     `;
                 }
 
-                // Load shared footer
-                const footerResponse = await fetch('/shared/shared-footer.html');
-                if (footerResponse.ok) {
-                    const footerHTML = await footerResponse.text();
-                    document.getElementById('shared-footer').innerHTML = footerHTML;
-                } else {
-                    console.log('Shared footer not found, using fallback');
+                // Load shared footer with multiple fallback paths
+                const footerPaths = [
+                    '/shared/shared-footer.html',
+                    '/shared-footer.html',
+                    './shared/shared-footer.html'
+                ];
+                
+                let footerLoaded = false;
+                for (const path of footerPaths) {
+                    try {
+                        const footerResponse = await fetch(path);
+                        if (footerResponse.ok) {
+                            const footerHTML = await footerResponse.text();
+                            document.getElementById('shared-footer').innerHTML = footerHTML;
+                            footerLoaded = true;
+                            console.log(`✅ Footer loaded from: ${path}`);
+                            break;
+                        }
+                    } catch (e) {
+                        console.log(`❌ Failed to load footer from: ${path}`);
+                    }
+                }
+                
+                if (!footerLoaded) {
+                    console.log('Using fallback footer');
                     document.getElementById('shared-footer').innerHTML = `
                         <footer class="footer">
                             <div class="footer-container">
@@ -1527,7 +1837,7 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 VERV ONE Property details page loaded, initializing...');
+            console.log('🚀 VERV ONE Single property page loaded, initializing...');
             
             await loadSharedComponents();
             
