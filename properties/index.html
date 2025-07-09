@@ -259,13 +259,14 @@
         // Render Property Card Function
         function renderPropertyCard(property) {
             // Title
-            const title = property.title || `${property.type?.label || 'Property'} in ${property.location?.city || 'Unknown Location'}`;
+            const title = property.title || property.comments?.title || 
+                `${property.type?.label || property.subtype?.label || 'Property'} in ${property.location?.city || 'Unknown Location'}`;
             
             // Location
             const location = property.location?.city || 'N/A';
             
             // Image
-            const image = property.pictures?.[0]?.url || '../assets/images/masia-emporda.jpg';
+            const image = property.pictures?.[0]?.url || '/default.jpg';
             
             // Bedrooms
             const bedrooms = property.rooms?.bedrooms || 'N/A';
@@ -288,39 +289,83 @@
             }
             
             // Price
-            const price = property.price ? `€${property.price.toLocaleString()}` : 'Price on request';
+            let price = 'Price on request';
+            if (property.prices && property.prices.length > 0) {
+                price = property.prices[0].price_formatted || 
+                    (property.prices[0].price ? `€${property.prices[0].price.toLocaleString()}` : 'Price on request');
+            }
             
             // Property ID
-            const propertyId = property.id || 'N/A';
+            const propertyId = property.id ? String(property.id) : 'N/A';
             
             return `
                 <div class="property-card" data-property-id="${propertyId}">
                     <div class="property-image-container">
-                        <img src="${image}" alt="${title}" class="property-image" onerror="this.src='../assets/images/masia-emporda.jpg'">
+                        <img src="${image}" alt="${title}" class="property-image" onerror="this.src='/default.jpg'">
                     </div>
                     <div class="property-info">
                         <div class="property-price">${price}</div>
                         <h3 class="property-title">${title}</h3>
-                        <p class="property-location">📍 ${location}</p>
+                        <p class="property-location">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            ${location}
+                        </p>
                         <div class="property-details">
                             <div class="property-detail-item">
-                                <span class="detail-label">🛏️ Bedrooms:</span>
+                                <span class="detail-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                        <polyline points="9,22 9,12 15,12 15,22"/>
+                                    </svg>
+                                    Bedrooms:
+                                </span>
                                 <span class="detail-value">${bedrooms}</span>
                             </div>
                             <div class="property-detail-item">
-                                <span class="detail-label">🚿 Bathrooms:</span>
+                                <span class="detail-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 22H5a2 2 0 0 1-2-2V9l9-7 9 7v11a2 2 0 0 1-2 2h-4"/>
+                                        <polyline points="6,9 6,22"/>
+                                        <polyline points="18,9 18,22"/>
+                                    </svg>
+                                    Bathrooms:
+                                </span>
                                 <span class="detail-value">${bathrooms}</span>
                             </div>
                             <div class="property-detail-item">
-                                <span class="detail-label">🏠 Built Area:</span>
+                                <span class="detail-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    </svg>
+                                    Built Area:
+                                </span>
                                 <span class="detail-value">${builtAreaDisplay}</span>
                             </div>
                             <div class="property-detail-item">
-                                <span class="detail-label">🌿 Land Area:</span>
+                                <span class="detail-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0"/>
+                                        <path d="M8 12h8"/>
+                                        <path d="M12 8v8"/>
+                                    </svg>
+                                    Land Area:
+                                </span>
                                 <span class="detail-value">${landArea}</span>
                             </div>
                             <div class="property-detail-item">
-                                <span class="detail-label">🆔 Property ID:</span>
+                                <span class="detail-label">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14,2 14,8 20,8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                        <polyline points="10,9 9,9 8,9"/>
+                                    </svg>
+                                    Property ID:
+                                </span>
                                 <span class="detail-value">${propertyId}</span>
                             </div>
                         </div>
@@ -399,7 +444,7 @@
                     
                     if (propertyId && propertyId !== 'N/A') {
                         // Navigate to single property page
-                        window.location.href = `/single-property/?id=${propertyId}`;
+                        window.location.href = `https://verv.one/single-property/?id=${propertyId}`;
                     }
                 });
             });
