@@ -840,37 +840,6 @@
             background: #f8f9fa;
         }
 
-        .properties-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 1rem 2rem;
-            cursor: pointer;
-            font-size: 1rem;
-            color: #666;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            font-family: 'Source Sans 3', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        .tab-button.active {
-            color: #000;
-            border-bottom-color: #000;
-        }
-
-        .tab-button:hover {
-            color: #000;
-        }
-
         /* IMPROVED: Hero Featured Property - Side by side layout with no image effects */
         .hero-featured-property {
             position: relative;
@@ -1677,16 +1646,6 @@
                 justify-content: center;
             }
 
-            .properties-tabs {
-                gap: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .tab-button {
-                padding: 0.75rem 1rem;
-                font-size: 0.9rem;
-            }
-
             .credentials-logos {
                 gap: 2rem;
                 margin-bottom: 1rem;
@@ -1844,6 +1803,9 @@
                 <li><a href="/projects/" class="nav-link">Projects</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
             </ul>
+            
+            <!-- Weglot Language Switcher -->
+            <div id="weglot_here"></div>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
         </nav>
@@ -2736,114 +2698,6 @@
             };
         }
 
-        // FIXED: Display popular property with proper button event handlers
-        function displayPopularProperty(property) {
-            const hero = document.getElementById('heroFeaturedProperty');
-            if (!hero || !property) return;
-            
-            console.log('🖼️ Displaying popular property:', property.title, 'ID:', property.id);
-            
-            let price = 'Price on request';
-            if (property.price && property.price !== null) {
-                const priceValue = typeof property.price === 'number' ? property.price : parseInt(property.price);
-                if (!isNaN(priceValue) && priceValue > 0) {
-                    price = `€${priceValue.toLocaleString()}`;
-                }
-            }
-            
-            const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
-            const locationIcon = locationIcons[property.location] || locationIcons['default'];
-            
-            const features = [];
-            if (property.bedrooms) {
-                features.push(`<div class="popular-property-feature">${featureIcons.bed} ${property.bedrooms} Bedrooms</div>`);
-            }
-            if (property.bathrooms) {
-                features.push(`<div class="popular-property-feature">${featureIcons.bath} ${property.bathrooms} Bathrooms</div>`);
-            }
-            if (property.builtArea) {
-                features.push(`<div class="popular-property-feature">${featureIcons.area} ${property.builtArea}m² Built</div>`);
-            }
-            if (property.landArea) {
-                features.push(`<div class="popular-property-feature">${featureIcons.plot} ${property.landArea}m² Plot</div>`);
-            }
-            
-            const featuresHTML = features.length > 0 ? 
-                `<div class="popular-property-features">${features.join('')}</div>` : '';
-            
-            // Create visual content with image or icon
-            let visualContent = '';
-            if (property.photoUrl && property.photoUrl.trim()) {
-                visualContent = `
-                    <div class="popular-property-visual" style="background-image: url('${property.photoUrl}'); background-size: cover; background-position: center; position: relative;">
-                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);"></div>
-                        <div style="position: relative; z-index: 2; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${propertyIcon}</div>
-                    </div>
-                `;
-            } else {
-                visualContent = `
-                    <div class="popular-property-visual">
-                        ${propertyIcon}
-                    </div>
-                `;
-            }
-            
-            // FIXED: Generate unique IDs for buttons to avoid conflicts
-            const viewBtnId = `viewProperty_${property.id}`;
-            const scheduleBtnId = `scheduleVisit_${property.id}`;
-            
-            hero.innerHTML = `
-                <div class="popular-property-container">
-                    ${visualContent}
-                    <div class="popular-property-content">
-                        <div class="popular-property-badge">Most Popular</div>
-                        <h3 class="popular-property-title">${property.title}</h3>
-                        <div class="popular-property-location">
-                            ${locationIcon}
-                            <span>${property.location}</span>
-                        </div>
-                        <div class="popular-property-details">
-                            ${featuresHTML}
-                        </div>
-                        <p class="popular-property-description">${property.description}</p>
-                        <div class="popular-property-price">${price}</div>
-                        <div class="popular-property-action">
-                            <button class="popular-property-btn" id="${viewBtnId}" aria-label="View property details">
-                                View Property
-                            </button>
-                            <button class="popular-property-btn secondary" id="${scheduleBtnId}" aria-label="Schedule consultation">
-                                Schedule Visit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // FIXED: Add event listeners after DOM insertion
-            setTimeout(() => {
-                const viewBtn = document.getElementById(viewBtnId);
-                const scheduleBtn = document.getElementById(scheduleBtnId);
-                
-                if (viewBtn) {
-                    viewBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('🔗 View Property button clicked for ID:', property.id);
-                        viewProperty(property.id);
-                    });
-                }
-                
-                if (scheduleBtn) {
-                    scheduleBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('📅 Schedule Visit button clicked');
-                        openConsultationModal();
-                    });
-                }
-            }, 10);
-        }
-
         // Display grid properties
         function displayGridProperties(properties) {
             const grid = document.getElementById('propertiesGrid');
@@ -3292,7 +3146,7 @@
                 // Initialize core functionality first
                 console.log('1️⃣ Initializing core functionality...');
                 initHeroSearch();
-                initTabs();
+                initPropertyDisplay();
                 initMobileMenu();
                 
                 // Load ONLY real properties from API - no fallbacks to sample data
