@@ -17,9 +17,14 @@
     <link rel="dns-prefetch" href="//player.vimeo.com">
     <link rel="dns-prefetch" href="//properties.verv.one">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../assets/images/verv-one-favicon.png">
-    <link rel="apple-touch-icon" href="../assets/images/verv-one-favicon.png">
+    <!-- Updated Favicon -->
+    <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
@@ -27,7 +32,11 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-09NW5Z6Y0S');
+      gtag('config', 'G-09NW5Z6Y0S', {
+        page_title: document.title,
+        page_location: window.location.href,
+        send_page_view: true
+      });
     </script>
     
     <!-- SEO Meta Tags -->
@@ -54,16 +63,6 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.verv.one/projects">
     
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Shared CSS -->
-    <link rel="stylesheet" href="../shared/shared-styles-css.css">
-    
     <!-- Weglot Translation Script -->
     <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     
@@ -80,9 +79,677 @@
       domain="www.chatbase.co"
       defer>
     </script>
+
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            padding: 0 2rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header - Matching Homepage */
+        .header-nav {
+            background: #ffffff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            height: 95px;
+            transition: height 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            opacity: 0.6;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000;
+        }
+
+        /* Projects Hero - Simplified */
+        .projects-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            margin: 0 -2rem;
+        }
+
+        .projects-hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .projects-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%);
+            z-index: 2;
+        }
+
+        .inner-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            margin-top: 80px;
+        }
+
+        .inner-hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-family: 'Lora', serif;
+        }
+
+        .inner-hero-content p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        /* Main sections */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+            color: #000;
+            font-weight: 400;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-family: 'Lora', serif;
+            color: #000;
+            line-height: 1.3;
+        }
+
+        .project-year {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            margin-top: 80px;
+            text-align: center;
+            background: #f8f8f8;
+            padding: 60px 40px;
+            border-radius: 16px;
+        }
+
+        .cta-section h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #000;
+            font-family: 'Lora', serif;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .verv-btn-black {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .verv-btn-black:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Footer - Matching Homepage */
+        .footer {
+            background: #000;
+            color: white;
+            padding: 4rem 0 1rem;
+            margin: 0 -2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: 'Lora', serif;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .footer-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-social a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .footer-social .icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Footer Credentials */
+        .footer-credentials {
+            background: #000;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+        }
+
+        .credentials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .credentials-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .credential-logo {
+            height: 60px;
+            opacity: 0.8;
+            display: block;
+            transition: opacity 0.3s ease;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
+        .credential-logo:hover {
+            opacity: 1;
+        }
+
+        .credentials-info {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .credentials-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #ccc;
+            font-size: 0.9rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            font-weight: 300;
+        }
+
+        /* Chat Widgets Container */
+        .chat-widgets-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .whatsapp-float {
+            background: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            background: #20b858;
+            color: white;
+        }
+
+        .whatsapp-float svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-text {
+            white-space: nowrap;
+        }
+
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0 1rem;
+            }
+
+            .header-nav {
+                padding: 0 1rem;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+            }
+
+            .nav-container {
+                padding: 0.75rem 0;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .logo {
+                height: 70px;
+            }
+
+            .projects-hero {
+                margin: 0 -1rem;
+                min-height: 70vh;
+            }
+
+            .inner-hero-content {
+                margin-top: 100px;
+                padding: 0 1.5rem;
+            }
+            
+            .inner-hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .inner-hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-card {
+                height: auto;
+            }
+
+            .project-image {
+                height: 200px;
+            }
+
+            .project-info {
+                padding: 1.5rem;
+            }
+
+            .project-title {
+                font-size: 1.3rem;
+            }
+
+            .cta-section {
+                padding: 40px 20px;
+                margin-top: 40px;
+            }
+
+            .cta-section h3 {
+                font-size: 1.6rem;
+            }
+
+            .cta-section p {
+                font-size: 1rem;
+            }
+
+            .footer {
+                margin: 0 -1rem;
+            }
+
+            .footer-content {
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .footer-bottom {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .credentials-logos {
+                gap: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .credential-logo {
+                height: 45px;
+                max-width: 100px;
+            }
+
+            .chat-widgets-container {
+                bottom: 20px;
+                left: 20px;
+                gap: 10px;
+            }
+
+            .whatsapp-float {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .whatsapp-float svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .whatsapp-text {
+                display: none;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .inner-hero-content {
+                padding: 0 1rem;
+            }
+
+            .inner-hero-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-link:focus,
+        .verv-btn-black:focus {
+            outline: 2px solid #000;
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header Navigation -->
+    <!-- Header Navigation - Matching Homepage -->
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
@@ -93,7 +760,7 @@
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/about/" class="nav-link">About</a></li>
                 <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
-                <li><a href="/properties/" class="nav-link">Properties</a></li>
+                <li><a href="https://www.verv.one/properties/" class="nav-link">Properties</a></li>
                 <li><a href="/projects/" class="nav-link active">Projects</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
                 <li><div id="weglot-container"></div></li>
@@ -103,26 +770,21 @@
         </nav>
     </header>
 
-    <!-- Projects Hero with Video -->
+    <!-- Projects Hero - With Custom Video and New Text -->
     <section class="projects-hero">
-        <div style="padding:75% 0 0 0;position:relative;background-image: url('../assets/images/berrowprojects-can-domingo-hero-mobile.jpeg'); background-size: cover; background-position: center;">
-            <iframe src="https://player.vimeo.com/video/1098881121?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&controls=0" 
-                    frameborder="0" 
-                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-                    style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-                    title="Project Management in Sitges Barcelona">
-            </iframe>
-        </div>
-        <div class="projects-hero-overlay">
-            <div class="inner-hero-content">
-                <h1>Projects</h1>
-                <p>Showcasing our expertise in luxury property development and renovation</p>
-            </div>
+        <video autoplay muted loop playsinline class="projects-hero-video" preload="metadata">
+            <source src="../assets/images/project%20management%20sitges%20barcelona.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="projects-hero-overlay"></div>
+        <div class="inner-hero-content">
+            <h1>Where Vision Becomes Structure</h1>
+            <p>Project Management & Development with Purpose</p>
         </div>
     </section>
 
     <!-- Projects Content -->
-    <section class="content-section section">
+    <section class="section">
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-title">Our Portfolio</h2>
@@ -131,7 +793,7 @@
 
             <div class="projects-grid">
                 <div class="project-card fade-in">
-                    <img src="../assets/images/example.jpg" 
+                    <img src="../assets/images/gotic.jpeg" 
                          alt="11th Century renovation apartment" 
                          class="project-image">
                     <div class="project-info">
@@ -164,7 +826,7 @@
                 </div>
                 
                 <div class="project-card fade-in">
-                    <img src="../assets/images/gothic.jpeg" 
+                    <img src="../assets/images/eixample.jpg" 
                          alt="Modernist apartment renovation" 
                          class="project-image">
                     <div class="project-info">
@@ -197,118 +859,116 @@
                 </div>
             </div>
 
-            <div style="margin-top: 80px; text-align: center; background: #f8f8f8; padding: 60px 40px; border-radius: 16px;" class="fade-in">
-                <h3 style="font-size: 2rem; margin-bottom: 20px; color: #000;">Have a Project in Mind?</h3>
-                <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">Whether you're planning a renovation, new development, or investment project, our team has the expertise to bring your vision to life with exceptional results.</p>
+            <div class="cta-section fade-in">
+                <h3>Have a Project in Mind?</h3>
+                <p>Whether you're planning a renovation, new development, or investment project, our team has the expertise to bring your vision to life with exceptional results.</p>
                 <a href="../contact/" class="verv-btn-black">Discuss Your Project</a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer - Matching Homepage -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">VERV ONE</div>
-                    <div class="footer-tagline">Fine Property & Project Consultancy</div>
-                    <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
-                    <div class="footer-social">
-                        <a href="https://www.linkedin.com/company/106199945" target="_blank">
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
-                                <rect x="2" y="9" width="4" height="12"/>
-                                <circle cx="4" cy="4" r="2"/>
-                            </svg>
-                            linkedin
-                        </a>
-                        <a href="http://instagram.com/verv.one_" target="_blank">
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                            </svg>
-                            instagram
-                        </a>
-                        <a href="http://facebook.com/verv.one_" target="_blank">
-                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                            </svg>
-                            facebook
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Services</h3>
-                    <ul class="footer-links">
-                        <li><a href="/how-we-work/">How We Work</a></li>
-                        <li><a href="/properties/">Property Sales</a></li>
-                        <li><a href="/projects/">Project Management</a></li>
-                        <li><a href="/contact/">Investment Advisory</a></li>
-                        <li><a href="/contact/">Property Management</a></li>
-                        <li><a href="/contact/">International Services</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Locations</h3>
-                    <ul class="footer-links">
-                        <li><a href="/properties/?location=Barcelona">Barcelona Properties</a></li>
-                        <li><a href="/properties/?location=Sitges">Sitges Properties</a></li>
-                        <li><a href="/properties/?location=Girona">Girona Properties</a></li>
-                        <li><a href="/properties/?location=Costa%20Brava">Costa Brava Properties</a></li>
-                        <li><a href="/properties/?location=Emporda">Emporda Properties</a></li>
-                        <li><a href="/properties/?location=Cadaqués">Cadaqués</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="/about/">About Us</a></li>
-                        <li><a href="/projects/">Our Projects</a></li>
-                        <li><a href="/contact/">Contact</a></li>
-                        <li><a href="/privacy-policy/">Privacy Policy</a></li>
-                        <li><a href="/terms-of-service/">Terms of Service</a></li>
-                        <li><a href="/contact/">Careers</a></li>
-                    </ul>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">VERV ONE</div>
+                <div class="footer-tagline">Signature Estates & Advisory</div>
+                <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/company/106199945" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect x="2" y="9" width="4" height="12"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        linkedin
+                    </a>
+                    <a href="http://instagram.com/verv.one_" target="_blank" rel="noopener" aria-label="Instagram">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                        instagram
+                    </a>
+                    <a href="http://facebook.com/verv.one_" target="_blank" rel="noopener" aria-label="Facebook">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                        facebook
+                    </a>
                 </div>
             </div>
             
-            <!-- Professional Credentials Section -->
-            <div class="footer-credentials">
-                <div class="credentials-container">
-                    <div class="credentials-logos">
-                        <img src="../assets/images/aicat.png" 
-                             alt="AICAT Registry" 
-                             class="credential-logo"
-                             onerror="this.style.display='none'">
-                        <img src="../assets/images/api1190bnw.png" 
-                             alt="API Professional Association" 
-                             class="credential-logo"
-                             onerror="this.style.display='none'">
-                        <img src="../assets/images/PRIME-REALTOR.png" 
-                             alt="Realtor" 
-                             class="credential-logo"
-                             onerror="this.style.display='none'">
-                        <img src="../assets/images/concierge-auctions-logo.jpg" 
-                             alt="Concierge Auctions" 
-                             class="credential-logo"
-                             onerror="this.style.display='none'">
-                    </div>
-                    <div class="credentials-info">
-                        <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
-                        <p>© VERV.ONE – All rights reserved | Wood Side S.L. | AICAT 12717 | API 1190</p>
-                    </div>
-                </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="/how-we-work/">How We Work</a></li>
+                    <li><a href="https://www.verv.one/properties/">Property Sales</a></li>
+                    <li><a href="/projects/">Project Management</a></li>
+                    <li><a href="/contact/">Investment Advisory</a></li>
+                    <li><a href="/contact/">Property Management</a></li>
+                    <li><a href="/contact/">International Services</a></li>
+                </ul>
             </div>
             
-            <div class="footer-bottom">
-                <p class="footer-copyright">
-                    © 2024 VERV ONE. All rights reserved. Wood Side S.L | Fine Property & Project Consultancy
-                </p>
+            <div class="footer-section">
+                <h3>Locations</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.verv.one/properties/?location=Barcelona">Barcelona Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Sitges">Sitges Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Girona">Girona Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Costa%20Brava">Costa Brava Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Emporda">Emporda Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Cadaqués">Cadaqués</a></li>
+                </ul>
             </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/projects/">Our Projects</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service/">Terms of Service</a></li>
+                    <li><a href="/contact/">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Professional Credentials Section -->
+        <div class="footer-credentials">
+            <div class="credentials-container">
+                <div class="credentials-logos">
+                    <img src="../assets/images/api119bmow.png" 
+                         alt="API Professional Association" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="../assets/images/aicat.png" 
+                         alt="AICAT Registry" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         alt="Concierge Auctions Agent" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="../assets/images/realtor-sitges.jpg" 
+                         alt="Realtor Sitges" 
+                         class="credential-logo"
+                         loading="lazy">
+                </div>
+                <div class="credentials-info">
+                    <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
+                    <p>© VERV.ONE – All rights reserved | Wood Side S.L. | AICAT 12717 | API 1190</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="footer-copyright">
+                © 2024 VERV ONE. All rights reserved. Wood Side S.L | Signature Estates & Advisory
+            </p>
         </div>
     </footer>
 
@@ -322,9 +982,7 @@
         </a>
     </div>
 
-    <!-- Shared JavaScript -->
-    <script src="../shared/shared-navigation-js.js"></script>
-    
+    <!-- JavaScript -->
     <script>
         // Initialize Weglot
         Weglot.initialize({
@@ -349,6 +1007,34 @@
             }]
         });
 
+        // Mobile menu functionality
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isActive = navMenu.classList.contains('active');
+                    navMenu.classList.toggle('active');
+                    this.textContent = isActive ? '☰' : '✕';
+                    this.setAttribute('aria-expanded', !isActive);
+                    document.body.style.overflow = isActive ? '' : 'hidden';
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            mobileMenuToggle.textContent = '☰';
+                            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+            }
+        }
+
         // Fade in animations
         function initFadeInAnimations() {
             const observerOptions = {
@@ -371,9 +1057,61 @@
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            initMobileMenu();
             initFadeInAnimations();
         });
     </script>
-    <script src="https://player.vimeo.com/api/player.js"></script>
+    
+    <!-- Chatbase Integration -->
+    <script>
+        (function(){
+            if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+                window.chatbase=(...arguments)=>{
+                    if(!window.chatbase.q){
+                        window.chatbase.q=[]
+                    }
+                    window.chatbase.q.push(arguments)
+                };
+                window.chatbase=new Proxy(window.chatbase,{
+                    get(target,prop){
+                        if(prop==="q"){
+                            return target.q
+                        }
+                        return(...args)=>target(prop,...args)
+                    }
+                })
+            }
+            
+            const onLoad=function(){
+                try {
+                    const script=document.createElement("script");
+                    script.src="https://www.chatbase.co/embed.min.js";
+                    script.id="SfBNzL38DcXmnHCUqNZkN";
+                    script.setAttribute("data-chatbot-id", "SfBNzL38DcXmnHCUqNZkN");
+                    script.setAttribute("data-domain", "www.chatbase.co");
+                    script.async = true;
+                    script.defer = true;
+                    
+                    script.onload = function() {
+                        console.log('Chatbase script loaded successfully');
+                    };
+                    
+                    script.onerror = function() {
+                        console.log('Chatbase script failed to load');
+                    };
+                    
+                    document.body.appendChild(script);
+                } catch (error) {
+                    console.error('Error loading Chatbase:', error);
+                }
+            };
+            
+            if(document.readyState==="complete"){
+                onLoad()
+            } else {
+                window.addEventListener("load", onLoad)
+            }
+        })();
+    </script>
 </body>
 </html>

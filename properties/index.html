@@ -3,13 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Properties - VERV ONE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Properties | VERV ONE - Premium Real Estate Costa Brava</title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover premium properties for sale across Barcelona, Sitges, and Costa Brava. Luxury villas, apartments, and exclusive real estate opportunities with VERV ONE.">
+    <meta name="keywords" content="Properties Barcelona, Sitges real estate, Costa Brava properties, luxury homes Spain, VERV ONE properties">
+    <meta name="author" content="VERV ONE">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Properties | VERV ONE - Premium Real Estate Costa Brava">
+    <meta property="og:description" content="Discover premium properties for sale across Barcelona, Sitges, and Costa Brava. Luxury villas, apartments, and exclusive real estate opportunities.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://verv.one/properties/">
+    <meta property="og:image" content="https://verv.one/assets/images/verv-one-properties-og.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Properties | VERV ONE - Premium Real Estate Costa Brava">
+    <meta name="twitter:description" content="Discover premium properties for sale across Barcelona, Sitges, and Costa Brava. Luxury villas, apartments, and exclusive real estate opportunities.">
+    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-properties-og.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Combined Styles -->
     <style>
-        /* Reset and base styles */
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -17,995 +41,1246 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #fafafa;
+            background: white;
+            padding-top: 0;
         }
 
-        /* Header Styles */
-        .header {
+        /* HEADER STYLES FROM HOMEPAGE */
+        .header-nav {
+            background: #ffffff;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid #eee;
             z-index: 1000;
-            height: 80px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .nav-container {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
-            height: 100%;
+            align-items: center;
+            padding: 1rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .logo-text {
-            font-family: 'Lora', serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #000;
+            height: 95px;
+            transition: height 0.3s ease;
+            max-width: 200px;
+            object-fit: contain;
         }
 
         .nav-menu {
             display: flex;
             list-style: none;
             gap: 2rem;
-            align-items: center;
+            margin: 0;
         }
 
         .nav-link {
             text-decoration: none;
-            color: #666;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
             color: #000;
-            background: #f8f9fa;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            font-size: 0.95rem;
         }
 
-        /* Mobile menu */
-        .mobile-menu-btn {
+        .nav-link:hover, .nav-link.active {
+            opacity: 0.6;
+        }
+
+        .mobile-menu-toggle {
             display: none;
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
+            color: #000;
         }
 
+        /* FOOTER STYLES FROM HOMEPAGE */
+        .footer {
+            background: #000;
+            color: white;
+            padding: 4rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: 'Lora', serif;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .footer-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-social a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .footer-social .icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        .footer-credentials {
+            background: #000;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+        }
+
+        .credentials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .credentials-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .credential-logo {
+            height: 60px;
+            opacity: 0.8;
+            display: block !important;
+            transition: opacity 0.3s ease;
+            max-width: 120px;
+            object-fit: contain;
+            background: transparent;
+            border: none;
+        }
+
+        .credential-logo:hover {
+            opacity: 1;
+        }
+
+        .credential-logo[style*="display: none"] {
+            display: block !important;
+        }
+
+        /* Force visibility for credential logos */
+        .credentials-logos img {
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        .credentials-info {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .credentials-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #ccc;
+            font-size: 0.9rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            font-weight: 300;
+        }
+
+        /* Chat Widgets Container */
+        .chat-widgets-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            background: #20b858;
+        }
+
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-text {
+            white-space: nowrap;
+        }
+        
+        /* Properties Page Specific Styles */
+        
+        /* Properties Hero Section */
+        .properties-hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 180px 20px 80px;
+            text-align: center;
+        }
+
+        .properties-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .properties-hero-title {
+            font-family: 'Lora', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .properties-hero-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .properties-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Lora', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            padding: 40px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filters-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .filter-select, .filter-input {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #000;
+            background: white;
+            transition: border-color 0.3s ease;
+            min-width: 150px;
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .filter-input::placeholder {
+            color: #999;
+        }
+
+        .clear-filters {
+            background: transparent;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters:hover {
+            border-color: #999;
+            color: #000;
+        }
+
+        .filters-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .view-btn.active {
+            background: white;
+            color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .results-count {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Properties Grid */
+        .properties-section {
+            padding: 60px 20px;
+            background: white;
+        }
+
+        .properties-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .property-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .property-card:hover .property-image {
+            transform: scale(1.05);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+
+        .property-info {
+            padding: 30px 25px;
+        }
+
+        .property-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .property-location {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .property-location svg {
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
+
+        .property-price {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 15px;
+            letter-spacing: -0.01em;
+        }
+
+        .property-features {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .property-feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .property-feature svg {
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
+
+        .property-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .property-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .property-btn.primary {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        .property-btn.primary:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        .property-btn:not(.primary):hover {
+            border-color: #999;
+            color: #000;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .empty-state-cta {
+            background: #000;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .empty-state-cta:hover {
+            background: #333;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 60px;
+        }
+
+        .pagination-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #999;
+            color: #000;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .header-nav {
+                padding: 0 1rem;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+            }
+
+            .nav-container {
+                padding: 0.75rem 0;
+            }
+
             .nav-menu {
                 display: none;
                 position: absolute;
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: white;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
                 flex-direction: column;
                 padding: 1rem;
-                border-top: 1px solid #eee;
+                gap: 1rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             }
 
             .nav-menu.active {
                 display: flex;
             }
-
-            .mobile-menu-btn {
+            
+            .mobile-menu-toggle {
                 display: block;
             }
-        }
-
-        /* Main content */
-        .properties-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            margin-top: 100px;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #000;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .back-link:hover {
-            text-decoration: underline;
-            transform: translateX(-3px);
-        }
-        
-        .properties-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 2rem;
-        }
-        
-        .search-results-text {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .properties-title {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: #000;
-            margin-bottom: 2rem;
-            line-height: 1.2;
-            font-family: 'Lora', serif;
-        }
-        
-        .properties-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .properties-count {
-            font-size: 1rem;
-            color: #666;
-        }
-        
-        .view-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-        
-        .sort-select {
-            padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
-            background: white;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        
-        .view-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .view-button {
-            padding: 0.5rem 1rem;
-            border: 1px solid #000;
-            background: white;
-            color: #000;
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .view-button.active {
-            background: #000;
-            color: white;
-        }
-        
-        .view-button:hover {
-            background: #000;
-            color: white;
-        }
-        
-        .properties-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .property-card {
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-        
-        .property-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-        }
-        
-        .property-image-container {
-            position: relative;
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .property-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .property-card:hover .property-image {
-            transform: scale(1.05);
-        }
-        
-        .property-icon-placeholder {
-            width: 80px;
-            height: 80px;
-            color: #666;
-            opacity: 0.7;
-        }
-        
-        .property-type-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: rgba(255, 255, 255, 0.95);
-            color: #000;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .property-info {
-            padding: 1.5rem;
-        }
-        
-        .property-location {
-            font-size: 1rem;
-            color: #000;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .location-icon {
-            width: 16px;
-            height: 16px;
-            color: #666;
-        }
-        
-        .property-price {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #000;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-        }
-        
-        .property-details {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .property-detail {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .property-detail svg {
-            width: 18px;
-            height: 18px;
-            color: #666;
-            flex-shrink: 0;
-        }
-        
-        .loading-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #666;
-        }
-        
-        .loading-spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: #f8f8f8;
-            border: 1px solid #eee;
-            color: #666;
-            margin: 2rem 0;
-            border-radius: 12px;
-        }
-        
-        .error-button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            margin-top: 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        
-        .error-button:hover {
-            background: #5a67d8;
-            transform: translateY(-2px);
-        }
-        
-        .no-properties {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: white;
-            border-radius: 12px;
-            margin: 2rem 0;
-        }
-        
-        .no-properties h3 {
-            color: #000;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-        }
-
-        .footer {
-            background: #1a1a1a;
-            color: white;
-            padding: 3rem 0 1rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            text-align: center;
-        }
-
-        .footer-text {
-            margin-bottom: 1rem;
-            color: #ccc;
-        }
-        
-        @media (max-width: 768px) {
-            .properties-container {
-                padding: 1rem;
-                margin-top: 90px;
-            }
             
-            .properties-grid {
-                grid-template-columns: 1fr;
+            .logo {
+                height: 70px;
+            }
+
+            .properties-hero {
+                padding: 140px 20px 60px;
+            }
+
+            .properties-hero-title {
+                font-size: 2.5rem;
+            }
+
+            .properties-stats {
                 gap: 1.5rem;
             }
-            
-            .properties-title {
+
+            .stat-number {
                 font-size: 2rem;
             }
-            
-            .properties-controls {
+
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .filters-left {
                 flex-direction: column;
                 gap: 1rem;
-                align-items: flex-start;
             }
-            
-            .view-controls {
-                width: 100%;
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-right {
                 justify-content: space-between;
             }
-            
-            .property-image-container {
-                height: 200px;
-            }
-            
-            .property-details {
+
+            .properties-grid {
                 grid-template-columns: 1fr;
-                gap: 0.5rem;
+                gap: 30px;
+            }
+
+            .property-features {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .property-cta {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .credentials-logos {
+                gap: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .credential-logo {
+                height: 45px;
+                max-width: 100px;
+            }
+
+            .footer-bottom {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .chat-widgets-container {
+                bottom: 20px;
+                left: 20px;
+                gap: 10px;
+            }
+
+            .whatsapp-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .whatsapp-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .whatsapp-text {
+                display: none;
             }
         }
-        
+
         @media (max-width: 480px) {
-            .properties-title {
-                font-size: 1.8rem;
+            .properties-hero-title {
+                font-size: 2rem;
             }
-            
+
+            .properties-hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .properties-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
             .property-info {
-                padding: 1rem;
+                padding: 25px 20px;
             }
+
+            .property-title {
+                font-size: 1.2rem;
+            }
+
+            .property-price {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Hide content initially */
+        #properties-content {
+            display: none;
+        }
+
+        #loading {
+            display: flex;
         }
     </style>
+
+    <!-- Weglot Translation -->
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CNQV7RJKXC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CNQV7RJKXC');
+    </script>
+
+    <!-- Chatbase Widget -->
+    <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="82Jd8DV0roWCZlMeoeqbk";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
 </head>
 <body>
-    <!-- Fixed Header with VERV ONE Logo -->
-    <header class="header">
-        <div class="header-content">
-            <a href="/" class="logo">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE" style="height: 40px;">
+    <!-- Header Navigation -->
+    <header class="header-nav">
+        <nav class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="../assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo" onerror="this.src='assets/images/verv_one_logo.svg'">
             </a>
             
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li><a href="/properties/" class="nav-link active">Properties</a></li>
-                    <li><a href="/about/" class="nav-link">About</a></li>
-                    <li><a href="/contact/" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
+                <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
+                <li><a href="https://www.verv.one/properties/" class="nav-link active">Properties</a></li>
+                <li><a href="/projects/" class="nav-link">Projects</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+            </ul>
             
-            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-        </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
+        </nav>
     </header>
 
-    <main class="properties-container">
-        <a href="/" class="back-link">← Back to Home</a>
-        
-        <div class="properties-header">
-            <div class="search-results-text">Our Portfolio</div>
-            <h1 class="properties-title" id="propertiesTitle">We have <span id="countNumber">0</span> Properties</h1>
-        </div>
-
-        <!-- Properties Controls -->
-        <div class="properties-controls">
-            <div class="properties-count" id="propertiesCount" style="display: none;">
-                Found <span id="countNumberSmall">0</span> properties
-            </div>
-            
-            <div class="view-controls">
-                <select class="sort-select" id="sortSelect">
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="area-large">Area: Large to Small</option>
-                    <option value="area-small">Area: Small to Large</option>
-                </select>
-                
-                <div class="view-buttons">
-                    <button class="view-button active" id="listView">LIST</button>
-                    <button class="view-button" id="mapView">MAP</button>
-                </div>
-            </div>
-        </div>
-
+    <main class="main-container">
         <!-- Loading State -->
-        <div id="loadingState" class="loading-state">
+        <div id="loading" class="loading">
             <div class="loading-spinner"></div>
-            <h2>Loading properties...</h2>
-            <p>Please wait while we fetch the latest listings from our database.</p>
+            <span>Loading properties</span>
         </div>
 
-        <!-- Error State -->
-        <div id="errorState" class="error-state" style="display: none;">
-            <h2>Unable to Load Properties</h2>
-            <p id="errorMessage">There was an error loading the properties. Please try again later.</p>
-            <button onclick="loadProperties()" class="error-button">Retry</button>
-        </div>
+        <!-- Properties Content -->
+        <div id="properties-content">
+            <!-- Properties Hero -->
+            <section class="properties-hero">
+                <div class="properties-hero-content">
+                    <h1 class="properties-hero-title">Our Portfolio</h1>
+                    <p class="properties-hero-subtitle">Discover exceptional properties across Barcelona, Sitges, and Costa Brava. Each property in our curated collection represents the finest in luxury living and investment opportunities.</p>
+                    
+                    <div class="properties-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalProperties">8</span>
+                            <span class="stat-label">Properties</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Locations</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Property Types</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Properties Grid -->
-        <div id="propertiesGrid" class="properties-grid">
-            <!-- Properties will be inserted here -->
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="filters-left">
+                        <div class="filter-group">
+                            <select id="typeFilter" class="filter-select">
+                                <option value="">All Types</option>
+                                <option value="villa">Villa</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="penthouse">Penthouse</option>
+                                <option value="house">House</option>
+                                <option value="plot">Plot</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="locationFilter" class="filter-select">
+                                <option value="">All Locations</option>
+                                <option value="barcelona">Barcelona</option>
+                                <option value="sitges">Sitges</option>
+                                <option value="girona">Girona</option>
+                                <option value="costa brava">Costa Brava</option>
+                                <option value="cadaqués">Cadaqués</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="priceFilter" class="filter-select">
+                                <option value="">All Prices</option>
+                                <option value="0-500000">Up to €500K</option>
+                                <option value="500000-1000000">€500K - €1M</option>
+                                <option value="1000000-2000000">€1M - €2M</option>
+                                <option value="2000000-5000000">€2M - €5M</option>
+                                <option value="5000000+">€5M+</option>
+                            </select>
+                        </div>
+                        
+                        <button id="clearFilters" class="clear-filters">Clear Filters</button>
+                    </div>
+                    
+                    <div class="filters-right">
+                        <span class="results-count" id="resultsCount">Found 8 properties</span>
+                        
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                </svg>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <line x1="8" y1="6" x2="21" y2="6"/>
+                                    <line x1="8" y1="12" x2="21" y2="12"/>
+                                    <line x1="8" y1="18" x2="21" y2="18"/>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Properties Grid -->
+            <section class="properties-section">
+                <div class="properties-container">
+                    <div class="properties-grid" id="propertiesGrid">
+                        <!-- Properties will be loaded here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="empty-state" style="display: none;">
+                        <h3>No Properties Found</h3>
+                        <p>We couldn't find any properties matching your criteria. Try adjusting your filters or browse all properties.</p>
+                        <a href="/properties/" class="empty-state-cta">View All Properties</a>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination" style="display: none;">
+                        <button class="pagination-btn" id="prevPage">&larr; Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn" id="nextPage">Next &rarr;</button>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p class="footer-text">© 2024 VERV ONE. All rights reserved.</p>
+            <div class="footer-brand">
+                <div class="footer-logo">VERV ONE</div>
+                <div class="footer-tagline">Signature Estates & Advisory</div>
+                <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/company/106199945" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect x="2" y="9" width="4" height="12"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        linkedin
+                    </a>
+                    <a href="http://instagram.com/verv.one_" target="_blank" rel="noopener" aria-label="Instagram">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                        instagram
+                    </a>
+                    <a href="http://facebook.com/verv.one_" target="_blank" rel="noopener" aria-label="Facebook">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                        facebook
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="/how-we-work/">How We Work</a></li>
+                    <li><a href="https://www.verv.one/properties/">Property Sales</a></li>
+                    <li><a href="/projects/">Project Management</a></li>
+                    <li><a href="/contact/">Investment Advisory</a></li>
+                    <li><a href="/contact/">Property Management</a></li>
+                    <li><a href="/contact/">International Services</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Locations</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.verv.one/properties/?location=Barcelona">Barcelona Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Sitges">Sitges Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Girona">Girona Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Costa%20Brava">Costa Brava Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Emporda">Emporda Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Cadaqués">Cadaqués</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/projects/">Our Projects</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service/">Terms of Service</a></li>
+                    <li><a href="/contact/">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Professional Credentials Section -->
+        <div class="footer-credentials">
+            <div class="credentials-container">
+                <div class="credentials-logos">
+                    <img src="../assets/images/api119bmow.png" 
+                         alt="API Professional Association" 
+                         class="credential-logo"
+                         loading="lazy"
+                         onerror="this.src='assets/images/api119bmow.png'">
+                    <img src="../assets/images/aicat.png" 
+                         alt="AICAT Registry" 
+                         class="credential-logo"
+                         loading="lazy"
+                         onerror="this.src='assets/images/aicat.png'">
+                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         alt="Concierge Auctions Agent" 
+                         class="credential-logo"
+                         loading="lazy"
+                         onerror="this.src='assets/images/concierge-auctions-agent-sitges-barcelona-spain.png'">
+                    <img src="../assets/images/realtor-sitges.jpg" 
+                         alt="Realtor Sitges" 
+                         class="credential-logo"
+                         loading="lazy"
+                         onerror="this.src='assets/images/realtor-sitges.jpg'">
+                </div>
+                <div class="credentials-info">
+                    <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
+                    <p>© VERV.ONE – All rights reserved | Wood Side S.L. | AICAT 12717 | API 1190</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="footer-copyright">
+                © 2024 VERV ONE. All rights reserved. Wood Side S.L | Signature Estates & Advisory
+            </p>
         </div>
     </footer>
 
-    <script>
-        // Global variables
-        let allProperties = [];
-        let displayedProperties = [];
-        let currentSort = 'newest';
+    <!-- Chat Widgets Container - WhatsApp only in footer left -->
+    <div class="chat-widgets-container">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/34657271220" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Contact via WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+            </svg>
+            <span class="whatsapp-text">WhatsApp</span>
+        </a>
+    </div>
 
-        // Mobile menu functionality
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+    <!-- Properties Page Specific JavaScript -->
+    <script>
+        let allProperties = [];
+        let filteredProperties = [];
+        let currentView = 'grid';
+
+        // Initialize mobile menu functionality
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isActive = navMenu.classList.contains('active');
+                    navMenu.classList.toggle('active');
+                    this.textContent = isActive ? '☰' : '✕';
+                    this.setAttribute('aria-expanded', !isActive);
+                    document.body.style.overflow = isActive ? '' : 'hidden';
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            mobileMenuToggle.textContent = '☰';
+                            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 VERV ONE Properties page loaded, initializing...');
+            
+            // Initialize components
+            initMobileMenu();
+            initFooterLogos();
+            
+            await loadProperties();
+            initializeFilters();
+            initializeViewToggle();
+            
+            // Show content after everything is loaded
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('properties-content').style.display = 'block';
         });
 
-        // The Noun Project style icons for property types
-        const propertyTypeIcons = {
-            'Villa': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
-                <path d="M50 15L15 40v40h20V60h30v20h20V40L50 15zm-15 50h-15V45l15-10v20zm20 0V45l15-10v20H55z"/>
-                <path d="M35 65h5v10h-5zm15 0h5v10h-5zm15 0h5v10h-5z"/>
-                <rect x="25" y="45" width="4" height="4"/>
-                <rect x="35" y="45" width="4" height="4"/>
-                <rect x="61" y="45" width="4" height="4"/>
-                <rect x="71" y="45" width="4" height="4"/>
-            </svg>`,
+        // Initialize footer logos
+        function initFooterLogos() {
+            console.log('🖼️ Initializing footer logos...');
             
-            'Apartment': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
-                <rect x="20" y="20" width="60" height="60" stroke="currentColor" stroke-width="2" fill="none"/>
-                <rect x="25" y="25" width="8" height="8" fill="currentColor"/>
-                <rect x="35" y="25" width="8" height="8" fill="currentColor"/>
-                <rect x="45" y="25" width="8" height="8" fill="currentColor"/>
-                <rect x="55" y="25" width="8" height="8" fill="currentColor"/>
-                <rect x="65" y="25" width="8" height="8" fill="currentColor"/>
-                <rect x="25" y="35" width="8" height="8" fill="currentColor"/>
-                <rect x="65" y="35" width="8" height="8" fill="currentColor"/>
-                <rect x="25" y="45" width="8" height="8" fill="currentColor"/>
-                <rect x="65" y="45" width="8" height="8" fill="currentColor"/>
-                <rect x="25" y="55" width="8" height="8" fill="currentColor"/>
-                <rect x="35" y="55" width="8" height="8" fill="currentColor"/>
-                <rect x="45" y="55" width="8" height="8" fill="currentColor"/>
-                <rect x="55" y="55" width="8" height="8" fill="currentColor"/>
-                <rect x="65" y="55" width="8" height="8" fill="currentColor"/>
-                <rect x="25" y="65" width="8" height="8" fill="currentColor"/>
-                <rect x="65" y="65" width="8" height="8" fill="currentColor"/>
-                <rect x="40" y="65" width="6" height="15" fill="currentColor"/>
-            </svg>`,
-            
-            'Penthouse': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
-                <path d="M50 10L20 30v50h60V30L50 10z"/>
-                <rect x="25" y="35" width="6" height="6" fill="white"/>
-                <rect x="35" y="35" width="6" height="6" fill="white"/>
-                <rect x="59" y="35" width="6" height="6" fill="white"/>
-                <rect x="69" y="35" width="6" height="6" fill="white"/>
-                <rect x="25" y="45" width="6" height="6" fill="white"/>
-                <rect x="69" y="45" width="6" height="6" fill="white"/>
-                <rect x="25" y="55" width="6" height="6" fill="white"/>
-                <rect x="69" y="55" width="6" height="6" fill="white"/>
-                <rect x="42" y="65" width="8" height="15" fill="white"/>
-                <polygon points="45,5 55,5 52,12" fill="currentColor"/>
-                <rect x="51" y="12" width="2" height="8" fill="currentColor"/>
-            </svg>`,
-            
-            'Townhouse': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
-                <rect x="15" y="30" width="25" height="50"/>
-                <rect x="40" y="25" width="25" height="55"/>
-                <rect x="65" y="30" width="20" height="50"/>
-                <polygon points="15,30 27.5,15 40,30" fill="currentColor"/>
-                <polygon points="40,25 52.5,10 65,25" fill="currentColor"/>
-                <polygon points="65,30 75,20 85,30" fill="currentColor"/>
-                <rect x="20" y="40" width="4" height="4" fill="white"/>
-                <rect x="45" y="35" width="4" height="4" fill="white"/>
-                <rect x="70" y="40" width="4" height="4" fill="white"/>
-                <rect x="20" y="50" width="4" height="4" fill="white"/>
-                <rect x="45" y="45" width="4" height="4" fill="white"/>
-                <rect x="70" y="50" width="4" height="4" fill="white"/>
-                <rect x="25" y="65" width="6" height="15" fill="white"/>
-                <rect x="49" y="65" width="6" height="15" fill="white"/>
-                <rect x="72" y="65" width="6" height="15" fill="white"/>
-            </svg>`,
-            
-            'House': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
-                <polygon points="50,15 20,40 80,40" fill="currentColor"/>
-                <rect x="25" y="40" width="50" height="40"/>
-                <rect x="30" y="50" width="6" height="6" fill="white"/>
-                <rect x="40" y="50" width="6" height="6" fill="white"/>
-                <rect x="54" y="50" width="6" height="6" fill="white"/>
-                <rect x="64" y="50" width="6" height="6" fill="white"/>
-                <rect x="42" y="65" width="8" height="15" fill="white"/>
-                <rect x="48" y="20" width="4" height="20" fill="currentColor"/>
-                <rect x="46" y="18" width="8" height="4" fill="currentColor"/>
-            </svg>`,
-            
-            'default': `<svg viewBox="0 0 100 100" class="property-icon-placeholder" fill="currentColor">
-                <path d="M50 15L20 35v40h60V35L50 15z"/>
-                <rect x="25" y="45" width="6" height="6" fill="white"/>
-                <rect x="35" y="45" width="6" height="6" fill="white"/>
-                <rect x="59" y="45" width="6" height="6" fill="white"/>
-                <rect x="69" y="45" width="6" height="6" fill="white"/>
-                <rect x="42" y="60" width="8" height="15" fill="white"/>
-            </svg>`
-        };
-
-        // Feature icons
-        const featureIcons = {
-            'bed': `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM19 7h-8v7H9V7H2v11h1v2h2v-2h12v2h2v-2h1V7h-1zm-1 9H4V9h14v7z"/>
-            </svg>`,
-            'bath': `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M9 2C8.45 2 8 2.45 8 3s.45 1 1 1 1-.45 1-1-.45-1-1-1zM7 4c-.55 0-1 .45-1 1v3H4c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2h-2V5c0-.55-.45-1-1-1s-1 .45-1 1v3H8V5c0-.55-.45-1-1-1z"/>
-            </svg>`,
-            'area': `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M3 3v18h18V3H3zm16 16H5V5h14v14z"/>
-                <path d="M11 7h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2z"/>
-            </svg>`,
-            'plot': `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>`,
-            'location': `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>`
-        };
-
-        // Extract location string
-        function extractLocationString(property) {
-            console.log('Raw property object for location extraction:', property);
-            
-            let locationString = '';
-            
-            // Method 1: Direct string fields
-            if (typeof property.city === 'string' && property.city.trim()) {
-                locationString = property.city.trim();
-            } else if (typeof property.district === 'string' && property.district.trim()) {
-                locationString = property.district.trim();
-            } else if (typeof property.address === 'string' && property.address.trim()) {
-                locationString = property.address.trim();
-            }
-            
-            // Method 2: Location object parsing
-            else if (property.location && typeof property.location === 'object') {
-                const loc = property.location;
+            const credentialLogos = document.querySelectorAll('.credential-logo');
+            credentialLogos.forEach((logo, index) => {
+                logo.style.display = 'block';
+                logo.style.visibility = 'visible';
                 
-                if (typeof loc.city === 'string' && loc.city.trim()) {
-                    const city = loc.city.trim();
-                    const state = (typeof loc.state === 'string' && loc.state.trim()) ? loc.state.trim() : '';
-                    locationString = state ? `${city}, ${state}` : city;
-                } else if (typeof loc.label === 'string' && loc.label.trim()) {
-                    locationString = loc.label.trim();
-                } else if (typeof loc.name === 'string' && loc.name.trim()) {
-                    locationString = loc.name.trim();
-                } else if (typeof loc.address === 'string' && loc.address.trim()) {
-                    locationString = loc.address.trim();
-                } else if (typeof loc.formatted_address === 'string' && loc.formatted_address.trim()) {
-                    locationString = loc.formatted_address.trim();
-                }
-            }
-            
-            // Method 3: String location field
-            else if (typeof property.location === 'string' && property.location.trim()) {
-                locationString = property.location.trim();
-            }
-            
-            // Method 4: Try additional location fields from API
-            else if (property.address_components && Array.isArray(property.address_components)) {
-                // Look for locality or administrative_area_level_2 in address components
-                const cityComponent = property.address_components.find(comp => 
-                    comp.types && (comp.types.includes('locality') || comp.types.includes('administrative_area_level_2'))
-                );
-                if (cityComponent && cityComponent.long_name) {
-                    locationString = cityComponent.long_name;
-                }
-            }
-            
-            // Method 5: Check for nested location data
-            else if (property.property && property.property.location) {
-                return extractLocationString(property.property);
-            }
-            
-            // Clean up and validate result - ONLY fallback if truly empty
-            if (!locationString || locationString === '' || locationString === 'null' || locationString === 'undefined') {
-                // Try to extract from title or description as last resort
-                if (property.title && typeof property.title === 'string') {
-                    const titleWords = property.title.split(' ');
-                    // Look for common Spanish city patterns
-                    const possibleCity = titleWords.find(word => 
-                        word.length > 4 && /^[A-Z][a-z]+$/.test(word)
-                    );
-                    if (possibleCity) {
-                        locationString = possibleCity;
-                    }
-                }
+                // Add error handling for broken images
+                logo.addEventListener('error', function() {
+                    console.warn(`Logo ${index + 1} failed to load:`, this.src);
+                    this.style.display = 'none';
+                });
                 
-                // If still no location found, keep it minimal
-                if (!locationString) {
-                    locationString = 'Spain'; // More specific than "Premium Location"
-                }
-            }
-            
-            if (locationString.includes('[object Object]')) {
-                locationString = 'Spain';
-            }
-            
-            console.log('Final extracted location:', locationString);
-            return locationString;
-        }
-
-        // Extract property data
-        function extractPropertyData(property) {
-            if (!property) {
-                console.log('No property provided to extract');
-                return null;
-            }
-            
-            console.log('=== EXTRACTING PROPERTY DATA ===');
-            console.log('Raw property:', property);
-            
-            // Extract location with bulletproof method
-            const locationString = extractLocationString(property);
-            
-            // Extract price with multiple fallbacks
-            let priceValue = null;
-            if (property.price !== null && property.price !== undefined) {
-                if (typeof property.price === 'number') {
-                    priceValue = property.price;
-                } else if (typeof property.price === 'object') {
-                    priceValue = property.price.value || property.price.amount || property.price.price || null;
-                } else if (typeof property.price === 'string') {
-                    const parsed = parseFloat(property.price.replace(/[^0-9.]/g, ''));
-                    priceValue = isNaN(parsed) ? null : parsed;
-                }
-            }
-            
-            // Extract property type with more comprehensive logic
-            let propertyType = 'Property'; // Default fallback
-            
-            // Method 1: Direct type field
-            if (property.type) {
-                if (typeof property.type === 'string' && property.type.trim()) {
-                    propertyType = property.type.trim();
-                } else if (property.type.label && typeof property.type.label === 'string') {
-                    propertyType = property.type.label.trim();
-                } else if (property.type.name && typeof property.type.name === 'string') {
-                    propertyType = property.type.name.trim();
-                } else if (property.type.type && typeof property.type.type === 'string') {
-                    propertyType = property.type.type.trim();
-                }
-            }
-            
-            // Method 2: Subtype field
-            else if (property.subtype) {
-                if (typeof property.subtype === 'string' && property.subtype.trim()) {
-                    propertyType = property.subtype.trim();
-                } else if (property.subtype.label && typeof property.subtype.label === 'string') {
-                    propertyType = property.subtype.label.trim();
-                } else if (property.subtype.name && typeof property.subtype.name === 'string') {
-                    propertyType = property.subtype.name.trim();
-                }
-            }
-            
-            // Method 3: Category field
-            else if (property.category) {
-                if (typeof property.category === 'string' && property.category.trim()) {
-                    propertyType = property.category.trim();
-                } else if (property.category.label && typeof property.category.label === 'string') {
-                    propertyType = property.category.label.trim();
-                }
-            }
-            
-            // Method 4: Property class or classification
-            else if (property.property_type && typeof property.property_type === 'string') {
-                propertyType = property.property_type.trim();
-            } else if (property.classification && typeof property.classification === 'string') {
-                propertyType = property.classification.trim();
-            }
-            
-            // Method 5: Try to infer from title or description
-            else if (property.title && typeof property.title === 'string') {
-                const title = property.title.toLowerCase();
-                if (title.includes('villa')) propertyType = 'Villa';
-                else if (title.includes('apartment') || title.includes('piso')) propertyType = 'Apartment';
-                else if (title.includes('penthouse') || title.includes('ático')) propertyType = 'Penthouse';
-                else if (title.includes('house') || title.includes('casa')) propertyType = 'House';
-                else if (title.includes('plot') || title.includes('terreno') || title.includes('solar')) propertyType = 'Plot';
-                else if (title.includes('townhouse') || title.includes('adosado')) propertyType = 'Townhouse';
-            }
-            
-            // Normalize property type for consistency
-            propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
-            
-            // Map common Spanish terms to English
-            const typeMapping = {
-                'Piso': 'Apartment',
-                'Casa': 'House',
-                'Chalet': 'Villa',
-                'Ático': 'Penthouse',
-                'Adosado': 'Townhouse',
-                'Terreno': 'Plot',
-                'Solar': 'Plot',
-                'Unifamiliar': 'House'
-            };
-            
-            if (typeMapping[propertyType]) {
-                propertyType = typeMapping[propertyType];
-            }
-            
-            // Extract bedrooms and bathrooms
-            let bedrooms = property.bedrooms || null;
-            let bathrooms = property.bathrooms || null;
-            
-            // Try to extract from areas array if available
-            if (Array.isArray(property.areas)) {
-                property.areas.forEach(area => {
-                    if (area.type === 1) bedrooms = bedrooms || area.number;
-                    if (area.type === 8) bathrooms = bathrooms || area.number;
+                // Add load success logging
+                logo.addEventListener('load', function() {
+                    console.log(`✅ Logo ${index + 1} loaded successfully:`, this.src);
                 });
-            }
+            });
             
-            // Extract built area
-            let builtArea = null;
-            if (property.area) {
-                builtArea = property.area.total || property.area.value || property.area.built || null;
-            } else if (property.surface) {
-                builtArea = property.surface;
-            } else if (property.built_area) {
-                builtArea = property.built_area;
-            }
-            
-            // Extract land area
-            let landArea = null;
-            if (Array.isArray(property.areas)) {
-                property.areas.forEach(area => {
-                    if ([49, 50, 51].includes(area.type) && area.area) {
-                        landArea = (landArea || 0) + area.area;
-                    }
-                });
-            } else if (property.land_area) {
-                landArea = property.land_area;
-            }
-            
-            const extractedData = {
-                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
-                title: property.title || property.reference || property.name || `${propertyType} Property`,
-                location: locationString,
-                price: priceValue,
-                type: propertyType,
-                bedrooms: bedrooms,
-                bathrooms: bathrooms,
-                builtArea: builtArea,
-                landArea: landArea,
-                description: property.description || property.title || 'Exceptional property in prime location',
-                photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || property.pictures?.[0]?.url || null,
-                is_featured: property.is_featured || false,
-                is_popular: property.is_popular || false
-            };
-            
-            console.log('=== EXTRACTED PROPERTY DATA ===');
-            console.log(extractedData);
-            console.log('================================');
-            
-            return extractedData;
+            console.log(`Found ${credentialLogos.length} credential logos`);
         }
 
-        // Render Property Card Function
-        function renderPropertyCard(property) {
-            console.log('Rendering property card:', property);
-            
-            // Format price
-            let price = 'Price on request';
-            if (property.price && property.price !== null) {
-                const priceValue = typeof property.price === 'number' ? property.price : parseInt(property.price);
-                if (!isNaN(priceValue) && priceValue > 0) {
-                    price = `€${priceValue.toLocaleString()}`;
-                }
-            }
-            
-            // Get property type icon
-            const propertyIcon = propertyTypeIcons[property.type] || propertyTypeIcons['default'];
-            
-            // Prepare features array based on property type
-            const features = [];
-            
-            // For plots, show different information
-            if (property.type === 'Plot') {
-                if (property.landArea) {
-                    features.push(`<div class="property-detail">${featureIcons.plot}<span>${property.landArea}m² plot</span></div>`);
-                }
-                features.push(`<div class="property-detail">${featureIcons.area}<span>Building plot</span></div>`);
-                if (property.builtArea) {
-                    features.push(`<div class="property-detail">${featureIcons.area}<span>${property.builtArea}m² buildable</span></div>`);
-                }
-                // Add a generic feature if we don't have much info
-                if (features.length < 2) {
-                    features.push(`<div class="property-detail">${featureIcons.location}<span>Prime location</span></div>`);
-                }
-            } else {
-                // For regular properties (Villa, Apartment, House, etc.)
-                if (property.bedrooms) {
-                    features.push(`<div class="property-detail">${featureIcons.bed}<span>${property.bedrooms} bed</span></div>`);
-                }
-                if (property.bathrooms) {
-                    features.push(`<div class="property-detail">${featureIcons.bath}<span>${property.bathrooms} bath</span></div>`);
-                }
-                if (property.builtArea) {
-                    features.push(`<div class="property-detail">${featureIcons.area}<span>${property.builtArea}m² built</span></div>`);
-                }
-                if (property.landArea) {
-                    features.push(`<div class="property-detail">${featureIcons.plot}<span>${property.landArea}m² plot</span></div>`);
-                }
-            }
-            
-            // If no features, add some placeholders
-            if (features.length === 0) {
-                features.push(`<div class="property-detail">${featureIcons.area}<span>Details available</span></div>`);
-                features.push(`<div class="property-detail">${featureIcons.location}<span>Contact for info</span></div>`);
-            }
-            
-            return `
-                <div class="property-card" data-property-id="${property.id}">
-                    <div class="property-image-container">
-                        ${property.photoUrl ? 
-                            `<img src="${property.photoUrl}" alt="${property.title}" class="property-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">${propertyIcon}</div>` :
-                            `${propertyIcon}`
-                        }
-                        <div class="property-type-badge">${property.type.toUpperCase()}</div>
-                    </div>
-                    <div class="property-info">
-                        <div class="property-location">
-                            ${featureIcons.location}
-                            <span>${property.location}</span>
-                        </div>
-                        <div class="property-price">${price}</div>
-                        <div class="property-details">
-                            ${features.join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Enhanced load properties from API with simplified error handling
+        // Load properties from API
         async function loadProperties() {
-            const loadingState = document.getElementById('loadingState');
-            const errorState = document.getElementById('errorState');
-            const propertiesGrid = document.getElementById('propertiesGrid');
-            const propertiesTitle = document.getElementById('propertiesTitle');
-            const countNumber = document.getElementById('countNumber');
-            const countNumberSmall = document.getElementById('countNumberSmall');
-            const propertiesCount = document.getElementById('propertiesCount');
-
-            // Show loading state
-            loadingState.style.display = 'block';
-            errorState.style.display = 'none';
-            propertiesCount.style.display = 'none';
-            propertiesGrid.innerHTML = '';
-
             try {
-                console.log('🔄 Loading properties from VERV ONE API...');
+                console.log('🔍 Loading properties from API...');
                 
-                // Simplified endpoint list without AbortSignal
                 const endpoints = [
                     'https://verv.one/.netlify/functions/properties?limit=50',
                     'https://www.verv.one/.netlify/functions/properties?limit=50',
@@ -1020,7 +1295,6 @@
                     try {
                         console.log(`🔍 Trying endpoint: ${endpoint}`);
                         
-                        // Simple fetch with timeout using Promise.race
                         const fetchPromise = fetch(endpoint, {
                             method: 'GET',
                             headers: {
@@ -1036,20 +1310,11 @@
                         
                         response = await Promise.race([fetchPromise, timeoutPromise]);
                         
-                        console.log(`📡 Response status: ${response.status} ${response.statusText}`);
-                        
                         if (response.ok) {
                             const text = await response.text();
-                            console.log('📄 Raw response text:', text.substring(0, 500) + '...');
-                            
-                            try {
-                                data = JSON.parse(text);
-                                console.log('✅ Successfully parsed JSON data:', data);
-                                break;
-                            } catch (parseError) {
-                                console.error('❌ JSON parsing failed:', parseError);
-                                throw new Error(`Invalid JSON response: ${parseError.message}`);
-                            }
+                            data = JSON.parse(text);
+                            console.log('✅ Successfully loaded properties:', data);
+                            break;
                         } else {
                             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                         }
@@ -1061,292 +1326,406 @@
                 }
                 
                 if (!data) {
-                    // If API fails, show sample properties for demonstration
-                    console.log('⚠️ API failed, loading sample properties for demonstration');
-                    return loadSampleProperties();
+                    throw new Error(`All API endpoints failed. Last error: ${lastError?.message || 'Unknown error'}`);
                 }
                 
                 // Handle different response formats
                 let properties = null;
-                
                 if (data.success && Array.isArray(data.properties)) {
                     properties = data.properties;
-                    console.log('✅ Found properties in data.properties');
                 } else if (data.data && Array.isArray(data.data)) {
                     properties = data.data;
-                    console.log('✅ Found properties in data.data');
                 } else if (Array.isArray(data)) {
                     properties = data;
-                    console.log('✅ Found properties as direct array');
                 } else if (data.results && Array.isArray(data.results)) {
                     properties = data.results;
-                    console.log('✅ Found properties in data.results');
-                } else {
-                    console.log('❌ Unknown data structure:', data);
-                    // Fall back to sample properties
-                    return loadSampleProperties();
                 }
-
-                if (properties && properties.length > 0) {
-                    console.log(`✅ SUCCESS! Loaded ${properties.length} properties from API`);
-                    
-                    // Process all properties with enhanced extraction
-                    allProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
-                    displayedProperties = [...allProperties];
-                    
-                    console.log('📊 Processed properties:', allProperties);
-                    
-                    // Hide loading state
-                    loadingState.style.display = 'none';
-                    
-                    // Update count in title and controls
-                    countNumber.textContent = allProperties.length;
-                    countNumberSmall.textContent = allProperties.length;
-                    propertiesCount.style.display = 'block';
-                    
-                    // Render properties
-                    renderPropertiesGrid();
-                    
-                    console.log(`🎉 Successfully rendered ${allProperties.length} properties`);
-                } else {
-                    // Fall back to sample properties
-                    return loadSampleProperties();
-                }
-
-            } catch (error) {
-                console.error('💥 Error loading properties:', error);
                 
-                // Fall back to sample properties for demonstration
-                console.log('🔄 Loading sample properties as fallback...');
-                return loadSampleProperties();
+                if (!properties || properties.length === 0) {
+                    throw new Error('No properties found in the response');
+                }
+                
+                // Process properties and log types for debugging
+                allProperties = properties.map(property => {
+                    const extracted = extractPropertyData(property);
+                    console.log(`Property: ${extracted.title} - Type: ${extracted.type}`);
+                    return property;
+                });
+                
+                filteredProperties = [...allProperties];
+                
+                console.log(`🏠 Loaded ${allProperties.length} properties`);
+                
+                // Update stats
+                document.getElementById('totalProperties').textContent = allProperties.length;
+                
+                // Display properties
+                displayProperties(filteredProperties);
+                updateResultsCount(filteredProperties.length);
+                
+            } catch (error) {
+                console.error('❌ Error loading properties:', error);
+                showEmptyState();
             }
         }
 
-        // Load sample properties for demonstration when API fails
-        function loadSampleProperties() {
-            console.log('📋 Loading sample properties for demonstration');
-            
-            const sampleProperties = [
-                {
-                    id: 'sample-1',
-                    title: 'Luxury Villa in Sitges',
-                    location: 'Sitges',
-                    price: 2500000,
-                    type: 'Villa',
-                    bedrooms: 5,
-                    bathrooms: 4,
-                    builtArea: 400,
-                    landArea: 1200,
-                    description: 'Stunning luxury villa with sea views',
-                    photoUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop',
-                    is_featured: true
-                },
-                {
-                    id: 'sample-2',
-                    title: 'Modern Apartment in Castelldefels',
-                    location: 'Castelldefels',
-                    price: 850000,
-                    type: 'Apartment',
-                    bedrooms: 3,
-                    bathrooms: 2,
-                    builtArea: 120,
-                    landArea: null,
-                    description: 'Contemporary apartment in prime location',
-                    photoUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop',
-                    is_featured: false
-                },
-                {
-                    id: 'sample-3',
-                    title: 'Penthouse with Terrace in Begur',
-                    location: 'Begur',
-                    price: 1200000,
-                    type: 'Penthouse',
-                    bedrooms: 4,
-                    bathrooms: 3,
-                    builtArea: 200,
-                    landArea: null,
-                    description: 'Exclusive penthouse with private terrace',
-                    photoUrl: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop',
-                    is_featured: true
-                },
-                {
-                    id: 'sample-4',
-                    title: 'Townhouse in Gavà',
-                    location: 'Gavà',
-                    price: 650000,
-                    type: 'Townhouse',
-                    bedrooms: 4,
-                    bathrooms: 3,
-                    builtArea: 180,
-                    landArea: 300,
-                    description: 'Beautiful townhouse with garden',
-                    photoUrl: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=600&fit=crop',
-                    is_featured: false
-                },
-                {
-                    id: 'sample-5',
-                    title: 'Building Plot in Calella de Palafrugell',
-                    location: 'Calella de Palafrugell',
-                    price: 450000,
-                    type: 'Plot',
-                    bedrooms: null,
-                    bathrooms: null,
-                    builtArea: null,
-                    landArea: 800,
-                    description: 'Prime building plot with sea views',
-                    photoUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
-                    is_featured: true
-                },
-                {
-                    id: 'sample-6',
-                    title: 'Historic House in Cadaqués',
-                    location: 'Cadaqués',
-                    price: 980000,
-                    type: 'House',
-                    bedrooms: 3,
-                    bathrooms: 2,
-                    builtArea: 150,
-                    landArea: 200,
-                    description: 'Charming house in historic fishing village',
-                    photoUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop',
-                    is_featured: false
+        // Extract property data (same as other pages)
+        function extractPropertyData(property) {
+            // Location extraction
+            let locationString = 'Costa Brava';
+            if (property.city && typeof property.city === 'object' && property.city.name) {
+                locationString = property.city.name.trim();
+            } else if (typeof property.city === 'string' && property.city.trim()) {
+                locationString = property.city.trim();
+            } else if (typeof property.district === 'string' && property.district.trim()) {
+                locationString = property.district.trim();
+            }
+
+            // Price extraction
+            let priceValue = null;
+            if (property.price !== null && property.price !== undefined) {
+                if (typeof property.price === 'number') {
+                    priceValue = property.price;
+                } else if (typeof property.price === 'object') {
+                    priceValue = property.price.value || property.price.amount || property.price.price || null;
+                } else if (typeof property.price === 'string') {
+                    const parsed = parseFloat(property.price.replace(/[^0-9.]/g, ''));
+                    priceValue = isNaN(parsed) ? null : parsed;
                 }
-            ];
-            
-            allProperties = sampleProperties;
-            displayedProperties = [...allProperties];
-            
-            // Hide loading state
-            const loadingState = document.getElementById('loadingState');
-            const errorState = document.getElementById('errorState');
-            const countNumber = document.getElementById('countNumber');
-            const countNumberSmall = document.getElementById('countNumberSmall');
-            const propertiesCount = document.getElementById('propertiesCount');
-            
-            loadingState.style.display = 'none';
-            errorState.style.display = 'none';
-            
-            // Update count in title and controls
-            countNumber.textContent = allProperties.length;
-            countNumberSmall.textContent = allProperties.length;
-            propertiesCount.style.display = 'block';
-            
-            // Add sample data indicator
-            document.querySelector('.search-results-text').textContent = 'Sample Portfolio (API Demo)';
-            
-            // Render properties
-            renderPropertiesGrid();
-            
-            console.log(`✅ Successfully loaded ${allProperties.length} sample properties`);
+            }
+
+            // Enhanced Property type extraction
+            let propertyType = 'Villa'; // Default fallback
+            if (property.type) {
+                if (typeof property.type === 'string' && property.type.trim()) {
+                    propertyType = property.type.trim();
+                } else if (property.type.label && typeof property.type.label === 'string') {
+                    propertyType = property.type.label.trim();
+                } else if (property.type.name && typeof property.type.name === 'string') {
+                    propertyType = property.type.name.trim();
+                }
+            } else if (property.subtype) {
+                if (typeof property.subtype === 'string' && property.subtype.trim()) {
+                    propertyType = property.subtype.trim();
+                } else if (property.subtype.label && typeof property.subtype.label === 'string') {
+                    propertyType = property.subtype.label.trim();
+                } else if (property.subtype.name && typeof property.subtype.name === 'string') {
+                    propertyType = property.subtype.name.trim();
+                }
+            }
+
+            // Normalize property type with enhanced mapping
+            const typeMapping = {
+                'Piso': 'Apartment',
+                'Casa': 'House',
+                'Chalet': 'Villa',
+                'Ático': 'Penthouse',
+                'Adosado': 'Townhouse',
+                'Terreno': 'Plot',
+                'Parcela': 'Plot',
+                'Solar': 'Plot',
+                'Finca': 'Villa',
+                'Masía': 'Villa',
+                'Dúplex': 'Duplex',
+                'Estudio': 'Studio',
+                'Loft': 'Loft'
+            };
+
+            if (typeMapping[propertyType]) {
+                propertyType = typeMapping[propertyType];
+            } else {
+                // Capitalize first letter and lowercase the rest
+                propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
+            }
+
+            // Extract title and description
+            let title = null;
+            let description = null;
+            if (property.comments && Array.isArray(property.comments)) {
+                const supportedLanguages = ['en', 'en_GB', 'es', 'es_ES'];
+                for (const lang of supportedLanguages) {
+                    const comment = property.comments.find(c => c.language === lang);
+                    if (comment) {
+                        title = comment.title || null;
+                        description = comment.comment || null;
+                        break;
+                    }
+                }
+            }
+            if (!title) {
+                title = property.title || property.reference || `${propertyType} in ${locationString}`;
+            }
+
+            return {
+                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
+                title,
+                description,
+                location: locationString,
+                price: priceValue,
+                currency: property.currency || 'EUR',
+                type: propertyType,
+                bedrooms: property.bedrooms || null,
+                bathrooms: property.bathrooms || null,
+                surface: property.surface || property.area?.total || property.area?.value || null,
+                images: property.photos || property.pictures || property.images || []
+            };
         }
 
-        // Render properties grid
-        function renderPropertiesGrid() {
-            const propertiesGrid = document.getElementById('propertiesGrid');
+        function formatPrice(price, currency = 'EUR') {
+            if (!price || price === 0) return 'Price on Request';
+            const numPrice = typeof price === 'string' ? parseFloat(price.replace(/[^\d.-]/g, '')) : price;
+            if (isNaN(numPrice) || numPrice <= 0) return 'Price on Request';
+            const symbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : currency;
+            return `${symbol}${numPrice.toLocaleString('en-US')}`;
+        }
+
+        function getMainImageUrl(images) {
+            if (!images || images.length === 0) {
+                return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="%23f5f5f5"/><text x="200" y="150" text-anchor="middle" fill="%23999" font-family="Arial" font-size="18">Property Image</text></svg>';
+            }
+            const mainImage = images[0];
+            if (typeof mainImage === 'string') return mainImage;
+            return mainImage.url || mainImage.src || mainImage.link || mainImage.image_url || mainImage;
+        }
+
+        function createPropertyCard(property) {
+            const data = extractPropertyData(property);
+            const imageUrl = getMainImageUrl(data.images);
             
-            if (displayedProperties.length === 0) {
-                propertiesGrid.innerHTML = `
-                    <div class="no-properties">
-                        <h3>No Properties Found</h3>
-                        <p>No properties are currently available matching your criteria.</p>
+            return `
+                <div class="property-card" onclick="viewProperty('${data.id}')">
+                    <div class="property-image-container">
+                        <img src="${imageUrl}" alt="${data.title}" class="property-image" loading="lazy">
+                        <!-- REMOVED: Property type badge -->
                     </div>
-                `;
+                    <div class="property-info">
+                        <h3 class="property-title">${data.title}</h3>
+                        <div class="property-location">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            ${data.location}
+                        </div>
+                        <div class="property-price">${formatPrice(data.price, data.currency)}</div>
+                        <div class="property-features">
+                            ${data.bedrooms ? `<div class="property-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 4v16h20V4H2zM7 14h10v4H7v-4z"/>
+                                </svg>
+                                ${data.bedrooms} bed${data.bedrooms > 1 ? 's' : ''}
+                            </div>` : ''}
+                            ${data.bathrooms ? `<div class="property-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 4V2a1 1 0 00-1-1h-2a1 1 0 00-1 1v2H4v16h16V4h-6z"/>
+                                </svg>
+                                ${data.bathrooms} bath${data.bathrooms > 1 ? 's' : ''}
+                            </div>` : ''}
+                            ${data.surface ? `<div class="property-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <path d="M9 9h6v6H9z"/>
+                                </svg>
+                                ${data.surface}m²
+                            </div>` : ''}
+                        </div>
+                        <div class="property-cta">
+                            <button class="property-btn primary" onclick="event.stopPropagation(); viewProperty('${data.id}')">View Details</button>
+                            <button class="property-btn" onclick="event.stopPropagation(); contactAboutProperty('${data.id}')">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayProperties(properties) {
+            const grid = document.getElementById('propertiesGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (properties.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
                 return;
             }
             
-            propertiesGrid.innerHTML = '';
-            
-            displayedProperties.forEach(property => {
-                const propertyHTML = renderPropertyCard(property);
-                propertiesGrid.innerHTML += propertyHTML;
-            });
-            
-            // Add click handlers to property cards
-            addPropertyClickHandlers();
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            grid.innerHTML = properties.map(property => createPropertyCard(property)).join('');
         }
 
-        // Add click handlers to property cards
-        function addPropertyClickHandlers() {
-            const propertyCards = document.querySelectorAll('.property-card');
+        function showEmptyState() {
+            document.getElementById('propertiesGrid').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+        }
+
+        function updateResultsCount(count) {
+            document.getElementById('resultsCount').textContent = `Found ${count} properties`;
+        }
+
+        // Filter functionality
+        function initializeFilters() {
+            const typeFilter = document.getElementById('typeFilter');
+            const locationFilter = document.getElementById('locationFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const clearFilters = document.getElementById('clearFilters');
+
+            typeFilter.addEventListener('change', applyFilters);
+            locationFilter.addEventListener('change', applyFilters);
+            priceFilter.addEventListener('change', applyFilters);
+            clearFilters.addEventListener('click', clearAllFilters);
+
+            // Check URL parameters for initial filters
+            applyUrlFilters();
+        }
+
+        function applyUrlFilters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const location = urlParams.get('location');
+            const type = urlParams.get('type');
+            const budget = urlParams.get('budget');
+
+            if (location) {
+                document.getElementById('locationFilter').value = location.toLowerCase();
+            }
+            if (type) {
+                document.getElementById('typeFilter').value = type.toLowerCase();
+            }
+            if (budget) {
+                document.getElementById('priceFilter').value = budget;
+            }
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
+            const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
+            const priceFilter = document.getElementById('priceFilter').value;
+
+            console.log('Applying filters:', { typeFilter, locationFilter, priceFilter });
+
+            filteredProperties = allProperties.filter(property => {
+                const data = extractPropertyData(property);
+                
+                // Debug log for type matching
+                console.log(`Property: ${data.title} - Type: "${data.type}" - Filter: "${typeFilter}"`);
+                
+                // Type filter - improved matching
+                if (typeFilter && typeFilter !== '') {
+                    const propertyType = data.type.toLowerCase();
+                    // Check exact match or partial match for better compatibility
+                    if (propertyType !== typeFilter && !propertyType.includes(typeFilter) && !typeFilter.includes(propertyType)) {
+                        console.log(`Type filter excluding: ${data.title} (${propertyType} doesn't match ${typeFilter})`);
+                        return false;
+                    }
+                }
+                
+                // Location filter - improved matching
+                if (locationFilter && locationFilter !== '') {
+                    const propertyLocation = data.location.toLowerCase();
+                    if (!propertyLocation.includes(locationFilter)) {
+                        console.log(`Location filter excluding: ${data.title} (${propertyLocation} doesn't contain ${locationFilter})`);
+                        return false;
+                    }
+                }
+                
+                // Price filter
+                if (priceFilter && priceFilter !== '' && data.price) {
+                    const price = data.price;
+                    if (priceFilter === '0-500000' && price > 500000) {
+                        console.log(`Price filter excluding: ${data.title} (${price} > 500000)`);
+                        return false;
+                    }
+                    if (priceFilter === '500000-1000000' && (price < 500000 || price > 1000000)) {
+                        console.log(`Price filter excluding: ${data.title} (${price} not in 500K-1M range)`);
+                        return false;
+                    }
+                    if (priceFilter === '1000000-2000000' && (price < 1000000 || price > 2000000)) {
+                        console.log(`Price filter excluding: ${data.title} (${price} not in 1M-2M range)`);
+                        return false;
+                    }
+                    if (priceFilter === '2000000-5000000' && (price < 2000000 || price > 5000000)) {
+                        console.log(`Price filter excluding: ${data.title} (${price} not in 2M-5M range)`);
+                        return false;
+                    }
+                    if (priceFilter === '5000000+' && price < 5000000) {
+                        console.log(`Price filter excluding: ${data.title} (${price} < 5M)`);
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+
+            console.log(`Filter results: ${filteredProperties.length} properties found`);
+            displayProperties(filteredProperties);
+            updateResultsCount(filteredProperties.length);
+        }
+
+        function clearAllFilters() {
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            document.getElementById('priceFilter').value = '';
             
-            propertyCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const propertyId = this.getAttribute('data-property-id');
+            filteredProperties = [...allProperties];
+            displayProperties(filteredProperties);
+            updateResultsCount(filteredProperties.length);
+            
+            // Update URL
+            window.history.pushState({}, '', '/properties/');
+        }
+
+        // View toggle functionality
+        function initializeViewToggle() {
+            const viewButtons = document.querySelectorAll('.view-btn');
+            viewButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    viewButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentView = this.dataset.view;
                     
-                    if (propertyId && propertyId !== 'N/A') {
-                        console.log('🔗 Navigating to property:', propertyId);
-                        window.location.href = `/single-property/?id=${propertyId}`;
+                    const grid = document.getElementById('propertiesGrid');
+                    if (currentView === 'list') {
+                        grid.style.gridTemplateColumns = '1fr';
+                    } else {
+                        grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(350px, 1fr))';
                     }
                 });
             });
         }
 
-        // Sort properties
-        function sortProperties(sortType) {
-            console.log('🔀 Sorting properties by:', sortType);
-            
-            displayedProperties.sort((a, b) => {
-                switch (sortType) {
-                    case 'price-high':
-                        return (b.price || 0) - (a.price || 0);
-                    case 'price-low':
-                        return (a.price || 0) - (b.price || 0);
-                    case 'area-large':
-                        return (b.builtArea || 0) - (a.builtArea || 0);
-                    case 'area-small':
-                        return (a.builtArea || 0) - (b.builtArea || 0);
-                    case 'oldest':
-                        return a.id.localeCompare(b.id);
-                    case 'newest':
-                    default:
-                        return b.id.localeCompare(a.id);
-                }
-            });
-            
-            renderPropertiesGrid();
+        // Property interaction functions
+        function viewProperty(propertyId) {
+            window.open(`https://verv.one/single-property/?id=${propertyId}`, '_blank');
         }
 
-        // View control handlers
-        function initializeViewControls() {
-            const listView = document.getElementById('listView');
-            const mapView = document.getElementById('mapView');
-            const sortSelect = document.getElementById('sortSelect');
-
-            listView.addEventListener('click', function() {
-                listView.classList.add('active');
-                mapView.classList.remove('active');
-                document.getElementById('propertiesGrid').style.display = 'grid';
-            });
-
-            mapView.addEventListener('click', function() {
-                mapView.classList.add('active');
-                listView.classList.remove('active');
-                // Map view placeholder
-                alert('Map view would be implemented here with Google Maps integration');
-            });
-
-            sortSelect.addEventListener('change', function() {
-                currentSort = this.value;
-                sortProperties(currentSort);
-            });
+        function contactAboutProperty(propertyId) {
+            // Open consultation modal with property pre-filled
+            window.location.href = '/contact/';
         }
 
-        // Initialize page
-        async function initializePage() {
-            console.log('🚀 VERV ONE Properties page loaded, initializing...');
-            
-            initializeViewControls();
-            
-            // Load properties immediately
-            await loadProperties();
+        // Analytics tracking
+        function trackPropertyView(propertyId) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'view_property', {
+                    event_category: 'engagement',
+                    event_label: propertyId
+                });
+            }
         }
 
-        // Start initialization when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            initializePage();
+        function trackFilterUsage(filterType, filterValue) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'use_filter', {
+                    event_category: 'engagement',
+                    event_label: `${filterType}:${filterValue}`
+                });
+            }
         }
+
+        // Make functions globally available (removed toggleFavorite)
+        window.viewProperty = viewProperty;
+        window.contactAboutProperty = contactAboutProperty;
     </script>
 </body>
 </html>

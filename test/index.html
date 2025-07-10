@@ -22,8 +22,11 @@
     <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
     <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
     
-    <!-- Optimized Font Loading -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Updated Font Loading - Libre Baskerville & Source Sans 3 -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    
+    <!-- Vimeo Player API -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
@@ -76,7 +79,7 @@
     <meta property="og:url" id="ogUrl" content="https://www.verv.one/">
     <meta property="og:title" id="ogTitle" content="Signature Estates & Advisory">
     <meta property="og:description" id="ogDescription" content="Distinctive homes. Personal service. Trusted guidance.">
-    <meta property="og:image" content="https://verv.one/assets/images/verv-one-logo.png">
+    <meta property="og:image" content="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/verv_one_logo.svg">
     <meta property="og:site_name" content="VERV ONE">
     
     <!-- Twitter Card -->
@@ -84,7 +87,7 @@
     <meta name="twitter:url" id="twitterUrl" content="https://www.verv.one/">
     <meta name="twitter:title" id="twitterTitle" content="Signature Estates & Advisory">
     <meta name="twitter:description" id="twitterDescription" content="Distinctive homes. Personal service. Trusted guidance.">
-    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-logo.png">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/verv_one_logo.svg">
     
     <!-- Canonical URL -->
     <link rel="canonical" id="canonicalUrl" href="https://www.verv.one/">
@@ -100,11 +103,11 @@
         "url": "https://www.verv.one",
         "logo": {
             "@type": "ImageObject",
-            "url": "https://verv.one/assets/images/verv-one-logo.png",
+            "url": "https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/verv_one_logo.svg",
             "width": 400,
             "height": 300
         },
-        "image": "https://verv.one/assets/images/verv-one-logo.png",
+        "image": "https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/verv_one_logo.svg",
         "telephone": "+34 657 271 220",
         "email": "hello@verv.one",
         "foundingDate": "1998",
@@ -139,7 +142,7 @@
     }
     </script>
 
-    <!-- Optimized CSS -->
+    <!-- Updated CSS with New Fonts -->
     <style>
         /* CSS Reset and Base Styles */
         * {
@@ -149,7 +152,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #000;
             background: #fff;
@@ -205,6 +208,7 @@
             font-weight: 500;
             transition: opacity 0.3s ease;
             font-size: 0.95rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -234,7 +238,8 @@
             margin: 0 -2rem;
         }
 
-        .hero-video-container {
+        .hero-video-container,
+        .hero-background-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -243,10 +248,58 @@
             z-index: -2;
         }
 
+        .vimeo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .vimeo-container.active {
+            opacity: 1;
+        }
+
+        .vimeo-container:not(.active) {
+            opacity: 0;
+        }
+
+        .vimeo-container iframe {
+            pointer-events: none; /* Prevent interaction with video controls */
+        }
+
+        .hero-background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
         .hero-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Fallback for when videos don't load */
+        .hero-fallback-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -3;
         }
 
         .verv-hero-overlay {
@@ -270,9 +323,9 @@
         .verv-hero-slogan {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 1px;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
         }
 
         .verv-hero-tagline {
@@ -281,6 +334,7 @@
             opacity: 0.9;
             font-style: italic;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         /* NEW: Post-hero section for search and consultation */
@@ -300,10 +354,10 @@
         /* NEW: Elegant location titles */
         .elegant-title {
             font-size: 2.8rem;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 2px;
             margin-bottom: 1rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             color: #000;
         }
 
@@ -314,6 +368,7 @@
             font-weight: 300;
             font-style: italic;
             line-height: 1.5;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         /* REDESIGNED: Minimal one-line search form */
@@ -361,7 +416,7 @@
             background: transparent;
             color: #333;
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
             outline: none;
             cursor: pointer;
         }
@@ -394,7 +449,7 @@
             border-radius: 0 60px 60px 0;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
             transition: all 0.3s ease;
             white-space: nowrap;
             font-size: 0.95rem;
@@ -425,6 +480,7 @@
             color: #666;
             margin-bottom: 1.5rem;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .consultation-btn {
@@ -435,7 +491,7 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
             transition: all 0.3s ease;
             font-size: 1rem;
             text-decoration: none;
@@ -459,6 +515,7 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.15);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .pac-item {
@@ -484,6 +541,7 @@
             gap: 0.5rem;
             font-size: 0.95rem;
             color: #666;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .popular-property-feature svg {
@@ -577,13 +635,14 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .popular-property-title {
             font-size: 2.5rem; /* Made larger */
             font-weight: 400;
             margin-bottom: 1rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             color: #000;
             line-height: 1.3;
         }
@@ -595,6 +654,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .popular-property-location svg {
@@ -619,6 +679,7 @@
             gap: 0.5rem;
             font-size: 1rem; /* Made larger */
             color: #666;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .popular-property-description {
@@ -626,13 +687,14 @@
             color: #666;
             line-height: 1.6;
             margin-bottom: 2rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .popular-property-price {
             font-size: 2.2rem; /* Made larger */
-            font-weight: 600;
+            font-weight: 700;
             color: #000;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             margin-bottom: 2rem;
         }
 
@@ -649,7 +711,7 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
@@ -683,7 +745,7 @@
         .section-title {
             font-size: 2.8rem;
             margin-bottom: 1rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             color: #000;
             font-weight: 400;
         }
@@ -694,6 +756,7 @@
             max-width: 600px;
             margin: 0 auto;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         /* About Section */
@@ -715,7 +778,7 @@
         .about-content h2 {
             font-size: 2.8rem;
             margin-bottom: 2rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             color: #000;
             font-weight: 400;
         }
@@ -726,6 +789,7 @@
             color: #333;
             line-height: 1.8;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .about-features {
@@ -751,13 +815,15 @@
             font-size: 1.8rem;
             color: #000;
             margin-bottom: 0.5rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
+            font-weight: 400;
         }
 
         .about-feature p {
             font-size: 0.95rem;
             color: #666;
             margin: 0;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .about-image {
@@ -772,37 +838,6 @@
         .properties-section {
             padding: 6rem 0;
             background: #f8f9fa;
-        }
-
-        .properties-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 1rem 2rem;
-            cursor: pointer;
-            font-size: 1rem;
-            color: #666;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        .tab-button.active {
-            color: #000;
-            border-bottom-color: #000;
-        }
-
-        .tab-button:hover {
-            color: #000;
         }
 
         /* IMPROVED: Hero Featured Property - Side by side layout with no image effects */
@@ -861,22 +896,23 @@
             margin-bottom: 1rem;
             color: #666;
             font-weight: 500;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .hero-property-title {
             font-size: 2.5rem;
             font-weight: 400;
             margin-bottom: 1.5rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             color: #000;
             line-height: 1.2;
         }
 
         .hero-property-price {
             font-size: 2rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #000;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
             margin-bottom: 2rem;
         }
 
@@ -887,6 +923,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .hero-property-location svg {
@@ -900,6 +937,7 @@
             margin-bottom: 2rem;
             color: #666;
             line-height: 1.6;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         /* IMPROVED: Navigation buttons positioned over the image */
@@ -921,6 +959,7 @@
             align-items: center;
             justify-content: center;
             z-index: 10;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .hero-property-nav:hover {
@@ -1036,6 +1075,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 500;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .property-location {
@@ -1047,6 +1087,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .property-location svg {
@@ -1060,13 +1101,14 @@
             color: #666;
             margin-bottom: 0.5rem;
             opacity: 0.8;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .property-price {
             font-size: 1.4rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #000;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
         }
 
         /* Loading and Error States */
@@ -1078,6 +1120,7 @@
             color: #666;
             flex-direction: column;
             gap: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .loading-spinner {
@@ -1098,12 +1141,13 @@
             text-align: center;
             padding: 4rem 2rem;
             color: #666;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .error-state h3 {
             color: #000;
             margin-bottom: 1rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
         }
 
         .error-state p {
@@ -1124,12 +1168,13 @@
             background: white;
             border-radius: 16px;
             margin: 2rem 0;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .no-results h3 {
             color: #000;
             margin-bottom: 1rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
         }
 
         .clear-filters-btn {
@@ -1142,6 +1187,7 @@
             cursor: pointer;
             margin-top: 1rem;
             transition: all 0.3s ease;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .clear-filters-btn:hover {
@@ -1172,9 +1218,9 @@
 
         .footer-logo {
             font-size: 1.8rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            font-family: 'Lora', serif;
+            font-family: 'Libre Baskerville', serif;
         }
 
         .footer-tagline {
@@ -1182,6 +1228,7 @@
             opacity: 0.8;
             margin-bottom: 1rem;
             font-style: italic;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .footer-description {
@@ -1189,12 +1236,14 @@
             line-height: 1.6;
             opacity: 0.7;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .footer-section h3 {
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
             font-weight: 600;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .footer-links {
@@ -1211,6 +1260,7 @@
             opacity: 0.7;
             transition: opacity 0.3s ease;
             font-size: 0.95rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .footer-links a:hover {
@@ -1232,6 +1282,7 @@
             opacity: 0.7;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .footer-social a:hover {
@@ -1289,6 +1340,7 @@
             color: #ccc;
             font-size: 0.9rem;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .credentials-info p {
@@ -1306,6 +1358,7 @@
             padding-left: 2rem;
             padding-right: 2rem;
             font-weight: 300;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         /* Chat Widgets Container - WhatsApp only in footer */
@@ -1334,7 +1387,7 @@
             font-size: 14px;
             border: none;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
         .whatsapp-btn:hover {
@@ -1417,6 +1470,10 @@
             .verv-hero {
                 margin: 0 -1rem;
                 min-height: 70vh;
+            }
+
+            .vimeo-container {
+                padding: 56.25% 0 0 0 !important; /* Maintain aspect ratio on mobile */
             }
 
             .verv-hero-content {
@@ -1589,16 +1646,6 @@
                 justify-content: center;
             }
 
-            .properties-tabs {
-                gap: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .tab-button {
-                padding: 0.75rem 1rem;
-                font-size: 0.9rem;
-            }
-
             .credentials-logos {
                 gap: 2rem;
                 margin-bottom: 1rem;
@@ -1745,7 +1792,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1757,19 +1804,40 @@
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
             </ul>
             
+            <!-- Weglot Language Switcher -->
+            <div id="weglot_here"></div>
+            
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
         </nav>
     </header>
 
     <!-- Main Content -->
     <main class="page-content">
-        <!-- REDESIGNED: Clean Hero Section - Video only with minimal text -->
+        <!-- REDESIGNED: Hero Section with Vimeo Videos -->
         <section class="verv-hero">
             <div class="hero-video-container">
-                <video autoplay muted loop playsinline class="hero-video" preload="metadata">
-                    <source src="assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mov" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+                <!-- First Vimeo Video - Luxury Villa Sitges -->
+                <div id="vimeoVideo1" class="vimeo-container active" style="padding:56.25% 0 0 0;position:relative;">
+                    <iframe src="https://player.vimeo.com/video/1100287105?badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;player_id=0&amp;app_id=58479" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            title="luxury-villa-sitges">
+                    </iframe>
+                </div>
+                
+                <!-- Second Vimeo Video - Costa Brava Sailing -->
+                <div id="vimeoVideo2" class="vimeo-container" style="padding:56.25% 0 0 0;position:relative;display:none;">
+                    <iframe src="https://player.vimeo.com/video/1098898066?badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;player_id=0&amp;app_id=58479" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            title="Costa Brava Sailing Boat Real Estate Lifestyle">
+                    </iframe>
+                </div>
+                
+                <!-- Fallback Background Image -->
+                <div class="hero-fallback-image" style="background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/mas-alba.png'); display: none;"></div>
             </div>
             <div class="verv-hero-overlay"></div>
             <div class="verv-hero-content">
@@ -1861,7 +1929,7 @@
                     </div>
                 </div>
                 <div class="about-image-container">
-                    <img src="assets/images/masia-emporda.jpg" alt="Masia Emporda luxury property" class="about-image" loading="lazy">
+                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg" alt="Masia Emporda luxury property" class="about-image" loading="lazy">
                 </div>
             </div>
         </section>
@@ -1874,13 +1942,8 @@
                     <p class="section-subtitle">Exceptional spaces across Sitges, Barcelona & Costa Brava</p>
                 </div>
                 
-                <div class="properties-tabs" role="tablist">
-                    <button class="tab-button active" data-tab="featured" role="tab" aria-selected="true" aria-controls="featured-panel">DESTACADO</button>
-                    <button class="tab-button" data-tab="popular" role="tab" aria-selected="false" aria-controls="popular-panel">POPULAR</button>
-                </div>
-                
                 <!-- Hero Featured Property -->
-                <div class="hero-featured-property" id="heroFeaturedProperty" role="tabpanel" aria-labelledby="featured-tab">
+                <div class="hero-featured-property" id="heroFeaturedProperty" role="main" aria-labelledby="featured-properties">
                     <div class="loading-state">
                         <div class="loading-spinner" aria-label="Loading"></div>
                         <span>Loading featured property...</span>
@@ -1972,19 +2035,19 @@
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
-                    <img src="assets/images/api119bmow.png" 
+                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/api.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="assets/images/aicat.png" 
+                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="assets/images/realtor-sitges.jpg" 
+                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
                          class="credential-logo"
                          loading="lazy">
@@ -2075,6 +2138,7 @@
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
         let isApiLoaded = false;
+        let currentFilters = { type: '', location: '', budget: '' }; // Add filters tracking
         
         // Enhanced Noun Project style icons
         const nounProjectIcons = {
@@ -2248,8 +2312,9 @@
                             console.log(`✨ Marked as FEATURED: ${extracted.title} - €${extracted.price?.toLocaleString()}`);
                         }
                         
-                        // Mark specific property as popular (ID: 86043052)
-                        if (extracted.id === '86043052' || extracted.id === 86043052) {
+                        // FIXED: Mark specific property as popular with better ID matching
+                        if (extracted.id == '86043052' || extracted.id == 86043052 || 
+                            extracted.id === '86043052' || extracted.id === 86043052) {
                             extracted.is_popular = true;
                             popularCount++;
                             console.log(`🔥 Marked as POPULAR: ${extracted.title} (ID: ${extracted.id})`);
@@ -2327,12 +2392,26 @@
             }
         }
 
-        // ENHANCED: Extract property data with better image handling
+        // ENHANCED: Extract property data with better ID handling
         function extractPropertyData(property) {
             if (!property) return null;
             
             console.log('=== EXTRACTING PROPERTY DATA ===');
             console.log('Raw property:', property);
+            
+            // FIXED: Better ID extraction with multiple fallbacks and type conversion
+            let propertyId = null;
+            if (property.id !== null && property.id !== undefined) {
+                // Convert to string to ensure consistent handling
+                propertyId = String(property.id);
+            } else if (property.reference) {
+                propertyId = String(property.reference);
+            } else {
+                // Generate fallback ID
+                propertyId = 'prop_' + Math.random().toString(36).substr(2, 9);
+            }
+            
+            console.log('🆔 Extracted ID:', propertyId, '(type:', typeof propertyId, ')');
             
             // Extract location with multiple fallbacks
             let locationString = 'Premium Location';
@@ -2478,7 +2557,7 @@
             }
             
             const extractedData = {
-                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
+                id: propertyId, // FIXED: Use the properly extracted and converted ID
                 title: title,
                 location: locationString,
                 price: priceValue,
@@ -2523,11 +2602,7 @@
 
         // Display initial content
         function displayInitialContent() {
-            if (currentTab === 'featured') {
-                displayFeaturedProperties();
-            } else if (currentTab === 'popular') {
-                displayPopularProperties();
-            }
+            displayFeaturedProperties();
         }
 
         // Display featured properties
@@ -2555,43 +2630,6 @@
             // Show grid properties (get next 3 properties, not starting from 1)
             const gridProperties = featuredProperties.slice(1, 4); // Changed to show 3 cards
             displayGridProperties(gridProperties);
-        }
-
-        // Display popular properties
-        function displayPopularProperties() {
-            console.log('=== DISPLAYING POPULAR PROPERTIES ===');
-            
-            if (displayedProperties.length === 0) {
-                showNoResults();
-                return;
-            }
-            
-            // Look for the specific property ID first
-            let popularProperty = displayedProperties.find(p => p.id === '86043052');
-            
-            // If not found, try popular properties
-            if (!popularProperty) {
-                let popularProperties = displayedProperties.filter(p => p.is_popular);
-                if (popularProperties.length > 0) {
-                    popularProperty = popularProperties[0];
-                }
-            }
-            
-            // If still not found, use first property
-            if (!popularProperty) {
-                popularProperty = displayedProperties[0];
-            }
-            
-            console.log('Popular property to display:', popularProperty);
-            
-            // Display the popular property
-            displayPopularProperty(popularProperty);
-            
-            // Clear the grid for popular tab
-            const grid = document.getElementById('propertiesGrid');
-            if (grid) {
-                grid.innerHTML = '';
-            }
         }
 
         // IMPROVED: Display hero property with side-by-side layout, no title overlay, pristine image quality
@@ -2658,84 +2696,6 @@
                 }
                 viewProperty(property.id);
             };
-        }
-
-        // ENHANCED: Display popular property with image
-        function displayPopularProperty(property) {
-            const hero = document.getElementById('heroFeaturedProperty');
-            if (!hero || !property) return;
-            
-            let price = 'Price on request';
-            if (property.price && property.price !== null) {
-                const priceValue = typeof property.price === 'number' ? property.price : parseInt(property.price);
-                if (!isNaN(priceValue) && priceValue > 0) {
-                    price = `€${priceValue.toLocaleString()}`;
-                }
-            }
-            
-            const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
-            const locationIcon = locationIcons[property.location] || locationIcons['default'];
-            
-            const features = [];
-            if (property.bedrooms) {
-                features.push(`<div class="popular-property-feature">${featureIcons.bed} ${property.bedrooms} Bedrooms</div>`);
-            }
-            if (property.bathrooms) {
-                features.push(`<div class="popular-property-feature">${featureIcons.bath} ${property.bathrooms} Bathrooms</div>`);
-            }
-            if (property.builtArea) {
-                features.push(`<div class="popular-property-feature">${featureIcons.area} ${property.builtArea}m² Built</div>`);
-            }
-            if (property.landArea) {
-                features.push(`<div class="popular-property-feature">${featureIcons.plot} ${property.landArea}m² Plot</div>`);
-            }
-            
-            const featuresHTML = features.length > 0 ? 
-                `<div class="popular-property-features">${features.join('')}</div>` : '';
-            
-            // Create visual content with image or icon
-            let visualContent = '';
-            if (property.photoUrl && property.photoUrl.trim()) {
-                visualContent = `
-                    <div class="popular-property-visual" style="background-image: url('${property.photoUrl}'); background-size: cover; background-position: center; position: relative;">
-                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);"></div>
-                        <div style="position: relative; z-index: 2; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${propertyIcon}</div>
-                    </div>
-                `;
-            } else {
-                visualContent = `
-                    <div class="popular-property-visual">
-                        ${propertyIcon}
-                    </div>
-                `;
-            }
-            
-            hero.innerHTML = `
-                <div class="popular-property-container">
-                    ${visualContent}
-                    <div class="popular-property-content">
-                        <div class="popular-property-badge">Most Popular</div>
-                        <h3 class="popular-property-title">${property.title}</h3>
-                        <div class="popular-property-location">
-                            ${locationIcon}
-                            <span>${property.location}</span>
-                        </div>
-                        <div class="popular-property-details">
-                            ${featuresHTML}
-                        </div>
-                        <p class="popular-property-description">${property.description}</p>
-                        <div class="popular-property-price">${price}</div>
-                        <div class="popular-property-action">
-                            <button class="popular-property-btn" onclick="viewProperty('${property.id}')" aria-label="View property details">
-                                View Property
-                            </button>
-                            <button class="popular-property-btn secondary" onclick="openConsultationModal()" aria-label="Schedule consultation">
-                                Schedule Visit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
         }
 
         // Display grid properties
@@ -2871,7 +2831,7 @@
             console.log('✅ FILTERS CLEARED');
         }
 
-        // FIXED: Search functionality that redirects to /properties with filters
+        // FIXED: Search functionality with local filtering
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.minimal-search-btn');
@@ -2890,13 +2850,19 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Redirecting to /properties');
+                console.log('🔍 SEARCH TRIGGERED - Filtering properties locally');
                 
                 // Add visual feedback
                 if (searchButton) {
                     const originalText = searchButton.textContent;
                     searchButton.textContent = 'Searching...';
                     searchButton.disabled = true;
+                    
+                    // Reset button after search
+                    setTimeout(() => {
+                        searchButton.textContent = originalText;
+                        searchButton.disabled = false;
+                    }, 1000);
                 }
                 
                 // Get form elements
@@ -2929,25 +2895,15 @@
                 console.log('Budget:', budget);
                 console.log('==================');
                 
-                // Build search URL for properties page
-                let searchUrl = 'https://www.verv.one/properties/';
-                const params = new URLSearchParams();
+                // Update current filters
+                currentFilters = {
+                    type: propertyType,
+                    location: location,
+                    budget: budget
+                };
                 
-                if (propertyType && propertyType !== '') {
-                    params.append('type', propertyType);
-                }
-                if (location && location !== '') {
-                    params.append('location', location);
-                }
-                if (budget && budget !== '') {
-                    params.append('budget', budget);
-                }
-                
-                if (params.toString()) {
-                    searchUrl += '?' + params.toString();
-                }
-                
-                console.log('🔗 Redirecting to:', searchUrl);
+                // Apply filters to properties
+                applyFilters();
                 
                 // Track search event
                 if (typeof gtag !== 'undefined') {
@@ -2958,8 +2914,7 @@
                     });
                 }
                 
-                // Redirect to properties page with search parameters
-                window.location.href = searchUrl;
+                console.log('✅ Search completed - filtered properties:', displayedProperties.length);
             }
             
             // Form submit handler
@@ -2989,57 +2944,114 @@
             console.log('✅ Search functionality initialized successfully');
         }
 
+        // NEW: Apply filters to properties
+        function applyFilters() {
+            console.log('🔍 APPLYING FILTERS');
+            console.log('Current filters:', currentFilters);
+            
+            if (!allProperties.length) {
+                console.log('No properties to filter');
+                return;
+            }
+            
+            let filteredProperties = [...allProperties];
+            
+            // Filter by property type (sale/rent)
+            if (currentFilters.type && currentFilters.type !== '') {
+                filteredProperties = filteredProperties.filter(property => {
+                    if (currentFilters.type === 'sale') {
+                        return !property.for_rent && property.transaction_type !== 'rent';
+                    } else if (currentFilters.type === 'rent') {
+                        return property.for_rent || property.transaction_type === 'rent';
+                    }
+                    return true;
+                });
+                console.log(`After type filter (${currentFilters.type}):`, filteredProperties.length);
+            }
+            
+            // Filter by location
+            if (currentFilters.location && currentFilters.location !== '') {
+                filteredProperties = filteredProperties.filter(property => {
+                    const propertyLocation = property.location || '';
+                    return propertyLocation.toLowerCase().includes(currentFilters.location.toLowerCase());
+                });
+                console.log(`After location filter (${currentFilters.location}):`, filteredProperties.length);
+            }
+            
+            // Filter by budget
+            if (currentFilters.budget && currentFilters.budget !== '') {
+                filteredProperties = filteredProperties.filter(property => {
+                    const price = property.price || 0;
+                    
+                    switch (currentFilters.budget) {
+                        case '0-500k':
+                            return price <= 500000;
+                        case '500k-1m':
+                            return price > 500000 && price <= 1000000;
+                        case '1m-2m':
+                            return price > 1000000 && price <= 2000000;
+                        case '2m-5m':
+                            return price > 2000000 && price <= 5000000;
+                        case '5m-plus':
+                            return price > 5000000;
+                        default:
+                            return true;
+                    }
+                });
+                console.log(`After budget filter (${currentFilters.budget}):`, filteredProperties.length);
+            }
+            
+            displayedProperties = filteredProperties;
+            console.log('✅ Filters applied. Final count:', displayedProperties.length);
+            
+            // Reset hero property index
+            currentHeroPropertyIndex = 0;
+            
+            // Refresh display
+            displayInitialContent();
+        }
+
         // Hero property navigation
         function previousHeroProperty() {
             if (displayedProperties.length === 0) return;
             
-            let availableProperties = displayedProperties;
-            
-            if (currentTab === 'featured') {
-                const featuredProperties = displayedProperties.filter(p => p.is_featured);
-                if (featuredProperties.length > 0) {
-                    availableProperties = featuredProperties;
-                }
+            // Get featured properties for navigation
+            let featuredProperties = displayedProperties.filter(p => p.is_featured);
+            if (featuredProperties.length === 0) {
+                featuredProperties = displayedProperties.slice(0, 4);
             }
             
-            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + availableProperties.length) % availableProperties.length;
-            
-            if (currentTab === 'featured') {
-                displayHeroProperty(availableProperties[currentHeroPropertyIndex]);
-            } else {
-                displayPopularProperty(availableProperties[currentHeroPropertyIndex]);
-            }
+            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + featuredProperties.length) % featuredProperties.length;
+            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
         }
 
         function nextHeroProperty() {
             if (displayedProperties.length === 0) return;
             
-            let availableProperties = displayedProperties;
-            
-            if (currentTab === 'featured') {
-                const featuredProperties = displayedProperties.filter(p => p.is_featured);
-                if (featuredProperties.length > 0) {
-                    availableProperties = featuredProperties;
-                }
+            // Get featured properties for navigation
+            let featuredProperties = displayedProperties.filter(p => p.is_featured);
+            if (featuredProperties.length === 0) {
+                featuredProperties = displayedProperties.slice(0, 4);
             }
             
-            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % availableProperties.length;
-            
-            if (currentTab === 'featured') {
-                displayHeroProperty(availableProperties[currentHeroPropertyIndex]);
-            } else {
-                displayPopularProperty(availableProperties[currentHeroPropertyIndex]);
-            }
+            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % featuredProperties.length;
+            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
         }
 
-        // View property function with correct URL format
+        // FIXED: View property function with better ID handling and debugging
         function viewProperty(propertyId) {
-            console.log('Viewing property:', propertyId);
+            console.log('🏠 VIEWING PROPERTY');
+            console.log('Property ID received:', propertyId, '(type:', typeof propertyId, ')');
+            
+            // Ensure propertyId is converted to string for consistency
+            const cleanPropertyId = String(propertyId).trim();
+            console.log('Clean Property ID:', cleanPropertyId);
             
             // Track clicks for popularity
-            if (propertyId) {
-                propertyClicks[propertyId] = (propertyClicks[propertyId] || 0) + 1;
+            if (cleanPropertyId) {
+                propertyClicks[cleanPropertyId] = (propertyClicks[cleanPropertyId] || 0) + 1;
                 localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
+                console.log('Tracking click for property:', cleanPropertyId);
             }
             
             // Track with analytics
@@ -3047,53 +3059,21 @@
                 gtag('event', 'view_item', {
                     currency: 'EUR',
                     value: 0,
-                    items: [{ item_id: propertyId, item_name: 'Property View', category: 'Properties' }]
+                    items: [{ item_id: cleanPropertyId, item_name: 'Property View', category: 'Properties' }]
                 });
             }
             
-            // Navigate with correct URL format
-            const propertyUrl = `https://verv.one/single-property/?id=${propertyId}`;
-            console.log('Navigating to:', propertyUrl);
+            // FIXED: Navigate with correct URL format and proper ID encoding
+            const propertyUrl = `https://verv.one/single-property/?id=${encodeURIComponent(cleanPropertyId)}`;
+            console.log('🔗 Navigating to:', propertyUrl);
+            
+            // Navigate to the property page
             window.location.href = propertyUrl;
         }
 
-        // Tab functionality
-        function initTabs() {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    console.log('=== TAB CLICKED ===');
-                    console.log('Tab clicked:', this.dataset.tab);
-                    
-                    // Update active states
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('active');
-                        btn.setAttribute('aria-selected', 'false');
-                    });
-                    
-                    this.classList.add('active');
-                    this.setAttribute('aria-selected', 'true');
-                    
-                    // Update current tab
-                    const newTab = this.dataset.tab;
-                    console.log('Switching from', currentTab, 'to', newTab);
-                    currentTab = newTab;
-                    currentHeroPropertyIndex = 0;
-                    
-                    if (currentTab === 'featured') {
-                        console.log('🎯 Displaying Featured properties');
-                        displayFeaturedProperties();
-                    } else if (currentTab === 'popular') {
-                        console.log('🎯 Displaying Popular properties');
-                        displayPopularProperties();
-                    }
-                    
-                    console.log('=== TAB SWITCH COMPLETE ===');
-                });
-            });
-            
-            console.log('✅ Tab functionality initialized');
+        // Simplified initialization without tabs
+        function initPropertyDisplay() {
+            console.log('✅ Property display initialized (no tabs)');
         }
 
         // Mobile menu functionality
@@ -3159,11 +3139,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 VERV ONE Homepage - Loading REAL properties only...');
             
+            // Initialize Hero Video Cycling
+            initHeroVideos();
+            
             try {
                 // Initialize core functionality first
                 console.log('1️⃣ Initializing core functionality...');
                 initHeroSearch();
-                initTabs();
+                initPropertyDisplay();
                 initMobileMenu();
                 
                 // Load ONLY real properties from API - no fallbacks to sample data
@@ -3177,6 +3160,86 @@
                 showApiError();
             }
         });
+
+        // Hero Video Management
+        function initHeroVideos() {
+            const video1 = document.getElementById('vimeoVideo1');
+            const video2 = document.getElementById('vimeoVideo2');
+            const fallbackImage = document.querySelector('.hero-fallback-image');
+            let currentVideo = 1;
+            let videoFailed = false;
+            
+            console.log('🎬 Initializing hero videos...');
+            
+            // Check if videos load properly
+            setTimeout(() => {
+                const iframe1 = video1?.querySelector('iframe');
+                const iframe2 = video2?.querySelector('iframe');
+                
+                if (!iframe1 || !iframe2) {
+                    console.log('❌ Vimeo videos failed to load, showing fallback image');
+                    showFallbackImage();
+                    return;
+                }
+                
+                // Listen for iframe load errors
+                iframe1.addEventListener('error', () => {
+                    console.log('❌ Video 1 failed to load');
+                    videoFailed = true;
+                    showFallbackImage();
+                });
+                
+                iframe2.addEventListener('error', () => {
+                    console.log('❌ Video 2 failed to load');
+                    videoFailed = true;
+                    showFallbackImage();
+                });
+                
+                console.log('✅ Videos initialized successfully');
+            }, 1000);
+            
+            // Cycle between videos every 20 seconds if they're working
+            setInterval(() => {
+                if (!videoFailed && video1 && video2) {
+                    cycleVideos();
+                }
+            }, 20000); // Change video every 20 seconds
+            
+            function cycleVideos() {
+                if (currentVideo === 1) {
+                    // Switch to video 2
+                    video1.style.display = 'none';
+                    video1.classList.remove('active');
+                    video2.style.display = 'block';
+                    video2.classList.add('active');
+                    currentVideo = 2;
+                    console.log('🎬 Switched to video 2 (Costa Brava Sailing)');
+                } else {
+                    // Switch to video 1
+                    video2.style.display = 'none';
+                    video2.classList.remove('active');
+                    video1.style.display = 'block';
+                    video1.classList.add('active');
+                    currentVideo = 1;
+                    console.log('🎬 Switched to video 1 (Luxury Villa Sitges)');
+                }
+            }
+            
+            function showFallbackImage() {
+                if (video1) {
+                    video1.style.display = 'none';
+                    video1.classList.remove('active');
+                }
+                if (video2) {
+                    video2.style.display = 'none';
+                    video2.classList.remove('active');
+                }
+                if (fallbackImage) {
+                    fallbackImage.style.display = 'block';
+                    console.log('🖼️ Showing fallback image (Mas Alba)');
+                }
+            }
+        }
 
         // Make functions global for HTML onclick handlers
         window.previousHeroProperty = previousHeroProperty;

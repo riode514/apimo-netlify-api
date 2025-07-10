@@ -1,351 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Enhanced SEO Meta Tags -->
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="googlebot" content="index, follow">
-    <meta name="revisit-after" content="7 days">
-    <meta name="geo.region" content="ES-CT">
-    <meta name="geo.placename" content="Barcelona, Sitges, Costa Brava">
-    <meta name="geo.position" content="41.385064;2.173403">
-    
-    <!-- DNS Prefetch for Performance -->
-    <link rel="dns-prefetch" href="//cdn.weglot.com">
-    <link rel="dns-prefetch" href="//player.vimeo.com">
-    <link rel="dns-prefetch" href="//properties.verv.one">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/images/verv-one-favicon.png">
-    <link rel="apple-touch-icon" href="/assets/images/verv-one-favicon.png">
-    
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-09NW5Z6Y0S', {
-        page_title: document.title,
-        page_location: window.location.href,
-        send_page_view: true,
-        custom_map: {
-          'custom_parameter_1': 'property_type',
-          'custom_parameter_2': 'location_interest'
-        }
-      });
-      
-      // Enhanced conversion tracking
-      function trackPropertyInquiry(propertyId, location, price) {
-        gtag('event', 'property_inquiry', {
-          currency: 'EUR',
-          value: price || 0,
-          property_id: propertyId,
-          location: location,
-          page_location: window.location.href
-        });
-      }
-      
-      function trackContactSubmission(formType) {
-        gtag('event', 'conversion', {
-          send_to: 'G-09NW5Z6Y0S/contact_form',
-          form_type: formType,
-          page_location: window.location.href
-        });
-      }
-      
-      // Make functions available globally
-      window.trackPropertyInquiry = trackPropertyInquiry;
-      window.trackContactSubmission = trackContactSubmission;
-    </script>
-    
-    <!-- Dynamic SEO Meta Tags (will be updated by each page) -->
-    <title id="pageTitle">VERV ONE - Luxury Real Estate in Barcelona, Sitges & Costa Brava</title>
-    <meta name="description" id="pageDescription" content="Premier luxury real estate consultancy specializing in exceptional properties across Barcelona, Sitges, and Costa Brava.">
-    <meta name="keywords" content="luxury real estate Barcelona, Sitges properties, Costa Brava villas, real estate consultancy Spain, luxury homes Barcelona, property management Sitges, international real estate, Spanish property investment">
-    <meta name="author" content="VERV ONE">
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" id="ogUrl" content="https://www.verv.one/">
-    <meta property="og:title" id="ogTitle" content="VERV ONE - Luxury Real Estate in Barcelona, Sitges & Costa Brava">
-    <meta property="og:description" id="ogDescription" content="Premier luxury real estate consultancy specializing in exceptional properties across Barcelona, Sitges, and Costa Brava.">
-    <meta property="og:image" content="https://verv.one/assets/images/verv-one-logo.png">
-    <meta property="og:site_name" content="VERV ONE">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" id="twitterUrl" content="https://www.verv.one/">
-    <meta name="twitter:title" id="twitterTitle" content="VERV ONE - Luxury Real Estate in Barcelona, Sitges & Costa Brava">
-    <meta name="twitter:description" id="twitterDescription" content="Premier luxury real estate consultancy specializing in exceptional properties across Barcelona, Sitges, and Costa Brava.">
-    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-logo.png">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" id="canonicalUrl" href="https://www.verv.one/">
-    
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Proxima+Nova:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Shared CSS -->
-    <link rel="stylesheet" href="/shared/styles.css">
-    
-    <!-- Weglot Translation Script -->
-    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
-    
-    <!-- Chatbase Integration -->
-    <script>
-      window.embeddedChatbotConfig = {
-        chatbotId: "SfBNzL38DcXmnHCUqNZkN",
-        domain: "www.chatbase.co"
-      }
-    </script>
-    <script
-      src="https://www.chatbase.co/embed.min.js"
-      chatbotId="SfBNzL38DcXmnHCUqNZkN"
-      domain="www.chatbase.co"
-      defer>
-    </script>
-    
-    <!-- Enhanced Real Estate Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "RealEstateAgent",
-        "name": "VERV ONE",
-        "alternateName": "Wood Side S.L.",
-        "description": "Premier luxury real estate consultancy specializing in exceptional properties across Barcelona, Sitges, and Costa Brava. Over 25 years of expertise serving international clients.",
-        "url": "https://www.verv.one",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "https://verv.one/assets/images/verv-one-logo.png",
-            "width": 400,
-            "height": 300
-        },
-        "image": "https://verv.one/assets/images/verv-one-logo.png",
-        "telephone": "+34 657 271 220",
-        "email": "hello@verv.one",
-        "foundingDate": "1998",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Carrer Oms 10",
-            "addressLocality": "Vulpellac",
-            "addressRegion": "Girona",
-            "postalCode": "17111",
-            "addressCountry": "ES"
-        },
-        "additionalProperty": {
-            "@type": "PropertyValue",
-            "name": "Secondary Office",
-            "value": "Carrer Anselm Clavé 13, Sitges 08870"
-        },
-        "areaServed": [
-            {
-                "@type": "City",
-                "name": "Barcelona",
-                "sameAs": "https://en.wikipedia.org/wiki/Barcelona"
-            },
-            {
-                "@type": "City", 
-                "name": "Sitges",
-                "sameAs": "https://en.wikipedia.org/wiki/Sitges"
-            },
-            {
-                "@type": "AdministrativeArea",
-                "name": "Costa Brava",
-                "sameAs": "https://en.wikipedia.org/wiki/Costa_Brava"
-            },
-            {
-                "@type": "City",
-                "name": "Girona",
-                "sameAs": "https://en.wikipedia.org/wiki/Girona"
-            }
-        ],
-        "serviceType": [
-            "Luxury Real Estate Sales",
-            "Property Management", 
-            "Real Estate Consultation",
-            "Project Management",
-            "Investment Advisory",
-            "International Real Estate Services"
-        ],
-        "priceRange": "€500,000-€10,000,000+",
-        "currenciesAccepted": "EUR",
-        "paymentAccepted": ["Cash", "Bank Transfer", "Mortgage"],
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "bestRating": "5",
-            "worstRating": "1",
-            "ratingCount": "127"
-        },
-        "sameAs": [
-            "https://www.linkedin.com/company/106199945",
-            "https://www.instagram.com/verv.one_",
-            "https://www.facebook.com/verv.one_"
-        ],
-        "hasCredential": [
-            {
-                "@type": "EducationalOccupationalCredential",
-                "credentialCategory": "Professional License",
-                "name": "AICAT Registry",
-                "identifier": "12717"
-            },
-            {
-                "@type": "EducationalOccupationalCredential", 
-                "credentialCategory": "Professional License",
-                "name": "API Professional Association",
-                "identifier": "1190"
-            },
-            {
-                "@type": "EducationalOccupationalCredential",
-                "credentialCategory": "Professional Certification",
-                "name": "REALTOR® Member"
-            }
-        ],
-        "knowsAbout": [
-            "Luxury Real Estate",
-            "Barcelona Properties",
-            "Sitges Real Estate",
-            "Costa Brava Villas",
-            "International Property Investment",
-            "Spanish Property Law",
-            "Real Estate Project Management"
-        ]
-    }
-    </script>
-</head>
-<body>
-    <!-- Header Navigation -->
-    <header class="header-nav">
-        <nav class="nav-container">
-            <a href="/" class="logo-link">
-                <svg width="180" height="90" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="logo">
-                    <rect width="800" height="400" fill="transparent"/>
-                    <text x="400" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="#000">VERV ONE</text>
-                    <text x="400" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="#666">Fine Property & Project Consultancy</text>
-                </svg>
-            </a>
-            
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="/" class="nav-link" data-page="home">Home</a></li>
-                <li><a href="/about/" class="nav-link" data-page="about">About</a></li>
-                <li><a href="/how-we-work/" class="nav-link" data-page="how-we-work">How we work</a></li>
-                <li><a href="/properties/" class="nav-link" data-page="properties">Properties</a></li>
-                <li><a href="/projects/" class="nav-link" data-page="projects">Projects</a></li>
-                <li><a href="/contact/" class="nav-link" data-page="contact">Contact</a></li>
-                <li><div id="weglot-container"></div></li>
-            </ul>
-            
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
-        </nav>
-    </header>
+<!-- Header Navigation -->
+<header class="header-nav">
+    <nav class="nav-container">
+        <a href="/" class="logo-link">
+            <!-- Primary logo - try image first, fallback to SVG -->
+            <img src="/assets/images/verv-one-logo-portals.jpg" alt="VERV ONE" class="logo" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <svg width="180" height="90" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="logo" style="display: none;">
+                <rect width="800" height="400" fill="transparent"/>
+                <text x="400" y="220" text-anchor="middle" font-family="Inter, sans-serif" font-size="80" font-weight="700" fill="#000">VERV ONE</text>
+                <text x="400" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="#666">Fine Property & Project Consultancy</text>
+            </svg>
+        </a>
+        
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="/" class="nav-link" data-page="home">Home</a></li>
+            <li><a href="/about/" class="nav-link" data-page="about">About</a></li>
+            <li><a href="/how-we-work/" class="nav-link" data-page="how-we-work">How we work</a></li>
+            <li><a href="/properties/" class="nav-link" data-page="properties">Properties</a></li>
+            <li><a href="/projects/" class="nav-link" data-page="projects">Projects</a></li>
+            <li><a href="/contact/" class="nav-link" data-page="contact">Contact</a></li>
+            <li><div id="weglot-container"></div></li>
+        </ul>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
+    </nav>
+</header>
 
-    <!-- Consultation Modal -->
-    <div id="consultationModal" class="consultation-modal hidden">
-        <div class="consultation-modal-overlay" onclick="closeConsultationModal()"></div>
-        <div class="consultation-modal-content">
-            <div class="consultation-modal-header">
-                <h2>Schedule Your Consultation</h2>
-                <button class="consultation-modal-close" onclick="closeConsultationModal()" aria-label="Close modal">&times;</button>
-            </div>
-            <div class="consultation-modal-body">
-                <p>Book a personalized consultation with our real estate experts. We'll discuss your property needs, preferences, and provide tailored advice for your investment journey.</p>
+<!-- Consultation Modal -->
+<div id="consultationModal" class="consultation-modal hidden">
+    <div class="consultation-modal-overlay" onclick="closeConsultationModal()"></div>
+    <div class="consultation-modal-content">
+        <div class="consultation-modal-header">
+            <h2>Schedule Your Consultation</h2>
+            <button class="consultation-modal-close" onclick="closeConsultationModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="consultation-modal-body">
+            <p>Book a personalized consultation with our real estate experts. We'll discuss your property needs, preferences, and provide tailored advice for your investment journey.</p>
+            
+            <form id="consultationForm" class="consultation-form">
+                <div class="consultation-form-row">
+                    <div class="consultation-form-group">
+                        <label for="consultationName">Full Name *</label>
+                        <input type="text" id="consultationName" name="name" required>
+                    </div>
+                    <div class="consultation-form-group">
+                        <label for="consultationEmail">Email Address *</label>
+                        <input type="email" id="consultationEmail" name="email" required>
+                    </div>
+                </div>
                 
-                <form id="consultationForm" class="consultation-form">
-                    <div class="consultation-form-row">
-                        <div class="consultation-form-group">
-                            <label for="consultationName">Full Name *</label>
-                            <input type="text" id="consultationName" name="name" required>
-                        </div>
-                        <div class="consultation-form-group">
-                            <label for="consultationEmail">Email Address *</label>
-                            <input type="email" id="consultationEmail" name="email" required>
-                        </div>
-                    </div>
-                    
-                    <div class="consultation-form-row">
-                        <div class="consultation-form-group">
-                            <label for="consultationPhone">Phone Number</label>
-                            <input type="tel" id="consultationPhone" name="phone">
-                        </div>
-                        <div class="consultation-form-group">
-                            <label for="consultationCountry">Country</label>
-                            <input type="text" id="consultationCountry" name="country">
-                        </div>
-                    </div>
-                    
+                <div class="consultation-form-row">
                     <div class="consultation-form-group">
-                        <label for="consultationInterest">I'm interested in</label>
-                        <select id="consultationInterest" name="interest">
-                            <option value="">Select an option</option>
-                            <option value="buying">Buying a property</option>
-                            <option value="selling">Selling a property</option>
-                            <option value="investment">Investment opportunities</option>
-                            <option value="project">Project management</option>
-                            <option value="consultation">General consultation</option>
+                        <label for="consultationPhone">Phone Number</label>
+                        <input type="tel" id="consultationPhone" name="phone">
+                    </div>
+                    <div class="consultation-form-group">
+                        <label for="consultationCountry">Country</label>
+                        <input type="text" id="consultationCountry" name="country">
+                    </div>
+                </div>
+                
+                <div class="consultation-form-group">
+                    <label for="consultationInterest">I'm interested in</label>
+                    <select id="consultationInterest" name="interest">
+                        <option value="">Select an option</option>
+                        <option value="buying">Buying a property</option>
+                        <option value="selling">Selling a property</option>
+                        <option value="investment">Investment opportunities</option>
+                        <option value="project">Project management</option>
+                        <option value="consultation">General consultation</option>
+                    </select>
+                </div>
+                
+                <div class="consultation-form-row">
+                    <div class="consultation-form-group">
+                        <label for="consultationLocation">Preferred Location</label>
+                        <input type="text" id="consultationLocation" name="location" placeholder="Barcelona, Sitges, Costa Brava, etc.">
+                    </div>
+                    <div class="consultation-form-group">
+                        <label for="consultationBudget">Budget Range</label>
+                        <select id="consultationBudget" name="budget">
+                            <option value="">Select budget range</option>
+                            <option value="under-500k">Under €500K</option>
+                            <option value="500k-1m">€500K - €1M</option>
+                            <option value="1m-2m">€1M - €2M</option>
+                            <option value="2m-5m">€2M - €5M</option>
+                            <option value="over-5m">Over €5M</option>
                         </select>
                     </div>
-                    
-                    <div class="consultation-form-row">
-                        <div class="consultation-form-group">
-                            <label for="consultationLocation">Preferred Location</label>
-                            <input type="text" id="consultationLocation" name="location" placeholder="Barcelona, Sitges, Costa Brava, etc.">
-                        </div>
-                        <div class="consultation-form-group">
-                            <label for="consultationBudget">Budget Range</label>
-                            <select id="consultationBudget" name="budget">
-                                <option value="">Select budget range</option>
-                                <option value="under-500k">Under €500K</option>
-                                <option value="500k-1m">€500K - €1M</option>
-                                <option value="1m-2m">€1M - €2M</option>
-                                <option value="2m-5m">€2M - €5M</option>
-                                <option value="over-5m">Over €5M</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="consultation-form-group">
-                        <label for="consultationPreferredTime">Preferred Consultation Time</label>
-                        <select id="consultationPreferredTime" name="preferredTime">
-                            <option value="">Select preferred time</option>
-                            <option value="morning">Morning (9:00 - 12:00)</option>
-                            <option value="afternoon">Afternoon (12:00 - 18:00)</option>
-                            <option value="evening">Evening (18:00 - 20:00)</option>
-                            <option value="flexible">I'm flexible</option>
-                        </select>
-                    </div>
-                    
-                    <div class="consultation-form-group">
-                        <label for="consultationMessage">Tell us about your requirements</label>
-                        <textarea id="consultationMessage" name="message" placeholder="Share details about your property needs, timeline, specific requirements, or any questions you have..." rows="4"></textarea>
-                    </div>
-                    
-                    <div class="consultation-form-buttons">
-                        <button type="button" onclick="closeConsultationModal()" class="consultation-btn-secondary">Cancel</button>
-                        <button type="submit" class="consultation-btn-primary">Schedule Consultation</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <div class="consultation-form-group">
+                    <label for="consultationPreferredTime">Preferred Consultation Time</label>
+                    <select id="consultationPreferredTime" name="preferredTime">
+                        <option value="">Select preferred time</option>
+                        <option value="morning">Morning (9:00 - 12:00)</option>
+                        <option value="afternoon">Afternoon (12:00 - 18:00)</option>
+                        <option value="evening">Evening (18:00 - 20:00)</option>
+                        <option value="flexible">I'm flexible</option>
+                    </select>
+                </div>
+                
+                <div class="consultation-form-group">
+                    <label for="consultationMessage">Tell us about your requirements</label>
+                    <textarea id="consultationMessage" name="message" placeholder="Share details about your property needs, timeline, specific requirements, or any questions you have..." rows="4"></textarea>
+                </div>
+                
+                <div class="consultation-form-buttons">
+                    <button type="button" onclick="closeConsultationModal()" class="consultation-btn-secondary">Cancel</button>
+                    <button type="submit" class="consultation-btn-primary">Schedule Consultation</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <!-- Enhanced WhatsApp Floating Button -->
-    <div class="chat-widgets-container">
-        <a href="https://wa.me/34657271220" target="_blank" class="whatsapp-float">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-            </svg>
-            <span class="whatsapp-text">WhatsApp</span>
-        </a>
-    </div>
-
-    <!-- Shared JavaScript -->
-    <script src="/shared/navigation.js"></script>
-</body>
-</html>
+<!-- Enhanced WhatsApp Floating Button -->
+<div class="chat-widgets-container">
+    <a href="https://wa.me/34657271220" target="_blank" class="whatsapp-float">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+        </svg>
+        <span class="whatsapp-text">WhatsApp</span>
+    </a>
+</div>
