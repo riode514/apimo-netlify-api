@@ -198,17 +198,21 @@
         .agent-image-container {
             flex-shrink: 0;
             order: 1; /* Ensure it appears first */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .agent-image {
-            width: 350px;
-            height: 420px;
-            object-fit: contain; /* Changed from 'cover' to show full image */
+            max-width: 350px;
+            max-height: 420px;
+            width: auto;
+            height: auto;
+            object-fit: none; /* Show image at natural size */
             border-radius: 12px;
             filter: grayscale(100%);
             transition: filter 0.3s ease;
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-            background: #f8f9fa; /* Add light background for any empty space */
         }
 
         .agent-image:hover {
@@ -830,8 +834,11 @@
             }
 
             .agent-image {
-                width: 250px;
-                height: 300px;
+                max-width: 250px;
+                max-height: 300px;
+                width: auto;
+                height: auto;
+                object-fit: none; /* Show full image on mobile too */
             }
 
             .credentials-logos {
@@ -903,6 +910,7 @@
             .agent-image {
                 width: 200px;
                 height: 240px;
+                object-fit: contain; /* Show full image on extra small screens too */
             }
         }
 
