@@ -1,19 +1,4 @@
-/* Chatbase widget positioning */
-        #chatbase-bubble-window {
-            bottom: 30px !important;
-            right: 30px !important;
-            z-index: 1000 !important;
-        }
-
-        #chatbase-bubble-button {
-            bottom: 30px !important;
-            right: 30px !important;
-            z-index: 1000 !important;
-        }
-
-        .chatbase-chat-iframe {
-            z-index: 1001 !important;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -94,6 +79,23 @@
     </script>
     
     <style>
+        /* Chatbase widget positioning */
+        #chatbase-bubble-window {
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 1000 !important;
+        }
+
+        #chatbase-bubble-button {
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 1000 !important;
+        }
+
+        .chatbase-chat-iframe {
+            z-index: 1001 !important;
+        }
+
         /* Reset and Base Styles */
         * {
             margin: 0;
@@ -974,7 +976,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE Logo" class="logo">
+                <img src="../assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -984,6 +986,7 @@
                 <li><a href="/properties/" class="nav-link">Properties</a></li>
                 <li><a href="/projects/" class="nav-link">Projects</a></li>
                 <li><a href="/contact/" class="nav-link active">Contact</a></li>
+                <li><div id="weglot-container"></div></li>
             </ul>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
@@ -995,7 +998,7 @@
         <div class="contact-hero-content fade-in">
             <!-- Agent Image - Now positioned on the left -->
             <div class="agent-image-container">
-                <img src="assets/images/ronei-kolesny-realtor-sitges-contact.png" alt="Ronei Kolesny - VERV ONE Real Estate Expert" class="agent-image">
+                <img src="../assets/images/ronei-kolesny-realtor-sitges-contact.png" alt="Ronei Kolesny - VERV ONE Real Estate Expert" class="agent-image">
             </div>
             
             <!-- Contact Hero Text - Now positioned on the right -->
@@ -1219,26 +1222,22 @@
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
-                    <img src="assets/images/api119bmow.png" 
+                    <img src="../assets/images/api119bmow.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
-                         loading="lazy"
-                         style="display: block !important;">
-                    <img src="assets/images/aicat.png" 
+                         loading="lazy">
+                    <img src="../assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
-                         loading="lazy"
-                         style="display: block !important;">
-                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         loading="lazy">
+                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
-                         loading="lazy"
-                         style="display: block !important;">
-                    <img src="assets/images/realtor-sitges.jpg" 
+                         loading="lazy">
+                    <img src="../assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
                          class="credential-logo"
-                         loading="lazy"
-                         style="display: block !important;">
+                         loading="lazy">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
