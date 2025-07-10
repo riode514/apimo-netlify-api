@@ -79,6 +79,19 @@
             object-fit: contain;
         }
 
+        .logo-fallback {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000;
+            text-decoration: none;
+            letter-spacing: -1px;
+            height: 95px;
+            display: none;
+            align-items: center;
+            line-height: 1;
+        }
+
         .nav-menu {
             display: flex;
             list-style: none;
@@ -942,7 +955,12 @@
                 <img src="assets/images/verv_one_logo.svg" 
                      alt="VERV ONE Logo" 
                      class="logo"
-                     onerror="console.error('Header logo not found: assets/images/verv_one_logo.svg')">
+                     id="headerLogo"
+                     onerror="handleHeaderLogoError(this)"
+                     style="display: block;">
+                <div class="logo-fallback" id="logoFallback">
+                    VERV ONE
+                </div>
             </a>
             
             <ul class="nav-menu" id="navMenu">
