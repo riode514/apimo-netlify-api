@@ -3,151 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties | VERV ONE - Premium Real Estate Costa Brava</title>
     
-    <!-- Enhanced SEO Meta Tags -->
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="googlebot" content="index, follow">
-    <meta name="revisit-after" content="7 days">
-    <meta name="geo.region" content="ES-CT">
-    <meta name="geo.placename" content="Barcelona, Sitges, Costa Brava">
-    <meta name="geo.position" content="41.385064;2.173403">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover premium properties for sale across Barcelona, Sitges, and Costa Brava. Luxury villas, apartments, and exclusive real estate opportunities with VERV ONE.">
+    <meta name="keywords" content="Properties Barcelona, Sitges real estate, Costa Brava properties, luxury homes Spain, VERV ONE properties">
+    <meta name="author" content="VERV ONE">
     
-    <!-- DNS Prefetch for Performance -->
-    <link rel="dns-prefetch" href="//cdn.weglot.com">
-    <link rel="dns-prefetch" href="//properties.verv.one">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Properties | VERV ONE - Premium Real Estate Costa Brava">
+    <meta property="og:description" content="Discover premium properties for sale across Barcelona, Sitges, and Costa Brava. Luxury villas, apartments, and exclusive real estate opportunities.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://verv.one/properties/">
+    <meta property="og:image" content="https://verv.one/assets/images/verv-one-properties-og.jpg">
     
-    <!-- Updated Favicon -->
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Properties | VERV ONE - Premium Real Estate Costa Brava">
+    <meta name="twitter:description" content="Discover premium properties for sale across Barcelona, Sitges, and Costa Brava. Luxury villas, apartments, and exclusive real estate opportunities.">
+    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-properties-og.jpg">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
     <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
     
-    <!-- Optimized Font Loading -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-09NW5Z6Y0S', {
-        page_title: document.title,
-        page_location: window.location.href,
-        send_page_view: true,
-        custom_map: {
-          'custom_parameter_1': 'property_type',
-          'custom_parameter_2': 'location_interest'
-        }
-      });
-      
-      // Enhanced conversion tracking
-      function trackPropertyInquiry(propertyId, location, price) {
-        gtag('event', 'property_inquiry', {
-          currency: 'EUR',
-          value: price || 0,
-          property_id: propertyId,
-          location: location,
-          page_location: window.location.href
-        });
-      }
-      
-      function trackContactSubmission(formType) {
-        gtag('event', 'conversion', {
-          send_to: 'G-09NW5Z6Y0S/contact_form',
-          form_type: formType,
-          page_location: window.location.href
-        });
-      }
-      
-      // Make functions available globally
-      window.trackPropertyInquiry = trackPropertyInquiry;
-      window.trackContactSubmission = trackContactSubmission;
-    </script>
-    
-    <!-- Page-specific Meta Tags -->
-    <title id="pageTitle">About VERV ONE - Premier Real Estate Consultancy | Barcelona, Sitges & Costa Brava</title>
-    <meta name="description" id="pageDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava. Our story, mission, and commitment to exceptional service.">
-    <meta name="keywords" content="about VERV ONE, real estate consultancy Barcelona, luxury property experts Sitges, Costa Brava real estate experience, Wood Side SL history">
-    <meta name="author" content="VERV ONE">
-    
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" id="ogUrl" content="https://www.verv.one/about/">
-    <meta property="og:title" id="ogTitle" content="About VERV ONE - Premier Real Estate Consultancy">
-    <meta property="og:description" id="ogDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava.">
-    <meta property="og:image" content="https://verv.one/assets/images/verv-one-logo.png">
-    <meta property="og:site_name" content="VERV ONE">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" id="twitterUrl" content="https://www.verv.one/about/">
-    <meta name="twitter:title" id="twitterTitle" content="About VERV ONE - Premier Real Estate Consultancy">
-    <meta name="twitter:description" id="twitterDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava.">
-    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-logo.png">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" id="canonicalUrl" href="https://www.verv.one/about/">
-    
-    <!-- Enhanced Real Estate Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "RealEstateAgent",
-        "name": "VERV ONE",
-        "alternateName": "Wood Side S.L.",
-        "description": "Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.",
-        "url": "https://www.verv.one",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "https://verv.one/assets/images/verv-one-logo.png",
-            "width": 400,
-            "height": 300
-        },
-        "image": "https://verv.one/assets/images/verv-one-logo.png",
-        "telephone": "+34 657 271 220",
-        "email": "hello@verv.one",
-        "foundingDate": "1998",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Carrer Oms 10",
-            "addressLocality": "Vulpellac",
-            "addressRegion": "Girona",
-            "postalCode": "17111",
-            "addressCountry": "ES"
-        },
-        "areaServed": [
-            {
-                "@type": "City",
-                "name": "Barcelona"
-            },
-            {
-                "@type": "City", 
-                "name": "Sitges"
-            },
-            {
-                "@type": "AdministrativeArea",
-                "name": "Costa Brava"
-            }
-        ],
-        "serviceType": [
-            "Luxury Real Estate Sales",
-            "Property Management", 
-            "Real Estate Consultation",
-            "Investment Advisory"
-        ]
-    }
-    </script>
-
-    <!-- Weglot Translation -->
-    <script src="https://cdn.weglot.com/weglot.min.js"></script>
-    <script>
-        Weglot.initialize({ api_key: "wg_eecebd448eae266139b949ca538854046" });
-    </script>
-
-    <!-- Optimized CSS -->
+    <!-- Combined Styles -->
     <style>
-        /* CSS Reset and Base Styles */
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -155,21 +41,14 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            color: #000;
-            background: #fff;
-            padding: 0 2rem;
-            overflow-x: hidden;
+            color: #333;
+            background: white;
+            padding-top: 0; /* Remove padding since we have header */
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* HEADER - Same as homepage */
+        /* HEADER STYLES FROM HOMEPAGE */
         .header-nav {
             background: #ffffff;
             position: fixed;
@@ -226,219 +105,12 @@
             color: #000;
         }
 
-        /* ABOUT PAGE SPECIFIC STYLES */
-        .page-content {
-            margin-top: 120px; /* Account for fixed header */
-        }
-
-        .inner-hero {
-            position: relative;
-            height: 60vh;
-            min-height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            margin: 0 -2rem;
-            background: url('../assets/images/costa-brava.jpg') center/cover no-repeat;
-            background-attachment: fixed;
-        }
-
-        .inner-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
-        }
-
-        .inner-hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .inner-hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-            font-weight: 400;
-        }
-
-        .inner-hero p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-
-        .content-section {
-            padding: 6rem 0;
-            background: #fff;
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-            color: #000;
-            font-weight: 400;
-        }
-
-        .section-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-            font-weight: 300;
-        }
-
-        .about-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
-            margin-bottom: 5rem;
-        }
-
-        .about-content h2 {
-            font-size: 2.8rem;
-            margin-bottom: 2rem;
-            font-family: 'Lora', serif;
-            color: #000;
-            font-weight: 400;
-        }
-
-        .about-content p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: #333;
-            line-height: 1.8;
-            font-weight: 300;
-        }
-
-        .about-image-container {
-            position: relative;
-        }
-
-        .about-image {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-
-        .content-card {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 16px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .content-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .content-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-            color: #000;
-        }
-
-        .content-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .about-feature {
-            text-align: center;
-            padding: 2rem;
-            background: #fff;
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .about-feature:hover {
-            transform: translateY(-4px);
-        }
-
-        .about-feature h3 {
-            font-size: 1.3rem;
-            color: #000;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-        }
-
-        .about-feature p {
-            font-size: 0.95rem;
-            color: #666;
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        /* CTA Buttons */
-        button, .btn {
-            background: #000;
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        button:hover, .btn:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        /* Footer - Same as homepage */
+        /* FOOTER STYLES FROM HOMEPAGE */
         .footer {
             background: #000;
             color: white;
             padding: 4rem 0 1rem;
-            margin: 0 -2rem;
+            margin-top: 4rem;
         }
 
         .footer-content {
@@ -529,7 +201,6 @@
             height: 22px;
         }
 
-        /* Footer Credentials */
         .footer-credentials {
             background: #000;
             padding: 2rem 0;
@@ -633,13 +304,461 @@
         .whatsapp-text {
             white-space: nowrap;
         }
+        
+        /* Properties Page Specific Styles */
+        
+        /* Properties Hero Section */
+        .properties-hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 180px 20px 80px; /* Increased top padding for header */
+            text-align: center;
+        }
 
-        /* Mobile Responsive Design */
+        .properties-hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .properties-hero-title {
+            font-family: 'Lora', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .properties-hero-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .properties-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Lora', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: white;
+            padding: 40px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filters-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .filter-select, .filter-input {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #000;
+            background: white;
+            transition: border-color 0.3s ease;
+            min-width: 150px;
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .filter-input::placeholder {
+            color: #999;
+        }
+
+        .clear-filters {
+            background: transparent;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters:hover {
+            border-color: #999;
+            color: #000;
+        }
+
+        .filters-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .view-btn {
+            background: transparent;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .view-btn.active {
+            background: white;
+            color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .results-count {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Properties Grid */
+        .properties-section {
+            padding: 60px 20px;
+            background: white;
+        }
+
+        .properties-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .property-image-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .property-card:hover .property-image {
+            transform: scale(1.05);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+            letter-spacing: 0.5px;
+        }
+
+        .property-favorite {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .property-favorite:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        .property-info {
+            padding: 30px 25px;
+        }
+
+        .property-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .property-location {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .property-location svg {
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
+
+        .property-price {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 15px;
+            letter-spacing: -0.01em;
+        }
+
+        .property-features {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .property-feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .property-feature svg {
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
+
+        .property-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .property-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .property-btn.primary {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        .property-btn.primary:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        .property-btn:not(.primary):hover {
+            border-color: #999;
+            color: #000;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .empty-state-cta {
+            background: #000;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .empty-state-cta:hover {
+            background: #333;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 60px;
+        }
+
+        .pagination-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #999;
+            color: #000;
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-btn.active {
+            background: #000;
+            color: white;
+            border-color: #000;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            body {
-                padding: 0 1rem;
-            }
-
             .header-nav {
                 padding: 0 1rem;
                 background: rgba(255, 255, 255, 0.95);
@@ -678,68 +797,54 @@
                 height: 70px;
             }
 
-            .page-content {
-                margin-top: 90px;
+            .properties-hero {
+                padding: 140px 20px 60px; /* Adjusted for smaller header */
             }
 
-            .inner-hero {
-                margin: 0 -1rem;
-                height: 50vh;
-                min-height: 300px;
-                background-attachment: scroll;
-            }
-
-            .inner-hero h1 {
+            .properties-hero-title {
                 font-size: 2.5rem;
             }
 
-            .inner-hero p {
-                font-size: 1.1rem;
-            }
-
-            .about-container {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .about-content h2 {
-                font-size: 2.2rem;
-            }
-
-            .about-image {
-                height: 300px;
-            }
-
-            .section-title {
-                font-size: 2.2rem;
-            }
-
-            .content-section {
-                padding: 4rem 0;
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
+            .properties-stats {
                 gap: 1.5rem;
             }
 
-            .about-features {
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .filters-left {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-right {
+                justify-content: space-between;
+            }
+
+            .properties-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 30px;
             }
 
-            .credentials-logos {
-                gap: 2rem;
-                margin-bottom: 1rem;
+            .property-features {
+                flex-wrap: wrap;
+                gap: 10px;
             }
 
-            .credential-logo {
-                height: 45px;
-                max-width: 100px;
-            }
-
-            .footer {
-                margin: 0 -1rem;
+            .property-cta {
+                flex-direction: column;
             }
 
             .footer-content {
@@ -773,59 +878,77 @@
             }
         }
 
-        /* Extra small screens */
         @media (max-width: 480px) {
-            .inner-hero h1 {
+            .properties-hero-title {
                 font-size: 2rem;
             }
 
-            .section-title {
-                font-size: 1.8rem;
+            .properties-hero-subtitle {
+                font-size: 1.1rem;
             }
 
-            .about-content h2 {
-                font-size: 1.8rem;
+            .properties-stats {
+                flex-direction: column;
+                gap: 1rem;
             }
-        }
 
-        /* Performance optimizations */
-        .about-feature,
-        .content-card {
-            will-change: transform;
-        }
+            .property-info {
+                padding: 25px 20px;
+            }
 
-        /* Accessibility improvements */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            .property-title {
+                font-size: 1.2rem;
+            }
+
+            .property-price {
+                font-size: 1.4rem;
             }
         }
 
-        /* Focus styles for accessibility */
-        .nav-link:focus,
-        button:focus {
-            outline: 2px solid #000;
-            outline-offset: 2px;
+        /* Hide content initially */
+        #properties-content {
+            display: none;
+        }
+
+        #loading {
+            display: flex;
         }
     </style>
+
+    <!-- Weglot Translation -->
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CNQV7RJKXC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-CNQV7RJKXC');
+    </script>
+
+    <!-- Chatbase Widget -->
+    <script>
+        window.embeddedChatbotConfig = {
+            chatbotId: "4hhpqfO_wy7DjPi9l6VZI",
+            domain: "www.chatbase.co"
+        }
+    </script>
+    <script src="https://www.chatbase.co/embed.min.js" chatbotId="4hhpqfO_wy7DjPi9l6VZI" domain="www.chatbase.co" defer></script>
 </head>
 <body>
     <!-- Header Navigation -->
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="../assets/images/verv-one-logo-portals.jpg" alt="VERV ONE Logo" class="logo">
+                <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
                 <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/about/" class="nav-link active">About</a></li>
+                <li><a href="/about/" class="nav-link">About</a></li>
                 <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
-                <li><a href="https://www.verv.one/properties/" class="nav-link">Properties</a></li>
+                <li><a href="https://www.verv.one/properties/" class="nav-link active">Properties</a></li>
                 <li><a href="/projects/" class="nav-link">Projects</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
             </ul>
@@ -834,100 +957,130 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <main class="page-content">
-        <!-- Hero Section -->
-        <section class="inner-hero">
-            <div class="inner-hero-content">
-                <h1>About VERV ONE</h1>
-                <p>Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava</p>
-            </div>
-        </section>
+    <main class="main-container">
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <span>Loading properties</span>
+        </div>
 
-        <!-- About Story Section -->
-        <section class="content-section">
-            <div class="section-container">
-                <div class="section-header">
-                    <h2 class="section-title">Our Story</h2>
-                    <p class="section-subtitle">Building trust through expertise, dedication, and unparalleled service</p>
-                </div>
-
-                <div class="about-container">
-                    <div class="about-content">
-                        <h2>Founded on Excellence</h2>
-                        <p>VERV ONE was established in 1998 as Wood Side S.L., with a vision to redefine luxury real estate consultancy in Catalunya. Over 25+ years, we have evolved from a local agency into a premier international consultancy, serving discerning clients from over 30 countries.</p>
-                        <p>Our journey began with a simple yet powerful commitment: to provide exceptional service that goes beyond traditional real estate transactions. Today, we stand as trusted advisors for luxury property investments across Barcelona, Sitges, and Costa Brava.</p>
-                        <p>What sets us apart is our deep understanding of both local markets and international client needs. We don't just sell properties; we curate lifestyles and create lasting relationships built on trust, expertise, and results.</p>
-                    </div>
-                    <div class="about-image-container">
-                        <img src="../assets/images/villa-mediterranean-sitges.jpg" alt="Villa Mediterranean Sitges luxury property" class="about-image" loading="lazy">
-                    </div>
-                </div>
-
-                <div class="content-grid" style="margin-top: 80px;">
-                    <div class="content-card">
-                        <h3>Our Mission</h3>
-                        <p>To provide exceptional real estate services that exceed our clients' expectations while building lasting relationships based on trust, integrity, and results.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Our Vision</h3>
-                        <p>To be the premier luxury real estate consultancy in Catalunya, recognized for our expertise, innovation, and commitment to excellence.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Our Values</h3>
-                        <p>Integrity, Excellence, Innovation, and Client Focus. These core values guide every interaction and decision we make.</p>
-                    </div>
-                </div>
-
-                <div style="margin-top: 100px; text-align: center;">
-                    <h3 style="font-size: 2.5rem; margin-bottom: 30px; font-family: 'Lora', serif;">Why Choose VERV ONE?</h3>
-                    <div class="about-features" style="max-width: 900px; margin: 0 auto;">
-                        <div class="about-feature">
-                            <h3>Local Expertise</h3>
-                            <p>Deep knowledge of Barcelona, Sitges, and Costa Brava markets with insider access to exclusive properties and off-market opportunities</p>
+        <!-- Properties Content -->
+        <div id="properties-content">
+            <!-- Properties Hero -->
+            <section class="properties-hero">
+                <div class="properties-hero-content">
+                    <h1 class="properties-hero-title">Our Portfolio</h1>
+                    <p class="properties-hero-subtitle">Discover exceptional properties across Barcelona, Sitges, and Costa Brava. Each property in our curated collection represents the finest in luxury living and investment opportunities.</p>
+                    
+                    <div class="properties-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalProperties">8</span>
+                            <span class="stat-label">Properties</span>
                         </div>
-                        <div class="about-feature">
-                            <h3>International Reach</h3>
-                            <p>Multilingual team serving clients from over 30 countries with comprehensive relocation and investment support</p>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Locations</span>
                         </div>
-                        <div class="about-feature">
-                            <h3>Proven Track Record</h3>
-                            <p>Over 25 years of excellence and 500+ successful transactions in luxury real estate across Catalunya</p>
+                        <div class="stat-item">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Property Types</span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div style="margin-top: 100px; background: #f8f8f8; padding: 80px 60px; border-radius: 20px;">
-                    <div style="text-align: center; margin-bottom: 60px;">
-                        <h3 style="font-size: 2.5rem; margin-bottom: 20px; font-family: 'Lora', serif;">Our Expert Team</h3>
-                        <p style="font-size: 1.2rem; color: #666;">Dedicated professionals with deep expertise in luxury real estate, project management, and international client services</p>
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="filters-container">
+                    <div class="filters-left">
+                        <div class="filter-group">
+                            <select id="typeFilter" class="filter-select">
+                                <option value="">All Types</option>
+                                <option value="villa">Villa</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="penthouse">Penthouse</option>
+                                <option value="house">House</option>
+                                <option value="plot">Plot</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="locationFilter" class="filter-select">
+                                <option value="">All Locations</option>
+                                <option value="barcelona">Barcelona</option>
+                                <option value="sitges">Sitges</option>
+                                <option value="girona">Girona</option>
+                                <option value="costa brava">Costa Brava</option>
+                                <option value="cadaqués">Cadaqués</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="priceFilter" class="filter-select">
+                                <option value="">All Prices</option>
+                                <option value="0-500000">Up to €500K</option>
+                                <option value="500000-1000000">€500K - €1M</option>
+                                <option value="1000000-2000000">€1M - €2M</option>
+                                <option value="2000000-5000000">€2M - €5M</option>
+                                <option value="5000000+">€5M+</option>
+                            </select>
+                        </div>
+                        
+                        <button id="clearFilters" class="clear-filters">Clear Filters</button>
                     </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
-                        <div style="text-align: center;">
-                            <h4 style="font-family: 'Lora', serif; margin-bottom: 1rem;">Multi-lingual Support</h4>
-                            <p>English, Spanish, Catalan, French, German, and more to serve our international clientele</p>
-                        </div>
-                        <div style="text-align: center;">
-                            <h4 style="font-family: 'Lora', serif; margin-bottom: 1rem;">Local Networks</h4>
-                            <p>Extensive connections with architects, contractors, legal experts, and financial advisors</p>
-                        </div>
-                        <div style="text-align: center;">
-                            <h4 style="font-family: 'Lora', serif; margin-bottom: 1rem;">Professional Credentials</h4>
-                            <p>AICAT certified, API member, REALTOR®, and Concierge Auctions partner</p>
+                    
+                    <div class="filters-right">
+                        <span class="results-count" id="resultsCount">Found 8 properties</span>
+                        
+                        <div class="view-toggle">
+                            <button class="view-btn active" data-view="grid">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                </svg>
+                            </button>
+                            <button class="view-btn" data-view="list">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <line x1="8" y1="6" x2="21" y2="6"/>
+                                    <line x1="8" y1="12" x2="21" y2="12"/>
+                                    <line x1="8" y1="18" x2="21" y2="18"/>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <div style="margin-top: 80px; text-align: center; background: linear-gradient(135deg, #000000 0%, #333333 100%); color: white; padding: 60px 40px; border-radius: 16px;">
-                    <h3 style="font-size: 2rem; font-family: 'Lora', serif;">Ready to Work with Us?</h3>
-                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Experience the VERV ONE difference. Let us help you find your perfect property or investment opportunity.</p>
-                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                        <button onclick="openConsultationModal()">Schedule Consultation</button>
-                        <a href="/contact/" class="btn" style="background: transparent; color: white; border: 1px solid white;">Contact Us</a>
+            <!-- Properties Grid -->
+            <section class="properties-section">
+                <div class="properties-container">
+                    <div class="properties-grid" id="propertiesGrid">
+                        <!-- Properties will be loaded here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="empty-state" style="display: none;">
+                        <h3>No Properties Found</h3>
+                        <p>We couldn't find any properties matching your criteria. Try adjusting your filters or browse all properties.</p>
+                        <a href="/properties/" class="empty-state-cta">View All Properties</a>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination" style="display: none;">
+                        <button class="pagination-btn" id="prevPage">&larr; Previous</button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn" id="nextPage">Next &rarr;</button>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -1004,19 +1157,19 @@
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
-                    <img src="../assets/images/api119bmow.png" 
+                    <img src="assets/images/api119bmow.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="../assets/images/aicat.png" 
+                    <img src="assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="../assets/images/realtor-sitges.jpg" 
+                    <img src="assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
                          class="credential-logo"
                          loading="lazy">
@@ -1046,9 +1199,13 @@
         </a>
     </div>
 
-    <!-- JavaScript -->
+    <!-- Properties Page Specific JavaScript -->
     <script>
-        // Mobile menu functionality
+        let allProperties = [];
+        let filteredProperties = [];
+        let currentView = 'grid';
+
+        // Initialize mobile menu functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const navMenu = document.getElementById('navMenu');
@@ -1076,35 +1233,439 @@
             }
         }
 
-        // Consultation modal
-        function openConsultationModal() {
-            console.log('Opening consultation modal...');
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 VERV ONE Properties page loaded, initializing...');
             
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'consultation_request', {
-                    source: 'about_page',
-                    method: 'schedule_form'
-                });
+            // Initialize components
+            initMobileMenu();
+            
+            await loadProperties();
+            initializeFilters();
+            initializeViewToggle();
+            
+            // Show content after everything is loaded
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('properties-content').style.display = 'block';
+        });
+
+        // Load properties from API
+        async function loadProperties() {
+            try {
+                console.log('🔍 Loading properties from API...');
+                
+                const endpoints = [
+                    'https://verv.one/.netlify/functions/properties?limit=50',
+                    'https://www.verv.one/.netlify/functions/properties?limit=50',
+                    'https://verv.one/.netlify/functions/properties'
+                ];
+                
+                let response = null;
+                let data = null;
+                let lastError = null;
+                
+                for (const endpoint of endpoints) {
+                    try {
+                        console.log(`🔍 Trying endpoint: ${endpoint}`);
+                        
+                        const fetchPromise = fetch(endpoint, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            cache: 'no-cache'
+                        });
+                        
+                        const timeoutPromise = new Promise((_, reject) => 
+                            setTimeout(() => reject(new Error('Request timeout')), 15000)
+                        );
+                        
+                        response = await Promise.race([fetchPromise, timeoutPromise]);
+                        
+                        if (response.ok) {
+                            const text = await response.text();
+                            data = JSON.parse(text);
+                            console.log('✅ Successfully loaded properties:', data);
+                            break;
+                        } else {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                    } catch (error) {
+                        lastError = error;
+                        console.log(`❌ Endpoint ${endpoint} failed:`, error.message);
+                        continue;
+                    }
+                }
+                
+                if (!data) {
+                    throw new Error(`All API endpoints failed. Last error: ${lastError?.message || 'Unknown error'}`);
+                }
+                
+                // Handle different response formats
+                let properties = null;
+                if (data.success && Array.isArray(data.properties)) {
+                    properties = data.properties;
+                } else if (data.data && Array.isArray(data.data)) {
+                    properties = data.data;
+                } else if (Array.isArray(data)) {
+                    properties = data;
+                } else if (data.results && Array.isArray(data.results)) {
+                    properties = data.results;
+                }
+                
+                if (!properties || properties.length === 0) {
+                    throw new Error('No properties found in the response');
+                }
+                
+                allProperties = properties;
+                filteredProperties = [...allProperties];
+                
+                console.log(`🏠 Loaded ${allProperties.length} properties`);
+                
+                // Update stats
+                document.getElementById('totalProperties').textContent = allProperties.length;
+                
+                // Display properties
+                displayProperties(filteredProperties);
+                updateResultsCount(filteredProperties.length);
+                
+            } catch (error) {
+                console.error('❌ Error loading properties:', error);
+                showEmptyState();
+            }
+        }
+
+        // Extract property data (same as other pages)
+        function extractPropertyData(property) {
+            // Location extraction
+            let locationString = 'Costa Brava';
+            if (property.city && typeof property.city === 'object' && property.city.name) {
+                locationString = property.city.name.trim();
+            } else if (typeof property.city === 'string' && property.city.trim()) {
+                locationString = property.city.trim();
+            } else if (typeof property.district === 'string' && property.district.trim()) {
+                locationString = property.district.trim();
+            }
+
+            // Price extraction
+            let priceValue = null;
+            if (property.price !== null && property.price !== undefined) {
+                if (typeof property.price === 'number') {
+                    priceValue = property.price;
+                } else if (typeof property.price === 'object') {
+                    priceValue = property.price.value || property.price.amount || property.price.price || null;
+                } else if (typeof property.price === 'string') {
+                    const parsed = parseFloat(property.price.replace(/[^0-9.]/g, ''));
+                    priceValue = isNaN(parsed) ? null : parsed;
+                }
+            }
+
+            // Property type extraction
+            let propertyType = 'Property';
+            if (property.type) {
+                if (typeof property.type === 'string' && property.type.trim()) {
+                    propertyType = property.type.trim();
+                } else if (property.type.label && typeof property.type.label === 'string') {
+                    propertyType = property.type.label.trim();
+                } else if (property.type.name && typeof property.type.name === 'string') {
+                    propertyType = property.type.name.trim();
+                }
+            } else if (property.subtype) {
+                if (typeof property.subtype === 'string' && property.subtype.trim()) {
+                    propertyType = property.subtype.trim();
+                } else if (property.subtype.label && typeof property.subtype.label === 'string') {
+                    propertyType = property.subtype.label.trim();
+                } else if (property.subtype.name && typeof property.subtype.name === 'string') {
+                    propertyType = property.subtype.name.trim();
+                }
+            }
+
+            // Normalize property type
+            if (propertyType && propertyType !== 'Property') {
+                propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
+                const typeMapping = {
+                    'Piso': 'Apartment',
+                    'Casa': 'House',
+                    'Chalet': 'Villa',
+                    'Ático': 'Penthouse',
+                    'Adosado': 'Townhouse',
+                    'Terreno': 'Plot'
+                };
+                if (typeMapping[propertyType]) {
+                    propertyType = typeMapping[propertyType];
+                }
+            }
+
+            // Extract title and description
+            let title = null;
+            let description = null;
+            if (property.comments && Array.isArray(property.comments)) {
+                const supportedLanguages = ['en', 'en_GB', 'es', 'es_ES'];
+                for (const lang of supportedLanguages) {
+                    const comment = property.comments.find(c => c.language === lang);
+                    if (comment) {
+                        title = comment.title || null;
+                        description = comment.comment || null;
+                        break;
+                    }
+                }
+            }
+            if (!title) {
+                title = property.title || property.reference || `${propertyType} in ${locationString}`;
+            }
+
+            return {
+                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
+                title,
+                description,
+                location: locationString,
+                price: priceValue,
+                currency: property.currency || 'EUR',
+                type: propertyType,
+                bedrooms: property.bedrooms || null,
+                bathrooms: property.bathrooms || null,
+                surface: property.surface || property.area?.total || property.area?.value || null,
+                images: property.photos || property.pictures || property.images || []
+            };
+        }
+
+        function formatPrice(price, currency = 'EUR') {
+            if (!price || price === 0) return 'Price on Request';
+            const numPrice = typeof price === 'string' ? parseFloat(price.replace(/[^\d.-]/g, '')) : price;
+            if (isNaN(numPrice) || numPrice <= 0) return 'Price on Request';
+            const symbol = currency === 'EUR' ? '€' : currency === 'USD' ? '$' : currency;
+            return `${symbol}${numPrice.toLocaleString('en-US')}`;
+        }
+
+        function getMainImageUrl(images) {
+            if (!images || images.length === 0) {
+                return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="%23f5f5f5"/><text x="200" y="150" text-anchor="middle" fill="%23999" font-family="Arial" font-size="18">Property Image</text></svg>';
+            }
+            const mainImage = images[0];
+            if (typeof mainImage === 'string') return mainImage;
+            return mainImage.url || mainImage.src || mainImage.link || mainImage.image_url || mainImage;
+        }
+
+        function createPropertyCard(property) {
+            const data = extractPropertyData(property);
+            const imageUrl = getMainImageUrl(data.images);
+            
+            return `
+                <div class="property-card" onclick="viewProperty('${data.id}')">
+                    <div class="property-image-container">
+                        <img src="${imageUrl}" alt="${data.title}" class="property-image" loading="lazy">
+                        <div class="property-badge">${data.type}</div>
+                        <button class="property-favorite" onclick="event.stopPropagation(); toggleFavorite('${data.id}')">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">${data.title}</h3>
+                        <div class="property-location">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            ${data.location}
+                        </div>
+                        <div class="property-price">${formatPrice(data.price, data.currency)}</div>
+                        <div class="property-features">
+                            ${data.bedrooms ? `<div class="property-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 4v16h20V4H2zM7 14h10v4H7v-4z"/>
+                                </svg>
+                                ${data.bedrooms} bed${data.bedrooms > 1 ? 's' : ''}
+                            </div>` : ''}
+                            ${data.bathrooms ? `<div class="property-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 4V2a1 1 0 00-1-1h-2a1 1 0 00-1 1v2H4v16h16V4h-6z"/>
+                                </svg>
+                                ${data.bathrooms} bath${data.bathrooms > 1 ? 's' : ''}
+                            </div>` : ''}
+                            ${data.surface ? `<div class="property-feature">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                    <path d="M9 9h6v6H9z"/>
+                                </svg>
+                                ${data.surface}m²
+                            </div>` : ''}
+                        </div>
+                        <div class="property-cta">
+                            <button class="property-btn primary" onclick="event.stopPropagation(); viewProperty('${data.id}')">View Details</button>
+                            <button class="property-btn" onclick="event.stopPropagation(); contactAboutProperty('${data.id}')">Contact</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayProperties(properties) {
+            const grid = document.getElementById('propertiesGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (properties.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
             }
             
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            grid.innerHTML = properties.map(property => createPropertyCard(property)).join('');
+        }
+
+        function showEmptyState() {
+            document.getElementById('propertiesGrid').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+        }
+
+        function updateResultsCount(count) {
+            document.getElementById('resultsCount').textContent = `Found ${count} properties`;
+        }
+
+        // Filter functionality
+        function initializeFilters() {
+            const typeFilter = document.getElementById('typeFilter');
+            const locationFilter = document.getElementById('locationFilter');
+            const priceFilter = document.getElementById('priceFilter');
+            const clearFilters = document.getElementById('clearFilters');
+
+            typeFilter.addEventListener('change', applyFilters);
+            locationFilter.addEventListener('change', applyFilters);
+            priceFilter.addEventListener('change', applyFilters);
+            clearFilters.addEventListener('click', clearAllFilters);
+
+            // Check URL parameters for initial filters
+            applyUrlFilters();
+        }
+
+        function applyUrlFilters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const location = urlParams.get('location');
+            const type = urlParams.get('type');
+            const budget = urlParams.get('budget');
+
+            if (location) {
+                document.getElementById('locationFilter').value = location.toLowerCase();
+            }
+            if (type) {
+                document.getElementById('typeFilter').value = type.toLowerCase();
+            }
+            if (budget) {
+                document.getElementById('priceFilter').value = budget;
+            }
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
+            const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
+            const priceFilter = document.getElementById('priceFilter').value;
+
+            filteredProperties = allProperties.filter(property => {
+                const data = extractPropertyData(property);
+                
+                // Type filter
+                if (typeFilter && data.type.toLowerCase() !== typeFilter) {
+                    return false;
+                }
+                
+                // Location filter
+                if (locationFilter && !data.location.toLowerCase().includes(locationFilter)) {
+                    return false;
+                }
+                
+                // Price filter
+                if (priceFilter && data.price) {
+                    const price = data.price;
+                    if (priceFilter === '0-500000' && price > 500000) return false;
+                    if (priceFilter === '500000-1000000' && (price < 500000 || price > 1000000)) return false;
+                    if (priceFilter === '1000000-2000000' && (price < 1000000 || price > 2000000)) return false;
+                    if (priceFilter === '2000000-5000000' && (price < 2000000 || price > 5000000)) return false;
+                    if (priceFilter === '5000000+' && price < 5000000) return false;
+                }
+                
+                return true;
+            });
+
+            displayProperties(filteredProperties);
+            updateResultsCount(filteredProperties.length);
+        }
+
+        function clearAllFilters() {
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            document.getElementById('priceFilter').value = '';
+            
+            filteredProperties = [...allProperties];
+            displayProperties(filteredProperties);
+            updateResultsCount(filteredProperties.length);
+            
+            // Update URL
+            window.history.pushState({}, '', '/properties/');
+        }
+
+        // View toggle functionality
+        function initializeViewToggle() {
+            const viewButtons = document.querySelectorAll('.view-btn');
+            viewButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    viewButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentView = this.dataset.view;
+                    
+                    const grid = document.getElementById('propertiesGrid');
+                    if (currentView === 'list') {
+                        grid.style.gridTemplateColumns = '1fr';
+                    } else {
+                        grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(350px, 1fr))';
+                    }
+                });
+            });
+        }
+
+        // Property interaction functions
+        function viewProperty(propertyId) {
+            window.open(`https://verv.one/single-property/?id=${propertyId}`, '_blank');
+        }
+
+        function toggleFavorite(propertyId) {
+            console.log('Toggle favorite:', propertyId);
+            // Implement favorite functionality
+        }
+
+        function contactAboutProperty(propertyId) {
+            // Open consultation modal with property pre-filled
             window.location.href = '/contact/';
         }
 
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE About Page - Initializing...');
-            
-            try {
-                initMobileMenu();
-                console.log('✅ About page initialization complete');
-                
-            } catch (error) {
-                console.error('❌ Error during initialization:', error);
+        // Analytics tracking
+        function trackPropertyView(propertyId) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'view_property', {
+                    event_category: 'engagement',
+                    event_label: propertyId
+                });
             }
-        });
+        }
 
-        // Make functions global for HTML onclick handlers
-        window.openConsultationModal = openConsultationModal;
+        function trackFilterUsage(filterType, filterValue) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'use_filter', {
+                    event_category: 'engagement',
+                    event_label: `${filterType}:${filterValue}`
+                });
+            }
+        }
+
+        // Make functions globally available
+        window.viewProperty = viewProperty;
+        window.toggleFavorite = toggleFavorite;
+        window.contactAboutProperty = contactAboutProperty;
     </script>
 </body>
 </html>
