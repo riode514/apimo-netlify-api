@@ -861,41 +861,6 @@
             background: rgba(0,0,0,0.7);
         }
 
-        /* Back Button */
-        .back-button {
-            position: fixed;
-            top: 140px;
-            left: 40px;
-            background: rgba(255,255,255,0.9);
-            border: 1px solid #e0e0e0;
-            color: #000;
-            padding: 12px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .back-button:hover {
-            background: rgba(255,255,255,1);
-            transform: translateX(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            color: #000;
-            text-decoration: none;
-        }
-
-        .back-button svg {
-            width: 16px;
-            height: 16px;
-        }
-
         /* Hide content initially to prevent flash */
         #property-content {
             display: none;
@@ -924,10 +889,6 @@
 
             .property-info {
                 padding: 0 30px 40px;
-            }
-
-            .back-button {
-                left: 30px;
             }
         }
 
@@ -1034,13 +995,6 @@
                 font-size: 1.2rem;
             }
 
-            .back-button {
-                left: 20px;
-                top: 120px;
-                padding: 10px 16px;
-                font-size: 13px;
-            }
-
             .footer-content {
                 gap: 2rem;
                 padding: 0 1rem;
@@ -1131,7 +1085,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1146,14 +1100,6 @@
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
         </nav>
     </header>
-
-    <!-- Back Button -->
-    <a href="/properties/" class="back-button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m15 18-6-6 6-6"/>
-        </svg>
-        Back to Properties
-    </a>
 
     <main class="main-container">
         <!-- Loading State -->
