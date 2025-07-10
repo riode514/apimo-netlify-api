@@ -284,7 +284,7 @@
             font-weight: 500;
             transition: opacity 0.3s ease;
             font-size: 0.95rem;
-            font-family: 'Source Sans 3', sans-serif;
+            font-family: 'Source Sans 3', sans-serif !important;
         }
 
         .nav-link:hover, .nav-link.active {
@@ -558,6 +558,18 @@
             font-family: 'Source Sans 3', sans-serif;
             outline: none;
             cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .minimal-location-select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 1rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 3rem;
         }
 
         .minimal-location-input {
@@ -1689,6 +1701,17 @@
             .minimal-search-section input {
                 border-radius: 12px;
                 padding: 1rem;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+            }
+
+            .minimal-location-select {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+                background-position: right 1rem center;
+                background-repeat: no-repeat;
+                background-size: 1.5em 1.5em;
+                padding-right: 3rem;
             }
 
             .minimal-search-btn {
@@ -2027,7 +2050,7 @@
                                    name="location" 
                                    id="vervLocationSelect" 
                                    aria-label="Select location">
-                                <option value="">Select a location...</option>
+                                <option value="">Show All Locations</option>
                                 <option value="Sitges">Sitges</option>
                                 <option value="Sant Pere de Ribes">Sant Pere de Ribes</option>
                                 <option value="Castelldefels">Castelldefels</option>
@@ -2039,8 +2062,8 @@
                             </select>
                         </div>
                         
-                        <button type="submit" class="minimal-search-btn" aria-label="Search properties">
-                            🔍 Search Properties
+                        <button type="submit" class="minimal-search-btn" aria-label="Filter properties">
+                            🔍 Filter Properties
                         </button>
                     </form>
                 </div>
@@ -2766,6 +2789,9 @@
                 return;
             }
             
+            // Update section header to show filter status
+            updateSectionHeader();
+            
             // Filter for featured properties first, fallback to all if none
             let featuredProperties = displayedProperties.filter(p => p.is_featured);
             if (featuredProperties.length === 0) {
@@ -2782,6 +2808,26 @@
             // Show grid properties (get next 3 properties, not starting from 1)
             const gridProperties = featuredProperties.slice(1, 4); // Changed to show 3 cards
             displayGridProperties(gridProperties);
+        }
+        
+        // Update section header to show current filter
+        function updateSectionHeader() {
+            const sectionTitle = document.querySelector('.section-title');
+            const sectionSubtitle = document.querySelector('.section-subtitle');
+            
+            if (!sectionTitle || !sectionSubtitle) return;
+            
+            // Check if we're filtering by location
+            const locationSelect = document.getElementById('vervLocationSelect');
+            const currentFilter = locationSelect ? locationSelect.value.trim() : '';
+            
+            if (currentFilter) {
+                sectionTitle.textContent = `Properties in ${currentFilter}`;
+                sectionSubtitle.textContent = `Showing ${displayedProperties.length} properties in ${currentFilter}`;
+            } else {
+                sectionTitle.textContent = 'Featured Properties';
+                sectionSubtitle.textContent = 'Exceptional spaces across Sitges, Barcelona & Costa Brava';
+            }
         }
 
         // IMPROVED: Display hero property with side-by-side layout, no title overlay, pristine image quality
@@ -2949,18 +2995,59 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // ENHANCED: Google Places API search that redirects to /properties
+        // FIXED: Local filtering search that works with the property data
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.minimal-search-btn');
-            const locationInput = document.getElementById('vervLocationInput');
+            const locationSelect = document.getElementById('vervLocationSelect');
             
             if (!searchForm) {
                 console.error('❌ Search form not found!');
                 return;
             }
             
-            console.log('✅ Initializing GOOGLE PLACES search - redirects to /properties');
+            console.log('✅ Initializing LOCAL FILTERING search');
+            
+            // Filter properties by selected location
+            function filterPropertiesByLocation(location) {
+                console.log('🔍 Filtering properties by location:', location);
+                
+                if (!location || location.trim() === '') {
+                    // No location selected, show all properties
+                    displayedProperties = [...allProperties];
+                    console.log('📋 Showing all properties:', displayedProperties.length);
+                } else {
+                    // Filter properties by location
+                    const filteredProperties = allProperties.filter(property => {
+                        const propertyLocation = property.location || '';
+                        const searchLocation = location.toLowerCase().trim();
+                        const propertyLocationLower = propertyLocation.toLowerCase();
+                        
+                        // Check if property location contains the search location
+                        return propertyLocationLower.includes(searchLocation) || 
+                               propertyLocationLower === searchLocation;
+                    });
+                    
+                    displayedProperties = filteredProperties;
+                    console.log(`📋 Filtered properties for "${location}":`, displayedProperties.length);
+                }
+                
+                // Reset hero property index
+                currentHeroPropertyIndex = 0;
+                
+                // Update the display
+                displayInitialContent();
+                
+                // Track search event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'search', {
+                        search_term: location || 'all_locations',
+                        search_method: 'dropdown_filter',
+                        results_count: displayedProperties.length,
+                        page_location: window.location.href
+                    });
+                }
+            }
             
             // Main search handler function
             function handleSearch(e) {
@@ -2969,23 +3056,18 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Google Places search');
+                console.log('🔍 SEARCH TRIGGERED - Local filtering');
                 
-                // Get location value
-                const location = locationInput ? locationInput.value.trim() : '';
+                // Get location value from dropdown
+                const location = locationSelect ? locationSelect.value.trim() : '';
                 
                 console.log('=== SEARCH VALUES ===');
                 console.log('Location:', location);
+                console.log('Available properties:', allProperties.length);
                 console.log('==================');
                 
-                // If user has selected a place from autocomplete, it will have already redirected
-                // This handles manual entry or direct search button click
-                if (location) {
-                    redirectToProperties(location);
-                } else {
-                    // No location entered, go to all properties
-                    redirectToProperties('');
-                }
+                // Filter properties by location
+                filterPropertiesByLocation(location);
             }
             
             // Form submit handler
@@ -3000,40 +3082,30 @@
                 });
             }
             
-            // Enter key handler for location input
-            if (locationInput) {
-                locationInput.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        console.log('🔍 Enter key pressed in location input');
-                        
-                        // If Google Places autocomplete is available and has a selection
-                        if (googlePlacesAutocomplete) {
-                            const place = googlePlacesAutocomplete.getPlace();
-                            if (place && place.name) {
-                                console.log('🗺️ Using Google Places selection');
-                                redirectToProperties(place.name);
-                                return;
+            // Dropdown change handler - instant filtering when selection changes
+            if (locationSelect) {
+                locationSelect.addEventListener('change', function(e) {
+                    const selectedLocation = e.target.value.trim();
+                    console.log('📍 Location selected from dropdown:', selectedLocation);
+                    
+                    // Wait for properties to be loaded before filtering
+                    if (allProperties.length === 0 && !isApiLoaded) {
+                        console.log('⏳ Properties not loaded yet, waiting...');
+                        // Check again after a short delay
+                        setTimeout(() => {
+                            if (allProperties.length > 0) {
+                                filterPropertiesByLocation(selectedLocation);
+                            } else {
+                                console.log('❌ No properties available to filter');
                             }
-                        }
-                        
-                        // Otherwise use manual input
-                        handleSearch(e);
+                        }, 2000);
+                    } else {
+                        filterPropertiesByLocation(selectedLocation);
                     }
                 });
             }
             
-            // Initialize Google Places after a short delay to ensure DOM is ready
-            setTimeout(() => {
-                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                    initGooglePlaces();
-                } else {
-                    console.log('⏳ Waiting for Google Places API to load...');
-                    // Will be initialized by the callback
-                }
-            }, 1000);
-            
-            console.log('✅ Enhanced search with Google Places initialized');
+            console.log('✅ Local filtering search functionality initialized successfully');
         }
 
         // Hero property navigation
