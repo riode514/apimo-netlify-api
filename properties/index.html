@@ -79,14 +79,6 @@
             object-fit: contain;
         }
 
-        .text-logo {
-            font-family: 'Lora', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #000;
-            letter-spacing: -0.02em;
-        }
-
         .nav-menu {
             display: flex;
             list-style: none;
@@ -224,6 +216,32 @@
             padding: 0 2rem;
         }
 
+        .credentials-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .credential-logo {
+            height: 60px;
+            opacity: 0.8;
+            display: block;
+            transition: opacity 0.3s ease;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
+        .credential-logo:hover {
+            opacity: 1;
+        }
+
+        .credential-logo[style*="display: none"] {
+            display: none !important;
+        }
+
         .credentials-info {
             text-align: center;
             color: #ccc;
@@ -233,15 +251,6 @@
 
         .credentials-info p {
             margin-bottom: 0.5rem;
-        }
-
-        .credentials-text {
-            text-align: center;
-            color: #ccc;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
         }
 
         .footer-bottom {
@@ -772,10 +781,6 @@
                 height: 70px;
             }
 
-            .text-logo {
-                font-size: 1.5rem;
-            }
-
             .properties-hero {
                 padding: 140px 20px 60px;
             }
@@ -829,6 +834,16 @@
             .footer-content {
                 gap: 2rem;
                 padding: 0 1rem;
+            }
+
+            .credentials-logos {
+                gap: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .credential-logo {
+                height: 45px;
+                max-width: 100px;
             }
 
             .footer-bottom {
@@ -916,8 +931,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <!-- Using text logo instead of broken image -->
-                <div class="text-logo">VERV ONE</div>
+                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1132,9 +1146,23 @@
         <!-- Professional Credentials Section -->
         <div class="footer-credentials">
             <div class="credentials-container">
-                <!-- Text-based credentials instead of broken images -->
-                <div class="credentials-text">
-                    API Professional Association • AICAT Registry • Concierge Auctions Agent • Realtor Sitges
+                <div class="credentials-logos">
+                    <img src="assets/images/api119bmow.png" 
+                         alt="API Professional Association" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="assets/images/aicat.png" 
+                         alt="AICAT Registry" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         alt="Concierge Auctions Agent" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="assets/images/realtor-sitges.jpg" 
+                         alt="Realtor Sitges" 
+                         class="credential-logo"
+                         loading="lazy">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
