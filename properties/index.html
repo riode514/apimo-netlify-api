@@ -1602,32 +1602,62 @@
             const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
             const priceFilter = document.getElementById('priceFilter').value;
 
+            console.log('Applying filters:', { typeFilter, locationFilter, priceFilter });
+
             filteredProperties = allProperties.filter(property => {
                 const data = extractPropertyData(property);
                 
-                // Type filter
-                if (typeFilter && data.type.toLowerCase() !== typeFilter) {
-                    return false;
+                // Debug log for type matching
+                console.log(`Property: ${data.title} - Type: "${data.type}" - Filter: "${typeFilter}"`);
+                
+                // Type filter - improved matching
+                if (typeFilter && typeFilter !== '') {
+                    const propertyType = data.type.toLowerCase();
+                    // Check exact match or partial match for better compatibility
+                    if (propertyType !== typeFilter && !propertyType.includes(typeFilter) && !typeFilter.includes(propertyType)) {
+                        console.log(`Type filter excluding: ${data.title} (${propertyType} doesn't match ${typeFilter})`);
+                        return false;
+                    }
                 }
                 
-                // Location filter
-                if (locationFilter && !data.location.toLowerCase().includes(locationFilter)) {
-                    return false;
+                // Location filter - improved matching
+                if (locationFilter && locationFilter !== '') {
+                    const propertyLocation = data.location.toLowerCase();
+                    if (!propertyLocation.includes(locationFilter)) {
+                        console.log(`Location filter excluding: ${data.title} (${propertyLocation} doesn't contain ${locationFilter})`);
+                        return false;
+                    }
                 }
                 
                 // Price filter
-                if (priceFilter && data.price) {
+                if (priceFilter && priceFilter !== '' && data.price) {
                     const price = data.price;
-                    if (priceFilter === '0-500000' && price > 500000) return false;
-                    if (priceFilter === '500000-1000000' && (price < 500000 || price > 1000000)) return false;
-                    if (priceFilter === '1000000-2000000' && (price < 1000000 || price > 2000000)) return false;
-                    if (priceFilter === '2000000-5000000' && (price < 2000000 || price > 5000000)) return false;
-                    if (priceFilter === '5000000+' && price < 5000000) return false;
+                    if (priceFilter === '0-500000' && price > 500000) {
+                        console.log(`Price filter excluding: ${data.title} (${price} > 500000)`);
+                        return false;
+                    }
+                    if (priceFilter === '500000-1000000' && (price < 500000 || price > 1000000)) {
+                        console.log(`Price filter excluding: ${data.title} (${price} not in 500K-1M range)`);
+                        return false;
+                    }
+                    if (priceFilter === '1000000-2000000' && (price < 1000000 || price > 2000000)) {
+                        console.log(`Price filter excluding: ${data.title} (${price} not in 1M-2M range)`);
+                        return false;
+                    }
+                    if (priceFilter === '2000000-5000000' && (price < 2000000 || price > 5000000)) {
+                        console.log(`Price filter excluding: ${data.title} (${price} not in 2M-5M range)`);
+                        return false;
+                    }
+                    if (priceFilter === '5000000+' && price < 5000000) {
+                        console.log(`Price filter excluding: ${data.title} (${price} < 5M)`);
+                        return false;
+                    }
                 }
                 
                 return true;
             });
 
+            console.log(`Filter results: ${filteredProperties.length} properties found`);
             displayProperties(filteredProperties);
             updateResultsCount(filteredProperties.length);
         }
