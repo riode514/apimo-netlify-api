@@ -2116,41 +2116,107 @@
             </svg>`
         };
 
-        // ENHANCED: Load specific VERV ONE properties and API data
+        // FIXED: Load real properties from VERV ONE API
         async function loadRealProperties() {
             try {
-                console.log('🏠 Loading SPECIFIC VERV ONE properties...');
+                console.log('🏠 Loading REAL properties from VERV ONE API...');
                 
-                // First, try to load specific featured and popular properties
-                const specificProperties = await loadSpecificProperties();
+                const response = await fetch('https://verv.one/.netlify/functions/properties', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    cache: 'no-cache'
+                });
                 
-                // Then try to load additional properties from API
-                const apiProperties = await loadAPIProperties();
-                
-                // Combine specific properties with API properties
-                const allLoadedProperties = [...specificProperties, ...apiProperties];
-                
-                if (allLoadedProperties.length > 0) {
-                    console.log(`✅ SUCCESS! Loaded ${allLoadedProperties.length} properties total`);
-                    allProperties = allLoadedProperties;
-                    isApiLoaded = true;
-                    
-                    // Cache the properties
-                    localStorage.setItem('cachedRealProperties', JSON.stringify(allProperties));
-                    localStorage.setItem('lastRealPropertiesLoad', Date.now().toString());
-                    
-                    // Apply current filters and display
-                    displayedProperties = [...allProperties];
-                    displayInitialContent();
-                    return;
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
-                throw new Error('No properties could be loaded');
+                const data = await response.json();
+                console.log('✅ API Response received:', data);
+                
+                // Handle different response formats
+                let properties = null;
+                if (data.success && Array.isArray(data.properties)) {
+                    properties = data.properties;
+                } else if (data.data && Array.isArray(data.data)) {
+                    properties = data.data;
+                } else if (Array.isArray(data)) {
+                    properties = data;
+                } else if (data.results && Array.isArray(data.results)) {
+                    properties = data.results;
+                }
+                
+                if (!properties || properties.length === 0) {
+                    throw new Error('No properties found in the response');
+                }
+                
+                console.log(`🏠 Processing ${properties.length} raw properties...`);
+                
+                // Process all properties
+                const processedProperties = [];
+                let featuredCount = 0;
+                let popularCount = 0;
+                
+                properties.forEach((property, index) => {
+                    const extracted = extractPropertyData(property);
+                    if (extracted) {
+                        // Mark first 3 highest-priced properties as featured
+                        if (featuredCount < 3 && extracted.price && extracted.price > 1000000) {
+                            extracted.is_featured = true;
+                            featuredCount++;
+                            console.log(`✨ Marked as FEATURED: ${extracted.title} - €${extracted.price?.toLocaleString()}`);
+                        }
+                        
+                        // Mark first property as popular
+                        if (popularCount === 0) {
+                            extracted.is_popular = true;
+                            popularCount++;
+                            console.log(`🔥 Marked as POPULAR: ${extracted.title}`);
+                        }
+                        
+                        processedProperties.push(extracted);
+                    }
+                });
+                
+                // Sort by price (highest first) to ensure best properties are featured
+                processedProperties.sort((a, b) => {
+                    const priceA = a.price || 0;
+                    const priceB = b.price || 0;
+                    return priceB - priceA;
+                });
+                
+                // Re-mark featured after sorting
+                processedProperties.forEach((property, index) => {
+                    if (index < 3) {
+                        property.is_featured = true;
+                    }
+                    if (index === 0) {
+                        property.is_popular = true;
+                    }
+                });
+                
+                allProperties = processedProperties;
+                displayedProperties = [...allProperties];
+                isApiLoaded = true;
+                
+                console.log(`✅ SUCCESS! Loaded ${allProperties.length} REAL properties from VERV ONE API`);
+                console.log(`📊 Featured: ${allProperties.filter(p => p.is_featured).length}, Popular: ${allProperties.filter(p => p.is_popular).length}`);
+                
+                // Cache the properties
+                localStorage.setItem('cachedRealProperties', JSON.stringify(allProperties));
+                localStorage.setItem('lastRealPropertiesLoad', Date.now().toString());
+                
+                // Display initial content
+                displayInitialContent();
+                return;
                 
             } catch (error) {
-                console.error('❌ Failed to load properties:', error);
+                console.error('❌ Failed to load properties from API:', error);
                 
-                // Try cached properties
+                // Try cached properties as fallback
                 const cached = localStorage.getItem('cachedRealProperties');
                 const lastLoad = localStorage.getItem('lastRealPropertiesLoad');
                 
@@ -2160,7 +2226,7 @@
                         try {
                             allProperties = JSON.parse(cached);
                             if (allProperties.length > 0) {
-                                console.log('📦 Using cached properties');
+                                console.log('📦 Using cached REAL properties');
                                 isApiLoaded = true;
                                 displayedProperties = [...allProperties];
                                 displayInitialContent();
@@ -2172,219 +2238,20 @@
                     }
                 }
                 
-                // Ultimate fallback with specific properties
-                console.log('⚠️ Using enhanced sample data with specific properties');
-                allProperties = createEnhancedSampleDataWithSpecificProperties();
-                displayedProperties = [...allProperties];
-                displayInitialContent();
+                // Show error state instead of sample data
+                console.log('⚠️ API failed and no cache available - showing error state');
+                showApiError();
             }
         }
 
-        // NEW: Load specific properties by ID
-        async function loadSpecificProperties() {
-            const specificIds = {
-                featured: ['86041866', '86080781', '86043159'],
-                popular: ['86043052']
-            };
-            
-            const loadedProperties = [];
-            
-            for (const category in specificIds) {
-                for (const id of specificIds[category]) {
-                    try {
-                        console.log(`Loading specific ${category} property ID: ${id}`);
-                        
-                        const endpoints = [
-                            `https://verv.one/.netlify/functions/property?id=${id}`,
-                            `https://www.verv.one/.netlify/functions/property?id=${id}`,
-                            `https://verv.one/api/property/${id}`
-                        ];
-                        
-                        for (const endpoint of endpoints) {
-                            try {
-                                const response = await fetch(endpoint, {
-                                    method: 'GET',
-                                    headers: { 'Accept': 'application/json' },
-                                    signal: AbortSignal.timeout(10000)
-                                });
-                                
-                                if (response.ok) {
-                                    const data = await response.json();
-                                    const property = extractPropertyData(data);
-                                    
-                                    if (property) {
-                                        property.is_featured = category === 'featured';
-                                        property.is_popular = category === 'popular';
-                                        loadedProperties.push(property);
-                                        console.log(`✅ Loaded specific property ${id}`);
-                                        break;
-                                    }
-                                }
-                            } catch (e) {
-                                console.log(`Failed to load ${id} from ${endpoint}:`, e.message);
-                                continue;
-                            }
-                        }
-                    } catch (error) {
-                        console.log(`Failed to load property ${id}:`, error.message);
-                    }
-                }
-            }
-            
-            console.log(`Loaded ${loadedProperties.length} specific properties`);
-            return loadedProperties;
-        }
-
-        // NEW: Load additional properties from API
-        async function loadAPIProperties() {
-            const endpoints = [
-                'https://verv.one/.netlify/functions/properties?limit=20',
-                'https://www.verv.one/.netlify/functions/properties?limit=20',
-                'https://verv.one/api/properties?limit=20'
-            ];
-            
-            for (const endpoint of endpoints) {
-                try {
-                    console.log(`Loading additional properties from: ${endpoint}`);
-                    
-                    const response = await fetch(endpoint, {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json' },
-                        signal: AbortSignal.timeout(15000)
-                    });
-                    
-                    if (response.ok) {
-                        const data = await response.json();
-                        let properties = null;
-                        
-                        if (data.success && Array.isArray(data.properties)) {
-                            properties = data.properties;
-                        } else if (data.data && Array.isArray(data.data)) {
-                            properties = data.data;
-                        } else if (Array.isArray(data)) {
-                            properties = data;
-                        }
-                        
-                        if (properties && properties.length > 0) {
-                            const processedProperties = properties.map(prop => extractPropertyData(prop)).filter(Boolean);
-                            console.log(`✅ Loaded ${processedProperties.length} API properties`);
-                            return processedProperties;
-                        }
-                    }
-                } catch (error) {
-                    console.log(`API endpoint ${endpoint} failed:`, error.message);
-                    continue;
-                }
-            }
-            
-            console.log('No API properties loaded');
-            return [];
-        }
-
-        // ENHANCED: Sample data with specific VERV ONE property IDs
-        function createEnhancedSampleDataWithSpecificProperties() {
-            return [
-                // FEATURED PROPERTIES (from user requirements)
-                {
-                    id: '86041866',
-                    title: 'Luxury Villa Barcelona Hills',
-                    location: 'Barcelona',
-                    price: 2850000,
-                    type: 'Villa',
-                    bedrooms: 5,
-                    bathrooms: 4,
-                    builtArea: 420,
-                    landArea: 850,
-                    description: 'Spectacular luxury villa in exclusive Barcelona Hills with panoramic city views',
-                    photoUrl: null,
-                    is_featured: true,
-                    is_popular: false
-                },
-                {
-                    id: '86080781',
-                    title: 'Modern Penthouse Barcelona Center',
-                    location: 'Barcelona',
-                    price: 1950000,
-                    type: 'Penthouse',
-                    bedrooms: 3,
-                    bathrooms: 3,
-                    builtArea: 220,
-                    description: 'Stunning modern penthouse in the heart of Barcelona with rooftop terrace',
-                    photoUrl: null,
-                    is_featured: true,
-                    is_popular: false
-                },
-                {
-                    id: '86043159',
-                    title: 'Exclusive Villa Costa Brava',
-                    location: 'Costa Brava',
-                    price: 3200000,
-                    type: 'Villa',
-                    bedrooms: 6,
-                    bathrooms: 5,
-                    builtArea: 450,
-                    landArea: 1200,
-                    description: 'Magnificent beachfront villa with private access and infinity pool',
-                    photoUrl: null,
-                    is_featured: true,
-                    is_popular: false
-                },
-                // POPULAR PROPERTY (from user requirements)
-                {
-                    id: '86043052',
-                    title: 'Seaside Villa Sitges Premium',
-                    location: 'Sitges',
-                    price: 2750000,
-                    type: 'Villa',
-                    bedrooms: 5,
-                    bathrooms: 4,
-                    builtArea: 380,
-                    landArea: 900,
-                    description: 'Exceptional seaside villa in premium Sitges location with direct beach access',
-                    photoUrl: null,
-                    is_featured: false,
-                    is_popular: true
-                },
-                // ADDITIONAL SAMPLE PROPERTIES
-                {
-                    id: 'VERV002',
-                    title: 'Historic Townhouse Girona',
-                    location: 'Girona',
-                    price: 750000,
-                    type: 'Townhouse',
-                    bedrooms: 4,
-                    bathrooms: 3,
-                    builtArea: 280,
-                    description: 'Beautifully restored historic townhouse in Girona old quarter',
-                    photoUrl: null,
-                    is_featured: false,
-                    is_popular: false
-                },
-                {
-                    id: 'VERV003',
-                    title: 'Modern Apartment Sitges',
-                    location: 'Sitges',
-                    price: 650000,
-                    type: 'Apartment',
-                    bedrooms: 2,
-                    bathrooms: 2,
-                    builtArea: 110,
-                    description: 'Contemporary apartment steps from Sitges beach',
-                    photoUrl: null,
-                    is_featured: false,
-                    is_popular: false
-                }
-            ];
-        }
-
-        // Extract property data from API response
+        // ENHANCED: Extract property data with improved parsing
         function extractPropertyData(property) {
             if (!property) return null;
             
             console.log('=== EXTRACTING PROPERTY DATA ===');
             console.log('Raw property:', property);
             
-            // Extract location
+            // Extract location with multiple fallbacks
             let locationString = 'Premium Location';
             if (property.city && typeof property.city === 'object' && property.city.name) {
                 locationString = property.city.name.trim();
@@ -2392,9 +2259,11 @@
                 locationString = property.city.trim();
             } else if (typeof property.district === 'string' && property.district.trim()) {
                 locationString = property.district.trim();
+            } else if (property.location && typeof property.location === 'string' && property.location.trim()) {
+                locationString = property.location.trim();
             }
             
-            // Extract price
+            // Extract price with enhanced parsing
             let priceValue = null;
             if (property.price !== null && property.price !== undefined) {
                 if (typeof property.price === 'number') {
@@ -2407,7 +2276,7 @@
                 }
             }
             
-            // Extract property type
+            // Extract property type with normalization
             let propertyType = 'Villa';
             if (property.type) {
                 if (typeof property.type === 'string') {
@@ -2417,30 +2286,102 @@
                 } else if (property.type.name) {
                     propertyType = property.type.name;
                 }
+            } else if (property.subtype) {
+                if (typeof property.subtype === 'string') {
+                    propertyType = property.subtype;
+                } else if (property.subtype.label) {
+                    propertyType = property.subtype.label;
+                }
             }
             
-            // Extract areas
+            // Normalize property type
+            const typeMapping = {
+                'Piso': 'Apartment',
+                'Casa': 'House', 
+                'Chalet': 'Villa',
+                'Ático': 'Penthouse',
+                'Adosado': 'Townhouse',
+                'Terreno': 'Plot'
+            };
+            
+            if (typeMapping[propertyType]) {
+                propertyType = typeMapping[propertyType];
+            } else {
+                propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
+            }
+            
+            // Extract bedroom/bathroom counts
+            let bedrooms = property.bedrooms || null;
+            let bathrooms = property.bathrooms || null;
+            
+            // Try to extract from areas array if available
+            if (Array.isArray(property.areas)) {
+                property.areas.forEach(area => {
+                    if (area.type === 1) bedrooms = bedrooms || area.number;
+                    if (area.type === 8) bathrooms = bathrooms || area.number;
+                });
+            }
+            
+            // Extract built area
             let builtArea = null;
             if (property.area) {
                 builtArea = property.area.total || property.area.value || property.area.built || null;
             } else if (property.surface) {
                 builtArea = property.surface;
+            } else if (property.built_area) {
+                builtArea = property.built_area;
+            }
+            
+            // Extract land area
+            let landArea = null;
+            if (Array.isArray(property.areas)) {
+                property.areas.forEach(area => {
+                    if ([49, 50, 51].includes(area.type) && area.area) {
+                        landArea = (landArea || 0) + area.area;
+                    }
+                });
+            } else if (property.land_area) {
+                landArea = property.land_area;
+            }
+            
+            // Extract title and description
+            let title = null;
+            let description = null;
+            if (property.comments && Array.isArray(property.comments)) {
+                const supportedLanguages = ['en', 'en_GB', 'es', 'es_ES'];
+                for (const lang of supportedLanguages) {
+                    const comment = property.comments.find(c => c.language === lang);
+                    if (comment) {
+                        title = comment.title || null;
+                        description = comment.comment || null;
+                        break;
+                    }
+                }
+            }
+            if (!title) {
+                title = property.title || property.reference || `${propertyType} in ${locationString}`;
+            }
+            if (!description) {
+                description = property.description || title || 'Exceptional property in prime location';
             }
             
             const extractedData = {
                 id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
-                title: property.title || property.reference || property.name || `${propertyType} Property`,
+                title: title,
                 location: locationString,
                 price: priceValue,
                 type: propertyType,
-                bedrooms: property.bedrooms || null,
-                bathrooms: property.bathrooms || null,
+                bedrooms: bedrooms,
+                bathrooms: bathrooms,
                 builtArea: builtArea,
-                landArea: property.land_area || null,
-                description: property.description || property.title || 'Exceptional property in prime location',
+                landArea: landArea,
+                description: description,
                 photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || null,
-                is_featured: property.is_featured || false,
-                is_popular: property.is_popular || false
+                is_featured: false,
+                is_popular: false,
+                // Keep transaction type info for filtering
+                transaction_type: property.transaction_type || property.operation || 'sale',
+                for_rent: property.for_rent || false
             };
             
             console.log('=== EXTRACTED PROPERTY DATA ===');
@@ -2448,6 +2389,23 @@
             console.log('================================');
             
             return extractedData;
+        }
+
+        // Show API error state
+        function showApiError() {
+            const hero = document.getElementById('heroFeaturedProperty');
+            const grid = document.getElementById('propertiesGrid');
+            
+            const errorHTML = `
+                <div class="error-state">
+                    <h3>Unable to Load Properties</h3>
+                    <p>We're having trouble connecting to our property database. Please try again later.</p>
+                    <a href="https://www.verv.one/properties/" style="color: #000; text-decoration: underline;">Browse Properties on Main Site</a>
+                </div>
+            `;
+            
+            if (hero) hero.innerHTML = errorHTML;
+            if (grid) grid.innerHTML = '';
         }
 
         // Display initial content
@@ -2700,15 +2658,18 @@
             return card;
         }
 
-        // Show no results
+        // Show no results message with clear filters option
         function showNoResults() {
             const hero = document.getElementById('heroFeaturedProperty');
             const grid = document.getElementById('propertiesGrid');
             
+            const hasFilters = currentFilters.type || currentFilters.location || currentFilters.budget;
+            
             const noResultsHTML = `
                 <div class="no-results">
                     <h3>No Properties Found</h3>
-                    <p>No properties available at the moment.</p>
+                    <p>${hasFilters ? 'No properties match your current filters.' : 'No properties available at the moment.'}</p>
+                    ${hasFilters ? '<button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>' : ''}
                     <p><a href="https://www.verv.one/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
                 </div>
             `;
@@ -2717,7 +2678,38 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // UPDATED: Search functionality that redirects to properties page
+        // Clear all filters function
+        function clearFilters() {
+            console.log('🧹 CLEARING ALL FILTERS');
+            
+            // Reset filters
+            currentFilters = { type: '', location: '', budget: '' };
+            
+            // Reset form values
+            const form = document.getElementById('vervPropertySearch');
+            if (form) {
+                form.reset();
+                console.log('Form reset completed');
+            }
+            
+            // Reset displayed properties to show all
+            displayedProperties = [...allProperties];
+            console.log('Reset to show all properties:', displayedProperties.length);
+            
+            // Refresh display
+            displayInitialContent();
+            
+            // Track filter clear
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'filters_cleared', {
+                    page_location: window.location.href
+                });
+            }
+            
+            console.log('✅ FILTERS CLEARED');
+        }
+
+        // FIXED: Search functionality that filters properties on homepage
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.verv-search-btn-minimal');
@@ -2736,13 +2728,18 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Redirecting to properties page');
+                console.log('🔍 SEARCH TRIGGERED - Filtering properties');
                 
                 // Add visual feedback
                 if (searchButton) {
                     const originalText = searchButton.textContent;
-                    searchButton.textContent = 'Searching...';
+                    searchButton.textContent = 'Filtering...';
                     searchButton.disabled = true;
+                    
+                    setTimeout(() => {
+                        searchButton.textContent = originalText;
+                        searchButton.disabled = false;
+                    }, 1000);
                 }
                 
                 // Get form elements
@@ -2775,25 +2772,15 @@
                 console.log('Budget:', budget);
                 console.log('==================');
                 
-                // Build search URL for properties page
-                let searchUrl = 'https://www.verv.one/properties/';
-                const params = new URLSearchParams();
+                // Update current filters
+                currentFilters = {
+                    type: propertyType,
+                    location: location,
+                    budget: budget
+                };
                 
-                if (propertyType && propertyType !== '') {
-                    params.append('type', propertyType);
-                }
-                if (location && location !== '') {
-                    params.append('location', location);
-                }
-                if (budget && budget !== '') {
-                    params.append('budget', budget);
-                }
-                
-                if (params.toString()) {
-                    searchUrl += '?' + params.toString();
-                }
-                
-                console.log('🔗 Redirecting to:', searchUrl);
+                // Apply filters to properties
+                applyFiltersAndDisplay();
                 
                 // Track search event
                 if (typeof gtag !== 'undefined') {
@@ -2804,8 +2791,13 @@
                     });
                 }
                 
-                // Redirect to properties page with search parameters
-                window.location.href = searchUrl;
+                // Scroll to properties section
+                setTimeout(() => {
+                    const propertiesSection = document.querySelector('.properties-section');
+                    if (propertiesSection) {
+                        propertiesSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
             }
             
             // Form submit handler
@@ -2830,9 +2822,138 @@
                         handleSearch(e);
                     }
                 });
+                
+                // Real-time filtering on field changes
+                field.addEventListener('change', function() {
+                    console.log('🔄 Field changed, applying filters...');
+                    setTimeout(() => handleSearch(), 100);
+                });
             });
             
             console.log('✅ Search functionality initialized successfully');
+        }
+
+        // Apply filters to properties and update display
+        function applyFiltersAndDisplay() {
+            console.log('=== APPLYING FILTERS ===');
+            console.log('Current filters:', currentFilters);
+            console.log('All properties available:', allProperties.length);
+            
+            if (allProperties.length === 0) {
+                console.log('No properties to filter');
+                displayedProperties = [];
+                showNoResults();
+                return;
+            }
+            
+            // Start with all properties
+            let filtered = [...allProperties];
+            console.log('Starting with properties:', filtered.length);
+            
+            // Apply property type filter (sale/rent)
+            if (currentFilters.type && currentFilters.type.trim()) {
+                const beforeFilter = filtered.length;
+                console.log('Filtering by type:', currentFilters.type);
+                
+                if (currentFilters.type === 'rent') {
+                    // Filter for rental properties
+                    filtered = filtered.filter(property => {
+                        // Check if property is marked as rental or has rental indicators
+                        const isRental = property.transaction_type === 'rent' || 
+                                        property.operation === 'rent' ||
+                                        property.for_rent === true ||
+                                        (property.price && property.price < 10000); // Assume low prices are rentals
+                        
+                        console.log(`Property "${property.title}" rental check: ${isRental}`);
+                        return isRental;
+                    });
+                } else if (currentFilters.type === 'sale') {
+                    // Filter for sale properties
+                    filtered = filtered.filter(property => {
+                        const isForSale = property.transaction_type !== 'rent' && 
+                                         property.operation !== 'rent' &&
+                                         property.for_rent !== true &&
+                                         (!property.price || property.price >= 10000); // Higher prices are usually sales
+                        
+                        console.log(`Property "${property.title}" sale check: ${isForSale}`);
+                        return isForSale;
+                    });
+                }
+                console.log(`Type filter: ${beforeFilter} → ${filtered.length} properties`);
+            }
+            
+            // Apply location filter
+            if (currentFilters.location && currentFilters.location.trim()) {
+                const searchLocation = currentFilters.location.toLowerCase().trim();
+                console.log('Filtering by location:', searchLocation);
+                
+                const beforeFilter = filtered.length;
+                filtered = filtered.filter(property => {
+                    const propertyLocation = (property.location || '').toString().toLowerCase();
+                    const propertyTitle = (property.title || '').toString().toLowerCase();
+                    
+                    const matchesLocation = propertyLocation.includes(searchLocation) || 
+                                          propertyTitle.includes(searchLocation) ||
+                                          propertyLocation === searchLocation;
+                    
+                    console.log(`Property "${property.title}" location "${propertyLocation}" vs search "${searchLocation}": ${matchesLocation}`);
+                    return matchesLocation;
+                });
+                console.log(`Location filter: ${beforeFilter} → ${filtered.length} properties`);
+            }
+            
+            // Apply budget filter
+            if (currentFilters.budget && currentFilters.budget.trim()) {
+                const beforeFilter = filtered.length;
+                console.log('Filtering by budget:', currentFilters.budget);
+                
+                filtered = filtered.filter(property => {
+                    if (!property.price || property.price === null || property.price === 0) {
+                        console.log(`Property "${property.title}" has no price, including in results`);
+                        return true; // Include properties without price
+                    }
+                    
+                    const price = typeof property.price === 'number' ? property.price : parseInt(property.price) || 0;
+                    
+                    let matches = true;
+                    switch (currentFilters.budget) {
+                        case '0-500k':
+                            matches = price <= 500000;
+                            break;
+                        case '500k-1m':
+                            matches = price > 500000 && price <= 1000000;
+                            break;
+                        case '1m-2m':
+                            matches = price > 1000000 && price <= 2000000;
+                            break;
+                        case '2m-5m':
+                            matches = price > 2000000 && price <= 5000000;
+                            break;
+                        case '5m-plus':
+                            matches = price > 5000000;
+                            break;
+                        default:
+                            matches = true;
+                    }
+                    
+                    console.log(`Property "${property.title}" price €${price} matches budget "${currentFilters.budget}": ${matches}`);
+                    return matches;
+                });
+                console.log(`Budget filter: ${beforeFilter} → ${filtered.length} properties`);
+            }
+            
+            displayedProperties = filtered;
+            console.log(`✅ FINAL RESULT: ${allProperties.length} → ${displayedProperties.length} properties after filtering`);
+            
+            // Update display immediately
+            if (displayedProperties.length === 0) {
+                showNoResults();
+            } else {
+                console.log('Displaying filtered properties for tab:', currentTab);
+                displayInitialContent();
+            }
+            
+            console.log('=== FILTERS APPLIED ===');
         }
 
         // Hero property navigation
@@ -3003,7 +3124,7 @@
 
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE Homepage - COMPLETE VERSION Loading...');
+            console.log('🚀 VERV ONE Homepage - Loading REAL properties only...');
             
             try {
                 // Initialize core functionality first
@@ -3012,7 +3133,7 @@
                 initTabs();
                 initMobileMenu();
                 
-                // Load real properties immediately
+                // Load ONLY real properties from API - no fallbacks to sample data
                 console.log('2️⃣ Loading REAL properties from VERV ONE API...');
                 loadRealProperties();
                 
@@ -3020,12 +3141,7 @@
                 
             } catch (error) {
                 console.error('❌ Critical error during initialization:', error);
-                
-                // Emergency fallback
-                console.log('🆘 Emergency fallback activation');
-                allProperties = createEnhancedSampleDataWithSpecificProperties();
-                displayedProperties = [...allProperties];
-                displayInitialContent();
+                showApiError();
             }
         });
 
@@ -3034,6 +3150,7 @@
         window.nextHeroProperty = nextHeroProperty;
         window.viewProperty = viewProperty;
         window.openConsultationModal = openConsultationModal;
+        window.clearFilters = clearFilters;
     </script>
 </body>
 </html>
