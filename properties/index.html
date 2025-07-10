@@ -228,10 +228,12 @@
         .credential-logo {
             height: 60px;
             opacity: 0.8;
-            display: block;
+            display: block !important;
             transition: opacity 0.3s ease;
             max-width: 120px;
             object-fit: contain;
+            background: transparent;
+            border: none;
         }
 
         .credential-logo:hover {
@@ -239,7 +241,13 @@
         }
 
         .credential-logo[style*="display: none"] {
-            display: none !important;
+            display: block !important;
+        }
+
+        /* Force visibility for credential logos */
+        .credentials-logos img {
+            display: block !important;
+            visibility: visible !important;
         }
 
         .credentials-info {
@@ -931,7 +939,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <img src="../assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo" onerror="this.src='assets/images/verv_one_logo.svg'">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1147,22 +1155,26 @@
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
-                    <img src="assets/images/api119bmow.png" 
+                    <img src="../assets/images/api119bmow.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
-                         loading="lazy">
-                    <img src="assets/images/aicat.png" 
+                         loading="lazy"
+                         onerror="this.src='assets/images/api119bmow.png'">
+                    <img src="../assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
-                         loading="lazy">
-                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         loading="lazy"
+                         onerror="this.src='assets/images/aicat.png'">
+                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
-                         loading="lazy">
-                    <img src="assets/images/realtor-sitges.jpg" 
+                         loading="lazy"
+                         onerror="this.src='assets/images/concierge-auctions-agent-sitges-barcelona-spain.png'">
+                    <img src="../assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
                          class="credential-logo"
-                         loading="lazy">
+                         loading="lazy"
+                         onerror="this.src='assets/images/realtor-sitges.jpg'">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
@@ -1229,6 +1241,7 @@
             
             // Initialize components
             initMobileMenu();
+            initFooterLogos();
             
             await loadProperties();
             initializeFilters();
@@ -1238,6 +1251,30 @@
             document.getElementById('loading').style.display = 'none';
             document.getElementById('properties-content').style.display = 'block';
         });
+
+        // Initialize footer logos
+        function initFooterLogos() {
+            console.log('🖼️ Initializing footer logos...');
+            
+            const credentialLogos = document.querySelectorAll('.credential-logo');
+            credentialLogos.forEach((logo, index) => {
+                logo.style.display = 'block';
+                logo.style.visibility = 'visible';
+                
+                // Add error handling for broken images
+                logo.addEventListener('error', function() {
+                    console.warn(`Logo ${index + 1} failed to load:`, this.src);
+                    this.style.display = 'none';
+                });
+                
+                // Add load success logging
+                logo.addEventListener('load', function() {
+                    console.log(`✅ Logo ${index + 1} loaded successfully:`, this.src);
+                });
+            });
+            
+            console.log(`Found ${credentialLogos.length} credential logos`);
+        }
 
         // Load properties from API
         async function loadProperties() {
@@ -1308,7 +1345,13 @@
                     throw new Error('No properties found in the response');
                 }
                 
-                allProperties = properties;
+                // Process properties and log types for debugging
+                allProperties = properties.map(property => {
+                    const extracted = extractPropertyData(property);
+                    console.log(`Property: ${extracted.title} - Type: ${extracted.type}`);
+                    return property;
+                });
+                
                 filteredProperties = [...allProperties];
                 
                 console.log(`🏠 Loaded ${allProperties.length} properties`);
@@ -1351,8 +1394,8 @@
                 }
             }
 
-            // Property type extraction
-            let propertyType = 'Property';
+            // Enhanced Property type extraction
+            let propertyType = 'Villa'; // Default fallback
             if (property.type) {
                 if (typeof property.type === 'string' && property.type.trim()) {
                     propertyType = property.type.trim();
@@ -1371,20 +1414,28 @@
                 }
             }
 
-            // Normalize property type
-            if (propertyType && propertyType !== 'Property') {
+            // Normalize property type with enhanced mapping
+            const typeMapping = {
+                'Piso': 'Apartment',
+                'Casa': 'House',
+                'Chalet': 'Villa',
+                'Ático': 'Penthouse',
+                'Adosado': 'Townhouse',
+                'Terreno': 'Plot',
+                'Parcela': 'Plot',
+                'Solar': 'Plot',
+                'Finca': 'Villa',
+                'Masía': 'Villa',
+                'Dúplex': 'Duplex',
+                'Estudio': 'Studio',
+                'Loft': 'Loft'
+            };
+
+            if (typeMapping[propertyType]) {
+                propertyType = typeMapping[propertyType];
+            } else {
+                // Capitalize first letter and lowercase the rest
                 propertyType = propertyType.charAt(0).toUpperCase() + propertyType.slice(1).toLowerCase();
-                const typeMapping = {
-                    'Piso': 'Apartment',
-                    'Casa': 'House',
-                    'Chalet': 'Villa',
-                    'Ático': 'Penthouse',
-                    'Adosado': 'Townhouse',
-                    'Terreno': 'Plot'
-                };
-                if (typeMapping[propertyType]) {
-                    propertyType = typeMapping[propertyType];
-                }
             }
 
             // Extract title and description
