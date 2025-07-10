@@ -79,6 +79,14 @@
             object-fit: contain;
         }
 
+        .text-logo {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000;
+            letter-spacing: -0.02em;
+        }
+
         .nav-menu {
             display: flex;
             list-style: none;
@@ -216,28 +224,6 @@
             padding: 0 2rem;
         }
 
-        .credentials-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .credential-logo {
-            height: 60px;
-            opacity: 0.8;
-            display: block;
-            transition: opacity 0.3s ease;
-            max-width: 120px;
-            object-fit: contain;
-        }
-
-        .credential-logo:hover {
-            opacity: 1;
-        }
-
         .credentials-info {
             text-align: center;
             color: #ccc;
@@ -247,6 +233,15 @@
 
         .credentials-info p {
             margin-bottom: 0.5rem;
+        }
+
+        .credentials-text {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
         .footer-bottom {
@@ -535,28 +530,6 @@
             letter-spacing: 0.5px;
         }
 
-        .property-favorite {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-
-        .property-favorite:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: scale(1.1);
-        }
-
         .property-info {
             padding: 30px 25px;
         }
@@ -799,6 +772,10 @@
                 height: 70px;
             }
 
+            .text-logo {
+                font-size: 1.5rem;
+            }
+
             .properties-hero {
                 padding: 140px 20px 60px;
             }
@@ -939,7 +916,8 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <!-- Using text logo instead of broken image -->
+                <div class="text-logo">VERV ONE</div>
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1154,23 +1132,9 @@
         <!-- Professional Credentials Section -->
         <div class="footer-credentials">
             <div class="credentials-container">
-                <div class="credentials-logos">
-                    <img src="assets/images/api119bmow.png" 
-                         alt="API Professional Association" 
-                         class="credential-logo"
-                         loading="lazy">
-                    <img src="assets/images/aicat.png" 
-                         alt="AICAT Registry" 
-                         class="credential-logo"
-                         loading="lazy">
-                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
-                         alt="Concierge Auctions Agent" 
-                         class="credential-logo"
-                         loading="lazy">
-                    <img src="assets/images/realtor-sitges.jpg" 
-                         alt="Realtor Sitges" 
-                         class="credential-logo"
-                         loading="lazy">
+                <!-- Text-based credentials instead of broken images -->
+                <div class="credentials-text">
+                    API Professional Association • AICAT Registry • Concierge Auctions Agent • Realtor Sitges
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
@@ -1454,11 +1418,7 @@
                     <div class="property-image-container">
                         <img src="${imageUrl}" alt="${data.title}" class="property-image" loading="lazy">
                         <div class="property-badge">${data.type}</div>
-                        <button class="property-favorite" onclick="event.stopPropagation(); toggleFavorite('${data.id}')">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                            </svg>
-                        </button>
+                        <!-- REMOVED: Heart/favorite button -->
                     </div>
                     <div class="property-info">
                         <h3 class="property-title">${data.title}</h3>
@@ -1631,11 +1591,6 @@
             window.open(`https://verv.one/single-property/?id=${propertyId}`, '_blank');
         }
 
-        function toggleFavorite(propertyId) {
-            console.log('Toggle favorite:', propertyId);
-            // Implement favorite functionality
-        }
-
         function contactAboutProperty(propertyId) {
             // Open consultation modal with property pre-filled
             window.location.href = '/contact/';
@@ -1660,9 +1615,8 @@
             }
         }
 
-        // Make functions globally available
+        // Make functions globally available (removed toggleFavorite)
         window.viewProperty = viewProperty;
-        window.toggleFavorite = toggleFavorite;
         window.contactAboutProperty = contactAboutProperty;
     </script>
 </body>
