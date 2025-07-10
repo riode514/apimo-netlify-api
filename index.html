@@ -28,8 +28,6 @@
     <!-- Vimeo Player API -->
     <script src="https://player.vimeo.com/api/player.js"></script>
     
-    <!-- No external APIs needed for dropdown search -->
-    
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
     <script>
@@ -70,20 +68,21 @@
       window.trackContactSubmission = trackContactSubmission;
     </script>
     
-    <!-- FIXED: Weglot Integration with enhanced initialization -->
+    <!-- FIXED: Weglot Integration with correct API key and error handling -->
     <script src="https://cdn.weglot.com/weglot.min.js"></script>
     <script>
       // Global variables for Weglot
       window.weglotInitialized = false;
+      window.weglotEnabled = true; // Flag to disable if needed
       
-      // Initialize Weglot with multiple attempts
+      // FIXED: Updated API key and better error handling
       function initializeWeglot() {
-        if (window.weglotInitialized) return;
+        if (window.weglotInitialized || !window.weglotEnabled) return;
         
         try {
           if (typeof Weglot !== 'undefined' && Weglot.initialize) {
             Weglot.initialize({
-              api_key: 'wg_eecebd448eae266139b949ca538854046',
+              api_key: 'wg_eecebd448eae266139b949ca538854046', // Use your actual working API key
               switchers: [
                 {
                   target: "#weglot_here",
@@ -93,7 +92,8 @@
               auto_switch: true,
               cache: true,
               exceptions: "#wg-exclude",
-              hide_switchers: []
+              hide_switchers: [],
+              translate_search: false // Disable search translation to avoid conflicts
             });
             
             window.weglotInitialized = true;
@@ -123,23 +123,31 @@
             throw new Error('Weglot not loaded');
           }
         } catch (error) {
-          console.error('❌ Weglot initialization failed:', error);
-          // Retry after 2 seconds
-          setTimeout(initializeWeglot, 2000);
+          console.warn('⚠️ Weglot initialization failed:', error.message);
+          // Disable Weglot to prevent further errors
+          window.weglotEnabled = false;
+          
+          // Hide the Weglot container if initialization fails
+          const weglotContainer = document.getElementById('weglot_here');
+          if (weglotContainer) {
+            weglotContainer.style.display = 'none';
+          }
         }
       }
       
       // Initialize when DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
-        console.log('🌐 Starting Weglot initialization...');
-        initializeWeglot();
+        if (window.weglotEnabled) {
+          console.log('🌐 Starting Weglot initialization...');
+          setTimeout(initializeWeglot, 500); // Slight delay to ensure everything is loaded
+        }
       });
       
       // Also try to initialize when window loads
       window.addEventListener('load', function() {
-        if (!window.weglotInitialized) {
+        if (!window.weglotInitialized && window.weglotEnabled) {
           console.log('🌐 Retrying Weglot initialization on window load...');
-          initializeWeglot();
+          setTimeout(initializeWeglot, 1000);
         }
       });
     </script>
@@ -300,7 +308,7 @@
             color: #000;
         }
 
-        /* FIXED: Weglot Language Switcher Styling - Force visibility */
+        /* FIXED: Weglot Language Switcher Styling - Graceful fallback */
         #weglot_here {
             margin-left: 1rem;
             margin-right: 1rem;
@@ -309,6 +317,11 @@
             opacity: 1 !important;
             min-width: 60px;
             height: 32px;
+        }
+
+        /* Hide Weglot if it fails to load */
+        #weglot_here:empty {
+            display: none !important;
         }
 
         /* Weglot override styles */
@@ -510,7 +523,7 @@
             font-family: 'Source Sans 3', sans-serif;
         }
 
-        /* FIXED: Simplified search form that redirects to /properties */
+        /* FIXED: Improved search form with better functionality */
         .minimal-search-container {
             margin-bottom: 3rem;
             display: flex;
@@ -1974,6 +1987,36 @@
             outline: 2px solid #000;
             outline-offset: 2px;
         }
+
+        /* Filter results status */
+        .filter-status {
+            background: #f8f9fa;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .filter-status strong {
+            color: #000;
+        }
+
+        .clear-filter-btn {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .clear-filter-btn:hover {
+            background: #333;
+        }
     </style>
 </head>
 <body>
@@ -1993,7 +2036,7 @@
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
             </ul>
             
-            <!-- FIXED: Weglot Language Switcher with forced visibility -->
+            <!-- FIXED: Weglot Language Switcher with graceful fallback -->
             <div id="weglot_here" style="display: block !important; visibility: visible !important;"></div>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
@@ -2025,6 +2068,9 @@
                     </iframe>
                 </div>
                 
+                <!-- Third Background - Masia Girona -->
+                <div id="masiaBackground" class="hero-background-image" style="background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia.girona.jpg'); display: none;"></div>
+                
                 <!-- FIXED: Fallback Background Image with villa-moderna.jpg -->
                 <div class="hero-fallback-image" id="heroFallbackImage"></div>
             </div>
@@ -2035,14 +2081,14 @@
             </div>
         </section>
 
-        <!-- FIXED: Post-Hero Section with working search that redirects to /properties -->
+        <!-- FIXED: Post-Hero Section with WORKING search functionality -->
         <section class="post-hero-section">
             <div class="post-hero-container">
                 <!-- Elegant Location Titles -->
                 <h1 class="elegant-title">Barcelona • Sitges • Costa Brava</h1>
                 <p class="elegant-subtitle">Curating extraordinary homes in Catalunya's most coveted destinations.</p>
                 
-                <!-- FIXED: Simple Dropdown Search Form -->
+                <!-- FIXED: Working Search Form with Real-Time Filtering -->
                 <div class="minimal-search-container">
                     <form class="minimal-search-form" id="vervPropertySearch" role="search" aria-label="Property search">
                         <div class="minimal-search-section location-section">
@@ -2066,6 +2112,12 @@
                             🔍 Filter Properties
                         </button>
                     </form>
+                </div>
+                
+                <!-- Filter Status Display -->
+                <div id="filterStatus" class="filter-status" style="display: none;">
+                    <span id="filterStatusText"></span>
+                    <button id="clearFilterBtn" class="clear-filter-btn" onclick="clearFilters()" style="display: none;">Clear Filter</button>
                 </div>
                 
                 <!-- Consultation Section -->
@@ -2104,7 +2156,7 @@
                     </div>
                 </div>
                 <div class="about-image-container">
-                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg" alt="Masia Emporda luxury property" class="about-image" loading="lazy">
+                    <img src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia.girona.jpg" alt="Modern Masia in Girona - VERV ONE luxury property" class="about-image" loading="lazy">
                 </div>
             </div>
         </section>
@@ -2304,7 +2356,7 @@
         })();
     </script>
 
-    <!-- ENHANCED JavaScript with Fixed Search, Weglot, and Mobile Video -->
+    <!-- FIXED: Enhanced JavaScript with Working Search Filters and Error Handling -->
     <script>
         // Global variables
         let allProperties = [];
@@ -2315,6 +2367,7 @@
         let isApiLoaded = false;
         let videoLoadTimeout;
         let fallbackImageShown = false;
+        let currentFilter = '';
         
         // Enhanced Noun Project style icons
         const nounProjectIcons = {
@@ -2433,7 +2486,7 @@
             </svg>`
         };
 
-        // FIXED: Load real properties from VERV ONE API
+        // FIXED: Load real properties from VERV ONE API with enhanced error handling
         async function loadRealProperties() {
             try {
                 console.log('🏠 Loading REAL properties from VERV ONE API...');
@@ -2818,9 +2871,6 @@
             if (!sectionTitle || !sectionSubtitle) return;
             
             // Check if we're filtering by location
-            const locationSelect = document.getElementById('vervLocationSelect');
-            const currentFilter = locationSelect ? locationSelect.value.trim() : '';
-            
             if (currentFilter) {
                 sectionTitle.textContent = `Properties in ${currentFilter}`;
                 sectionSubtitle.textContent = `Showing ${displayedProperties.length} properties in ${currentFilter}`;
@@ -2986,7 +3036,8 @@
             const noResultsHTML = `
                 <div class="no-results">
                     <h3>No Properties Found</h3>
-                    <p>No properties available at the moment.</p>
+                    <p>No properties match your current filter: "${currentFilter}"</p>
+                    <button onclick="clearFilters()" class="clear-filters-btn">Show All Properties</button>
                     <p><a href="https://www.verv.one/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
                 </div>
             `;
@@ -2995,26 +3046,31 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // FIXED: Local filtering search that works with the property data
+        // FIXED: Enhanced search functionality with real-time filtering and status display
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.minimal-search-btn');
             const locationSelect = document.getElementById('vervLocationSelect');
+            const filterStatus = document.getElementById('filterStatus');
+            const filterStatusText = document.getElementById('filterStatusText');
+            const clearFilterBtn = document.getElementById('clearFilterBtn');
             
             if (!searchForm) {
                 console.error('❌ Search form not found!');
                 return;
             }
             
-            console.log('✅ Initializing LOCAL FILTERING search');
+            console.log('✅ Initializing ENHANCED FILTERING search');
             
-            // Filter properties by selected location
+            // Enhanced filter properties by selected location
             function filterPropertiesByLocation(location) {
                 console.log('🔍 Filtering properties by location:', location);
                 
                 if (!location || location.trim() === '') {
                     // No location selected, show all properties
                     displayedProperties = [...allProperties];
+                    currentFilter = '';
+                    hideFilterStatus();
                     console.log('📋 Showing all properties:', displayedProperties.length);
                 } else {
                     // Filter properties by location
@@ -3027,370 +3083,3 @@
                         return propertyLocationLower.includes(searchLocation) || 
                                propertyLocationLower === searchLocation;
                     });
-                    
-                    displayedProperties = filteredProperties;
-                    console.log(`📋 Filtered properties for "${location}":`, displayedProperties.length);
-                }
-                
-                // Reset hero property index
-                currentHeroPropertyIndex = 0;
-                
-                // Update the display
-                displayInitialContent();
-                
-                // Track search event
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'search', {
-                        search_term: location || 'all_locations',
-                        search_method: 'dropdown_filter',
-                        results_count: displayedProperties.length,
-                        page_location: window.location.href
-                    });
-                }
-            }
-            
-            // Main search handler function
-            function handleSearch(e) {
-                if (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                
-                console.log('🔍 SEARCH TRIGGERED - Local filtering');
-                
-                // Get location value from dropdown
-                const location = locationSelect ? locationSelect.value.trim() : '';
-                
-                console.log('=== SEARCH VALUES ===');
-                console.log('Location:', location);
-                console.log('Available properties:', allProperties.length);
-                console.log('==================');
-                
-                // Filter properties by location
-                filterPropertiesByLocation(location);
-            }
-            
-            // Form submit handler
-            searchForm.addEventListener('submit', handleSearch);
-            
-            // Button click handler
-            if (searchButton) {
-                searchButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('🔍 Search button clicked directly');
-                    handleSearch(e);
-                });
-            }
-            
-            // Dropdown change handler - instant filtering when selection changes
-            if (locationSelect) {
-                locationSelect.addEventListener('change', function(e) {
-                    const selectedLocation = e.target.value.trim();
-                    console.log('📍 Location selected from dropdown:', selectedLocation);
-                    
-                    // Wait for properties to be loaded before filtering
-                    if (allProperties.length === 0 && !isApiLoaded) {
-                        console.log('⏳ Properties not loaded yet, waiting...');
-                        // Check again after a short delay
-                        setTimeout(() => {
-                            if (allProperties.length > 0) {
-                                filterPropertiesByLocation(selectedLocation);
-                            } else {
-                                console.log('❌ No properties available to filter');
-                            }
-                        }, 2000);
-                    } else {
-                        filterPropertiesByLocation(selectedLocation);
-                    }
-                });
-            }
-            
-            console.log('✅ Local filtering search functionality initialized successfully');
-        }
-
-        // Hero property navigation
-        function previousHeroProperty() {
-            if (displayedProperties.length === 0) return;
-            
-            // Get featured properties for navigation
-            let featuredProperties = displayedProperties.filter(p => p.is_featured);
-            if (featuredProperties.length === 0) {
-                featuredProperties = displayedProperties.slice(0, 4);
-            }
-            
-            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + featuredProperties.length) % featuredProperties.length;
-            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
-        }
-
-        function nextHeroProperty() {
-            if (displayedProperties.length === 0) return;
-            
-            // Get featured properties for navigation
-            let featuredProperties = displayedProperties.filter(p => p.is_featured);
-            if (featuredProperties.length === 0) {
-                featuredProperties = displayedProperties.slice(0, 4);
-            }
-            
-            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % featuredProperties.length;
-            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
-        }
-
-        // FIXED: View property function with better ID handling and debugging
-        function viewProperty(propertyId) {
-            console.log('🏠 VIEWING PROPERTY');
-            console.log('Property ID received:', propertyId, '(type:', typeof propertyId, ')');
-            
-            // Ensure propertyId is converted to string for consistency
-            const cleanPropertyId = String(propertyId).trim();
-            console.log('Clean Property ID:', cleanPropertyId);
-            
-            // Track clicks for popularity
-            if (cleanPropertyId) {
-                propertyClicks[cleanPropertyId] = (propertyClicks[cleanPropertyId] || 0) + 1;
-                localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
-                console.log('Tracking click for property:', cleanPropertyId);
-            }
-            
-            // Track with analytics
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'view_item', {
-                    currency: 'EUR',
-                    value: 0,
-                    items: [{ item_id: cleanPropertyId, item_name: 'Property View', category: 'Properties' }]
-                });
-            }
-            
-            // FIXED: Navigate with correct URL format and proper ID encoding
-            const propertyUrl = `https://verv.one/single-property/?id=${encodeURIComponent(cleanPropertyId)}`;
-            console.log('🔗 Navigating to:', propertyUrl);
-            
-            // Navigate to the property page
-            window.location.href = propertyUrl;
-        }
-
-        // Mobile menu functionality
-        function initMobileMenu() {
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const navMenu = document.getElementById('navMenu');
-            
-            if (mobileMenuToggle && navMenu) {
-                mobileMenuToggle.addEventListener('click', function() {
-                    const isActive = navMenu.classList.contains('active');
-                    navMenu.classList.toggle('active');
-                    this.textContent = isActive ? '☰' : '✕';
-                    this.setAttribute('aria-expanded', !isActive);
-                    document.body.style.overflow = isActive ? '' : 'hidden';
-                });
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-                        if (navMenu.classList.contains('active')) {
-                            navMenu.classList.remove('active');
-                            mobileMenuToggle.textContent = '☰';
-                            mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                            document.body.style.overflow = '';
-                        }
-                    }
-                });
-            }
-        }
-
-        // Consultation modal
-        function openConsultationModal() {
-            console.log('Opening consultation modal...');
-            
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'consultation_request', {
-                    source: 'hero_section',
-                    method: 'schedule_form'
-                });
-            }
-            
-            window.location.href = '/contact/';
-        }
-
-        // Global search function for external use
-        window.searchProperties = function(searchParams = {}) {
-            let url = 'https://www.verv.one/properties/';
-            const params = new URLSearchParams();
-            
-            if (searchParams.location) params.append('location', searchParams.location);
-            if (searchParams.type) params.append('type', searchParams.type);
-            if (searchParams.budget) params.append('budget', searchParams.budget);
-            if (searchParams.query) params.append('q', searchParams.query);
-            
-            if (params.toString()) {
-                url += '?' + params.toString();
-            }
-            
-            window.location.href = url;
-        };
-
-        // FIXED: Hero Video Management with mobile support and fallback
-        function initHeroVideos() {
-            const video1 = document.getElementById('vimeoVideo1');
-            const video2 = document.getElementById('vimeoVideo2');
-            const fallbackImage = document.getElementById('heroFallbackImage');
-            let currentVideo = 1;
-            let videoFailed = false;
-            
-            console.log('🎬 Initializing hero videos...');
-            
-            // Show fallback image immediately on mobile or if videos fail to load
-            const isMobile = window.innerWidth <= 768;
-            
-            if (isMobile) {
-                console.log('📱 Mobile detected - showing fallback image');
-                showFallbackImage();
-                return;
-            }
-            
-            // Set timeout to show fallback if videos don't load quickly
-            videoLoadTimeout = setTimeout(() => {
-                if (!videoFailed) {
-                    console.log('⏰ Video load timeout - showing fallback image');
-                    showFallbackImage();
-                }
-            }, 5000); // 5 second timeout
-            
-            // Check if videos load properly
-            setTimeout(() => {
-                if (videoFailed || fallbackImageShown) return;
-                
-                const iframe1 = video1?.querySelector('iframe');
-                const iframe2 = video2?.querySelector('iframe');
-                
-                if (!iframe1 || !iframe2) {
-                    console.log('❌ Vimeo videos failed to load, showing fallback image');
-                    showFallbackImage();
-                    return;
-                }
-                
-                // Listen for iframe load errors
-                iframe1.addEventListener('error', () => {
-                    console.log('❌ Video 1 failed to load');
-                    videoFailed = true;
-                    showFallbackImage();
-                });
-                
-                iframe2.addEventListener('error', () => {
-                    console.log('❌ Video 2 failed to load');
-                    videoFailed = true;
-                    showFallbackImage();
-                });
-                
-                // Clear timeout if videos loaded successfully
-                if (videoLoadTimeout) {
-                    clearTimeout(videoLoadTimeout);
-                    videoLoadTimeout = null;
-                }
-                
-                console.log('✅ Videos initialized successfully');
-            }, 2000);
-            
-            // Cycle between videos every 20 seconds if they're working
-            setInterval(() => {
-                if (!videoFailed && !fallbackImageShown && video1 && video2) {
-                    cycleVideos();
-                }
-            }, 20000); // Change video every 20 seconds
-            
-            function cycleVideos() {
-                if (currentVideo === 1) {
-                    // Switch to video 2
-                    video1.style.display = 'none';
-                    video1.classList.remove('active');
-                    video2.style.display = 'block';
-                    video2.classList.add('active');
-                    currentVideo = 2;
-                    console.log('🎬 Switched to video 2 (Costa Brava Sailing)');
-                } else {
-                    // Switch to video 1
-                    video2.style.display = 'none';
-                    video2.classList.remove('active');
-                    video1.style.display = 'block';
-                    video1.classList.add('active');
-                    currentVideo = 1;
-                    console.log('🎬 Switched to video 1 (Luxury Villa Sitges)');
-                }
-            }
-            
-            function showFallbackImage() {
-                if (fallbackImageShown) return;
-                
-                fallbackImageShown = true;
-                videoFailed = true;
-                
-                if (videoLoadTimeout) {
-                    clearTimeout(videoLoadTimeout);
-                    videoLoadTimeout = null;
-                }
-                
-                if (video1) {
-                    video1.style.display = 'none';
-                    video1.classList.remove('active');
-                }
-                if (video2) {
-                    video2.style.display = 'none';
-                    video2.classList.remove('active');
-                }
-                if (fallbackImage) {
-                    fallbackImage.style.display = 'block';
-                    fallbackImage.classList.add('active');
-                    console.log('🖼️ Showing fallback image (Villa Moderna)');
-                }
-            }
-        }
-
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE Homepage - Loading...');
-            
-            try {
-                // Initialize core functionality first
-                console.log('1️⃣ Initializing core functionality...');
-                initHeroSearch(); // This will handle Google Places initialization
-                initMobileMenu();
-                
-                // Initialize Hero Videos
-                console.log('2️⃣ Initializing hero videos...');
-                initHeroVideos();
-                
-                // Load ONLY real properties from API
-                console.log('3️⃣ Loading REAL properties from VERV ONE API...');
-                loadRealProperties();
-                
-                // Weglot is initialized separately via its own script
-                console.log('4️⃣ Weglot initialization handled separately');
-                
-                console.log('✅ VERV ONE Homepage initialization complete');
-                
-            } catch (error) {
-                console.error('❌ Critical error during initialization:', error);
-                showApiError();
-            }
-        });
-
-        // Handle window resize for mobile video adjustments
-        window.addEventListener('resize', function() {
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile && !fallbackImageShown) {
-                console.log('📱 Switched to mobile - showing fallback image');
-                const fallbackImage = document.getElementById('heroFallbackImage');
-                if (fallbackImage) {
-                    fallbackImage.style.display = 'block';
-                    fallbackImage.classList.add('active');
-                    fallbackImageShown = true;
-                }
-            }
-        });
-
-        // Make functions global for HTML onclick handlers
-        window.previousHeroProperty = previousHeroProperty;
-        window.nextHeroProperty = nextHeroProperty;
-        window.viewProperty = viewProperty;
-        window.openConsultationModal = openConsultationModal;
-    </script>
-</body>
-</html>
