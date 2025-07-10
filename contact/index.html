@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+/* Chatbase widget positioning */
+        #chatbase-bubble-window {
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 1000 !important;
+        }
+
+        #chatbase-bubble-button {
+            bottom: 30px !important;
+            right: 30px !important;
+            z-index: 1000 !important;
+        }
+
+        .chatbase-chat-iframe {
+            z-index: 1001 !important;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -75,16 +90,7 @@
     
     <!-- Chatbase Integration -->
     <script>
-      window.embeddedChatbotConfig = {
-        chatbotId: "SfBNzL38DcXmnHCUqNZkN",
-        domain: "www.chatbase.co"
-      }
-    </script>
-    <script
-      src="https://www.chatbase.co/embed.min.js"
-      chatbotId="SfBNzL38DcXmnHCUqNZkN"
-      domain="www.chatbase.co"
-      defer>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="82Jd8DV0roWCZlMeoeqbk";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
     </script>
     
     <style>
@@ -201,18 +207,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            min-width: 350px; /* Ensure minimum space for the image */
         }
 
         .agent-image {
-            max-width: 350px;
-            max-height: 420px;
-            width: auto;
-            height: auto;
-            object-fit: none; /* Show image at natural size */
+            width: 350px;
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Show full image without cropping */
             border-radius: 12px;
             filter: grayscale(100%);
             transition: filter 0.3s ease;
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            display: block; /* Ensure image displays properly */
         }
 
         .agent-image:hover {
@@ -673,7 +679,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            z-index: 999;
+            z-index: 999; /* Lower than Chatbase to avoid conflicts */
         }
 
         .whatsapp-btn {
@@ -833,12 +839,14 @@
                 text-align: center;
             }
 
+            .agent-image-container {
+                min-width: auto; /* Remove min-width constraint on mobile */
+            }
+
             .agent-image {
-                max-width: 250px;
-                max-height: 300px;
-                width: auto;
+                width: 250px;
                 height: auto;
-                object-fit: none; /* Show full image on mobile too */
+                object-fit: contain; /* Show full image on mobile too */
             }
 
             .credentials-logos {
@@ -884,6 +892,16 @@
             .whatsapp-text {
                 display: none;
             }
+
+            #chatbase-bubble-window {
+                bottom: 20px !important;
+                right: 20px !important;
+            }
+
+            #chatbase-bubble-button {
+                bottom: 20px !important;
+                right: 20px !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -909,7 +927,7 @@
 
             .agent-image {
                 width: 200px;
-                height: 240px;
+                height: auto;
                 object-fit: contain; /* Show full image on extra small screens too */
             }
         }
@@ -945,7 +963,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="../assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -966,7 +984,7 @@
         <div class="contact-hero-content fade-in">
             <!-- Agent Image - Now positioned on the left -->
             <div class="agent-image-container">
-                <img src="../assets/images/ronei-kolesny-realtor-sitges-contact.png" alt="Ronei Kolesny - VERV ONE Real Estate Expert" class="agent-image">
+                <img src="assets/images/ronei-kolesny-realtor-sitges-contact.png" alt="Ronei Kolesny - VERV ONE Real Estate Expert" class="agent-image">
             </div>
             
             <!-- Contact Hero Text - Now positioned on the right -->
@@ -1190,19 +1208,19 @@
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
-                    <img src="../assets/images/api119bmow.png" 
+                    <img src="assets/images/api119bmow.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="../assets/images/aicat.png" 
+                    <img src="assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
                          loading="lazy">
-                    <img src="../assets/images/realtor-sitges.jpg" 
+                    <img src="assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
                          class="credential-logo"
                          loading="lazy">
