@@ -28,8 +28,7 @@
     <!-- Vimeo Player API -->
     <script src="https://player.vimeo.com/api/player.js"></script>
     
-    <!-- Google Places API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initGooglePlaces"></script>
+    <!-- No external APIs needed for dropdown search -->
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
@@ -2020,17 +2019,24 @@
                 <h1 class="elegant-title">Barcelona • Sitges • Costa Brava</h1>
                 <p class="elegant-subtitle">Curating extraordinary homes in Catalunya's most coveted destinations.</p>
                 
-                <!-- ENHANCED: Google Places API Search Form -->
+                <!-- FIXED: Simple Dropdown Search Form -->
                 <div class="minimal-search-container">
                     <form class="minimal-search-form" id="vervPropertySearch" role="search" aria-label="Property search">
                         <div class="minimal-search-section location-section">
-                            <input type="text" 
-                                   class="minimal-location-input" 
+                            <select class="minimal-location-select" 
                                    name="location" 
-                                   id="vervLocationInput" 
-                                   placeholder="Search locations: Sitges, Barcelona, Costa Brava..." 
-                                   autocomplete="off" 
-                                   aria-label="Location search with Google Places">
+                                   id="vervLocationSelect" 
+                                   aria-label="Select location">
+                                <option value="">Select a location...</option>
+                                <option value="Sitges">Sitges</option>
+                                <option value="Sant Pere de Ribes">Sant Pere de Ribes</option>
+                                <option value="Castelldefels">Castelldefels</option>
+                                <option value="Barcelona">Barcelona</option>
+                                <option value="Girona">Girona</option>
+                                <option value="Costa Brava">Costa Brava</option>
+                                <option value="Emporda">Emporda</option>
+                                <option value="Cadaqués">Cadaqués</option>
+                            </select>
                         </div>
                         
                         <button type="submit" class="minimal-search-btn" aria-label="Search properties">
@@ -2286,139 +2292,6 @@
         let isApiLoaded = false;
         let videoLoadTimeout;
         let fallbackImageShown = false;
-        let googlePlacesAutocomplete = null;
-        
-        // PRIORITY LOCATIONS FOR GOOGLE PLACES API
-        const priorityLocations = [
-            'Sitges, Spain',
-            'Castelldefels, Spain', 
-            'Sant Pere de Ribes, Spain',
-            'Barcelona, Spain',
-            'Girona, Spain',
-            'Costa Brava, Spain'
-        ];
-        
-        // Initialize Google Places API
-        function initGooglePlaces() {
-            console.log('🗺️ Initializing Google Places API...');
-            
-            const locationInput = document.getElementById('vervLocationInput');
-            if (!locationInput) {
-                console.error('❌ Location input not found');
-                return;
-            }
-            
-            try {
-                // Create bounds for Catalonia region to bias results
-                const cataloniaBounds = new google.maps.LatLngBounds(
-                    new google.maps.LatLng(40.5, 0.1),  // Southwest
-                    new google.maps.LatLng(42.9, 3.3)   // Northeast
-                );
-                
-                // Initialize autocomplete with bias towards Catalonia
-                googlePlacesAutocomplete = new google.maps.places.Autocomplete(locationInput, {
-                    bounds: cataloniaBounds,
-                    strictBounds: false,
-                    types: ['(cities)'],
-                    componentRestrictions: { country: 'es' },
-                    fields: ['place_id', 'geometry', 'name', 'formatted_address', 'address_components']
-                });
-                
-                // Set bias towards priority locations
-                googlePlacesAutocomplete.setBounds(cataloniaBounds);
-                
-                // Handle place selection
-                googlePlacesAutocomplete.addListener('place_changed', function() {
-                    const place = googlePlacesAutocomplete.getPlace();
-                    
-                    if (!place.geometry) {
-                        console.log('❌ No geometry data for selected place');
-                        return;
-                    }
-                    
-                    console.log('📍 Selected place:', place);
-                    
-                    // Extract location name
-                    let locationName = place.name;
-                    
-                    // Check if it's one of our priority locations
-                    const isPriority = priorityLocations.some(loc => 
-                        loc.toLowerCase().includes(locationName.toLowerCase())
-                    );
-                    
-                    if (isPriority) {
-                        console.log('⭐ Priority location selected:', locationName);
-                    }
-                    
-                    // Redirect to properties page with selected location
-                    redirectToProperties(locationName);
-                });
-                
-                // Enhance autocomplete with custom priority handling
-                enhanceAutocompleteWithPriorities();
-                
-                console.log('✅ Google Places API initialized successfully');
-                
-            } catch (error) {
-                console.error('❌ Error initializing Google Places:', error);
-                // Fallback to simple text input
-                locationInput.placeholder = 'Enter location manually (Barcelona, Sitges, etc.)';
-            }
-        }
-        
-        // Enhance autocomplete to prioritize specific locations
-        function enhanceAutocompleteWithPriorities() {
-            const locationInput = document.getElementById('vervLocationInput');
-            if (!locationInput) return;
-            
-            // Add event listener for input changes
-            locationInput.addEventListener('input', function(e) {
-                const query = e.target.value.toLowerCase();
-                
-                // If user types one of our priority locations, prioritize them
-                if (query.length >= 2) {
-                    const matchedPriority = priorityLocations.find(loc => 
-                        loc.toLowerCase().includes(query)
-                    );
-                    
-                    if (matchedPriority) {
-                        console.log('🎯 Priority location match:', matchedPriority);
-                        // The autocomplete will naturally show these first due to bounds
-                    }
-                }
-            });
-        }
-        
-        // Redirect to properties page with location
-        function redirectToProperties(location) {
-            console.log('🔗 Redirecting to properties page with location:', location);
-            
-            // Build URL for properties page
-            let propertiesUrl = 'https://www.verv.one/properties/';
-            
-            if (location && location.trim()) {
-                const params = new URLSearchParams();
-                params.append('location', location.trim());
-                propertiesUrl += '?' + params.toString();
-            }
-            
-            // Track search event
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'search', {
-                    search_term: location || 'all_locations',
-                    search_method: 'google_places',
-                    page_location: window.location.href
-                });
-            }
-            
-            console.log('🔗 Final redirect URL:', propertiesUrl);
-            
-            // Redirect to properties page
-            window.location.href = propertiesUrl;
-        }
-        
-        // Make initGooglePlaces global for the callback
-        window.initGooglePlaces = initGooglePlaces;
         
         // Enhanced Noun Project style icons
         const nounProjectIcons = {
