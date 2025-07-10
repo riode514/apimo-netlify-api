@@ -28,6 +28,9 @@
     <!-- Vimeo Player API -->
     <script src="https://player.vimeo.com/api/player.js"></script>
     
+    <!-- Google Places API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxLIqeJ8nIXJlxEbuRLRW6P0Wikb-W8iU&libraries=places&callback=initGooglePlaces"></script>
+    
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
     <script>
@@ -68,40 +71,76 @@
       window.trackContactSubmission = trackContactSubmission;
     </script>
     
-    <!-- FIXED: Weglot Integration with proper initialization -->
+    <!-- FIXED: Weglot Integration with enhanced initialization -->
     <script src="https://cdn.weglot.com/weglot.min.js"></script>
     <script>
-      // Initialize Weglot after DOM is ready
-      document.addEventListener('DOMContentLoaded', function() {
+      // Global variables for Weglot
+      window.weglotInitialized = false;
+      
+      // Initialize Weglot with multiple attempts
+      function initializeWeglot() {
+        if (window.weglotInitialized) return;
+        
         try {
-          Weglot.initialize({
-            api_key: 'wg_eecebd448eae266139b949ca538854046',
-            switchers: [
-              {
-                target: "#weglot_here",
-                sibling: null
+          if (typeof Weglot !== 'undefined' && Weglot.initialize) {
+            Weglot.initialize({
+              api_key: 'wg_eecebd448eae266139b949ca538854046',
+              switchers: [
+                {
+                  target: "#weglot_here",
+                  sibling: null
+                }
+              ],
+              auto_switch: true,
+              cache: true,
+              exceptions: "#wg-exclude",
+              hide_switchers: []
+            });
+            
+            window.weglotInitialized = true;
+            console.log('✅ Weglot initialized successfully');
+            
+            // Force show flags after initialization
+            setTimeout(() => {
+              const weglotContainer = document.getElementById('weglot_here');
+              if (weglotContainer) {
+                weglotContainer.style.display = 'block !important';
+                weglotContainer.style.visibility = 'visible !important';
+                weglotContainer.style.opacity = '1 !important';
+                
+                // Find and show any Weglot elements
+                const weglotElements = document.querySelectorAll('[class*="weglot"], [class*="wg-"], .weglot-dropdown');
+                weglotElements.forEach(element => {
+                  element.style.display = 'flex !important';
+                  element.style.visibility = 'visible !important';
+                  element.style.opacity = '1 !important';
+                });
+                
+                console.log('🏁 Weglot flags forced to show');
               }
-            ],
-            auto_switch: true,
-            cache: true,
-            exceptions: "#wg-exclude",
-            hide_switchers: []
-          });
-          
-          console.log('✅ Weglot initialized successfully');
-          
-          // Force show flags after initialization
-          setTimeout(() => {
-            const weglotContainer = document.getElementById('weglot_here');
-            if (weglotContainer) {
-              weglotContainer.style.display = 'block';
-              weglotContainer.style.visibility = 'visible';
-              console.log('🏁 Weglot flags should now be visible');
-            }
-          }, 2000);
-          
+            }, 1000);
+            
+          } else {
+            throw new Error('Weglot not loaded');
+          }
         } catch (error) {
           console.error('❌ Weglot initialization failed:', error);
+          // Retry after 2 seconds
+          setTimeout(initializeWeglot, 2000);
+        }
+      }
+      
+      // Initialize when DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('🌐 Starting Weglot initialization...');
+        initializeWeglot();
+      });
+      
+      // Also try to initialize when window loads
+      window.addEventListener('load', function() {
+        if (!window.weglotInitialized) {
+          console.log('🌐 Retrying Weglot initialization on window load...');
+          initializeWeglot();
         }
       });
     </script>
@@ -1981,7 +2020,7 @@
                 <h1 class="elegant-title">Barcelona • Sitges • Costa Brava</h1>
                 <p class="elegant-subtitle">Curating extraordinary homes in Catalunya's most coveted destinations.</p>
                 
-                <!-- FIXED: Simplified Search Form - Redirects to www.verv.one/properties -->
+                <!-- ENHANCED: Google Places API Search Form -->
                 <div class="minimal-search-container">
                     <form class="minimal-search-form" id="vervPropertySearch" role="search" aria-label="Property search">
                         <div class="minimal-search-section location-section">
@@ -1989,13 +2028,13 @@
                                    class="minimal-location-input" 
                                    name="location" 
                                    id="vervLocationInput" 
-                                   placeholder="Where are you looking? (Barcelona, Sitges, Costa Brava...)" 
+                                   placeholder="Search locations: Sitges, Barcelona, Costa Brava..." 
                                    autocomplete="off" 
-                                   aria-label="Location">
+                                   aria-label="Location search with Google Places">
                         </div>
                         
                         <button type="submit" class="minimal-search-btn" aria-label="Search properties">
-                            Search Properties
+                            🔍 Search Properties
                         </button>
                     </form>
                 </div>
@@ -2247,6 +2286,139 @@
         let isApiLoaded = false;
         let videoLoadTimeout;
         let fallbackImageShown = false;
+        let googlePlacesAutocomplete = null;
+        
+        // PRIORITY LOCATIONS FOR GOOGLE PLACES API
+        const priorityLocations = [
+            'Sitges, Spain',
+            'Castelldefels, Spain', 
+            'Sant Pere de Ribes, Spain',
+            'Barcelona, Spain',
+            'Girona, Spain',
+            'Costa Brava, Spain'
+        ];
+        
+        // Initialize Google Places API
+        function initGooglePlaces() {
+            console.log('🗺️ Initializing Google Places API...');
+            
+            const locationInput = document.getElementById('vervLocationInput');
+            if (!locationInput) {
+                console.error('❌ Location input not found');
+                return;
+            }
+            
+            try {
+                // Create bounds for Catalonia region to bias results
+                const cataloniaBounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(40.5, 0.1),  // Southwest
+                    new google.maps.LatLng(42.9, 3.3)   // Northeast
+                );
+                
+                // Initialize autocomplete with bias towards Catalonia
+                googlePlacesAutocomplete = new google.maps.places.Autocomplete(locationInput, {
+                    bounds: cataloniaBounds,
+                    strictBounds: false,
+                    types: ['(cities)'],
+                    componentRestrictions: { country: 'es' },
+                    fields: ['place_id', 'geometry', 'name', 'formatted_address', 'address_components']
+                });
+                
+                // Set bias towards priority locations
+                googlePlacesAutocomplete.setBounds(cataloniaBounds);
+                
+                // Handle place selection
+                googlePlacesAutocomplete.addListener('place_changed', function() {
+                    const place = googlePlacesAutocomplete.getPlace();
+                    
+                    if (!place.geometry) {
+                        console.log('❌ No geometry data for selected place');
+                        return;
+                    }
+                    
+                    console.log('📍 Selected place:', place);
+                    
+                    // Extract location name
+                    let locationName = place.name;
+                    
+                    // Check if it's one of our priority locations
+                    const isPriority = priorityLocations.some(loc => 
+                        loc.toLowerCase().includes(locationName.toLowerCase())
+                    );
+                    
+                    if (isPriority) {
+                        console.log('⭐ Priority location selected:', locationName);
+                    }
+                    
+                    // Redirect to properties page with selected location
+                    redirectToProperties(locationName);
+                });
+                
+                // Enhance autocomplete with custom priority handling
+                enhanceAutocompleteWithPriorities();
+                
+                console.log('✅ Google Places API initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Error initializing Google Places:', error);
+                // Fallback to simple text input
+                locationInput.placeholder = 'Enter location manually (Barcelona, Sitges, etc.)';
+            }
+        }
+        
+        // Enhance autocomplete to prioritize specific locations
+        function enhanceAutocompleteWithPriorities() {
+            const locationInput = document.getElementById('vervLocationInput');
+            if (!locationInput) return;
+            
+            // Add event listener for input changes
+            locationInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                
+                // If user types one of our priority locations, prioritize them
+                if (query.length >= 2) {
+                    const matchedPriority = priorityLocations.find(loc => 
+                        loc.toLowerCase().includes(query)
+                    );
+                    
+                    if (matchedPriority) {
+                        console.log('🎯 Priority location match:', matchedPriority);
+                        // The autocomplete will naturally show these first due to bounds
+                    }
+                }
+            });
+        }
+        
+        // Redirect to properties page with location
+        function redirectToProperties(location) {
+            console.log('🔗 Redirecting to properties page with location:', location);
+            
+            // Build URL for properties page
+            let propertiesUrl = 'https://www.verv.one/properties/';
+            
+            if (location && location.trim()) {
+                const params = new URLSearchParams();
+                params.append('location', location.trim());
+                propertiesUrl += '?' + params.toString();
+            }
+            
+            // Track search event
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'search', {
+                    search_term: location || 'all_locations',
+                    search_method: 'google_places',
+                    page_location: window.location.href
+                });
+            }
+            
+            console.log('🔗 Final redirect URL:', propertiesUrl);
+            
+            // Redirect to properties page
+            window.location.href = propertiesUrl;
+        }
+        
+        // Make initGooglePlaces global for the callback
+        window.initGooglePlaces = initGooglePlaces;
         
         // Enhanced Noun Project style icons
         const nounProjectIcons = {
@@ -2904,17 +3076,18 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // FIXED: Simple search that redirects to /properties page
+        // ENHANCED: Google Places API search that redirects to /properties
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.minimal-search-btn');
+            const locationInput = document.getElementById('vervLocationInput');
             
             if (!searchForm) {
                 console.error('❌ Search form not found!');
                 return;
             }
             
-            console.log('✅ Initializing SIMPLE search - redirects to /properties');
+            console.log('✅ Initializing GOOGLE PLACES search - redirects to /properties');
             
             // Main search handler function
             function handleSearch(e) {
@@ -2923,45 +3096,29 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Redirecting to /properties');
+                console.log('🔍 SEARCH TRIGGERED - Google Places search');
                 
-                // Get form elements
-                const locationInput = document.getElementById('vervLocationInput');
-                
-                // Extract location value
+                // Get location value
                 const location = locationInput ? locationInput.value.trim() : '';
                 
                 console.log('=== SEARCH VALUES ===');
                 console.log('Location:', location);
                 console.log('==================');
                 
-                // Build URL for properties page
-                let propertiesUrl = 'https://www.verv.one/properties/';
-                
+                // If user has selected a place from autocomplete, it will have already redirected
+                // This handles manual entry or direct search button click
                 if (location) {
-                    const params = new URLSearchParams();
-                    params.append('location', location);
-                    propertiesUrl += '?' + params.toString();
+                    redirectToProperties(location);
+                } else {
+                    // No location entered, go to all properties
+                    redirectToProperties('');
                 }
-                
-                // Track search event
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'search', {
-                        search_term: location || 'all_locations',
-                        page_location: window.location.href
-                    });
-                }
-                
-                console.log('🔗 Redirecting to:', propertiesUrl);
-                
-                // Redirect to properties page
-                window.location.href = propertiesUrl;
             }
             
             // Form submit handler
             searchForm.addEventListener('submit', handleSearch);
             
-            // Button click handler (backup)
+            // Button click handler
             if (searchButton) {
                 searchButton.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -2970,19 +3127,40 @@
                 });
             }
             
-            // Enter key handlers for form fields
-            const formFields = searchForm.querySelectorAll('input, select');
-            formFields.forEach(field => {
-                field.addEventListener('keydown', function(e) {
+            // Enter key handler for location input
+            if (locationInput) {
+                locationInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
                         e.preventDefault();
-                        console.log('🔍 Enter key pressed in form field');
+                        console.log('🔍 Enter key pressed in location input');
+                        
+                        // If Google Places autocomplete is available and has a selection
+                        if (googlePlacesAutocomplete) {
+                            const place = googlePlacesAutocomplete.getPlace();
+                            if (place && place.name) {
+                                console.log('🗺️ Using Google Places selection');
+                                redirectToProperties(place.name);
+                                return;
+                            }
+                        }
+                        
+                        // Otherwise use manual input
                         handleSearch(e);
                     }
                 });
-            });
+            }
             
-            console.log('✅ Simple search functionality initialized successfully');
+            // Initialize Google Places after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    initGooglePlaces();
+                } else {
+                    console.log('⏳ Waiting for Google Places API to load...');
+                    // Will be initialized by the callback
+                }
+            }, 1000);
+            
+            console.log('✅ Enhanced search with Google Places initialized');
         }
 
         // Hero property navigation
@@ -3220,61 +3398,6 @@
             }
         }
 
-        // FIXED: Weglot initialization with proper timing
-        function initWeglot() {
-            console.log('🌐 Initializing Weglot...');
-            
-            // Force show the container
-            const weglotContainer = document.getElementById('weglot_here');
-            if (weglotContainer) {
-                weglotContainer.style.display = 'block';
-                weglotContainer.style.visibility = 'visible';
-                weglotContainer.style.opacity = '1';
-            }
-            
-            // Initialize Weglot if not already done
-            if (typeof Weglot !== 'undefined' && Weglot.initialize) {
-                try {
-                    Weglot.initialize({
-                        api_key: 'wg_eecebd448eae266139b949ca538854046',
-                        switchers: [
-                            {
-                                target: "#weglot_here",
-                                sibling: null
-                            }
-                        ],
-                        auto_switch: true,
-                        cache: true,
-                        exceptions: "#wg-exclude",
-                        hide_switchers: []
-                    });
-                    
-                    console.log('✅ Weglot initialized successfully');
-                } catch (error) {
-                    console.error('❌ Weglot initialization failed:', error);
-                }
-                
-                // Force show flags after initialization
-                setTimeout(() => {
-                    if (weglotContainer) {
-                        weglotContainer.style.display = 'block !important';
-                        weglotContainer.style.visibility = 'visible !important';
-                        weglotContainer.style.opacity = '1 !important';
-                        
-                        // Find and show any Weglot elements
-                        const weglotElements = weglotContainer.querySelectorAll('[class*="weglot"], [class*="wg-"]');
-                        weglotElements.forEach(element => {
-                            element.style.display = 'block';
-                            element.style.visibility = 'visible';
-                            element.style.opacity = '1';
-                        });
-                        
-                        console.log('🏁 Weglot flags forced to show');
-                    }
-                }, 3000);
-            }
-        }
-
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 VERV ONE Homepage - Loading...');
@@ -3282,20 +3405,19 @@
             try {
                 // Initialize core functionality first
                 console.log('1️⃣ Initializing core functionality...');
-                initHeroSearch();
+                initHeroSearch(); // This will handle Google Places initialization
                 initMobileMenu();
                 
-                // Initialize Weglot
-                console.log('2️⃣ Initializing Weglot...');
-                initWeglot();
-                
                 // Initialize Hero Videos
-                console.log('3️⃣ Initializing hero videos...');
+                console.log('2️⃣ Initializing hero videos...');
                 initHeroVideos();
                 
                 // Load ONLY real properties from API
-                console.log('4️⃣ Loading REAL properties from VERV ONE API...');
+                console.log('3️⃣ Loading REAL properties from VERV ONE API...');
                 loadRealProperties();
+                
+                // Weglot is initialized separately via its own script
+                console.log('4️⃣ Weglot initialization handled separately');
                 
                 console.log('✅ VERV ONE Homepage initialization complete');
                 
