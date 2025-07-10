@@ -1988,11 +1988,6 @@
         // Global variables
         let allProperties = []; // Store all real properties
         let displayedProperties = []; // Store filtered properties for display
-        let currentFilters = {
-            type: '',
-            location: '',
-            budget: ''
-        };
         let currentTab = 'featured';
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
@@ -2244,7 +2239,7 @@
             }
         }
 
-        // ENHANCED: Extract property data with improved parsing
+        // ENHANCED: Extract property data with better image handling
         function extractPropertyData(property) {
             if (!property) return null;
             
@@ -2344,6 +2339,35 @@
                 landArea = property.land_area;
             }
             
+            // ENHANCED: Extract images with multiple fallbacks
+            let mainImageUrl = null;
+            let allImages = [];
+            
+            // Try different image sources
+            if (property.photos && Array.isArray(property.photos) && property.photos.length > 0) {
+                allImages = property.photos;
+                mainImageUrl = property.photos[0].url || property.photos[0].src || property.photos[0];
+            } else if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+                allImages = property.images;
+                mainImageUrl = property.images[0].url || property.images[0].src || property.images[0];
+            } else if (property.pictures && Array.isArray(property.pictures) && property.pictures.length > 0) {
+                allImages = property.pictures;
+                mainImageUrl = property.pictures[0].url || property.pictures[0].src || property.pictures[0];
+            } else if (property.photo) {
+                mainImageUrl = property.photo.url || property.photo.src || property.photo;
+                allImages = [property.photo];
+            } else if (property.image) {
+                mainImageUrl = property.image.url || property.image.src || property.image;
+                allImages = [property.image];
+            }
+            
+            // Ensure mainImageUrl is a string
+            if (typeof mainImageUrl !== 'string') {
+                mainImageUrl = null;
+            }
+            
+            console.log('Extracted main image URL:', mainImageUrl);
+            
             // Extract title and description
             let title = null;
             let description = null;
@@ -2376,7 +2400,8 @@
                 builtArea: builtArea,
                 landArea: landArea,
                 description: description,
-                photoUrl: property.photos?.[0]?.url || property.images?.[0]?.url || null,
+                photoUrl: mainImageUrl,
+                images: allImages,
                 is_featured: false,
                 is_popular: false,
                 // Keep transaction type info for filtering
@@ -2484,7 +2509,7 @@
             }
         }
 
-        // Display hero property
+        // ENHANCED: Display hero property with image
         function displayHeroProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
@@ -2510,17 +2535,31 @@
                 details = `<div class="hero-property-details">${detailParts.join(' • ')}</div>`;
             }
             
+            // Create image or icon display
+            let visualContent = '';
+            if (property.photoUrl && property.photoUrl.trim()) {
+                visualContent = `
+                    <div class="hero-property-image-container" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;">
+                        <img src="${property.photoUrl}" alt="${property.title}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);"></div>
+                    </div>
+                    <div class="hero-property-icon" style="color: white;">${propertyIcon}</div>
+                `;
+            } else {
+                visualContent = `<div class="hero-property-icon">${propertyIcon}</div>`;
+            }
+            
             hero.innerHTML = `
-                <div class="hero-property-content">
-                    <div class="hero-property-icon">${propertyIcon}</div>
-                    <div class="hero-property-category">${property.type.toUpperCase()}</div>
-                    <div class="hero-property-title">${property.title}</div>
-                    <div class="hero-property-location">
+                ${visualContent}
+                <div class="hero-property-content" style="${property.photoUrl ? 'color: white; position: relative; z-index: 2;' : ''}">
+                    <div class="hero-property-category" style="${property.photoUrl ? 'color: rgba(255,255,255,0.9);' : ''}">${property.type.toUpperCase()}</div>
+                    <div class="hero-property-title" style="${property.photoUrl ? 'color: white;' : ''}">${property.title}</div>
+                    <div class="hero-property-location" style="${property.photoUrl ? 'color: rgba(255,255,255,0.9);' : ''}">
                         ${locationIcon}
                         <span>${property.location}</span>
                     </div>
                     ${details}
-                    <div class="hero-property-price">${price}</div>
+                    <div class="hero-property-price" style="${property.photoUrl ? 'color: white;' : ''}">${price}</div>
                 </div>
                 <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property">‹</button>
                 <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property">›</button>
@@ -2528,7 +2567,7 @@
             `;
         }
 
-        // Display popular property
+        // ENHANCED: Display popular property with image
         function displayPopularProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
@@ -2561,11 +2600,26 @@
             const featuresHTML = features.length > 0 ? 
                 `<div class="popular-property-features">${features.join('')}</div>` : '';
             
-            hero.innerHTML = `
-                <div class="popular-property-container">
+            // Create visual content with image or icon
+            let visualContent = '';
+            if (property.photoUrl && property.photoUrl.trim()) {
+                visualContent = `
+                    <div class="popular-property-visual" style="background-image: url('${property.photoUrl}'); background-size: cover; background-position: center; position: relative;">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);"></div>
+                        <div style="position: relative; z-index: 2; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${propertyIcon}</div>
+                    </div>
+                `;
+            } else {
+                visualContent = `
                     <div class="popular-property-visual">
                         ${propertyIcon}
                     </div>
+                `;
+            }
+            
+            hero.innerHTML = `
+                <div class="popular-property-container">
+                    ${visualContent}
                     <div class="popular-property-content">
                         <div class="popular-property-badge">Most Popular</div>
                         <h3 class="popular-property-title">${property.title}</h3>
@@ -2604,7 +2658,7 @@
             });
         }
 
-        // Create property card
+        // ENHANCED: Create property card with image
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
@@ -2631,10 +2685,25 @@
                 details = `<div class="property-details">${detailParts.join(' • ')}</div>`;
             }
             
+            // Create visual content with image or icon
+            let visualContent = '';
+            if (property.photoUrl && property.photoUrl.trim()) {
+                visualContent = `
+                    <div class="property-icon-container" style="background-image: url('${property.photoUrl}'); background-size: cover; background-position: center; position: relative;">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);"></div>
+                        <div style="position: relative; z-index: 2; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.7);">${propertyIcon}</div>
+                    </div>
+                `;
+            } else {
+                visualContent = `
+                    <div class="property-icon-container">
+                        ${propertyIcon}
+                    </div>
+                `;
+            }
+            
             card.innerHTML = `
-                <div class="property-icon-container">
-                    ${propertyIcon}
-                </div>
+                ${visualContent}
                 <div class="property-info">
                     <div class="property-type">${property.type}</div>
                     <div class="property-location">
@@ -2709,7 +2778,7 @@
             console.log('✅ FILTERS CLEARED');
         }
 
-        // FIXED: Search functionality that filters properties on homepage
+        // FIXED: Search functionality that redirects to /properties with filters
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.verv-search-btn-minimal');
@@ -2728,18 +2797,13 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Filtering properties');
+                console.log('🔍 SEARCH TRIGGERED - Redirecting to /properties');
                 
                 // Add visual feedback
                 if (searchButton) {
                     const originalText = searchButton.textContent;
-                    searchButton.textContent = 'Filtering...';
+                    searchButton.textContent = 'Searching...';
                     searchButton.disabled = true;
-                    
-                    setTimeout(() => {
-                        searchButton.textContent = originalText;
-                        searchButton.disabled = false;
-                    }, 1000);
                 }
                 
                 // Get form elements
@@ -2772,15 +2836,25 @@
                 console.log('Budget:', budget);
                 console.log('==================');
                 
-                // Update current filters
-                currentFilters = {
-                    type: propertyType,
-                    location: location,
-                    budget: budget
-                };
+                // Build search URL for properties page
+                let searchUrl = 'https://www.verv.one/properties/';
+                const params = new URLSearchParams();
                 
-                // Apply filters to properties
-                applyFiltersAndDisplay();
+                if (propertyType && propertyType !== '') {
+                    params.append('type', propertyType);
+                }
+                if (location && location !== '') {
+                    params.append('location', location);
+                }
+                if (budget && budget !== '') {
+                    params.append('budget', budget);
+                }
+                
+                if (params.toString()) {
+                    searchUrl += '?' + params.toString();
+                }
+                
+                console.log('🔗 Redirecting to:', searchUrl);
                 
                 // Track search event
                 if (typeof gtag !== 'undefined') {
@@ -2791,13 +2865,8 @@
                     });
                 }
                 
-                // Scroll to properties section
-                setTimeout(() => {
-                    const propertiesSection = document.querySelector('.properties-section');
-                    if (propertiesSection) {
-                        propertiesSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }, 100);
+                // Redirect to properties page with search parameters
+                window.location.href = searchUrl;
             }
             
             // Form submit handler
@@ -2823,11 +2892,7 @@
                     }
                 });
                 
-                // Real-time filtering on field changes
-                field.addEventListener('change', function() {
-                    console.log('🔄 Field changed, applying filters...');
-                    setTimeout(() => handleSearch(), 100);
-                });
+                // REMOVED: Real-time filtering - now only works on search button click
             });
             
             console.log('✅ Search functionality initialized successfully');
@@ -3150,7 +3215,6 @@
         window.nextHeroProperty = nextHeroProperty;
         window.viewProperty = viewProperty;
         window.openConsultationModal = openConsultationModal;
-        window.clearFilters = clearFilters;
     </script>
 </body>
 </html>
