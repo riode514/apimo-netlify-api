@@ -2111,7 +2111,7 @@
             </svg>`
         };
 
-        // FIXED: Load real properties from VERV ONE API
+        // FIXED: Load real properties from VERV ONE API with specific popular property
         async function loadRealProperties() {
             try {
                 console.log('🏠 Loading REAL properties from VERV ONE API...');
@@ -2153,28 +2153,34 @@
                 // Process all properties
                 const processedProperties = [];
                 let featuredCount = 0;
-                let popularCount = 0;
+                let popularFound = false;
                 
                 properties.forEach((property, index) => {
                     const extracted = extractPropertyData(property);
                     if (extracted) {
-                        // Mark first 3 highest-priced properties as featured
-                        if (featuredCount < 3 && extracted.price && extracted.price > 1000000) {
+                        // Mark specific property as popular
+                        if (extracted.id === '86043052' || property.id === '86043052' || property.reference === '86043052') {
+                            extracted.is_popular = true;
+                            popularFound = true;
+                            console.log(`🔥 Found and marked POPULAR: ${extracted.title} (ID: ${extracted.id})`);
+                        }
+                        
+                        // Mark first highest-priced property as featured (only one)
+                        if (featuredCount === 0 && extracted.price && extracted.price > 1000000) {
                             extracted.is_featured = true;
                             featuredCount++;
                             console.log(`✨ Marked as FEATURED: ${extracted.title} - €${extracted.price?.toLocaleString()}`);
                         }
                         
-                        // Mark first property as popular
-                        if (popularCount === 0) {
-                            extracted.is_popular = true;
-                            popularCount++;
-                            console.log(`🔥 Marked as POPULAR: ${extracted.title}`);
-                        }
-                        
                         processedProperties.push(extracted);
                     }
                 });
+                
+                // If specific popular property not found, mark first property as popular
+                if (!popularFound && processedProperties.length > 0) {
+                    processedProperties[0].is_popular = true;
+                    console.log(`🔥 Fallback - Marked as POPULAR: ${processedProperties[0].title}`);
+                }
                 
                 // Sort by price (highest first) to ensure best properties are featured
                 processedProperties.sort((a, b) => {
@@ -2183,15 +2189,11 @@
                     return priceB - priceA;
                 });
                 
-                // Re-mark featured after sorting
-                processedProperties.forEach((property, index) => {
-                    if (index < 3) {
-                        property.is_featured = true;
-                    }
-                    if (index === 0) {
-                        property.is_popular = true;
-                    }
-                });
+                // Ensure we have at least one featured property
+                if (featuredCount === 0 && processedProperties.length > 0) {
+                    processedProperties[0].is_featured = true;
+                    console.log(`✨ Fallback - Marked as FEATURED: ${processedProperties[0].title}`);
+                }
                 
                 allProperties = processedProperties;
                 displayedProperties = [...allProperties];
