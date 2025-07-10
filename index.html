@@ -496,7 +496,7 @@
         }
 
         .section-container {
-            max-width: 1400px;
+            max-width: 1600px; /* Made wider */
             margin: 0 auto;
             padding: 0 2rem;
         }
@@ -631,7 +631,7 @@
             color: #000;
         }
 
-        /* Hero Featured Property */
+        /* Hero Featured Property - Made Clickable */
         .hero-featured-property {
             position: relative;
             margin-bottom: 3rem;
@@ -644,6 +644,7 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.3s ease;
+            cursor: pointer; /* Made clickable */
         }
 
         .hero-featured-property:hover {
@@ -751,33 +752,14 @@
             right: 2rem;
         }
 
-        .hero-property-view-btn {
-            position: absolute;
-            bottom: 2rem;
-            right: 2rem;
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
+        /* Removed hero-property-view-btn styles since button is removed */
 
-        .hero-property-view-btn:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        /* Properties Grid */
+        /* Properties Grid - Made Wider */
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            max-width: 1400px;
+            grid-template-columns: repeat(3, 1fr); /* Changed from 2 to 3 columns */
+            gap: 1.5rem; /* Reduced gap to fit more content */
+            max-width: 1600px; /* Made wider */
             margin: 0 auto;
         }
 
@@ -798,11 +780,11 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.2);
         }
 
-        /* Popular properties layout */
+        /* Popular properties layout - Made Wider */
         .popular-property-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem; /* Increased gap */
             align-items: center;
             background: white;
             border-radius: 20px;
@@ -810,10 +792,12 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             padding: 0;
             margin-bottom: 2rem;
+            max-width: 1600px; /* Made wider */
+            margin: 0 auto 2rem;
         }
 
         .popular-property-visual {
-            height: 400px;
+            height: 500px; /* Made taller */
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             display: flex;
             align-items: center;
@@ -845,7 +829,7 @@
         }
 
         .popular-property-content {
-            padding: 3rem;
+            padding: 4rem; /* Increased padding */
         }
 
         .popular-property-badge {
@@ -862,7 +846,7 @@
         }
 
         .popular-property-title {
-            font-size: 2.2rem;
+            font-size: 2.5rem; /* Made larger */
             font-weight: 400;
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
@@ -871,7 +855,7 @@
         }
 
         .popular-property-location {
-            font-size: 1.1rem;
+            font-size: 1.2rem; /* Made larger */
             color: #666;
             margin-bottom: 1.5rem;
             display: flex;
@@ -880,8 +864,8 @@
         }
 
         .popular-property-location svg {
-            width: 20px;
-            height: 20px;
+            width: 22px; /* Made larger */
+            height: 22px;
             color: #666;
         }
 
@@ -899,19 +883,19 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.95rem;
+            font-size: 1rem; /* Made larger */
             color: #666;
         }
 
         .popular-property-description {
-            font-size: 1rem;
+            font-size: 1.1rem; /* Made larger */
             color: #666;
             line-height: 1.6;
             margin-bottom: 2rem;
         }
 
         .popular-property-price {
-            font-size: 2rem;
+            font-size: 2.2rem; /* Made larger */
             font-weight: 600;
             color: #000;
             font-family: 'Lora', serif;
@@ -927,7 +911,7 @@
             background: #000;
             color: white;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem; /* Made larger */
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
@@ -937,6 +921,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 1rem; /* Made larger */
         }
 
         .popular-property-btn:hover {
@@ -1488,15 +1473,8 @@
                 right: 1rem;
             }
 
-            .hero-property-view-btn {
-                bottom: 1rem;
-                right: 1rem;
-                padding: 0.65rem 1.2rem;
-                font-size: 0.9rem;
-            }
-
             .properties-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Back to 1 column on mobile */
                 gap: 1.5rem;
             }
 
@@ -1629,6 +1607,13 @@
 
             .hero-property-title {
                 font-size: 1.5rem;
+            }
+        }
+
+        /* Medium screens - adjust grid for tablets */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .properties-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
             }
         }
 
@@ -2111,7 +2096,7 @@
             </svg>`
         };
 
-        // FIXED: Load real properties from VERV ONE API with specific popular property
+        // FIXED: Load real properties from VERV ONE API
         async function loadRealProperties() {
             try {
                 console.log('🏠 Loading REAL properties from VERV ONE API...');
@@ -2153,33 +2138,33 @@
                 // Process all properties
                 const processedProperties = [];
                 let featuredCount = 0;
-                let popularFound = false;
+                let popularCount = 0;
                 
                 properties.forEach((property, index) => {
                     const extracted = extractPropertyData(property);
                     if (extracted) {
-                        // Mark specific property as popular
-                        if (extracted.id === '86043052' || property.id === '86043052' || property.reference === '86043052') {
-                            extracted.is_popular = true;
-                            popularFound = true;
-                            console.log(`🔥 Found and marked POPULAR: ${extracted.title} (ID: ${extracted.id})`);
-                        }
-                        
-                        // Mark first highest-priced property as featured (only one)
-                        if (featuredCount === 0 && extracted.price && extracted.price > 1000000) {
+                        // Mark first 3 highest-priced properties as featured
+                        if (featuredCount < 3 && extracted.price && extracted.price > 1000000) {
                             extracted.is_featured = true;
                             featuredCount++;
                             console.log(`✨ Marked as FEATURED: ${extracted.title} - €${extracted.price?.toLocaleString()}`);
+                        }
+                        
+                        // Mark specific property as popular (ID: 86043052)
+                        if (extracted.id === '86043052') {
+                            extracted.is_popular = true;
+                            popularCount++;
+                            console.log(`🔥 Marked as POPULAR: ${extracted.title} (ID: ${extracted.id})`);
                         }
                         
                         processedProperties.push(extracted);
                     }
                 });
                 
-                // If specific popular property not found, mark first property as popular
-                if (!popularFound && processedProperties.length > 0) {
+                // If specific property not found, mark first one as popular
+                if (popularCount === 0 && processedProperties.length > 0) {
                     processedProperties[0].is_popular = true;
-                    console.log(`🔥 Fallback - Marked as POPULAR: ${processedProperties[0].title}`);
+                    console.log(`🔥 Fallback POPULAR: ${processedProperties[0].title}`);
                 }
                 
                 // Sort by price (highest first) to ensure best properties are featured
@@ -2189,11 +2174,14 @@
                     return priceB - priceA;
                 });
                 
-                // Ensure we have at least one featured property
-                if (featuredCount === 0 && processedProperties.length > 0) {
-                    processedProperties[0].is_featured = true;
-                    console.log(`✨ Fallback - Marked as FEATURED: ${processedProperties[0].title}`);
-                }
+                // Re-mark featured after sorting
+                let featureCount = 0;
+                processedProperties.forEach((property, index) => {
+                    if (index < 3 && featureCount < 3) {
+                        property.is_featured = true;
+                        featureCount++;
+                    }
+                });
                 
                 allProperties = processedProperties;
                 displayedProperties = [...allProperties];
@@ -2466,8 +2454,8 @@
             const heroProperty = featuredProperties[currentHeroPropertyIndex];
             displayHeroProperty(heroProperty);
             
-            // Show grid properties
-            const gridProperties = featuredProperties.slice(1, 3);
+            // Show grid properties (get next 3 properties, not starting from 1)
+            const gridProperties = featuredProperties.slice(1, 4); // Changed to show 3 cards
             displayGridProperties(gridProperties);
         }
 
@@ -2480,28 +2468,25 @@
                 return;
             }
             
-            // Filter for popular properties first
-            let popularProperties = displayedProperties.filter(p => p.is_popular);
-            if (popularProperties.length === 0) {
-                popularProperties = [...displayedProperties];
+            // Look for the specific property ID first
+            let popularProperty = displayedProperties.find(p => p.id === '86043052');
+            
+            // If not found, try popular properties
+            if (!popularProperty) {
+                let popularProperties = displayedProperties.filter(p => p.is_popular);
+                if (popularProperties.length > 0) {
+                    popularProperty = popularProperties[0];
+                }
             }
             
-            // Sort by clicks first, then by price
-            const sortedProperties = popularProperties.sort((a, b) => {
-                const aClicks = propertyClicks[a.id] || 0;
-                const bClicks = propertyClicks[b.id] || 0;
-                
-                if (bClicks !== aClicks) {
-                    return bClicks - aClicks;
-                }
-                
-                const aPrice = a.price || 0;
-                const bPrice = b.price || 0;
-                return bPrice - aPrice;
-            });
+            // If still not found, use first property
+            if (!popularProperty) {
+                popularProperty = displayedProperties[0];
+            }
             
-            // Display the most popular property
-            const popularProperty = sortedProperties[0];
+            console.log('Popular property to display:', popularProperty);
+            
+            // Display the popular property
             displayPopularProperty(popularProperty);
             
             // Clear the grid for popular tab
@@ -2511,7 +2496,7 @@
             }
         }
 
-        // ENHANCED: Display hero property with image
+        // ENHANCED: Display hero property with image and click handler
         function displayHeroProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
@@ -2565,8 +2550,17 @@
                 </div>
                 <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property">‹</button>
                 <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property">›</button>
-                <button class="hero-property-view-btn" onclick="viewProperty('${property.id}')" aria-label="View property details">Ver propiedad</button>
             `;
+            
+            // Make entire hero property clickable
+            hero.style.cursor = 'pointer';
+            hero.onclick = function(e) {
+                // Don't trigger if clicking on navigation buttons
+                if (e.target.classList.contains('hero-property-nav') || e.target.closest('.hero-property-nav')) {
+                    return;
+                }
+                viewProperty(property.id);
+            };
         }
 
         // ENHANCED: Display popular property with image
@@ -2734,7 +2728,7 @@
             const hero = document.getElementById('heroFeaturedProperty');
             const grid = document.getElementById('propertiesGrid');
             
-            const hasFilters = currentFilters.type || currentFilters.location || currentFilters.budget;
+            const hasFilters = currentFilters && (currentFilters.type || currentFilters.location || currentFilters.budget);
             
             const noResultsHTML = `
                 <div class="no-results">
@@ -2893,134 +2887,9 @@
                         handleSearch(e);
                     }
                 });
-                
-                // REMOVED: Real-time filtering - now only works on search button click
             });
             
             console.log('✅ Search functionality initialized successfully');
-        }
-
-        // Apply filters to properties and update display
-        function applyFiltersAndDisplay() {
-            console.log('=== APPLYING FILTERS ===');
-            console.log('Current filters:', currentFilters);
-            console.log('All properties available:', allProperties.length);
-            
-            if (allProperties.length === 0) {
-                console.log('No properties to filter');
-                displayedProperties = [];
-                showNoResults();
-                return;
-            }
-            
-            // Start with all properties
-            let filtered = [...allProperties];
-            console.log('Starting with properties:', filtered.length);
-            
-            // Apply property type filter (sale/rent)
-            if (currentFilters.type && currentFilters.type.trim()) {
-                const beforeFilter = filtered.length;
-                console.log('Filtering by type:', currentFilters.type);
-                
-                if (currentFilters.type === 'rent') {
-                    // Filter for rental properties
-                    filtered = filtered.filter(property => {
-                        // Check if property is marked as rental or has rental indicators
-                        const isRental = property.transaction_type === 'rent' || 
-                                        property.operation === 'rent' ||
-                                        property.for_rent === true ||
-                                        (property.price && property.price < 10000); // Assume low prices are rentals
-                        
-                        console.log(`Property "${property.title}" rental check: ${isRental}`);
-                        return isRental;
-                    });
-                } else if (currentFilters.type === 'sale') {
-                    // Filter for sale properties
-                    filtered = filtered.filter(property => {
-                        const isForSale = property.transaction_type !== 'rent' && 
-                                         property.operation !== 'rent' &&
-                                         property.for_rent !== true &&
-                                         (!property.price || property.price >= 10000); // Higher prices are usually sales
-                        
-                        console.log(`Property "${property.title}" sale check: ${isForSale}`);
-                        return isForSale;
-                    });
-                }
-                console.log(`Type filter: ${beforeFilter} → ${filtered.length} properties`);
-            }
-            
-            // Apply location filter
-            if (currentFilters.location && currentFilters.location.trim()) {
-                const searchLocation = currentFilters.location.toLowerCase().trim();
-                console.log('Filtering by location:', searchLocation);
-                
-                const beforeFilter = filtered.length;
-                filtered = filtered.filter(property => {
-                    const propertyLocation = (property.location || '').toString().toLowerCase();
-                    const propertyTitle = (property.title || '').toString().toLowerCase();
-                    
-                    const matchesLocation = propertyLocation.includes(searchLocation) || 
-                                          propertyTitle.includes(searchLocation) ||
-                                          propertyLocation === searchLocation;
-                    
-                    console.log(`Property "${property.title}" location "${propertyLocation}" vs search "${searchLocation}": ${matchesLocation}`);
-                    return matchesLocation;
-                });
-                console.log(`Location filter: ${beforeFilter} → ${filtered.length} properties`);
-            }
-            
-            // Apply budget filter
-            if (currentFilters.budget && currentFilters.budget.trim()) {
-                const beforeFilter = filtered.length;
-                console.log('Filtering by budget:', currentFilters.budget);
-                
-                filtered = filtered.filter(property => {
-                    if (!property.price || property.price === null || property.price === 0) {
-                        console.log(`Property "${property.title}" has no price, including in results`);
-                        return true; // Include properties without price
-                    }
-                    
-                    const price = typeof property.price === 'number' ? property.price : parseInt(property.price) || 0;
-                    
-                    let matches = true;
-                    switch (currentFilters.budget) {
-                        case '0-500k':
-                            matches = price <= 500000;
-                            break;
-                        case '500k-1m':
-                            matches = price > 500000 && price <= 1000000;
-                            break;
-                        case '1m-2m':
-                            matches = price > 1000000 && price <= 2000000;
-                            break;
-                        case '2m-5m':
-                            matches = price > 2000000 && price <= 5000000;
-                            break;
-                        case '5m-plus':
-                            matches = price > 5000000;
-                            break;
-                        default:
-                            matches = true;
-                    }
-                    
-                    console.log(`Property "${property.title}" price €${price} matches budget "${currentFilters.budget}": ${matches}`);
-                    return matches;
-                });
-                console.log(`Budget filter: ${beforeFilter} → ${filtered.length} properties`);
-            }
-            
-            displayedProperties = filtered;
-            console.log(`✅ FINAL RESULT: ${allProperties.length} → ${displayedProperties.length} properties after filtering`);
-            
-            // Update display immediately
-            if (displayedProperties.length === 0) {
-                showNoResults();
-            } else {
-                console.log('Displaying filtered properties for tab:', currentTab);
-                displayInitialContent();
-            }
-            
-            console.log('=== FILTERS APPLIED ===');
         }
 
         // Hero property navigation
