@@ -207,17 +207,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 350px; /* Ensure minimum space for the image */
+            min-width: 400px; /* Ensure enough space for full image */
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
         }
 
         .agent-image {
-            width: 350px;
-            height: auto; /* Maintain aspect ratio */
+            max-width: 100%;
+            max-height: 500px;
+            width: auto;
+            height: auto;
             object-fit: contain; /* Show full image without cropping */
-            border-radius: 12px;
+            border-radius: 8px;
             filter: grayscale(100%);
             transition: filter 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
             display: block; /* Ensure image displays properly */
         }
 
@@ -637,7 +642,7 @@
         .credential-logo {
             height: 60px;
             opacity: 0.8;
-            display: block;
+            display: block !important; /* Force display */
             transition: opacity 0.3s ease;
             max-width: 120px;
             object-fit: contain;
@@ -841,10 +846,14 @@
 
             .agent-image-container {
                 min-width: auto; /* Remove min-width constraint on mobile */
+                padding: 0.5rem;
+                margin-bottom: 2rem;
             }
 
             .agent-image {
-                width: 250px;
+                max-width: 280px;
+                max-height: 350px;
+                width: auto;
                 height: auto;
                 object-fit: contain; /* Show full image on mobile too */
             }
@@ -926,7 +935,9 @@
             }
 
             .agent-image {
-                width: 200px;
+                max-width: 220px;
+                max-height: 280px;
+                width: auto;
                 height: auto;
                 object-fit: contain; /* Show full image on extra small screens too */
             }
@@ -963,7 +974,7 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
+                <img src="assets/images/verv-one-logo-portals.jpg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
@@ -1211,19 +1222,23 @@
                     <img src="assets/images/api119bmow.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
-                         loading="lazy">
+                         loading="lazy"
+                         style="display: block !important;">
                     <img src="assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
-                         loading="lazy">
+                         loading="lazy"
+                         style="display: block !important;">
                     <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
-                         loading="lazy">
+                         loading="lazy"
+                         style="display: block !important;">
                     <img src="assets/images/realtor-sitges.jpg" 
                          alt="Realtor Sitges" 
                          class="credential-logo"
-                         loading="lazy">
+                         loading="lazy"
+                         style="display: block !important;">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
