@@ -14,6 +14,7 @@
     
     <!-- DNS Prefetch for Performance -->
     <link rel="dns-prefetch" href="//cdn.weglot.com">
+    <link rel="dns-prefetch" href="//player.vimeo.com">
     <link rel="dns-prefetch" href="//properties.verv.one">
     
     <!-- Updated Favicon -->
@@ -39,35 +40,44 @@
     </script>
     
     <!-- SEO Meta Tags -->
-    <title>How We Work - VERV ONE | Project Management, Buyer Representation, Sales & Rentals</title>
-    <meta name="description" content="Discover how VERV ONE works with clients—from project management and investment to buyer representation and rental consultancy. Transparent, ethical and tailored service in Barcelona, Sitges & Costa Brava.">
-    <meta name="keywords" content="real estate process Spain, project management Sitges, buying property Costa Brava, rental service Barcelona, property investment Catalunya, buyer representation Spain">
+    <title>Projects - VERV ONE Real Estate Development & Renovation</title>
+    <meta name="description" content="Explore VERV ONE's portfolio of successful luxury property projects, renovations, and developments across Barcelona, Sitges, and Costa Brava.">
+    <meta name="keywords" content="real estate projects Barcelona, luxury renovations Sitges, property development Costa Brava, VERV ONE portfolio">
     <meta name="author" content="VERV ONE">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.verv.one/how-we-work/">
-    <meta property="og:title" content="How We Work - VERV ONE | Project Management, Buyer Representation, Sales & Rentals">
-    <meta property="og:description" content="Discover how VERV ONE works with clients—from project management and investment to buyer representation and rental consultancy. Transparent, ethical and tailored service in Barcelona, Sitges & Costa Brava.">
+    <meta property="og:url" content="https://www.verv.one/projects">
+    <meta property="og:title" content="Projects - VERV ONE Real Estate Development & Renovation">
+    <meta property="og:description" content="Explore VERV ONE's portfolio of successful luxury property projects, renovations, and developments across Barcelona, Sitges, and Costa Brava.">
     <meta property="og:image" content="https://verv.one/assets/images/verv-one-logo.png">
     <meta property="og:site_name" content="VERV ONE">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://www.verv.one/how-we-work/">
-    <meta name="twitter:title" content="How We Work - VERV ONE | Project Management, Buyer Representation, Sales & Rentals">
-    <meta name="twitter:description" content="Discover how VERV ONE works with clients—from project management and investment to buyer representation and rental consultancy. Transparent, ethical and tailored service in Barcelona, Sitges & Costa Brava.">
+    <meta name="twitter:url" content="https://www.verv.one/projects">
+    <meta name="twitter:title" content="Projects - VERV ONE Real Estate Development & Renovation">
+    <meta name="twitter:description" content="Explore VERV ONE's portfolio of successful luxury property projects, renovations, and developments across Barcelona, Sitges, and Costa Brava.">
     <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-logo.png">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.verv.one/how-we-work/">
+    <link rel="canonical" href="https://www.verv.one/projects">
     
     <!-- Weglot Translation Script -->
     <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     
     <!-- Chatbase Integration -->
     <script>
-    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="82Jd8DV0roWCZlMeoeqbk";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+      window.embeddedChatbotConfig = {
+        chatbotId: "SfBNzL38DcXmnHCUqNZkN",
+        domain: "www.chatbase.co"
+      }
+    </script>
+    <script
+      src="https://www.chatbase.co/embed.min.js"
+      chatbotId="SfBNzL38DcXmnHCUqNZkN"
+      domain="www.chatbase.co"
+      defer>
     </script>
 
     <style>
@@ -151,8 +161,8 @@
             color: #000;
         }
 
-        /* Hero Section */
-        .inner-hero {
+        /* Projects Hero - Simplified */
+        .projects-hero {
             position: relative;
             height: 100vh;
             min-height: 600px;
@@ -163,24 +173,31 @@
             color: white;
             text-align: center;
             margin: 0 -2rem;
-            background: url('../assets/images/architect-floor-plans.jpg') center/cover no-repeat;
-            background-attachment: fixed;
         }
 
-        .inner-hero::before {
-            content: '';
+        .projects-hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .projects-hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%);
-            z-index: 1;
+            z-index: 2;
         }
 
         .inner-hero-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             max-width: 800px;
             margin: 0 auto;
             padding: 0 2rem;
@@ -188,27 +205,22 @@
         }
 
         .inner-hero-content h1 {
-            font-size: 3.2rem;
-            margin-bottom: 1.5rem;
+            font-size: 3rem;
+            margin-bottom: 1rem;
             font-weight: 300;
             letter-spacing: 1px;
             font-family: 'Lora', serif;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-            line-height: 1.2;
         }
 
         .inner-hero-content p {
-            font-size: 1.4rem;
-            opacity: 0.95;
+            font-size: 1.3rem;
+            opacity: 0.9;
             font-style: italic;
             font-weight: 300;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            max-width: 700px;
-            margin: 0 auto;
         }
 
         /* Main sections */
-        .content-section {
+        .section {
             padding: 6rem 0;
         }
 
@@ -239,75 +251,62 @@
             font-weight: 300;
         }
 
-        /* Content Grid */
-        .content-grid {
+        /* Projects Grid */
+        .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
             margin-bottom: 4rem;
         }
 
-        .content-card {
+        .project-card {
             background: white;
-            padding: 2rem;
             border-radius: 16px;
+            overflow: hidden;
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             transition: all 0.4s ease;
         }
 
-        .content-card:hover {
+        .project-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 16px 50px rgba(0,0,0,0.2);
         }
 
-        .content-card h3 {
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            font-family: 'Lora', serif;
-            color: #000;
+        .project-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
         }
 
-        .content-card p {
+        .project-info {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-family: 'Lora', serif;
+            color: #000;
+            line-height: 1.3;
+        }
+
+        .project-year {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-description {
             font-size: 1rem;
             color: #666;
             line-height: 1.6;
         }
 
-        /* About Features */
-        .about-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .about-feature {
-            text-align: center;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .about-feature:hover {
-            transform: translateY(-4px);
-        }
-
-        .about-feature h3 {
-            font-size: 1.3rem;
-            color: #000;
-            margin-bottom: 0.5rem;
-            font-family: 'Lora', serif;
-        }
-
-        .about-feature p {
-            font-size: 0.95rem;
-            color: #666;
-            margin: 0;
-        }
-
-        /* CTA Sections */
+        /* CTA Section */
         .cta-section {
             margin-top: 80px;
             text-align: center;
@@ -332,20 +331,7 @@
             margin-right: auto;
         }
 
-        .black-cta {
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
-            color: white;
-        }
-
-        .black-cta h3 {
-            color: white;
-        }
-
-        .black-cta p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .verv-btn-black, .cta-button {
+        .verv-btn-black {
             background: #000;
             color: white;
             border: none;
@@ -360,34 +346,12 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            margin: 0 10px;
         }
 
-        .verv-btn-black:hover, .cta-button:hover {
+        .verv-btn-black:hover {
             background: #333;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            color: white;
-            border: 1px solid white;
-        }
-
-        .cta-button.secondary:hover {
-            background: white;
-            color: #000;
-        }
-
-        .white-button {
-            background: white !important;
-            color: #000 !important;
-        }
-
-        .white-button:hover {
-            background: #f0f0f0 !important;
-            color: #000 !important;
         }
 
         /* Footer - Matching Homepage */
@@ -396,6 +360,7 @@
             color: white;
             padding: 4rem 0 1rem;
             margin: 0 -2rem;
+            position: relative;
         }
 
         .footer-content {
@@ -484,6 +449,14 @@
         .footer-social .icon {
             width: 22px;
             height: 22px;
+        }
+
+        /* Footer Chatbase Widget */
+        .footer-chatbase {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
         }
 
         /* Footer Credentials */
@@ -589,6 +562,18 @@
             white-space: nowrap;
         }
 
+        /* Fade in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Mobile Responsive Design */
         @media (max-width: 768px) {
             body {
@@ -633,10 +618,9 @@
                 height: 70px;
             }
 
-            .inner-hero {
+            .projects-hero {
                 margin: 0 -1rem;
                 min-height: 70vh;
-                background-attachment: scroll;
             }
 
             .inner-hero-content {
@@ -645,34 +629,40 @@
             }
             
             .inner-hero-content h1 {
-                font-size: 2.2rem;
-                margin-bottom: 1rem;
+                font-size: 2rem;
             }
 
             .inner-hero-content p {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
 
             .section-title {
                 font-size: 2.2rem;
             }
 
-            .content-section {
+            .section {
                 padding: 4rem 0;
             }
 
-            .content-grid {
+            .projects-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2rem;
             }
 
-            .content-card {
+            .project-card {
+                height: auto;
+            }
+
+            .project-image {
+                height: 200px;
+            }
+
+            .project-info {
                 padding: 1.5rem;
             }
 
-            .about-features {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+            .project-title {
+                font-size: 1.3rem;
             }
 
             .cta-section {
@@ -688,12 +678,6 @@
                 font-size: 1rem;
             }
 
-            .cta-button {
-                display: block;
-                margin: 10px auto;
-                text-align: center;
-            }
-
             .footer {
                 margin: 0 -1rem;
             }
@@ -706,6 +690,11 @@
             .footer-bottom {
                 padding-left: 1rem;
                 padding-right: 1rem;
+            }
+
+            .footer-chatbase {
+                bottom: 10px;
+                right: 10px;
             }
 
             .credentials-logos {
@@ -746,12 +735,7 @@
             }
 
             .inner-hero-content h1 {
-                font-size: 1.8rem;
-                line-height: 1.1;
-            }
-
-            .inner-hero-content p {
-                font-size: 1rem;
+                font-size: 1.6rem;
             }
 
             .section-title {
@@ -772,8 +756,7 @@
 
         /* Focus styles for accessibility */
         .nav-link:focus,
-        .verv-btn-black:focus,
-        .cta-button:focus {
+        .verv-btn-black:focus {
             outline: 2px solid #000;
             outline-offset: 2px;
         }
@@ -784,15 +767,15 @@
     <header class="header-nav">
         <nav class="nav-container">
             <a href="/" class="logo-link">
-                <img src="assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo" onerror="console.error('Header logo not found: assets/images/verv_one_logo.svg')">
+                <img src="../assets/images/verv_one_logo.svg" alt="VERV ONE Logo" class="logo">
             </a>
             
             <ul class="nav-menu" id="navMenu">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/about/" class="nav-link">About</a></li>
-                <li><a href="/how-we-work/" class="nav-link active">How we work</a></li>
+                <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
                 <li><a href="https://www.verv.one/properties/" class="nav-link">Properties</a></li>
-                <li><a href="/projects/" class="nav-link">Projects</a></li>
+                <li><a href="/projects/" class="nav-link active">Projects</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
                 <li><div id="weglot-container"></div></li>
             </ul>
@@ -801,104 +784,102 @@
         </nav>
     </header>
 
-    <main class="page-content">
-        <!-- Hero Section -->
-        <section class="inner-hero">
-            <div class="inner-hero-content">
-                <h1>How We Work</h1>
-                <p>Project Management · Investment Advisory · Buyer Representation · Rentals & Sales</p>
+    <!-- Projects Hero - With Custom Video and New Text -->
+    <section class="projects-hero">
+        <video autoplay muted loop playsinline class="projects-hero-video" preload="metadata">
+            <source src="../assets/images/project%20management%20sitges%20barcelona.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="projects-hero-overlay"></div>
+        <div class="inner-hero-content">
+            <h1>Where Vision Becomes Structure</h1>
+            <p>Project Management & Development with Purpose</p>
+        </div>
+    </section>
+
+    <!-- Projects Content -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Our Portfolio</h2>
+                <p class="section-subtitle">A showcase of successful projects and satisfied clients</p>
             </div>
-        </section>
 
-        <!-- Content Section -->
-        <section class="content-section">
-            <div class="section-container">
-                <div class="section-header">
-                    <h2 class="section-title">Our Approach</h2>
-                    <p class="section-subtitle">We combine experience, ethics, and attention to detail to help clients succeed at every stage of their property journey.</p>
-                </div>
-
-                <div class="content-grid">
-                    <div class="content-card">
-                        <h3>Consultation & Needs Analysis</h3>
-                        <p>We begin every relationship with a thorough consultation to understand your goals, budget, timeline, and lifestyle preferences. Whether you are buying, selling, renting, or investing—we tailor our services accordingly.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Market Intelligence</h3>
-                        <p>With over 25 years of experience in Catalunya, we provide insight into market trends, property values, local regulations, and emerging opportunities across Barcelona, Sitges, and the Costa Brava.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Project Management</h3>
-                        <p>For clients developing or renovating properties, we offer full-service project management—from site analysis and licensing to design coordination and construction supervision—ensuring timelines, budgets, and quality are met.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Buyer Representation</h3>
-                        <p>As your exclusive representative, we conduct property searches, due diligence, price negotiation, and coordination with legal and financial professionals—saving you time, money, and stress while protecting your interests.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>Transparent Process</h3>
-                        <p>We maintain clear and consistent communication throughout, providing honest advice, regular updates, and detailed reporting. Our reputation is built on trust, not sales volume.</p>
-                    </div>
-                    <div class="content-card">
-                        <h3>After-Sales Support</h3>
-                        <p>Our service doesn't stop at the signature. We continue to assist you with everything from utilities setup and decoration to rental management or resale strategy when needed.</p>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <img src="../assets/images/gotic.jpeg" 
+                         alt="11th Century renovation apartment" 
+                         class="project-image">
+                    <div class="project-info">
+                        <h3 class="project-title">11th Century Renovation Apartment at Old Town in Barcelona</h3>
+                        <div class="project-year">2018</div>
+                        <p class="project-description">Complete restoration of a historic apartment in Barcelona's old quarter, preserving medieval architecture while integrating modern amenities and luxury finishes. This challenging project required careful balance between historical preservation and contemporary living needs.</p>
                     </div>
                 </div>
-
-                <div style="margin-top: 80px; text-align: center;">
-                    <h3 style="font-size: 2.4rem; margin-bottom: 30px; font-family: 'Lora', serif;">What We Offer</h3>
-                    <div class="about-features" style="max-width: 1000px; margin: 0 auto;">
-                        <div class="about-feature">
-                            <h3>Project Management</h3>
-                            <p>From land acquisition to final delivery, we manage your construction or renovation with precision and integrity.</p>
-                        </div>
-                        <div class="about-feature">
-                            <h3>Buyer Representation</h3>
-                            <p>We act exclusively on your behalf to help you find, evaluate, negotiate, and acquire the ideal property.</p>
-                        </div>
-                        <div class="about-feature">
-                            <h3>Sales & Rentals</h3>
-                            <p>Whether you're selling a luxury villa or seeking long-term tenants, we provide expert marketing and contract management.</p>
-                        </div>
-                        <div class="about-feature">
-                            <h3>Investor Services</h3>
-                            <p>We identify profitable opportunities and structure acquisitions for both short- and long-term returns.</p>
-                        </div>
+                
+                <div class="project-card fade-in">
+                    <img src="../assets/images/mas-alba.png" 
+                         alt="New Development Modern House" 
+                         class="project-image">
+                    <div class="project-info">
+                        <h3 class="project-title">New Development Modern House in Mas Alba</h3>
+                        <div class="project-year">2025</div>
+                        <p class="project-description">Contemporary luxury residence featuring cutting-edge design, sustainable technology, and panoramic views in the exclusive Mas Alba development. This project showcases the latest in architectural innovation and environmental consciousness.</p>
                     </div>
                 </div>
-
-                <div class="cta-section" style="margin-top: 100px;">
-                    <div style="text-align: center; margin-bottom: 60px;">
-                        <h3 style="font-size: 2.5rem; margin-bottom: 20px; font-family: 'Lora', serif;">What Makes Us Different</h3>
-                        <p style="font-size: 1.2rem; color: #666;">You won't find cookie-cutter advice or pushy tactics here. We prioritize professionalism, discretion, and excellence at every stage of your journey.</p>
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
-                        <div style="text-align: center;">
-                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem; font-family: 'Lora', serif;">Experienced Leadership</h4>
-                            <p style="color: #666;">Led by seasoned professionals with decades of success in real estate, construction, and investment consulting</p>
-                        </div>
-                        <div style="text-align: center;">
-                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem; font-family: 'Lora', serif;">Ethical Standards</h4>
-                            <p style="color: #666;">Licensed by AICAT and API, aligned with the REALTOR® Code of Ethics, and committed to full transparency</p>
-                        </div>
-                        <div style="text-align: center;">
-                            <h4 style="font-size: 1.3rem; margin-bottom: 1rem; font-family: 'Lora', serif;">Curated Network</h4>
-                            <p style="color: #666;">We work with vetted architects, legal advisors, banks, and artisans to ensure quality across every project</p>
-                        </div>
+                
+                <div class="project-card fade-in">
+                    <img src="../assets/images/masia-emporda.jpg" 
+                         alt="11th century stone farmhouse" 
+                         class="project-image">
+                    <div class="project-info">
+                        <h3 class="project-title">Full Renovation of 11th Century Stone Farmhouse at Gironès</h3>
+                        <div class="project-year">2025-2027</div>
+                        <p class="project-description">Comprehensive restoration of historic 1100m² farmhouse with 10 hectares of landscaping and 145 hectares of cork, olives, and pine trees. This ambitious project combines heritage preservation with modern luxury living in a spectacular natural setting.</p>
                     </div>
                 </div>
-
-                <div class="cta-section black-cta">
-                    <h3>Let's Work Together</h3>
-                    <p>Book a private consultation and let us help you make your vision a reality.</p>
-                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-                        <button onclick="openConsultationModal()" class="cta-button white-button">Schedule Consultation</button>
-                        <a href="/contact/" class="cta-button secondary">Contact Us</a>
+                
+                <div class="project-card fade-in">
+                    <img src="../assets/images/eixample.jpg" 
+                         alt="Modernist apartment renovation" 
+                         class="project-image">
+                    <div class="project-info">
+                        <h3 class="project-title">Renovation of Modernist Apartment at Eixample Barcelona</h3>
+                        <div class="project-year">2022</div>
+                        <p class="project-description">Elegant transformation of a classic Eixample apartment, blending modernist architectural elements with contemporary luxury and functionality. The project maintained the building's historic character while creating a sophisticated modern living space.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <img src="../assets/images/malvasia.png" 
+                         alt="Levantina Sitges renovation" 
+                         class="project-image">
+                    <div class="project-info">
+                        <h3 class="project-title">Levantina Sitges Full Renovation of 330 m² Mediterranean House</h3>
+                        <div class="project-year">2022</div>
+                        <p class="project-description">Complete renovation of Mediterranean house with swimming pool, preserving traditional character while adding modern amenities and luxury finishes. The project created seamless indoor-outdoor living spaces perfect for the Mediterranean lifestyle.</p>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <img src="../assets/images/bellamar.png" 
+                         alt="Bellamar Castelldefels renovation" 
+                         class="project-image">
+                    <div class="project-info">
+                        <h3 class="project-title">Full Renovation of Modern House in Bellamar Castelldefels</h3>
+                        <div class="project-year">2022</div>
+                        <p class="project-description">Contemporary renovation of modern residence in prestigious Bellamar area, featuring state-of-the-art design and luxury amenities. This project transformed an existing structure into a showcase of modern architectural excellence and sophisticated living.</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+
+            <div class="cta-section fade-in">
+                <h3>Have a Project in Mind?</h3>
+                <p>Whether you're planning a renovation, new development, or investment project, our team has the expertise to bring your vision to life with exceptional results.</p>
+                <a href="../contact/" class="verv-btn-black">Discuss Your Project</a>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer - Matching Homepage -->
     <footer class="footer">
@@ -969,31 +950,32 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Footer Chatbase Widget -->
+        <div class="footer-chatbase">
+            <div id="footer-chatbase-container"></div>
+        </div>
         
         <!-- Professional Credentials Section -->
         <div class="footer-credentials">
             <div class="credentials-container">
                 <div class="credentials-logos">
-                    <img src="assets/images/api119bmow.png" 
+                    <img src="../assets/images/api119bmow.png" 
                          alt="API Professional Association" 
                          class="credential-logo"
-                         loading="lazy"
-                         onerror="console.error('Footer logo not found: assets/images/api119bmow.png')">
-                    <img src="assets/images/aicat.png" 
+                         loading="lazy">
+                    <img src="../assets/images/aicat.png" 
                          alt="AICAT Registry" 
                          class="credential-logo"
-                         loading="lazy"
-                         onerror="console.error('Footer logo not found: assets/images/aicat.png')">
-                    <img src="assets/images/realtor-sitges.jpg" 
-                         alt="Realtor Sitges" 
-                         class="credential-logo"
-                         loading="lazy"
-                         onerror="console.error('Footer logo not found: assets/images/realtor-sitges.jpg')">
-                    <img src="assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         loading="lazy">
+                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
                          alt="Concierge Auctions Agent" 
                          class="credential-logo"
-                         loading="lazy"
-                         onerror="console.error('Footer logo not found: assets/images/concierge-auctions-agent-sitges-barcelona-spain.png')">
+                         loading="lazy">
+                    <img src="../assets/images/realtor-sitges.jpg" 
+                         alt="Realtor Sitges" 
+                         class="credential-logo"
+                         loading="lazy">
                 </div>
                 <div class="credentials-info">
                     <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
@@ -1072,27 +1054,88 @@
             }
         }
 
-        // Consultation modal
-        function openConsultationModal() {
-            console.log('Opening consultation modal...');
-            
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'consultation_request', {
-                    source: 'how_we_work_page',
-                    method: 'schedule_form'
+        // Fade in animations
+        function initFadeInAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
                 });
-            }
-            
-            window.location.href = '/contact/';
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
         }
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             initMobileMenu();
+            initFadeInAnimations();
         });
+    </script>
+    
+    <!-- Chatbase Integration -->
+    <script>
+        (function(){
+            if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+                window.chatbase=(...arguments)=>{
+                    if(!window.chatbase.q){
+                        window.chatbase.q=[]
+                    }
+                    window.chatbase.q.push(arguments)
+                };
+                window.chatbase=new Proxy(window.chatbase,{
+                    get(target,prop){
+                        if(prop==="q"){
+                            return target.q
+                        }
+                        return(...args)=>target(prop,...args)
+                    }
+                })
+            }
+            
+            const onLoad=function(){
+                try {
+                    const script=document.createElement("script");
+                    script.src="https://www.chatbase.co/embed.min.js";
+                    script.id="SfBNzL38DcXmnHCUqNZkN";
+                    script.setAttribute("data-chatbot-id", "SfBNzL38DcXmnHCUqNZkN");
+                    script.setAttribute("data-domain", "www.chatbase.co");
+                    script.async = true;
+                    script.defer = true;
+                    
+                    script.onload = function() {
+                        console.log('Chatbase script loaded successfully');
+                    };
+                    
+                    script.onerror = function() {
+                        console.log('Chatbase script failed to load');
+                    };
+                    
+                    document.body.appendChild(script);
+                } catch (error) {
+                    console.error('Error loading Chatbase:', error);
+                }
+            };
+            
+            if(document.readyState==="complete"){
+                onLoad()
+            } else {
+                window.addEventListener("load", onLoad)
+            }
+        })();
+    </script>
 
-        // Make function global for HTML onclick handlers
-        window.openConsultationModal = openConsultationModal;
+    <!-- Footer Chatbase Script -->
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="82Jd8DV0roWCZlMeoeqbk";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
     </script>
 </body>
 </html>
