@@ -1,127 +1,1114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">About VERV ONE - Premier Real Estate Consultancy | Barcelona, Sitges & Costa Brava</title>
-  <meta name="description" id="pageDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava. Our story, mission, and commitment to exceptional service.">
-  <meta name="keywords" content="about VERV ONE, real estate consultancy Barcelona, luxury property experts Sitges, Costa Brava real estate experience, Wood Side SL history">
-  <meta name="author" content="VERV ONE">
-  <link rel="canonical" href="https://www.verv.one/about/">
-  <link rel="icon" href="../assets/images/verv-one-favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="../assets/images/verv-one-favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../shared/shared-styles-css.css">
-  <script src="https://cdn.weglot.com/weglot.min.js"></script>
-  <script>
-    Weglot.initialize({ api_key: "wg_eecebd448eae266139b949ca538854046" });
-  </script>
-  <style>
-    .about-hero {
-      background: url('../assets/images/costa-brava.jpg') center/cover no-repeat;
-      background-attachment: fixed;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <meta name="geo.region" content="ES-CT">
+    <meta name="geo.placename" content="Barcelona, Sitges, Costa Brava">
+    <meta name="geo.position" content="41.385064;2.173403">
+    
+    <!-- DNS Prefetch for Performance -->
+    <link rel="dns-prefetch" href="//cdn.weglot.com">
+    <link rel="dns-prefetch" href="//properties.verv.one">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Updated Favicon -->
+    <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/673f7444d1dcca5c5b6d6d2a/d1ec5307-a73b-4044-8141-c80b2c67bf66/VERV+ONE+FAVICON+%281%29.png?content-type=image%2Fpng">
+    
+    <!-- Optimized Font Loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-09NW5Z6Y0S', {
+        page_title: document.title,
+        page_location: window.location.href,
+        send_page_view: true,
+        custom_map: {
+          'custom_parameter_1': 'property_type',
+          'custom_parameter_2': 'location_interest'
+        }
+      });
+      
+      // Enhanced conversion tracking
+      function trackPropertyInquiry(propertyId, location, price) {
+        gtag('event', 'property_inquiry', {
+          currency: 'EUR',
+          value: price || 0,
+          property_id: propertyId,
+          location: location,
+          page_location: window.location.href
+        });
+      }
+      
+      function trackContactSubmission(formType) {
+        gtag('event', 'conversion', {
+          send_to: 'G-09NW5Z6Y0S/contact_form',
+          form_type: formType,
+          page_location: window.location.href
+        });
+      }
+      
+      // Make functions available globally
+      window.trackPropertyInquiry = trackPropertyInquiry;
+      window.trackContactSubmission = trackContactSubmission;
+    </script>
+    
+    <!-- Page-specific Meta Tags -->
+    <title id="pageTitle">About VERV ONE - Premier Real Estate Consultancy | Barcelona, Sitges & Costa Brava</title>
+    <meta name="description" id="pageDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava. Our story, mission, and commitment to exceptional service.">
+    <meta name="keywords" content="about VERV ONE, real estate consultancy Barcelona, luxury property experts Sitges, Costa Brava real estate experience, Wood Side SL history">
+    <meta name="author" content="VERV ONE">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" id="ogUrl" content="https://www.verv.one/about/">
+    <meta property="og:title" id="ogTitle" content="About VERV ONE - Premier Real Estate Consultancy">
+    <meta property="og:description" id="ogDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava.">
+    <meta property="og:image" content="https://verv.one/assets/images/verv-one-logo.png">
+    <meta property="og:site_name" content="VERV ONE">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" id="twitterUrl" content="https://www.verv.one/about/">
+    <meta name="twitter:title" id="twitterTitle" content="About VERV ONE - Premier Real Estate Consultancy">
+    <meta name="twitter:description" id="twitterDescription" content="Learn about VERV ONE's 25+ years of expertise in luxury real estate across Barcelona, Sitges, and Costa Brava.">
+    <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-logo.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" id="canonicalUrl" href="https://www.verv.one/about/">
+    
+    <!-- Enhanced Real Estate Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": "VERV ONE",
+        "alternateName": "Wood Side S.L.",
+        "description": "Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.",
+        "url": "https://www.verv.one",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://verv.one/assets/images/verv-one-logo.png",
+            "width": 400,
+            "height": 300
+        },
+        "image": "https://verv.one/assets/images/verv-one-logo.png",
+        "telephone": "+34 657 271 220",
+        "email": "hello@verv.one",
+        "foundingDate": "1998",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Carrer Oms 10",
+            "addressLocality": "Vulpellac",
+            "addressRegion": "Girona",
+            "postalCode": "17111",
+            "addressCountry": "ES"
+        },
+        "areaServed": [
+            {
+                "@type": "City",
+                "name": "Barcelona"
+            },
+            {
+                "@type": "City", 
+                "name": "Sitges"
+            },
+            {
+                "@type": "AdministrativeArea",
+                "name": "Costa Brava"
+            }
+        ],
+        "serviceType": [
+            "Luxury Real Estate Sales",
+            "Property Management", 
+            "Real Estate Consultation",
+            "Investment Advisory"
+        ]
     }
-  </style>
+    </script>
+
+    <!-- Weglot Translation -->
+    <script src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+        Weglot.initialize({ api_key: "wg_eecebd448eae266139b949ca538854046" });
+    </script>
+
+    <!-- Optimized CSS -->
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+            padding: 0 2rem;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* HEADER - Same as homepage */
+        .header-nav {
+            background: #ffffff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            height: 95px;
+            transition: height 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            opacity: 0.6;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #000;
+        }
+
+        /* ABOUT PAGE SPECIFIC STYLES */
+        .page-content {
+            margin-top: 120px; /* Account for fixed header */
+        }
+
+        .inner-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin: 0 -2rem;
+            background: url('../assets/images/costa-brava.jpg') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        .inner-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .inner-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .inner-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+            font-weight: 400;
+        }
+
+        .inner-hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content-section {
+            padding: 6rem 0;
+            background: #fff;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+            color: #000;
+            font-weight: 400;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            margin-bottom: 5rem;
+        }
+
+        .about-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            font-family: 'Lora', serif;
+            color: #000;
+            font-weight: 400;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .about-image-container {
+            position: relative;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .content-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .content-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+            color: #000;
+        }
+
+        .content-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .about-feature {
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .about-feature:hover {
+            transform: translateY(-4px);
+        }
+
+        .about-feature h3 {
+            font-size: 1.3rem;
+            color: #000;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+        }
+
+        .about-feature p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* CTA Buttons */
+        button, .btn {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        button:hover, .btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Footer - Same as homepage */
+        .footer {
+            background: #000;
+            color: white;
+            padding: 4rem 0 1rem;
+            margin: 0 -2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: 'Lora', serif;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .footer-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-social a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .footer-social .icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Footer Credentials */
+        .footer-credentials {
+            background: #000;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+        }
+
+        .credentials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .credentials-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .credential-logo {
+            height: 60px;
+            opacity: 0.8;
+            display: block;
+            transition: opacity 0.3s ease;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
+        .credential-logo:hover {
+            opacity: 1;
+        }
+
+        .credentials-info {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .credentials-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #ccc;
+            font-size: 0.9rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            font-weight: 300;
+        }
+
+        /* Chat Widgets Container */
+        .chat-widgets-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            background: #20b858;
+        }
+
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-text {
+            white-space: nowrap;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0 1rem;
+            }
+
+            .header-nav {
+                padding: 0 1rem;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+            }
+
+            .nav-container {
+                padding: 0.75rem 0;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .logo {
+                height: 70px;
+            }
+
+            .page-content {
+                margin-top: 90px;
+            }
+
+            .inner-hero {
+                margin: 0 -1rem;
+                height: 50vh;
+                min-height: 300px;
+                background-attachment: scroll;
+            }
+
+            .inner-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .inner-hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-content h2 {
+                font-size: 2.2rem;
+            }
+
+            .about-image {
+                height: 300px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .content-section {
+                padding: 4rem 0;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .credentials-logos {
+                gap: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .credential-logo {
+                height: 45px;
+                max-width: 100px;
+            }
+
+            .footer {
+                margin: 0 -1rem;
+            }
+
+            .footer-content {
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+
+            .footer-bottom {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .chat-widgets-container {
+                bottom: 20px;
+                left: 20px;
+                gap: 10px;
+            }
+
+            .whatsapp-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .whatsapp-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .whatsapp-text {
+                display: none;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .inner-hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .about-content h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Performance optimizations */
+        .about-feature,
+        .content-card {
+            will-change: transform;
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .nav-link:focus,
+        button:focus {
+            outline: 2px solid #000;
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Main Content -->
-  <main class="page-content">
-    <!-- Hero Section -->
-    <section class="inner-hero about-hero">
-      <div class="inner-hero-content">
-        <h1>About VERV ONE</h1>
-        <p>Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava</p>
-      </div>
-    </section>
+    <!-- Header Navigation -->
+    <header class="header-nav">
+        <nav class="nav-container">
+            <a href="/" class="logo-link">
+                <img src="../assets/images/verv-one-logo-portals.jpg" alt="VERV ONE Logo" class="logo">
+            </a>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about/" class="nav-link active">About</a></li>
+                <li><a href="/how-we-work/" class="nav-link">How we work</a></li>
+                <li><a href="https://www.verv.one/properties/" class="nav-link">Properties</a></li>
+                <li><a href="/projects/" class="nav-link">Projects</a></li>
+                <li><a href="/contact/" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
+        </nav>
+    </header>
 
-    <!-- About Story Section -->
-    <section class="content-section">
-      <div class="section-container">
-        <div class="section-header">
-          <h2 class="section-title">Our Story</h2>
-          <p class="section-subtitle">Building trust through expertise, dedication, and unparalleled service</p>
-        </div>
+    <!-- Main Content -->
+    <main class="page-content">
+        <!-- Hero Section -->
+        <section class="inner-hero">
+            <div class="inner-hero-content">
+                <h1>About VERV ONE</h1>
+                <p>Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava</p>
+            </div>
+        </section>
 
-        <div class="about-container">
-          <div class="about-content">
-            <h2>Founded on Excellence</h2>
-            <p>VERV ONE was established in 1998 as Wood Side S.L., with a vision to redefine luxury real estate consultancy in Catalunya. Over 25+ years, we have evolved from a local agency into a premier international consultancy, serving discerning clients from over 30 countries.</p>
-            <p>Our journey began with a simple yet powerful commitment: to provide exceptional service that goes beyond traditional real estate transactions. Today, we stand as trusted advisors for luxury property investments across Barcelona, Sitges, and Costa Brava.</p>
-            <p>What sets us apart is our deep understanding of both local markets and international client needs. We don't just sell properties; we curate lifestyles and create lasting relationships built on trust, expertise, and results.</p>
-          </div>
-          <div class="about-image-container">
-            <img src="../assets/images/villa-mediterranean-sitges.jpg" alt="Villa Mediterranean Sitges luxury property" class="about-image">
-          </div>
-        </div>
+        <!-- About Story Section -->
+        <section class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Story</h2>
+                    <p class="section-subtitle">Building trust through expertise, dedication, and unparalleled service</p>
+                </div>
 
-        <div class="content-grid" style="margin-top: 80px;">
-          <div class="content-card">
-            <h3>Our Mission</h3>
-            <p>To provide exceptional real estate services that exceed our clients' expectations while building lasting relationships based on trust, integrity, and results.</p>
-          </div>
-          <div class="content-card">
-            <h3>Our Vision</h3>
-            <p>To be the premier luxury real estate consultancy in Catalunya, recognized for our expertise, innovation, and commitment to excellence.</p>
-          </div>
-          <div class="content-card">
-            <h3>Our Values</h3>
-            <p>Integrity, Excellence, Innovation, and Client Focus. These core values guide every interaction and decision we make.</p>
-          </div>
-        </div>
+                <div class="about-container">
+                    <div class="about-content">
+                        <h2>Founded on Excellence</h2>
+                        <p>VERV ONE was established in 1998 as Wood Side S.L., with a vision to redefine luxury real estate consultancy in Catalunya. Over 25+ years, we have evolved from a local agency into a premier international consultancy, serving discerning clients from over 30 countries.</p>
+                        <p>Our journey began with a simple yet powerful commitment: to provide exceptional service that goes beyond traditional real estate transactions. Today, we stand as trusted advisors for luxury property investments across Barcelona, Sitges, and Costa Brava.</p>
+                        <p>What sets us apart is our deep understanding of both local markets and international client needs. We don't just sell properties; we curate lifestyles and create lasting relationships built on trust, expertise, and results.</p>
+                    </div>
+                    <div class="about-image-container">
+                        <img src="../assets/images/villa-mediterranean-sitges.jpg" alt="Villa Mediterranean Sitges luxury property" class="about-image" loading="lazy">
+                    </div>
+                </div>
 
-        <div style="margin-top: 100px; text-align: center;">
-          <h3 style="font-size: 2.5rem; margin-bottom: 30px;">Why Choose VERV ONE?</h3>
-          <div class="about-features" style="max-width: 1000px; margin: 0 auto;">
-            <div class="about-feature">
-              <h3>Local Expertise</h3>
-              <p>Deep knowledge of Barcelona, Sitges, and Costa Brava markets with insider access to exclusive properties and off-market opportunities</p>
-            </div>
-            <div class="about-feature">
-              <h3>International Reach</h3>
-              <p>Multilingual team serving clients from over 30 countries with comprehensive relocation and investment support</p>
-            </div>
-            <div class="about-feature">
-              <h3>Full-Service Approach</h3>
-              <p>End-to-end services from property search and project management to after-sales support and investment optimization</p>
-            </div>
-            <div class="about-feature">
-              <h3>Proven Track Record</h3>
-              <p>Over 25 years of excellence and 500+ successful transactions in luxury real estate across Catalunya</p>
-            </div>
-          </div>
-        </div>
+                <div class="content-grid" style="margin-top: 80px;">
+                    <div class="content-card">
+                        <h3>Our Mission</h3>
+                        <p>To provide exceptional real estate services that exceed our clients' expectations while building lasting relationships based on trust, integrity, and results.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Our Vision</h3>
+                        <p>To be the premier luxury real estate consultancy in Catalunya, recognized for our expertise, innovation, and commitment to excellence.</p>
+                    </div>
+                    <div class="content-card">
+                        <h3>Our Values</h3>
+                        <p>Integrity, Excellence, Innovation, and Client Focus. These core values guide every interaction and decision we make.</p>
+                    </div>
+                </div>
 
-        <div style="margin-top: 100px; background: #f8f8f8; padding: 80px 60px; border-radius: 20px;">
-          <div style="text-align: center; margin-bottom: 60px;">
-            <h3 style="font-size: 2.5rem; margin-bottom: 20px;">Our Expert Team</h3>
-            <p style="font-size: 1.2rem; color: #666;">Dedicated professionals with deep expertise in luxury real estate, project management, and international client services</p>
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
-            <div style="text-align: center;">
-              <h4>Multi-lingual Support</h4>
-              <p>English, Spanish, Catalan, French, German, and more to serve our international clientele</p>
-            </div>
-            <div style="text-align: center;">
-              <h4>Local Networks</h4>
-              <p>Extensive connections with architects, contractors, legal experts, and financial advisors</p>
-            </div>
-            <div style="text-align: center;">
-              <h4>Professional Credentials</h4>
-              <p>AICAT certified, API member, REALTOR®, and Concierge Auctions partner</p>
-            </div>
-          </div>
-        </div>
+                <div style="margin-top: 100px; text-align: center;">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 30px; font-family: 'Lora', serif;">Why Choose VERV ONE?</h3>
+                    <div class="about-features" style="max-width: 1000px; margin: 0 auto;">
+                        <div class="about-feature">
+                            <h3>Local Expertise</h3>
+                            <p>Deep knowledge of Barcelona, Sitges, and Costa Brava markets with insider access to exclusive properties and off-market opportunities</p>
+                        </div>
+                        <div class="about-feature">
+                            <h3>International Reach</h3>
+                            <p>Multilingual team serving clients from over 30 countries with comprehensive relocation and investment support</p>
+                        </div>
+                        <div class="about-feature">
+                            <h3>Full-Service Approach</h3>
+                            <p>End-to-end services from property search and project management to after-sales support and investment optimization</p>
+                        </div>
+                        <div class="about-feature">
+                            <h3>Proven Track Record</h3>
+                            <p>Over 25 years of excellence and 500+ successful transactions in luxury real estate across Catalunya</p>
+                        </div>
+                    </div>
+                </div>
 
-        <div style="margin-top: 80px; text-align: center; background: linear-gradient(135deg, #000000 0%, #333333 100%); color: white; padding: 60px 40px; border-radius: 16px;">
-          <h3 style="font-size: 2rem;">Ready to Work with Us?</h3>
-          <p style="font-size: 1.2rem;">Experience the VERV ONE difference. Let us help you find your perfect property or investment opportunity.</p>
-          <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
-            <button onclick="openConsultationModal()" style="background: white; color: #000;">Schedule Consultation</button>
-            <a href="/contact/" style="background: transparent; color: white; border: 1px solid white; padding: 10px 20px; border-radius: 5px;">Contact Us</a>
-          </div>
+                <div style="margin-top: 100px; background: #f8f8f8; padding: 80px 60px; border-radius: 20px;">
+                    <div style="text-align: center; margin-bottom: 60px;">
+                        <h3 style="font-size: 2.5rem; margin-bottom: 20px; font-family: 'Lora', serif;">Our Expert Team</h3>
+                        <p style="font-size: 1.2rem; color: #666;">Dedicated professionals with deep expertise in luxury real estate, project management, and international client services</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                        <div style="text-align: center;">
+                            <h4 style="font-family: 'Lora', serif; margin-bottom: 1rem;">Multi-lingual Support</h4>
+                            <p>English, Spanish, Catalan, French, German, and more to serve our international clientele</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <h4 style="font-family: 'Lora', serif; margin-bottom: 1rem;">Local Networks</h4>
+                            <p>Extensive connections with architects, contractors, legal experts, and financial advisors</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <h4 style="font-family: 'Lora', serif; margin-bottom: 1rem;">Professional Credentials</h4>
+                            <p>AICAT certified, API member, REALTOR®, and Concierge Auctions partner</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 80px; text-align: center; background: linear-gradient(135deg, #000000 0%, #333333 100%); color: white; padding: 60px 40px; border-radius: 16px;">
+                    <h3 style="font-size: 2rem; font-family: 'Lora', serif;">Ready to Work with Us?</h3>
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Experience the VERV ONE difference. Let us help you find your perfect property or investment opportunity.</p>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="openConsultationModal()">Schedule Consultation</button>
+                        <a href="/contact/" class="btn" style="background: transparent; color: white; border: 1px solid white;">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">VERV ONE</div>
+                <div class="footer-tagline">Signature Estates & Advisory</div>
+                <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/company/106199945" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <rect x="2" y="9" width="4" height="12"/>
+                            <circle cx="4" cy="4" r="2"/>
+                        </svg>
+                        linkedin
+                    </a>
+                    <a href="http://instagram.com/verv.one_" target="_blank" rel="noopener" aria-label="Instagram">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                        instagram
+                    </a>
+                    <a href="http://facebook.com/verv.one_" target="_blank" rel="noopener" aria-label="Facebook">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                        facebook
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul class="footer-links">
+                    <li><a href="/how-we-work/">How We Work</a></li>
+                    <li><a href="https://www.verv.one/properties/">Property Sales</a></li>
+                    <li><a href="/projects/">Project Management</a></li>
+                    <li><a href="/contact/">Investment Advisory</a></li>
+                    <li><a href="/contact/">Property Management</a></li>
+                    <li><a href="/contact/">International Services</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Locations</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.verv.one/properties/?location=Barcelona">Barcelona Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Sitges">Sitges Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Girona">Girona Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Costa%20Brava">Costa Brava Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Emporda">Emporda Properties</a></li>
+                    <li><a href="https://www.verv.one/properties/?location=Cadaqués">Cadaqués</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/projects/">Our Projects</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service/">Terms of Service</a></li>
+                    <li><a href="/contact/">Careers</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
-    </section>
-  </main>
+        
+        <!-- Professional Credentials Section -->
+        <div class="footer-credentials">
+            <div class="credentials-container">
+                <div class="credentials-logos">
+                    <img src="../assets/images/api119bmow.png" 
+                         alt="API Professional Association" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="../assets/images/aicat.png" 
+                         alt="AICAT Registry" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="../assets/images/concierge-auctions-agent-sitges-barcelona-spain.png" 
+                         alt="Concierge Auctions Agent" 
+                         class="credential-logo"
+                         loading="lazy">
+                    <img src="../assets/images/realtor-sitges.jpg" 
+                         alt="Realtor Sitges" 
+                         class="credential-logo"
+                         loading="lazy">
+                </div>
+                <div class="credentials-info">
+                    <p>Carrer Oms 11, Vulpellac, Girona 17111 | Carrer Anselm Clavé 13, Sitges 08870</p>
+                    <p>© VERV.ONE – All rights reserved | Wood Side S.L. | AICAT 12717 | API 1190</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="footer-copyright">
+                © 2024 VERV ONE. All rights reserved. Wood Side S.L | Signature Estates & Advisory
+            </p>
+        </div>
+    </footer>
+
+    <!-- Chat Widgets Container - WhatsApp only in footer left -->
+    <div class="chat-widgets-container">
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/34657271220" target="_blank" rel="noopener" class="whatsapp-btn" aria-label="Contact via WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+            </svg>
+            <span class="whatsapp-text">WhatsApp</span>
+        </a>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu functionality
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    const isActive = navMenu.classList.contains('active');
+                    navMenu.classList.toggle('active');
+                    this.textContent = isActive ? '☰' : '✕';
+                    this.setAttribute('aria-expanded', !isActive);
+                    document.body.style.overflow = isActive ? '' : 'hidden';
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            mobileMenuToggle.textContent = '☰';
+                            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+            }
+        }
+
+        // Consultation modal
+        function openConsultationModal() {
+            console.log('Opening consultation modal...');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'consultation_request', {
+                    source: 'about_page',
+                    method: 'schedule_form'
+                });
+            }
+            
+            window.location.href = '/contact/';
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 VERV ONE About Page - Initializing...');
+            
+            try {
+                initMobileMenu();
+                console.log('✅ About page initialization complete');
+                
+            } catch (error) {
+                console.error('❌ Error during initialization:', error);
+            }
+        });
+
+        // Make functions global for HTML onclick handlers
+        window.openConsultationModal = openConsultationModal;
+    </script>
 </body>
 </html>
