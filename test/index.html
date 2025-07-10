@@ -68,6 +68,44 @@
       window.trackContactSubmission = trackContactSubmission;
     </script>
     
+    <!-- FIXED: Weglot Integration with proper initialization -->
+    <script src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+      // Initialize Weglot after DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        try {
+          Weglot.initialize({
+            api_key: 'wg_eecebd448eae266139b949ca538854046',
+            switchers: [
+              {
+                target: "#weglot_here",
+                sibling: null
+              }
+            ],
+            auto_switch: true,
+            cache: true,
+            exceptions: "#wg-exclude",
+            hide_switchers: []
+          });
+          
+          console.log('✅ Weglot initialized successfully');
+          
+          // Force show flags after initialization
+          setTimeout(() => {
+            const weglotContainer = document.getElementById('weglot_here');
+            if (weglotContainer) {
+              weglotContainer.style.display = 'block';
+              weglotContainer.style.visibility = 'visible';
+              console.log('🏁 Weglot flags should now be visible');
+            }
+          }, 2000);
+          
+        } catch (error) {
+          console.error('❌ Weglot initialization failed:', error);
+        }
+      });
+    </script>
+    
     <!-- Dynamic SEO Meta Tags -->
     <title id="pageTitle">Signature Estates & Advisory | Barcelona, Sitges & Costa Brava</title>
     <meta name="description" id="pageDescription" content="Distinctive homes. Personal service. Trusted guidance. Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava.">
@@ -142,7 +180,7 @@
     }
     </script>
 
-    <!-- Updated CSS with New Fonts -->
+    <!-- Updated CSS with Mobile Video Fixes and Weglot Styling -->
     <style>
         /* CSS Reset and Base Styles */
         * {
@@ -224,7 +262,63 @@
             color: #000;
         }
 
-        /* REDESIGNED: Hero Section - Clean video only */
+        /* FIXED: Weglot Language Switcher Styling - Force visibility */
+        #weglot_here {
+            margin-left: 1rem;
+            margin-right: 1rem;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            min-width: 60px;
+            height: 32px;
+        }
+
+        /* Weglot override styles */
+        .weglot-dropdown {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+        }
+
+        .weglot-dropdown .wg-flags {
+            display: flex !important;
+            gap: 0.5rem !important;
+            align-items: center !important;
+        }
+
+        .weglot-dropdown .wg-flag {
+            width: 24px !important;
+            height: 18px !important;
+            border-radius: 2px !important;
+            transition: opacity 0.3s ease !important;
+            cursor: pointer !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .weglot-dropdown .wg-flag:hover {
+            opacity: 0.7 !important;
+        }
+
+        .weglot-dropdown .wg-current {
+            opacity: 1 !important;
+        }
+
+        .weglot-dropdown .wg-li {
+            margin: 0 !important;
+            padding: 0 !important;
+            list-style: none !important;
+            display: inline-block !important;
+        }
+
+        /* Force show Weglot elements */
+        [data-wg-notranslate] {
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        /* FIXED: Hero Section - Enhanced mobile video support */
         .verv-hero {
             position: relative;
             height: 100vh;
@@ -267,7 +361,10 @@
         }
 
         .vimeo-container iframe {
-            pointer-events: none; /* Prevent interaction with video controls */
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .hero-background-image {
@@ -289,17 +386,21 @@
             z-index: -1;
         }
 
-        /* Fallback for when videos don't load */
+        /* FIXED: Fallback image for when videos don't load */
         .hero-fallback-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/villa-moderna.jpg') center/cover no-repeat;
             z-index: -3;
+            display: none;
+        }
+
+        .hero-fallback-image.active {
+            display: block;
+            z-index: -1;
         }
 
         .verv-hero-overlay {
@@ -371,7 +472,7 @@
             font-family: 'Source Sans 3', sans-serif;
         }
 
-        /* REDESIGNED: Minimal one-line search form */
+        /* FIXED: Simplified search form that redirects to /properties */
         .minimal-search-container {
             margin-bottom: 3rem;
             display: flex;
@@ -386,7 +487,7 @@
             padding: 0.5rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.06);
-            max-width: 800px;
+            max-width: 600px;
             width: 100%;
         }
 
@@ -557,7 +658,7 @@
         }
 
         .section-container {
-            max-width: 1800px; /* Made even wider */
+            max-width: 1800px;
             margin: 0 auto;
             padding: 0 2rem;
         }
@@ -566,7 +667,7 @@
         .popular-property-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5rem; /* Increased gap even more */
+            gap: 5rem;
             align-items: center;
             background: white;
             border-radius: 20px;
@@ -574,12 +675,12 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             padding: 0;
             margin-bottom: 2rem;
-            max-width: 1800px; /* Made even wider */
+            max-width: 1800px;
             margin: 0 auto 2rem;
         }
 
         .popular-property-visual {
-            height: 550px; /* Made even taller */
+            height: 550px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             display: flex;
             align-items: center;
@@ -621,7 +722,7 @@
         }
 
         .popular-property-content {
-            padding: 4rem; /* Increased padding */
+            padding: 4rem;
         }
 
         .popular-property-badge {
@@ -639,7 +740,7 @@
         }
 
         .popular-property-title {
-            font-size: 2.5rem; /* Made larger */
+            font-size: 2.5rem;
             font-weight: 400;
             margin-bottom: 1rem;
             font-family: 'Libre Baskerville', serif;
@@ -648,7 +749,7 @@
         }
 
         .popular-property-location {
-            font-size: 1.2rem; /* Made larger */
+            font-size: 1.2rem;
             color: #666;
             margin-bottom: 1.5rem;
             display: flex;
@@ -658,7 +759,7 @@
         }
 
         .popular-property-location svg {
-            width: 22px; /* Made larger */
+            width: 22px;
             height: 22px;
             color: #666;
         }
@@ -677,13 +778,13 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1rem; /* Made larger */
+            font-size: 1rem;
             color: #666;
             font-family: 'Source Sans 3', sans-serif;
         }
 
         .popular-property-description {
-            font-size: 1.1rem; /* Made larger */
+            font-size: 1.1rem;
             color: #666;
             line-height: 1.6;
             margin-bottom: 2rem;
@@ -691,7 +792,7 @@
         }
 
         .popular-property-price {
-            font-size: 2.2rem; /* Made larger */
+            font-size: 2.2rem;
             font-weight: 700;
             color: #000;
             font-family: 'Libre Baskerville', serif;
@@ -707,7 +808,7 @@
             background: #000;
             color: white;
             border: none;
-            padding: 1.2rem 2.5rem; /* Made larger */
+            padding: 1.2rem 2.5rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
@@ -717,7 +818,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1rem; /* Made larger */
+            font-size: 1rem;
         }
 
         .popular-property-btn:hover {
@@ -849,7 +950,7 @@
             box-shadow: 0 12px 40px rgba(0,0,0,0.15);
             background: #fff;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Split into two equal columns */
+            grid-template-columns: 1fr 1fr;
             min-height: 500px;
             transition: transform 0.3s ease;
             cursor: pointer;
@@ -873,11 +974,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            /* Remove any filters or effects for full quality */
         }
-
-        /* REMOVED: All overlays and effects for pristine image quality */
-        /* .hero-property-image-overlay - REMOVED */
 
         /* IMPROVED: Content positioned beside the image */
         .hero-property-content {
@@ -886,7 +983,7 @@
             flex-direction: column;
             justify-content: center;
             background: #fff;
-            color: #000; /* Reset to black text */
+            color: #000;
         }
 
         .hero-property-category {
@@ -994,9 +1091,9 @@
         /* Properties Grid - Made Even Wider */
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            gap: 2rem; /* Increased gap */
-            max-width: 1800px; /* Made even wider */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
@@ -1009,7 +1106,7 @@
             transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
-            height: 620px; /* Made taller */
+            height: 620px;
         }
 
         .property-card:hover {
@@ -1027,7 +1124,7 @@
             color: #666;
             position: relative;
             overflow: hidden;
-            height: 200px; /* Fixed height for images */
+            height: 200px;
         }
 
         .property-icon-container[style*="background-image"] {
@@ -1423,7 +1520,7 @@
             z-index: 1001 !important;
         }
 
-        /* Mobile Responsive Design */
+        /* FIXED: Mobile Responsive Design with improved video handling */
         @media (max-width: 768px) {
             body {
                 padding: 0 1rem;
@@ -1463,17 +1560,47 @@
                 display: block;
             }
             
+            /* FIXED: Weglot mobile styling */
+            #weglot_here {
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+                min-width: 50px;
+            }
+            
+            .weglot-dropdown .wg-flag {
+                width: 20px !important;
+                height: 15px !important;
+            }
+            
             .logo {
                 height: 70px;
             }
 
+            /* FIXED: Mobile hero video styling */
             .verv-hero {
                 margin: 0 -1rem;
                 min-height: 70vh;
+                height: 70vh; /* Fixed height on mobile */
             }
 
             .vimeo-container {
-                padding: 56.25% 0 0 0 !important; /* Maintain aspect ratio on mobile */
+                padding: 0 !important;
+                height: 100% !important;
+            }
+
+            .vimeo-container iframe {
+                width: 100% !important;
+                height: 100% !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+            }
+
+            /* FIXED: Mobile fallback image */
+            .hero-fallback-image {
+                background: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/villa-moderna.jpg') center/cover no-repeat;
+                background-size: cover;
+                background-position: center;
             }
 
             .verv-hero-content {
@@ -1513,6 +1640,7 @@
                 flex-direction: column;
                 gap: 1rem;
                 padding: 1rem;
+                max-width: 100%;
             }
 
             .minimal-search-section::after {
@@ -1568,7 +1696,7 @@
 
             /* IMPROVED: Mobile layout for hero featured property */
             .hero-featured-property {
-                grid-template-columns: 1fr; /* Single column on mobile */
+                grid-template-columns: 1fr;
                 margin-bottom: 2rem;
                 min-height: auto;
             }
@@ -1589,7 +1717,7 @@
                 width: 45px;
                 height: 45px;
                 font-size: 1.1rem;
-                z-index: 5; /* Ensure buttons are above images */
+                z-index: 5;
             }
 
             .hero-property-nav.prev {
@@ -1601,13 +1729,13 @@
             }
 
             .properties-grid {
-                grid-template-columns: 1fr; /* Back to 1 column on mobile */
+                grid-template-columns: 1fr;
                 gap: 1.5rem;
-                max-width: 100%; /* Full width on mobile */
+                max-width: 100%;
             }
 
             .property-card {
-                height: 280px; /* Adjusted for mobile */
+                height: 280px;
             }
 
             .popular-property-container {
@@ -1735,23 +1863,23 @@
         /* Medium screens - adjust grid for tablets */
         @media (max-width: 1024px) and (min-width: 769px) {
             .properties-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
-                max-width: 100%; /* Full width on tablets */
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 100%;
             }
             
             .section-container {
-                max-width: 100%; /* Full width on tablets */
+                max-width: 100%;
                 padding: 0 1.5rem;
             }
             
             .popular-property-container {
-                max-width: 100%; /* Full width on tablets */
+                max-width: 100%;
                 gap: 3rem;
             }
 
             /* Tablet layout for hero featured property */
             .hero-featured-property {
-                grid-template-columns: 1fr; /* Single column on tablets too */
+                grid-template-columns: 1fr;
             }
 
             .post-hero-section {
@@ -1804,8 +1932,8 @@
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
             </ul>
             
-            <!-- Weglot Language Switcher -->
-            <div id="weglot_here"></div>
+            <!-- FIXED: Weglot Language Switcher with forced visibility -->
+            <div id="weglot_here" style="display: block !important; visibility: visible !important;"></div>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
         </nav>
@@ -1813,7 +1941,7 @@
 
     <!-- Main Content -->
     <main class="page-content">
-        <!-- REDESIGNED: Hero Section with Vimeo Videos -->
+        <!-- FIXED: Hero Section with improved mobile video support -->
         <section class="verv-hero">
             <div class="hero-video-container">
                 <!-- First Vimeo Video - Luxury Villa Sitges -->
@@ -1836,8 +1964,8 @@
                     </iframe>
                 </div>
                 
-                <!-- Fallback Background Image -->
-                <div class="hero-fallback-image" style="background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/mas-alba.png'); display: none;"></div>
+                <!-- FIXED: Fallback Background Image with villa-moderna.jpg -->
+                <div class="hero-fallback-image" id="heroFallbackImage"></div>
             </div>
             <div class="verv-hero-overlay"></div>
             <div class="verv-hero-content">
@@ -1846,50 +1974,29 @@
             </div>
         </section>
 
-        <!-- NEW: Post-Hero Section with elegant titles, minimal search, and consultation -->
+        <!-- FIXED: Post-Hero Section with working search that redirects to /properties -->
         <section class="post-hero-section">
             <div class="post-hero-container">
                 <!-- Elegant Location Titles -->
                 <h1 class="elegant-title">Barcelona • Sitges • Costa Brava</h1>
                 <p class="elegant-subtitle">Curating extraordinary homes in Catalunya's most coveted destinations.</p>
                 
-                <!-- Minimal One-Line Search Form -->
+                <!-- FIXED: Simplified Search Form - Redirects to www.verv.one/properties -->
                 <div class="minimal-search-container">
                     <form class="minimal-search-form" id="vervPropertySearch" role="search" aria-label="Property search">
-                        <div class="minimal-search-section">
-                            <select class="minimal-type-select" name="sale-rent" id="vervSaleRent" aria-label="Property type">
-                                <option value="">Property Type</option>
-                                <option value="sale">For Sale</option>
-                                <option value="rent">For Rent</option>
-                            </select>
-                        </div>
-                        
                         <div class="minimal-search-section location-section">
-                            <select class="minimal-location-select" name="location" id="vervLocationSelect" aria-label="Location">
-                                <option value="">Select Location</option>
-                                <option value="Barcelona">Barcelona</option>
-                                <option value="Sitges">Sitges</option>
-                                <option value="Sant Pere de Ribes">Sant Pere de Ribes</option>
-                                <option value="Castelldefels">Castelldefels</option>
-                                <option value="Girona">Girona</option>
-                                <option value="Costa Brava">Costa Brava</option>
-                                <option value="Emporda">Emporda</option>
-                            </select>
-                            <input type="text" class="minimal-location-input" name="location-input" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location" style="display: none;">
+                            <input type="text" 
+                                   class="minimal-location-input" 
+                                   name="location" 
+                                   id="vervLocationInput" 
+                                   placeholder="Where are you looking? (Barcelona, Sitges, Costa Brava...)" 
+                                   autocomplete="off" 
+                                   aria-label="Location">
                         </div>
                         
-                        <div class="minimal-search-section">
-                            <select class="minimal-budget-select" name="budget" id="vervBudget" aria-label="Budget range">
-                                <option value="">Any Budget</option>
-                                <option value="0-500k">Up to €500K</option>
-                                <option value="500k-1m">€500K - €1M</option>
-                                <option value="1m-2m">€1M - €2M</option>
-                                <option value="2m-5m">€2M - €5M</option>
-                                <option value="5m-plus">€5M+</option>
-                            </select>
-                        </div>
-                        
-                        <button type="submit" class="minimal-search-btn" aria-label="Search properties">Search</button>
+                        <button type="submit" class="minimal-search-btn" aria-label="Search properties">
+                            Search Properties
+                        </button>
                     </form>
                 </div>
                 
@@ -2129,20 +2236,20 @@
         })();
     </script>
 
-    <!-- Enhanced JavaScript -->
+    <!-- ENHANCED JavaScript with Fixed Search, Weglot, and Mobile Video -->
     <script>
         // Global variables
-        let allProperties = []; // Store all real properties
-        let displayedProperties = []; // Store filtered properties for display
+        let allProperties = [];
+        let displayedProperties = [];
         let currentTab = 'featured';
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
         let isApiLoaded = false;
-        let currentFilters = { type: '', location: '', budget: '' }; // Add filters tracking
+        let videoLoadTimeout;
+        let fallbackImageShown = false;
         
         // Enhanced Noun Project style icons
         const nounProjectIcons = {
-            // Property type icons (The Noun Project style)
             'Villa': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
                 <path d="M50 15L15 40v40h20V60h30v20h20V40L50 15zm-15 50h-15V45l15-10v20zm20 0V45l15-10v20H55z"/>
                 <path d="M35 65h5v10h-5zm15 0h5v10h-5zm15 0h5v10h-5z"/>
@@ -2228,7 +2335,7 @@
             </svg>`
         };
 
-        // Feature icons (The Noun Project style)
+        // Feature icons
         const featureIcons = {
             'bed': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM19 7h-8v7H9V7H2v11h1v2h2v-2h12v2h2v-2h1V7h-1zm-1 9H4V9h14v7z"/>
@@ -2780,18 +2887,15 @@
             return card;
         }
 
-        // Show no results message with clear filters option
+        // Show no results message
         function showNoResults() {
             const hero = document.getElementById('heroFeaturedProperty');
             const grid = document.getElementById('propertiesGrid');
             
-            const hasFilters = currentFilters && (currentFilters.type || currentFilters.location || currentFilters.budget);
-            
             const noResultsHTML = `
                 <div class="no-results">
                     <h3>No Properties Found</h3>
-                    <p>${hasFilters ? 'No properties match your current filters.' : 'No properties available at the moment.'}</p>
-                    ${hasFilters ? '<button class="clear-filters-btn" onclick="clearFilters()">Clear Filters</button>' : ''}
+                    <p>No properties available at the moment.</p>
                     <p><a href="https://www.verv.one/properties/" style="color: #000; text-decoration: underline;">Browse all properties</a></p>
                 </div>
             `;
@@ -2800,38 +2904,7 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // Clear all filters function
-        function clearFilters() {
-            console.log('🧹 CLEARING ALL FILTERS');
-            
-            // Reset filters
-            currentFilters = { type: '', location: '', budget: '' };
-            
-            // Reset form values
-            const form = document.getElementById('vervPropertySearch');
-            if (form) {
-                form.reset();
-                console.log('Form reset completed');
-            }
-            
-            // Reset displayed properties to show all
-            displayedProperties = [...allProperties];
-            console.log('Reset to show all properties:', displayedProperties.length);
-            
-            // Refresh display
-            displayInitialContent();
-            
-            // Track filter clear
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'filters_cleared', {
-                    page_location: window.location.href
-                });
-            }
-            
-            console.log('✅ FILTERS CLEARED');
-        }
-
-        // FIXED: Search functionality with local filtering
+        // FIXED: Simple search that redirects to /properties page
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.minimal-search-btn');
@@ -2841,7 +2914,7 @@
                 return;
             }
             
-            console.log('=== INITIALIZING SEARCH ===');
+            console.log('✅ Initializing SIMPLE search - redirects to /properties');
             
             // Main search handler function
             function handleSearch(e) {
@@ -2850,71 +2923,39 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Filtering properties locally');
-                
-                // Add visual feedback
-                if (searchButton) {
-                    const originalText = searchButton.textContent;
-                    searchButton.textContent = 'Searching...';
-                    searchButton.disabled = true;
-                    
-                    // Reset button after search
-                    setTimeout(() => {
-                        searchButton.textContent = originalText;
-                        searchButton.disabled = false;
-                    }, 1000);
-                }
+                console.log('🔍 SEARCH TRIGGERED - Redirecting to /properties');
                 
                 // Get form elements
-                const propertyTypeElement = document.getElementById('vervSaleRent');
-                const budgetElement = document.getElementById('vervBudget');
-                const locationSelectElement = document.getElementById('vervLocationSelect');
-                const locationInputElement = document.getElementById('vervLocationInput');
+                const locationInput = document.getElementById('vervLocationInput');
                 
-                // Extract values safely
-                const propertyType = propertyTypeElement ? propertyTypeElement.value.trim() : '';
-                const budget = budgetElement ? budgetElement.value.trim() : '';
-                
-                // Get location - check which input is visible/active
-                let location = '';
-                try {
-                    if (locationSelectElement && getComputedStyle(locationSelectElement).display !== 'none') {
-                        location = locationSelectElement.value.trim();
-                    } else if (locationInputElement && getComputedStyle(locationInputElement).display !== 'none') {
-                        location = locationInputElement.value.trim();
-                    } else if (locationSelectElement) {
-                        location = locationSelectElement.value.trim();
-                    }
-                } catch (error) {
-                    if (locationSelectElement) location = locationSelectElement.value.trim();
-                }
+                // Extract location value
+                const location = locationInput ? locationInput.value.trim() : '';
                 
                 console.log('=== SEARCH VALUES ===');
-                console.log('Property Type:', propertyType);
                 console.log('Location:', location);
-                console.log('Budget:', budget);
                 console.log('==================');
                 
-                // Update current filters
-                currentFilters = {
-                    type: propertyType,
-                    location: location,
-                    budget: budget
-                };
+                // Build URL for properties page
+                let propertiesUrl = 'https://www.verv.one/properties/';
                 
-                // Apply filters to properties
-                applyFilters();
+                if (location) {
+                    const params = new URLSearchParams();
+                    params.append('location', location);
+                    propertiesUrl += '?' + params.toString();
+                }
                 
                 // Track search event
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'search', {
                         search_term: location || 'all_locations',
-                        property_type: propertyType || 'all_types',
-                        budget_range: budget || 'all_budgets'
+                        page_location: window.location.href
                     });
                 }
                 
-                console.log('✅ Search completed - filtered properties:', displayedProperties.length);
+                console.log('🔗 Redirecting to:', propertiesUrl);
+                
+                // Redirect to properties page
+                window.location.href = propertiesUrl;
             }
             
             // Form submit handler
@@ -2929,7 +2970,7 @@
                 });
             }
             
-            // Enter key handlers for all form fields
+            // Enter key handlers for form fields
             const formFields = searchForm.querySelectorAll('input, select');
             formFields.forEach(field => {
                 field.addEventListener('keydown', function(e) {
@@ -2941,74 +2982,7 @@
                 });
             });
             
-            console.log('✅ Search functionality initialized successfully');
-        }
-
-        // NEW: Apply filters to properties
-        function applyFilters() {
-            console.log('🔍 APPLYING FILTERS');
-            console.log('Current filters:', currentFilters);
-            
-            if (!allProperties.length) {
-                console.log('No properties to filter');
-                return;
-            }
-            
-            let filteredProperties = [...allProperties];
-            
-            // Filter by property type (sale/rent)
-            if (currentFilters.type && currentFilters.type !== '') {
-                filteredProperties = filteredProperties.filter(property => {
-                    if (currentFilters.type === 'sale') {
-                        return !property.for_rent && property.transaction_type !== 'rent';
-                    } else if (currentFilters.type === 'rent') {
-                        return property.for_rent || property.transaction_type === 'rent';
-                    }
-                    return true;
-                });
-                console.log(`After type filter (${currentFilters.type}):`, filteredProperties.length);
-            }
-            
-            // Filter by location
-            if (currentFilters.location && currentFilters.location !== '') {
-                filteredProperties = filteredProperties.filter(property => {
-                    const propertyLocation = property.location || '';
-                    return propertyLocation.toLowerCase().includes(currentFilters.location.toLowerCase());
-                });
-                console.log(`After location filter (${currentFilters.location}):`, filteredProperties.length);
-            }
-            
-            // Filter by budget
-            if (currentFilters.budget && currentFilters.budget !== '') {
-                filteredProperties = filteredProperties.filter(property => {
-                    const price = property.price || 0;
-                    
-                    switch (currentFilters.budget) {
-                        case '0-500k':
-                            return price <= 500000;
-                        case '500k-1m':
-                            return price > 500000 && price <= 1000000;
-                        case '1m-2m':
-                            return price > 1000000 && price <= 2000000;
-                        case '2m-5m':
-                            return price > 2000000 && price <= 5000000;
-                        case '5m-plus':
-                            return price > 5000000;
-                        default:
-                            return true;
-                    }
-                });
-                console.log(`After budget filter (${currentFilters.budget}):`, filteredProperties.length);
-            }
-            
-            displayedProperties = filteredProperties;
-            console.log('✅ Filters applied. Final count:', displayedProperties.length);
-            
-            // Reset hero property index
-            currentHeroPropertyIndex = 0;
-            
-            // Refresh display
-            displayInitialContent();
+            console.log('✅ Simple search functionality initialized successfully');
         }
 
         // Hero property navigation
@@ -3071,11 +3045,6 @@
             window.location.href = propertyUrl;
         }
 
-        // Simplified initialization without tabs
-        function initPropertyDisplay() {
-            console.log('✅ Property display initialized (no tabs)');
-        }
-
         // Mobile menu functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
@@ -3135,44 +3104,37 @@
             window.location.href = url;
         };
 
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 VERV ONE Homepage - Loading REAL properties only...');
-            
-            // Initialize Hero Video Cycling
-            initHeroVideos();
-            
-            try {
-                // Initialize core functionality first
-                console.log('1️⃣ Initializing core functionality...');
-                initHeroSearch();
-                initPropertyDisplay();
-                initMobileMenu();
-                
-                // Load ONLY real properties from API - no fallbacks to sample data
-                console.log('2️⃣ Loading REAL properties from VERV ONE API...');
-                loadRealProperties();
-                
-                console.log('✅ VERV ONE Homepage initialization complete');
-                
-            } catch (error) {
-                console.error('❌ Critical error during initialization:', error);
-                showApiError();
-            }
-        });
-
-        // Hero Video Management
+        // FIXED: Hero Video Management with mobile support and fallback
         function initHeroVideos() {
             const video1 = document.getElementById('vimeoVideo1');
             const video2 = document.getElementById('vimeoVideo2');
-            const fallbackImage = document.querySelector('.hero-fallback-image');
+            const fallbackImage = document.getElementById('heroFallbackImage');
             let currentVideo = 1;
             let videoFailed = false;
             
             console.log('🎬 Initializing hero videos...');
             
+            // Show fallback image immediately on mobile or if videos fail to load
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                console.log('📱 Mobile detected - showing fallback image');
+                showFallbackImage();
+                return;
+            }
+            
+            // Set timeout to show fallback if videos don't load quickly
+            videoLoadTimeout = setTimeout(() => {
+                if (!videoFailed) {
+                    console.log('⏰ Video load timeout - showing fallback image');
+                    showFallbackImage();
+                }
+            }, 5000); // 5 second timeout
+            
             // Check if videos load properly
             setTimeout(() => {
+                if (videoFailed || fallbackImageShown) return;
+                
                 const iframe1 = video1?.querySelector('iframe');
                 const iframe2 = video2?.querySelector('iframe');
                 
@@ -3195,12 +3157,18 @@
                     showFallbackImage();
                 });
                 
+                // Clear timeout if videos loaded successfully
+                if (videoLoadTimeout) {
+                    clearTimeout(videoLoadTimeout);
+                    videoLoadTimeout = null;
+                }
+                
                 console.log('✅ Videos initialized successfully');
-            }, 1000);
+            }, 2000);
             
             // Cycle between videos every 20 seconds if they're working
             setInterval(() => {
-                if (!videoFailed && video1 && video2) {
+                if (!videoFailed && !fallbackImageShown && video1 && video2) {
                     cycleVideos();
                 }
             }, 20000); // Change video every 20 seconds
@@ -3226,6 +3194,16 @@
             }
             
             function showFallbackImage() {
+                if (fallbackImageShown) return;
+                
+                fallbackImageShown = true;
+                videoFailed = true;
+                
+                if (videoLoadTimeout) {
+                    clearTimeout(videoLoadTimeout);
+                    videoLoadTimeout = null;
+                }
+                
                 if (video1) {
                     video1.style.display = 'none';
                     video1.classList.remove('active');
@@ -3236,10 +3214,110 @@
                 }
                 if (fallbackImage) {
                     fallbackImage.style.display = 'block';
-                    console.log('🖼️ Showing fallback image (Mas Alba)');
+                    fallbackImage.classList.add('active');
+                    console.log('🖼️ Showing fallback image (Villa Moderna)');
                 }
             }
         }
+
+        // FIXED: Weglot initialization with proper timing
+        function initWeglot() {
+            console.log('🌐 Initializing Weglot...');
+            
+            // Force show the container
+            const weglotContainer = document.getElementById('weglot_here');
+            if (weglotContainer) {
+                weglotContainer.style.display = 'block';
+                weglotContainer.style.visibility = 'visible';
+                weglotContainer.style.opacity = '1';
+            }
+            
+            // Initialize Weglot if not already done
+            if (typeof Weglot !== 'undefined' && Weglot.initialize) {
+                try {
+                    Weglot.initialize({
+                        api_key: 'wg_eecebd448eae266139b949ca538854046',
+                        switchers: [
+                            {
+                                target: "#weglot_here",
+                                sibling: null
+                            }
+                        ],
+                        auto_switch: true,
+                        cache: true,
+                        exceptions: "#wg-exclude",
+                        hide_switchers: []
+                    });
+                    
+                    console.log('✅ Weglot initialized successfully');
+                } catch (error) {
+                    console.error('❌ Weglot initialization failed:', error);
+                }
+                
+                // Force show flags after initialization
+                setTimeout(() => {
+                    if (weglotContainer) {
+                        weglotContainer.style.display = 'block !important';
+                        weglotContainer.style.visibility = 'visible !important';
+                        weglotContainer.style.opacity = '1 !important';
+                        
+                        // Find and show any Weglot elements
+                        const weglotElements = weglotContainer.querySelectorAll('[class*="weglot"], [class*="wg-"]');
+                        weglotElements.forEach(element => {
+                            element.style.display = 'block';
+                            element.style.visibility = 'visible';
+                            element.style.opacity = '1';
+                        });
+                        
+                        console.log('🏁 Weglot flags forced to show');
+                    }
+                }, 3000);
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 VERV ONE Homepage - Loading...');
+            
+            try {
+                // Initialize core functionality first
+                console.log('1️⃣ Initializing core functionality...');
+                initHeroSearch();
+                initMobileMenu();
+                
+                // Initialize Weglot
+                console.log('2️⃣ Initializing Weglot...');
+                initWeglot();
+                
+                // Initialize Hero Videos
+                console.log('3️⃣ Initializing hero videos...');
+                initHeroVideos();
+                
+                // Load ONLY real properties from API
+                console.log('4️⃣ Loading REAL properties from VERV ONE API...');
+                loadRealProperties();
+                
+                console.log('✅ VERV ONE Homepage initialization complete');
+                
+            } catch (error) {
+                console.error('❌ Critical error during initialization:', error);
+                showApiError();
+            }
+        });
+
+        // Handle window resize for mobile video adjustments
+        window.addEventListener('resize', function() {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && !fallbackImageShown) {
+                console.log('📱 Switched to mobile - showing fallback image');
+                const fallbackImage = document.getElementById('heroFallbackImage');
+                if (fallbackImage) {
+                    fallbackImage.style.display = 'block';
+                    fallbackImage.classList.add('active');
+                    fallbackImageShown = true;
+                }
+            }
+        });
 
         // Make functions global for HTML onclick handlers
         window.previousHeroProperty = previousHeroProperty;
