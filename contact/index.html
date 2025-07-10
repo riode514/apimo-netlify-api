@@ -195,33 +195,30 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Equal columns */
-            gap: 3rem;
-            align-items: center;
-            text-align: left;
-            width: 100%;
-            min-height: 600px;
-        }
-
-        /* Agent Image Container - UPDATED: Now positioned on the left */
-        .agent-image-container {
-            order: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            min-height: 600px;
+            position: relative;
+        }
+
+        /* Agent Image Container - UPDATED: Full width with overlay text */
+        .agent-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
             background: #f8f9fa;
             border-radius: 12px;
             padding: 2rem;
-            height: 100%;
+            overflow: hidden;
         }
 
         .agent-image {
-            max-width: 100%;
-            max-height: 500px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            object-position: left center;
             border-radius: 8px;
             filter: grayscale(100%);
             transition: filter 0.3s ease;
@@ -232,17 +229,19 @@
             filter: grayscale(0%);
         }
 
-        /* Contact Hero Text - UPDATED: Now positioned on the right */
+        /* Contact Hero Text - UPDATED: Overlay on right side of image */
         .contact-hero-text {
-            order: 2;
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.95);
             padding: 3rem;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            height: fit-content;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            width: 450px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .contact-hero-banner h1 {
@@ -818,10 +817,26 @@
             }
 
             .contact-hero-content {
-                grid-template-columns: 1fr;
+                flex-direction: column;
                 text-align: center;
                 gap: 2rem;
                 padding: 0 1.5rem;
+                position: static;
+            }
+
+            .agent-image-container {
+                position: static;
+                margin-bottom: 2rem;
+            }
+
+            .contact-hero-text {
+                position: static;
+                transform: none;
+                width: 100%;
+                right: auto;
+                top: auto;
+                padding: 2rem;
+                margin-top: 0;
             }
 
             .contact-hero-banner h1 {
@@ -859,17 +874,16 @@
             }
 
             .agent-image-container {
-                min-width: auto; /* Remove min-width constraint on mobile */
-                padding: 0.5rem;
+                position: static;
                 margin-bottom: 2rem;
+                padding: 0.5rem;
             }
 
             .agent-image {
-                max-width: 280px;
-                max-height: 350px;
-                width: auto;
-                height: auto;
-                object-fit: contain; /* Show full image on mobile too */
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+                object-position: center;
             }
 
             .credentials-logos {
@@ -949,11 +963,9 @@
             }
 
             .agent-image {
-                max-width: 220px;
-                max-height: 280px;
-                width: auto;
-                height: auto;
-                object-fit: contain; /* Show full image on extra small screens too */
+                height: 250px;
+                object-fit: cover;
+                object-position: center;
             }
         }
 
@@ -1020,7 +1032,7 @@
                 <p>With over 25 years of experience in luxury real estate across Barcelona, Sitges, and Costa Brava, we provide personalized service and trusted guidance for international buyers seeking exceptional properties.</p>
                 
                 <div class="contact-direct-info">
-                    <h3>Direct Contact</h3>
+                    <h3>Contact:</h3>
                     <div>Phone: <a href="tel:+34657271220">+34 657 271 220</a></div>
                     <div>Email: <a href="mailto:hello@verv.one">hello@verv.one</a></div>
                     <div>Hours: Monday – Friday, 9:00 – 18:00</div>
