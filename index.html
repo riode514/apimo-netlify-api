@@ -802,7 +802,7 @@
             color: #000;
         }
 
-        /* Hero Featured Property - Made Clickable */
+        /* IMPROVED: Hero Featured Property - Side by side layout with no image effects */
         .hero-featured-property {
             position: relative;
             margin-bottom: 3rem;
@@ -810,12 +810,11 @@
             overflow: hidden;
             box-shadow: 0 12px 40px rgba(0,0,0,0.15);
             background: #fff;
-            height: 1200px; /* Made taller */
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Split into two equal columns */
+            min-height: 500px;
             transition: transform 0.3s ease;
-            cursor: pointer; /* Made clickable */
+            cursor: pointer;
         }
 
         .hero-featured-property:hover {
@@ -823,78 +822,67 @@
             box-shadow: 0 16px 50px rgba(0,0,0,0.2);
         }
 
-        /* Ensure hero property images always show */
+        /* IMPROVED: Full quality image with NO overlays or effects */
         .hero-property-image-container {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            z-index: 1 !important;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .hero-property-image-container img {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-            display: block !important;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            /* Remove any filters or effects for full quality */
         }
 
-        .hero-property-image-overlay {
-            position: absolute !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%) !important;
-            z-index: 2 !important;
-        }
+        /* REMOVED: All overlays and effects for pristine image quality */
+        /* .hero-property-image-overlay - REMOVED */
 
+        /* IMPROVED: Content positioned beside the image */
         .hero-property-content {
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-        }
-
-        .hero-property-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: #333;
+            padding: 3rem;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
-        }
-
-        .hero-property-icon svg {
-            width: 64px;
-            height: 64px;
-            color: #333;
+            background: #fff;
+            color: #000; /* Reset to black text */
         }
 
         .hero-property-category {
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: #666;
             font-weight: 500;
         }
 
         .hero-property-title {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 400;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-family: 'Lora', serif;
             color: #000;
+            line-height: 1.2;
+        }
+
+        .hero-property-price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #000;
+            font-family: 'Lora', serif;
+            margin-bottom: 2rem;
         }
 
         .hero-property-location {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
             color: #666;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.5rem;
         }
 
@@ -905,19 +893,13 @@
         }
 
         .hero-property-details {
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
+            font-size: 1rem;
+            margin-bottom: 2rem;
             color: #666;
-            opacity: 0.8;
+            line-height: 1.6;
         }
 
-        .hero-property-price {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #000;
-            font-family: 'Lora', serif;
-        }
-
+        /* IMPROVED: Navigation buttons positioned over the image */
         .hero-property-nav {
             position: absolute;
             top: 50%;
@@ -935,6 +917,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 10;
         }
 
         .hero-property-nav:hover {
@@ -950,7 +933,21 @@
             right: 2rem;
         }
 
-        /* Removed hero-property-view-btn styles since button is removed */
+        /* IMPROVED: Icon fallback when no image */
+        .hero-property-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .hero-property-icon svg {
+            width: 120px;
+            height: 120px;
+            color: #666;
+        }
 
         /* Properties Grid - Made Even Wider */
         .properties-grid {
@@ -1499,13 +1496,23 @@
                 padding: 4rem 0;
             }
 
+            /* IMPROVED: Mobile layout for hero featured property */
             .hero-featured-property {
+                grid-template-columns: 1fr; /* Single column on mobile */
                 margin-bottom: 2rem;
-                height: 400px; /* Adjusted for mobile */
+                min-height: auto;
+            }
+
+            .hero-property-content {
+                padding: 2rem;
             }
 
             .hero-property-title {
                 font-size: 1.8rem;
+            }
+
+            .hero-property-price {
+                font-size: 1.6rem;
             }
 
             .hero-property-nav {
@@ -1652,12 +1659,12 @@
                 font-size: 1.8rem;
             }
 
-            .hero-featured-property {
-                height: 300px;
-            }
-
             .hero-property-title {
                 font-size: 1.5rem;
+            }
+
+            .hero-property-price {
+                font-size: 1.4rem;
             }
         }
 
@@ -1676,6 +1683,11 @@
             .popular-property-container {
                 max-width: 100%; /* Full width on tablets */
                 gap: 3rem;
+            }
+
+            /* Tablet layout for hero featured property */
+            .hero-featured-property {
+                grid-template-columns: 1fr; /* Single column on tablets too */
             }
         }
 
@@ -2558,7 +2570,7 @@
             }
         }
 
-        // ENHANCED: Display hero property with image and click handler
+        // IMPROVED: Display hero property with side-by-side layout, no title overlay, pristine image quality
         function displayHeroProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
@@ -2584,34 +2596,33 @@
                 details = `<div class="hero-property-details">${detailParts.join(' • ')}</div>`;
             }
             
-            // Create image or icon display - FIXED for always visible images
+            // Create visual content - IMPROVED: No overlays for pristine image quality
             let visualContent = '';
             if (property.photoUrl && property.photoUrl.trim()) {
                 visualContent = `
                     <div class="hero-property-image-container">
                         <img src="${property.photoUrl}" alt="${property.title}" loading="lazy">
-                        <div class="hero-property-image-overlay"></div>
                     </div>
-                    <div class="hero-property-icon" style="color: white; position: relative; z-index: 3;">${propertyIcon}</div>
                 `;
             } else {
                 visualContent = `<div class="hero-property-icon">${propertyIcon}</div>`;
             }
             
+            // IMPROVED: Side-by-side layout with title and price beside the image
             hero.innerHTML = `
                 ${visualContent}
-                <div class="hero-property-content" style="${property.photoUrl ? 'color: white; position: relative; z-index: 3;' : ''}">
-                    <div class="hero-property-category" style="${property.photoUrl ? 'color: rgba(255,255,255,0.9);' : ''}">${property.type.toUpperCase()}</div>
-                    <div class="hero-property-title" style="${property.photoUrl ? 'color: white;' : ''}">${property.title}</div>
-                    <div class="hero-property-location" style="${property.photoUrl ? 'color: rgba(255,255,255,0.9);' : ''}">
+                <div class="hero-property-content">
+                    <div class="hero-property-category">${property.type.toUpperCase()}</div>
+                    <div class="hero-property-title">${property.title}</div>
+                    <div class="hero-property-price">${price}</div>
+                    <div class="hero-property-location">
                         ${locationIcon}
                         <span>${property.location}</span>
                     </div>
                     ${details}
-                    <div class="hero-property-price" style="${property.photoUrl ? 'color: white;' : ''}">${price}</div>
                 </div>
-                <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property" style="z-index: 4;">‹</button>
-                <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property" style="z-index: 4;">›</button>
+                <button class="hero-property-nav prev" onclick="previousHeroProperty()" aria-label="Previous property">‹</button>
+                <button class="hero-property-nav next" onclick="nextHeroProperty()" aria-label="Next property">›</button>
             `;
             
             // Make entire hero property clickable
