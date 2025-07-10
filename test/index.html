@@ -1980,13 +1980,8 @@
                     <p class="section-subtitle">Exceptional spaces across Sitges, Barcelona & Costa Brava</p>
                 </div>
                 
-                <div class="properties-tabs" role="tablist">
-                    <button class="tab-button active" data-tab="featured" role="tab" aria-selected="true" aria-controls="featured-panel">DESTACADO</button>
-                    <button class="tab-button" data-tab="popular" role="tab" aria-selected="false" aria-controls="popular-panel">POPULAR</button>
-                </div>
-                
                 <!-- Hero Featured Property -->
-                <div class="hero-featured-property" id="heroFeaturedProperty" role="tabpanel" aria-labelledby="featured-tab">
+                <div class="hero-featured-property" id="heroFeaturedProperty" role="main" aria-labelledby="featured-properties">
                     <div class="loading-state">
                         <div class="loading-spinner" aria-label="Loading"></div>
                         <span>Loading featured property...</span>
@@ -2181,6 +2176,7 @@
         let propertyClicks = JSON.parse(localStorage.getItem('propertyClicks') || '{}');
         let currentHeroPropertyIndex = 0;
         let isApiLoaded = false;
+        let currentFilters = { type: '', location: '', budget: '' }; // Add filters tracking
         
         // Enhanced Noun Project style icons
         const nounProjectIcons = {
@@ -2644,11 +2640,7 @@
 
         // Display initial content
         function displayInitialContent() {
-            if (currentTab === 'featured') {
-                displayFeaturedProperties();
-            } else if (currentTab === 'popular') {
-                displayPopularProperties();
-            }
+            displayFeaturedProperties();
         }
 
         // Display featured properties
@@ -2676,55 +2668,6 @@
             // Show grid properties (get next 3 properties, not starting from 1)
             const gridProperties = featuredProperties.slice(1, 4); // Changed to show 3 cards
             displayGridProperties(gridProperties);
-        }
-
-        // FIXED: Display popular properties with correct property lookup and button handling
-        function displayPopularProperties() {
-            console.log('=== DISPLAYING POPULAR PROPERTIES ===');
-            
-            if (displayedProperties.length === 0) {
-                showNoResults();
-                return;
-            }
-            
-            // FIXED: Look for the specific property ID with better matching
-            let popularProperty = null;
-            
-            // Try multiple ID formats to find the popular property
-            const targetIds = ['86043052', 86043052, '86043052'];
-            for (const targetId of targetIds) {
-                popularProperty = displayedProperties.find(p => p.id == targetId || p.id === targetId);
-                if (popularProperty) {
-                    console.log(`🎯 Found popular property with ID: ${popularProperty.id} (${typeof popularProperty.id})`);
-                    break;
-                }
-            }
-            
-            // If not found, try popular properties
-            if (!popularProperty) {
-                let popularProperties = displayedProperties.filter(p => p.is_popular);
-                if (popularProperties.length > 0) {
-                    popularProperty = popularProperties[0];
-                    console.log(`🔥 Using marked popular property: ${popularProperty.title} (ID: ${popularProperty.id})`);
-                }
-            }
-            
-            // If still not found, use first property
-            if (!popularProperty) {
-                popularProperty = displayedProperties[0];
-                console.log(`⚠️ Fallback to first property: ${popularProperty.title} (ID: ${popularProperty.id})`);
-            }
-            
-            console.log('Popular property to display:', popularProperty);
-            
-            // Display the popular property
-            displayPopularProperty(popularProperty);
-            
-            // Clear the grid for popular tab
-            const grid = document.getElementById('propertiesGrid');
-            if (grid) {
-                grid.innerHTML = '';
-            }
         }
 
         // IMPROVED: Display hero property with side-by-side layout, no title overlay, pristine image quality
@@ -3034,7 +2977,7 @@
             console.log('✅ FILTERS CLEARED');
         }
 
-        // FIXED: Search functionality that redirects to /properties with filters
+        // FIXED: Search functionality with local filtering
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
             const searchButton = document.querySelector('.minimal-search-btn');
@@ -3053,13 +2996,19 @@
                     e.stopPropagation();
                 }
                 
-                console.log('🔍 SEARCH TRIGGERED - Redirecting to /properties');
+                console.log('🔍 SEARCH TRIGGERED - Filtering properties locally');
                 
                 // Add visual feedback
                 if (searchButton) {
                     const originalText = searchButton.textContent;
                     searchButton.textContent = 'Searching...';
                     searchButton.disabled = true;
+                    
+                    // Reset button after search
+                    setTimeout(() => {
+                        searchButton.textContent = originalText;
+                        searchButton.disabled = false;
+                    }, 1000);
                 }
                 
                 // Get form elements
@@ -3092,25 +3041,15 @@
                 console.log('Budget:', budget);
                 console.log('==================');
                 
-                // Build search URL for properties page
-                let searchUrl = 'https://www.verv.one/properties/';
-                const params = new URLSearchParams();
+                // Update current filters
+                currentFilters = {
+                    type: propertyType,
+                    location: location,
+                    budget: budget
+                };
                 
-                if (propertyType && propertyType !== '') {
-                    params.append('type', propertyType);
-                }
-                if (location && location !== '') {
-                    params.append('location', location);
-                }
-                if (budget && budget !== '') {
-                    params.append('budget', budget);
-                }
-                
-                if (params.toString()) {
-                    searchUrl += '?' + params.toString();
-                }
-                
-                console.log('🔗 Redirecting to:', searchUrl);
+                // Apply filters to properties
+                applyFilters();
                 
                 // Track search event
                 if (typeof gtag !== 'undefined') {
@@ -3121,8 +3060,7 @@
                     });
                 }
                 
-                // Redirect to properties page with search parameters
-                window.location.href = searchUrl;
+                console.log('✅ Search completed - filtered properties:', displayedProperties.length);
             }
             
             // Form submit handler
@@ -3152,47 +3090,98 @@
             console.log('✅ Search functionality initialized successfully');
         }
 
+        // NEW: Apply filters to properties
+        function applyFilters() {
+            console.log('🔍 APPLYING FILTERS');
+            console.log('Current filters:', currentFilters);
+            
+            if (!allProperties.length) {
+                console.log('No properties to filter');
+                return;
+            }
+            
+            let filteredProperties = [...allProperties];
+            
+            // Filter by property type (sale/rent)
+            if (currentFilters.type && currentFilters.type !== '') {
+                filteredProperties = filteredProperties.filter(property => {
+                    if (currentFilters.type === 'sale') {
+                        return !property.for_rent && property.transaction_type !== 'rent';
+                    } else if (currentFilters.type === 'rent') {
+                        return property.for_rent || property.transaction_type === 'rent';
+                    }
+                    return true;
+                });
+                console.log(`After type filter (${currentFilters.type}):`, filteredProperties.length);
+            }
+            
+            // Filter by location
+            if (currentFilters.location && currentFilters.location !== '') {
+                filteredProperties = filteredProperties.filter(property => {
+                    const propertyLocation = property.location || '';
+                    return propertyLocation.toLowerCase().includes(currentFilters.location.toLowerCase());
+                });
+                console.log(`After location filter (${currentFilters.location}):`, filteredProperties.length);
+            }
+            
+            // Filter by budget
+            if (currentFilters.budget && currentFilters.budget !== '') {
+                filteredProperties = filteredProperties.filter(property => {
+                    const price = property.price || 0;
+                    
+                    switch (currentFilters.budget) {
+                        case '0-500k':
+                            return price <= 500000;
+                        case '500k-1m':
+                            return price > 500000 && price <= 1000000;
+                        case '1m-2m':
+                            return price > 1000000 && price <= 2000000;
+                        case '2m-5m':
+                            return price > 2000000 && price <= 5000000;
+                        case '5m-plus':
+                            return price > 5000000;
+                        default:
+                            return true;
+                    }
+                });
+                console.log(`After budget filter (${currentFilters.budget}):`, filteredProperties.length);
+            }
+            
+            displayedProperties = filteredProperties;
+            console.log('✅ Filters applied. Final count:', displayedProperties.length);
+            
+            // Reset hero property index
+            currentHeroPropertyIndex = 0;
+            
+            // Refresh display
+            displayInitialContent();
+        }
+
         // Hero property navigation
         function previousHeroProperty() {
             if (displayedProperties.length === 0) return;
             
-            let availableProperties = displayedProperties;
-            
-            if (currentTab === 'featured') {
-                const featuredProperties = displayedProperties.filter(p => p.is_featured);
-                if (featuredProperties.length > 0) {
-                    availableProperties = featuredProperties;
-                }
+            // Get featured properties for navigation
+            let featuredProperties = displayedProperties.filter(p => p.is_featured);
+            if (featuredProperties.length === 0) {
+                featuredProperties = displayedProperties.slice(0, 4);
             }
             
-            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + availableProperties.length) % availableProperties.length;
-            
-            if (currentTab === 'featured') {
-                displayHeroProperty(availableProperties[currentHeroPropertyIndex]);
-            } else {
-                displayPopularProperty(availableProperties[currentHeroPropertyIndex]);
-            }
+            currentHeroPropertyIndex = (currentHeroPropertyIndex - 1 + featuredProperties.length) % featuredProperties.length;
+            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
         }
 
         function nextHeroProperty() {
             if (displayedProperties.length === 0) return;
             
-            let availableProperties = displayedProperties;
-            
-            if (currentTab === 'featured') {
-                const featuredProperties = displayedProperties.filter(p => p.is_featured);
-                if (featuredProperties.length > 0) {
-                    availableProperties = featuredProperties;
-                }
+            // Get featured properties for navigation
+            let featuredProperties = displayedProperties.filter(p => p.is_featured);
+            if (featuredProperties.length === 0) {
+                featuredProperties = displayedProperties.slice(0, 4);
             }
             
-            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % availableProperties.length;
-            
-            if (currentTab === 'featured') {
-                displayHeroProperty(availableProperties[currentHeroPropertyIndex]);
-            } else {
-                displayPopularProperty(availableProperties[currentHeroPropertyIndex]);
-            }
+            currentHeroPropertyIndex = (currentHeroPropertyIndex + 1) % featuredProperties.length;
+            displayHeroProperty(featuredProperties[currentHeroPropertyIndex]);
         }
 
         // FIXED: View property function with better ID handling and debugging
@@ -3228,43 +3217,9 @@
             window.location.href = propertyUrl;
         }
 
-        // Tab functionality
-        function initTabs() {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    console.log('=== TAB CLICKED ===');
-                    console.log('Tab clicked:', this.dataset.tab);
-                    
-                    // Update active states
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('active');
-                        btn.setAttribute('aria-selected', 'false');
-                    });
-                    
-                    this.classList.add('active');
-                    this.setAttribute('aria-selected', 'true');
-                    
-                    // Update current tab
-                    const newTab = this.dataset.tab;
-                    console.log('Switching from', currentTab, 'to', newTab);
-                    currentTab = newTab;
-                    currentHeroPropertyIndex = 0;
-                    
-                    if (currentTab === 'featured') {
-                        console.log('🎯 Displaying Featured properties');
-                        displayFeaturedProperties();
-                    } else if (currentTab === 'popular') {
-                        console.log('🎯 Displaying Popular properties');
-                        displayPopularProperties();
-                    }
-                    
-                    console.log('=== TAB SWITCH COMPLETE ===');
-                });
-            });
-            
-            console.log('✅ Tab functionality initialized');
+        // Simplified initialization without tabs
+        function initPropertyDisplay() {
+            console.log('✅ Property display initialized (no tabs)');
         }
 
         // Mobile menu functionality
