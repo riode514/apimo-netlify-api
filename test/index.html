@@ -25,6 +25,9 @@
     <!-- Updated Font Loading - Libre Baskerville & Source Sans 3 -->
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     
+    <!-- Vimeo Player API -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-09NW5Z6Y0S"></script>
     <script>
@@ -245,6 +248,28 @@
             z-index: -2;
         }
 
+        .vimeo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .vimeo-container.active {
+            opacity: 1;
+        }
+
+        .vimeo-container:not(.active) {
+            opacity: 0;
+        }
+
+        .vimeo-container iframe {
+            pointer-events: none; /* Prevent interaction with video controls */
+        }
+
         .hero-background-image {
             position: absolute;
             top: 0;
@@ -264,18 +289,17 @@
             z-index: -1;
         }
 
-        /* Fallback for when video doesn't load */
+        /* Fallback for when videos don't load */
         .hero-fallback-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            z-index: -1;
+            z-index: -3;
         }
 
         .verv-hero-overlay {
@@ -1479,6 +1503,10 @@
                 min-height: 70vh;
             }
 
+            .vimeo-container {
+                padding: 56.25% 0 0 0 !important; /* Maintain aspect ratio on mobile */
+            }
+
             .verv-hero-content {
                 margin-top: 100px;
                 padding: 0 1.5rem;
@@ -1823,15 +1851,31 @@
 
     <!-- Main Content -->
     <main class="page-content">
-        <!-- REDESIGNED: Clean Hero Section - Beautiful background image -->
+        <!-- REDESIGNED: Hero Section with Vimeo Videos -->
         <section class="verv-hero">
-            <div class="hero-background-container">
-                <div class="hero-background-image" style="background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg');"></div>
-                <!-- Video as enhancement if available -->
-                <video autoplay muted loop playsinline class="hero-video" preload="none" style="display: none;">
-                    <source src="./assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mov" type="video/quicktime">
-                    <source src="./assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mp4" type="video/mp4">
-                </video>
+            <div class="hero-video-container">
+                <!-- First Vimeo Video - Luxury Villa Sitges -->
+                <div id="vimeoVideo1" class="vimeo-container active" style="padding:56.25% 0 0 0;position:relative;">
+                    <iframe src="https://player.vimeo.com/video/1100287105?badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;player_id=0&amp;app_id=58479" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            title="luxury-villa-sitges">
+                    </iframe>
+                </div>
+                
+                <!-- Second Vimeo Video - Costa Brava Sailing -->
+                <div id="vimeoVideo2" class="vimeo-container" style="padding:56.25% 0 0 0;position:relative;display:none;">
+                    <iframe src="https://player.vimeo.com/video/1098898066?badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;controls=0&amp;player_id=0&amp;app_id=58479" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            title="Costa Brava Sailing Boat Real Estate Lifestyle">
+                    </iframe>
+                </div>
+                
+                <!-- Fallback Background Image -->
+                <div class="hero-fallback-image" style="background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/mas-alba.png'); display: none;"></div>
             </div>
             <div class="verv-hero-overlay"></div>
             <div class="verv-hero-content">
@@ -3221,19 +3265,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 VERV ONE Homepage - Loading REAL properties only...');
             
-            // Optional: Try to load video if available locally
-            const heroVideo = document.querySelector('.hero-video');
-            if (heroVideo) {
-                heroVideo.addEventListener('loadeddata', function() {
-                    console.log('✅ Video loaded successfully');
-                    heroVideo.style.display = 'block';
-                });
-                
-                heroVideo.addEventListener('error', function() {
-                    console.log('ℹ️ Video not available, using background image');
-                    heroVideo.style.display = 'none';
-                });
-            }
+            // Initialize Hero Video Cycling
+            initHeroVideos();
             
             try {
                 // Initialize core functionality first
@@ -3253,6 +3286,86 @@
                 showApiError();
             }
         });
+
+        // Hero Video Management
+        function initHeroVideos() {
+            const video1 = document.getElementById('vimeoVideo1');
+            const video2 = document.getElementById('vimeoVideo2');
+            const fallbackImage = document.querySelector('.hero-fallback-image');
+            let currentVideo = 1;
+            let videoFailed = false;
+            
+            console.log('🎬 Initializing hero videos...');
+            
+            // Check if videos load properly
+            setTimeout(() => {
+                const iframe1 = video1?.querySelector('iframe');
+                const iframe2 = video2?.querySelector('iframe');
+                
+                if (!iframe1 || !iframe2) {
+                    console.log('❌ Vimeo videos failed to load, showing fallback image');
+                    showFallbackImage();
+                    return;
+                }
+                
+                // Listen for iframe load errors
+                iframe1.addEventListener('error', () => {
+                    console.log('❌ Video 1 failed to load');
+                    videoFailed = true;
+                    showFallbackImage();
+                });
+                
+                iframe2.addEventListener('error', () => {
+                    console.log('❌ Video 2 failed to load');
+                    videoFailed = true;
+                    showFallbackImage();
+                });
+                
+                console.log('✅ Videos initialized successfully');
+            }, 1000);
+            
+            // Cycle between videos every 20 seconds if they're working
+            setInterval(() => {
+                if (!videoFailed && video1 && video2) {
+                    cycleVideos();
+                }
+            }, 20000); // Change video every 20 seconds
+            
+            function cycleVideos() {
+                if (currentVideo === 1) {
+                    // Switch to video 2
+                    video1.style.display = 'none';
+                    video1.classList.remove('active');
+                    video2.style.display = 'block';
+                    video2.classList.add('active');
+                    currentVideo = 2;
+                    console.log('🎬 Switched to video 2 (Costa Brava Sailing)');
+                } else {
+                    // Switch to video 1
+                    video2.style.display = 'none';
+                    video2.classList.remove('active');
+                    video1.style.display = 'block';
+                    video1.classList.add('active');
+                    currentVideo = 1;
+                    console.log('🎬 Switched to video 1 (Luxury Villa Sitges)');
+                }
+            }
+            
+            function showFallbackImage() {
+                if (video1) {
+                    video1.style.display = 'none';
+                    video1.classList.remove('active');
+                }
+                if (video2) {
+                    video2.style.display = 'none';
+                    video2.classList.remove('active');
+                }
+                if (fallbackImage) {
+                    fallbackImage.style.display = 'block';
+                    console.log('🖼️ Showing fallback image (Mas Alba)');
+                }
+            }
+        }
 
         // Make functions global for HTML onclick handlers
         window.previousHeroProperty = previousHeroProperty;
