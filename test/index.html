@@ -235,7 +235,8 @@
             margin: 0 -2rem;
         }
 
-        .hero-video-container {
+        .hero-video-container,
+        .hero-background-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -244,10 +245,37 @@
             z-index: -2;
         }
 
+        .hero-background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
         .hero-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Fallback for when video doesn't load */
+        .hero-fallback-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
         }
 
         .verv-hero-overlay {
@@ -1795,12 +1823,14 @@
 
     <!-- Main Content -->
     <main class="page-content">
-        <!-- REDESIGNED: Clean Hero Section - Video only with minimal text -->
+        <!-- REDESIGNED: Clean Hero Section - Beautiful background image -->
         <section class="verv-hero">
-            <div class="hero-video-container">
-                <video autoplay muted loop playsinline class="hero-video" preload="metadata">
-                    <source src="https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mov" type="video/quicktime">
-                    Your browser does not support the video tag.
+            <div class="hero-background-container">
+                <div class="hero-background-image" style="background-image: url('https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg');"></div>
+                <!-- Video as enhancement if available -->
+                <video autoplay muted loop playsinline class="hero-video" preload="none" style="display: none;">
+                    <source src="./assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mov" type="video/quicktime">
+                    <source src="./assets/videos/costa-brava-sailing-boat-real-estate-lifestyle.mp4" type="video/mp4">
                 </video>
             </div>
             <div class="verv-hero-overlay"></div>
@@ -3190,6 +3220,20 @@
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 VERV ONE Homepage - Loading REAL properties only...');
+            
+            // Optional: Try to load video if available locally
+            const heroVideo = document.querySelector('.hero-video');
+            if (heroVideo) {
+                heroVideo.addEventListener('loadeddata', function() {
+                    console.log('✅ Video loaded successfully');
+                    heroVideo.style.display = 'block';
+                });
+                
+                heroVideo.addEventListener('error', function() {
+                    console.log('ℹ️ Video not available, using background image');
+                    heroVideo.style.display = 'none';
+                });
+            }
             
             try {
                 // Initialize core functionality first
