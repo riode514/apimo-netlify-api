@@ -220,7 +220,7 @@
             color: #000;
         }
 
-        /* Hero Section */
+        /* REDESIGNED: Hero Section - Clean video only */
         .verv-hero {
             position: relative;
             height: 100vh;
@@ -259,6 +259,7 @@
             z-index: -1;
         }
 
+        /* REDESIGNED: Simplified hero content - no search form */
         .verv-hero-content {
             max-width: 800px;
             margin: 0 auto;
@@ -282,50 +283,65 @@
             font-weight: 300;
         }
 
-        .verv-hero-title {
-            font-size: 2.2rem;
+        /* NEW: Post-hero section for search and consultation */
+        .post-hero-section {
+            background: #fff;
+            padding: 4rem 0;
+            margin: 0 -2rem;
+            text-align: center;
+        }
+
+        .post-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* NEW: Elegant location titles */
+        .elegant-title {
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
             margin-bottom: 1rem;
             font-family: 'Lora', serif;
-            font-weight: 400;
+            color: #000;
         }
 
-        .verv-hero-description {
-            font-size: 1.1rem;
+        .elegant-subtitle {
+            font-size: 1.3rem;
+            color: #666;
             margin-bottom: 3rem;
-            opacity: 0.85;
             font-weight: 300;
+            font-style: italic;
+            line-height: 1.5;
         }
 
-        /* Enhanced Search Form */
-        .verv-minimal-search {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 60px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        /* REDESIGNED: Minimal one-line search form */
+        .minimal-search-container {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: center;
         }
 
-        .verv-search-form-minimal {
+        .minimal-search-form {
             display: flex;
             align-items: center;
-            gap: 0;
+            background: #f8f9fa;
+            border-radius: 60px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.06);
+            max-width: 800px;
             width: 100%;
         }
 
-        .verv-search-section {
+        .minimal-search-section {
             flex: 1;
             position: relative;
             min-width: 0;
         }
 
-        .verv-search-section.location-section {
-            position: relative;
-        }
-
-        .verv-search-section:not(:last-child)::after {
+        .minimal-search-section:not(:last-child)::after {
             content: '';
             position: absolute;
             right: 0;
@@ -333,145 +349,132 @@
             transform: translateY(-50%);
             width: 1px;
             height: 30px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        .verv-search-section select,
-        .verv-search-section input {
+        .minimal-search-section select,
+        .minimal-search-section input {
             width: 100%;
             padding: 1rem 1.5rem;
             border: none;
             border-radius: 0;
             background: transparent;
-            color: white;
-            font-size: 1rem;
+            color: #333;
+            font-size: 0.95rem;
             font-family: 'Inter', sans-serif;
             outline: none;
             cursor: pointer;
         }
 
-        .verv-location-select,
-        .verv-location-input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 0;
-            background: transparent;
-            color: white;
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .verv-location-input {
+        .minimal-location-input {
             cursor: text;
         }
 
-        .verv-search-section:first-child select,
-        .verv-search-section:first-child input {
+        .minimal-search-section:first-child select,
+        .minimal-search-section:first-child input {
             border-radius: 60px 0 0 60px;
         }
 
-        .verv-search-section select::placeholder,
-        .verv-search-section input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+        .minimal-search-section select::placeholder,
+        .minimal-search-section input::placeholder {
+            color: #666;
         }
 
-        .verv-search-section select option {
-            background: #000;
-            color: #fff;
+        .minimal-search-section select option {
+            background: #fff;
+            color: #333;
             padding: 10px;
         }
 
-        .verv-search-btn-minimal {
-            background: #fff;
-            color: #000;
+        .minimal-search-btn {
+            background: #000;
+            color: #fff;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             border-radius: 0 60px 60px 0;
             font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             white-space: nowrap;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        .verv-search-btn-minimal:hover {
-            background: #f0f0f0;
+        .minimal-search-btn:hover {
+            background: #333;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .verv-search-btn-minimal:active {
+        .minimal-search-btn:active {
             transform: translateY(0);
         }
 
-        .verv-search-btn-minimal:disabled {
+        .minimal-search-btn:disabled {
             opacity: 0.7;
             cursor: not-allowed;
         }
 
-        /* Enhanced Google Places Autocomplete Styling */
-        .pac-container {
-            background: rgba(0, 0, 0, 0.95);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            margin-top: 5px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        /* NEW: Consultation section styling */
+        .consultation-section {
+            text-align: center;
         }
 
-        .pac-item {
-            color: white;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 18px;
-            transition: background-color 0.2s ease;
+        .consultation-text {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
         }
 
-        .pac-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .pac-matched {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        /* Consultation Section - REMOVED WHATSAPP */
-        .verv-consultation-section {
-            margin-top: 2rem;
-        }
-
-        .verv-consultation-text {
-            margin-bottom: 1rem;
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-
-        .verv-btn-black {
+        .consultation-btn {
             background: #000;
             color: white;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1.2rem 3rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .verv-btn-black:hover {
+        .consultation-btn:hover {
             background: #333;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Enhanced Google Places Autocomplete Styling */
+        .pac-container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .pac-item {
+            color: #333;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 12px 18px;
+            transition: background-color 0.2s ease;
+        }
+
+        .pac-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .pac-matched {
+            color: #000;
+            font-weight: 600;
         }
 
         /* Enhanced feature icons styling */
@@ -1428,42 +1431,52 @@
             .verv-hero-tagline {
                 font-size: 1.1rem;
             }
-            
-            .verv-hero-title {
-                font-size: 1.6rem;
+
+            /* Mobile post-hero section */
+            .post-hero-section {
+                margin: 0 -1rem;
+                padding: 3rem 0;
             }
 
-            .verv-hero-description {
-                font-size: 1rem;
+            .post-hero-container {
+                padding: 0 1.5rem;
             }
 
-            .verv-btn-black {
-                padding: 0.875rem 1.5rem;
-                font-size: 0.9rem;
-                justify-content: center;
+            .elegant-title {
+                font-size: 2rem;
+                letter-spacing: 1px;
             }
-            
-            .verv-search-form-minimal {
+
+            .elegant-subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 2.5rem;
+            }
+
+            .minimal-search-form {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 1rem;
             }
-            
-            .verv-search-section::after {
+
+            .minimal-search-section::after {
                 display: none;
             }
-            
-            .verv-search-section select,
-            .verv-search-section input,
-            .verv-location-select,
-            .verv-location-input {
+
+            .minimal-search-section select,
+            .minimal-search-section input {
                 border-radius: 12px;
                 padding: 1rem;
             }
-            
-            .verv-search-btn-minimal {
+
+            .minimal-search-btn {
                 border-radius: 12px;
                 padding: 1rem;
                 font-size: 1rem;
+            }
+
+            .consultation-btn {
+                padding: 1rem 2rem;
+                font-size: 0.95rem;
             }
             
             .about-container {
@@ -1651,10 +1664,6 @@
                 font-size: 1.6rem;
             }
 
-            .verv-hero-title {
-                font-size: 1.4rem;
-            }
-
             .section-title {
                 font-size: 1.8rem;
             }
@@ -1665,6 +1674,14 @@
 
             .hero-property-price {
                 font-size: 1.4rem;
+            }
+
+            .elegant-title {
+                font-size: 1.8rem;
+            }
+
+            .elegant-subtitle {
+                font-size: 1rem;
             }
         }
 
@@ -1689,6 +1706,10 @@
             .hero-featured-property {
                 grid-template-columns: 1fr; /* Single column on tablets too */
             }
+
+            .post-hero-section {
+                margin: 0 -1.5rem;
+            }
         }
 
         /* Performance optimizations */
@@ -1711,8 +1732,8 @@
 
         /* Focus styles for accessibility */
         .nav-link:focus,
-        .verv-search-btn-minimal:focus,
-        .verv-btn-black:focus,
+        .minimal-search-btn:focus,
+        .consultation-btn:focus,
         .tab-button:focus {
             outline: 2px solid #000;
             outline-offset: 2px;
@@ -1742,7 +1763,7 @@
 
     <!-- Main Content -->
     <main class="page-content">
-        <!-- Hero Section -->
+        <!-- REDESIGNED: Clean Hero Section - Video only with minimal text -->
         <section class="verv-hero">
             <div class="hero-video-container">
                 <video autoplay muted loop playsinline class="hero-video" preload="metadata">
@@ -1754,26 +1775,29 @@
             <div class="verv-hero-content">
                 <div class="verv-hero-slogan">Signature Estates & Advisory</div>
                 <div class="verv-hero-tagline">Distinctive homes. Personal service. Trusted guidance.</div>
+            </div>
+        </section>
+
+        <!-- NEW: Post-Hero Section with elegant titles, minimal search, and consultation -->
+        <section class="post-hero-section">
+            <div class="post-hero-container">
+                <!-- Elegant Location Titles -->
+                <h1 class="elegant-title">Barcelona • Sitges • Costa Brava</h1>
+                <p class="elegant-subtitle">Curating extraordinary homes in Catalunya's most coveted destinations.</p>
                 
-                <h1 class="verv-hero-title">Barcelona • Sitges • Costa Brava</h1>
-                
-                <p class="verv-hero-description">
-                    Curating extraordinary homes in Catalunya's most coveted destinations.
-                </p>
-                
-                <!-- Enhanced Search Bar -->
-                <div class="verv-minimal-search">
-                    <form class="verv-search-form-minimal" id="vervPropertySearch" role="search" aria-label="Property search">
-                        <div class="verv-search-section">
-                            <select class="verv-type-select" name="sale-rent" id="vervSaleRent" aria-label="Property type">
+                <!-- Minimal One-Line Search Form -->
+                <div class="minimal-search-container">
+                    <form class="minimal-search-form" id="vervPropertySearch" role="search" aria-label="Property search">
+                        <div class="minimal-search-section">
+                            <select class="minimal-type-select" name="sale-rent" id="vervSaleRent" aria-label="Property type">
                                 <option value="">Property Type</option>
                                 <option value="sale">For Sale</option>
                                 <option value="rent">For Rent</option>
                             </select>
                         </div>
                         
-                        <div class="verv-search-section location-section">
-                            <select class="verv-location-select" name="location" id="vervLocationSelect" aria-label="Location">
+                        <div class="minimal-search-section location-section">
+                            <select class="minimal-location-select" name="location" id="vervLocationSelect" aria-label="Location">
                                 <option value="">Select Location</option>
                                 <option value="Barcelona">Barcelona</option>
                                 <option value="Sitges">Sitges</option>
@@ -1783,11 +1807,11 @@
                                 <option value="Costa Brava">Costa Brava</option>
                                 <option value="Emporda">Emporda</option>
                             </select>
-                            <input type="text" class="verv-location-input" name="location-input" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location" style="display: none;">
+                            <input type="text" class="minimal-location-input" name="location-input" id="vervLocationInput" placeholder="Where are you looking?" autocomplete="off" aria-label="Location" style="display: none;">
                         </div>
                         
-                        <div class="verv-search-section">
-                            <select class="verv-budget-select" name="budget" id="vervBudget" aria-label="Budget range">
+                        <div class="minimal-search-section">
+                            <select class="minimal-budget-select" name="budget" id="vervBudget" aria-label="Budget range">
                                 <option value="">Any Budget</option>
                                 <option value="0-500k">Up to €500K</option>
                                 <option value="500k-1m">€500K - €1M</option>
@@ -1797,14 +1821,14 @@
                             </select>
                         </div>
                         
-                        <button type="submit" class="verv-search-btn-minimal" aria-label="Search properties">Search</button>
+                        <button type="submit" class="minimal-search-btn" aria-label="Search properties">Search</button>
                     </form>
                 </div>
                 
-                <!-- REMOVED WHATSAPP from consultation section -->
-                <div class="verv-consultation-section">
-                    <p class="verv-consultation-text">Need personalized guidance? Speak with our experts.</p>
-                    <button onclick="openConsultationModal()" class="verv-btn-black" aria-label="Schedule consultation">Schedule Consultation</button>
+                <!-- Consultation Section -->
+                <div class="consultation-section">
+                    <p class="consultation-text">Need personalized guidance? Speak with our experts.</p>
+                    <button onclick="openConsultationModal()" class="consultation-btn" aria-label="Schedule consultation">Schedule Consultation</button>
                 </div>
             </div>
         </section>
@@ -2850,7 +2874,7 @@
         // FIXED: Search functionality that redirects to /properties with filters
         function initHeroSearch() {
             const searchForm = document.getElementById('vervPropertySearch');
-            const searchButton = document.querySelector('.verv-search-btn-minimal');
+            const searchButton = document.querySelector('.minimal-search-btn');
             
             if (!searchForm) {
                 console.error('❌ Search form not found!');
