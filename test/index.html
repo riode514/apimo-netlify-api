@@ -2354,8 +2354,9 @@
                             console.log(`✨ Marked as FEATURED: ${extracted.title} - €${extracted.price?.toLocaleString()}`);
                         }
                         
-                        // Mark specific property as popular (ID: 86043052)
-                        if (extracted.id === '86043052' || extracted.id === 86043052) {
+                        // FIXED: Mark specific property as popular with better ID matching
+                        if (extracted.id == '86043052' || extracted.id == 86043052 || 
+                            extracted.id === '86043052' || extracted.id === 86043052) {
                             extracted.is_popular = true;
                             popularCount++;
                             console.log(`🔥 Marked as POPULAR: ${extracted.title} (ID: ${extracted.id})`);
@@ -2433,12 +2434,26 @@
             }
         }
 
-        // ENHANCED: Extract property data with better image handling
+        // ENHANCED: Extract property data with better ID handling
         function extractPropertyData(property) {
             if (!property) return null;
             
             console.log('=== EXTRACTING PROPERTY DATA ===');
             console.log('Raw property:', property);
+            
+            // FIXED: Better ID extraction with multiple fallbacks and type conversion
+            let propertyId = null;
+            if (property.id !== null && property.id !== undefined) {
+                // Convert to string to ensure consistent handling
+                propertyId = String(property.id);
+            } else if (property.reference) {
+                propertyId = String(property.reference);
+            } else {
+                // Generate fallback ID
+                propertyId = 'prop_' + Math.random().toString(36).substr(2, 9);
+            }
+            
+            console.log('🆔 Extracted ID:', propertyId, '(type:', typeof propertyId, ')');
             
             // Extract location with multiple fallbacks
             let locationString = 'Premium Location';
@@ -2584,7 +2599,7 @@
             }
             
             const extractedData = {
-                id: property.id || property.reference || Math.random().toString(36).substr(2, 9),
+                id: propertyId, // FIXED: Use the properly extracted and converted ID
                 title: title,
                 location: locationString,
                 price: priceValue,
@@ -2663,7 +2678,7 @@
             displayGridProperties(gridProperties);
         }
 
-        // Display popular properties
+        // FIXED: Display popular properties with correct property lookup and button handling
         function displayPopularProperties() {
             console.log('=== DISPLAYING POPULAR PROPERTIES ===');
             
@@ -2672,20 +2687,32 @@
                 return;
             }
             
-            // Look for the specific property ID first
-            let popularProperty = displayedProperties.find(p => p.id === '86043052');
+            // FIXED: Look for the specific property ID with better matching
+            let popularProperty = null;
+            
+            // Try multiple ID formats to find the popular property
+            const targetIds = ['86043052', 86043052, '86043052'];
+            for (const targetId of targetIds) {
+                popularProperty = displayedProperties.find(p => p.id == targetId || p.id === targetId);
+                if (popularProperty) {
+                    console.log(`🎯 Found popular property with ID: ${popularProperty.id} (${typeof popularProperty.id})`);
+                    break;
+                }
+            }
             
             // If not found, try popular properties
             if (!popularProperty) {
                 let popularProperties = displayedProperties.filter(p => p.is_popular);
                 if (popularProperties.length > 0) {
                     popularProperty = popularProperties[0];
+                    console.log(`🔥 Using marked popular property: ${popularProperty.title} (ID: ${popularProperty.id})`);
                 }
             }
             
             // If still not found, use first property
             if (!popularProperty) {
                 popularProperty = displayedProperties[0];
+                console.log(`⚠️ Fallback to first property: ${popularProperty.title} (ID: ${popularProperty.id})`);
             }
             
             console.log('Popular property to display:', popularProperty);
@@ -2766,10 +2793,12 @@
             };
         }
 
-        // ENHANCED: Display popular property with image
+        // FIXED: Display popular property with proper button event handlers
         function displayPopularProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) return;
+            
+            console.log('🖼️ Displaying popular property:', property.title, 'ID:', property.id);
             
             let price = 'Price on request';
             if (property.price && property.price !== null) {
@@ -2816,6 +2845,10 @@
                 `;
             }
             
+            // FIXED: Generate unique IDs for buttons to avoid conflicts
+            const viewBtnId = `viewProperty_${property.id}`;
+            const scheduleBtnId = `scheduleVisit_${property.id}`;
+            
             hero.innerHTML = `
                 <div class="popular-property-container">
                     ${visualContent}
@@ -2832,16 +2865,40 @@
                         <p class="popular-property-description">${property.description}</p>
                         <div class="popular-property-price">${price}</div>
                         <div class="popular-property-action">
-                            <button class="popular-property-btn" onclick="viewProperty('${property.id}')" aria-label="View property details">
+                            <button class="popular-property-btn" id="${viewBtnId}" aria-label="View property details">
                                 View Property
                             </button>
-                            <button class="popular-property-btn secondary" onclick="openConsultationModal()" aria-label="Schedule consultation">
+                            <button class="popular-property-btn secondary" id="${scheduleBtnId}" aria-label="Schedule consultation">
                                 Schedule Visit
                             </button>
                         </div>
                     </div>
                 </div>
             `;
+            
+            // FIXED: Add event listeners after DOM insertion
+            setTimeout(() => {
+                const viewBtn = document.getElementById(viewBtnId);
+                const scheduleBtn = document.getElementById(scheduleBtnId);
+                
+                if (viewBtn) {
+                    viewBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('🔗 View Property button clicked for ID:', property.id);
+                        viewProperty(property.id);
+                    });
+                }
+                
+                if (scheduleBtn) {
+                    scheduleBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('📅 Schedule Visit button clicked');
+                        openConsultationModal();
+                    });
+                }
+            }, 10);
         }
 
         // Display grid properties
@@ -3138,14 +3195,20 @@
             }
         }
 
-        // View property function with correct URL format
+        // FIXED: View property function with better ID handling and debugging
         function viewProperty(propertyId) {
-            console.log('Viewing property:', propertyId);
+            console.log('🏠 VIEWING PROPERTY');
+            console.log('Property ID received:', propertyId, '(type:', typeof propertyId, ')');
+            
+            // Ensure propertyId is converted to string for consistency
+            const cleanPropertyId = String(propertyId).trim();
+            console.log('Clean Property ID:', cleanPropertyId);
             
             // Track clicks for popularity
-            if (propertyId) {
-                propertyClicks[propertyId] = (propertyClicks[propertyId] || 0) + 1;
+            if (cleanPropertyId) {
+                propertyClicks[cleanPropertyId] = (propertyClicks[cleanPropertyId] || 0) + 1;
                 localStorage.setItem('propertyClicks', JSON.stringify(propertyClicks));
+                console.log('Tracking click for property:', cleanPropertyId);
             }
             
             // Track with analytics
@@ -3153,13 +3216,15 @@
                 gtag('event', 'view_item', {
                     currency: 'EUR',
                     value: 0,
-                    items: [{ item_id: propertyId, item_name: 'Property View', category: 'Properties' }]
+                    items: [{ item_id: cleanPropertyId, item_name: 'Property View', category: 'Properties' }]
                 });
             }
             
-            // Navigate with correct URL format
-            const propertyUrl = `https://verv.one/single-property/?id=${propertyId}`;
-            console.log('Navigating to:', propertyUrl);
+            // FIXED: Navigate with correct URL format and proper ID encoding
+            const propertyUrl = `https://verv.one/single-property/?id=${encodeURIComponent(cleanPropertyId)}`;
+            console.log('🔗 Navigating to:', propertyUrl);
+            
+            // Navigate to the property page
             window.location.href = propertyUrl;
         }
 
