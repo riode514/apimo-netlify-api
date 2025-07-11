@@ -2206,7 +2206,7 @@
             return validProperties;
         }
 
-        // FIXED: Process individual property from API data with defensive type handling
+        // FIXED: Process individual property from API data with defensive type handling and enhanced image debugging
         function processProperty(property) {
             console.log('🏠 Processing property:', property);
             
@@ -2252,22 +2252,56 @@
             const description = (property.comments && property.comments[0]?.comment) ||
                                property.description || property.summary || title;
             
-            // Extract main image with extensive fallbacks
+            // ENHANCED: Extract main image with extensive fallbacks and debugging
             let photoUrl = null;
+            
+            console.log('🖼️ DEBUG - Image extraction for property:', id);
+            console.log('🔍 Available image fields:', {
+                photos: property.photos,
+                images: property.images,
+                photo: property.photo,
+                image: property.image,
+                mainImage: property.mainImage,
+                thumbnail: property.thumbnail,
+                media: property.media,
+                pictures: property.pictures
+            });
+            
             if (property.photos && Array.isArray(property.photos) && property.photos.length > 0) {
                 const firstPhoto = property.photos[0];
                 photoUrl = firstPhoto.url || firstPhoto.src || firstPhoto.href || firstPhoto;
+                console.log('📸 Found photo in photos array:', photoUrl);
             } else if (property.images && Array.isArray(property.images) && property.images.length > 0) {
                 const firstImage = property.images[0];
                 photoUrl = firstImage.url || firstImage.src || firstImage.href || firstImage;
+                console.log('📸 Found photo in images array:', photoUrl);
+            } else if (property.media && Array.isArray(property.media) && property.media.length > 0) {
+                const firstMedia = property.media[0];
+                photoUrl = firstMedia.url || firstMedia.src || firstMedia.href || firstMedia;
+                console.log('📸 Found photo in media array:', photoUrl);
+            } else if (property.pictures && Array.isArray(property.pictures) && property.pictures.length > 0) {
+                const firstPicture = property.pictures[0];
+                photoUrl = firstPicture.url || firstPicture.src || firstPicture.href || firstPicture;
+                console.log('📸 Found photo in pictures array:', photoUrl);
             } else if (property.photo) {
                 photoUrl = property.photo.url || property.photo.src || property.photo;
+                console.log('📸 Found photo in photo field:', photoUrl);
             } else if (property.image) {
                 photoUrl = property.image.url || property.image.src || property.image;
+                console.log('📸 Found photo in image field:', photoUrl);
             } else if (property.mainImage) {
                 photoUrl = property.mainImage.url || property.mainImage.src || property.mainImage;
+                console.log('📸 Found photo in mainImage field:', photoUrl);
             } else if (property.thumbnail) {
                 photoUrl = property.thumbnail.url || property.thumbnail.src || property.thumbnail;
+                console.log('📸 Found photo in thumbnail field:', photoUrl);
+            }
+            
+            if (!photoUrl) {
+                console.log('❌ No image URL found for property:', id);
+                console.log('🔍 Raw property object:', JSON.stringify(property, null, 2));
+            } else {
+                console.log('✅ Final photo URL:', photoUrl);
             }
             
             const processedProperty = {
@@ -2290,7 +2324,8 @@
                 title: processedProperty.title,
                 location: processedProperty.location,
                 type: processedProperty.type,
-                hasPhoto: !!processedProperty.photoUrl
+                hasPhoto: !!processedProperty.photoUrl,
+                photoUrl: processedProperty.photoUrl
             });
             
             return processedProperty;
@@ -2313,7 +2348,7 @@
             displayGridProperties(gridProperties);
         }
 
-        // FIXED: Display hero property with safe type handling
+        // FIXED: Display hero property with safe type handling and enhanced image debugging
         function displayHeroProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) {
@@ -2322,6 +2357,7 @@
             }
             
             console.log('🏆 Displaying hero property:', property.title);
+            console.log('🖼️ Hero property image URL:', property.photoUrl);
             
             let price = 'Price on request';
             if (property.price && property.price !== null) {
@@ -2349,14 +2385,19 @@
             
             let visualContent = '';
             if (property.photoUrl && property.photoUrl.trim()) {
+                console.log('🖼️ Attempting to load hero image:', property.photoUrl);
                 visualContent = `
                     <div class="hero-property-image-container">
-                        <img src="${property.photoUrl}" alt="${property.title}" loading="lazy"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <img src="${property.photoUrl}" 
+                             alt="${property.title}" 
+                             loading="lazy"
+                             onload="console.log('✅ Hero image loaded successfully:', '${property.photoUrl}')"
+                             onerror="console.log('❌ Hero image failed to load:', '${property.photoUrl}'); this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <div class="hero-property-icon" style="display: none;">${propertyIcon}</div>
                     </div>
                 `;
             } else {
+                console.log('❌ No image URL available for hero property, showing icon');
                 visualContent = `<div class="hero-property-icon">${propertyIcon}</div>`;
             }
             
@@ -2404,12 +2445,15 @@
             });
         }
 
-        // FIXED: Create property card with safe type handling
+        // FIXED: Create property card with safe type handling and enhanced image debugging
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
+            
+            console.log('🏗️ Creating card for property:', property.title);
+            console.log('🖼️ Card property image URL:', property.photoUrl);
             
             let price = 'Price on request';
             if (property.price && property.price !== null) {
@@ -2436,13 +2480,17 @@
             
             let visualContent = '';
             if (property.photoUrl && property.photoUrl.trim()) {
+                console.log('🖼️ Attempting to load card image:', property.photoUrl);
                 visualContent = `
                     <div class="property-icon-container" style="background-image: url('${property.photoUrl}'); background-size: cover; background-position: center;">
                         <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%); z-index: 1;"></div>
-                        <div style="position: relative; z-index: 2; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.7); display: none;">${propertyIcon}</div>
+                        <div style="position: relative; z-index: 2; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.7); display: none;"
+                             onload="console.log('✅ Card background image loaded:', '${property.photoUrl}')"
+                             onerror="console.log('❌ Card background image failed:', '${property.photoUrl}'); this.parentElement.style.backgroundImage='none'; this.style.display='block';">${propertyIcon}</div>
                     </div>
                 `;
             } else {
+                console.log('❌ No image URL available for card property, showing icon');
                 visualContent = `
                     <div class="property-icon-container">
                         ${propertyIcon}
@@ -2598,7 +2646,7 @@
             window.open('https://calendly.com/verv-one', '_blank');
         }
 
-        // DEBUG: Direct API test function
+        // DEBUG: Direct API test function with enhanced image debugging
         async function testAPIDirectly() {
             console.log('🧪 Direct API test...');
             
@@ -2610,12 +2658,62 @@
                     const data = await response.json();
                     console.log('Direct test - Success! Data keys:', Object.keys(data));
                     console.log('Direct test - Raw data:', data);
+                    
+                    // Enhanced image debugging
+                    const extractedProperties = extractPropertiesFromAPIResponse(data);
+                    if (extractedProperties && extractedProperties.length > 0) {
+                        console.log('🖼️ === IMAGE DEBUG REPORT ===');
+                        extractedProperties.slice(0, 3).forEach((prop, index) => {
+                            console.log(`Property ${index + 1}:`, {
+                                id: prop.id,
+                                title: prop.title || prop.name,
+                                hasPhotos: !!(prop.photos && prop.photos.length > 0),
+                                hasImages: !!(prop.images && prop.images.length > 0),
+                                hasPhoto: !!prop.photo,
+                                hasImage: !!prop.image,
+                                hasMainImage: !!prop.mainImage,
+                                hasThumbnail: !!prop.thumbnail,
+                                photosArray: prop.photos,
+                                imagesArray: prop.images,
+                                photoField: prop.photo,
+                                imageField: prop.image,
+                                mainImageField: prop.mainImage,
+                                thumbnailField: prop.thumbnail
+                            });
+                        });
+                        console.log('🖼️ === END IMAGE DEBUG ===');
+                    }
                 } else {
                     console.log('Direct test - Failed:', response.statusText);
                 }
             } catch (error) {
                 console.error('Direct test - Error:', error);
             }
+        }
+
+        // NEW: Test individual image URL function
+        function testImageURL(url) {
+            console.log('🧪 Testing image URL:', url);
+            
+            const img = new Image();
+            img.onload = function() {
+                console.log('✅ Image loads successfully:', url);
+                console.log('📐 Image dimensions:', this.width, 'x', this.height);
+            };
+            img.onerror = function() {
+                console.log('❌ Image failed to load:', url);
+                console.log('🔍 Trying to access image headers...');
+                
+                fetch(url, { method: 'HEAD' })
+                    .then(response => {
+                        console.log('📡 Image HEAD response:', response.status, response.statusText);
+                        console.log('📋 Image headers:', Object.fromEntries(response.headers));
+                    })
+                    .catch(error => {
+                        console.log('❌ Image HEAD request failed:', error.message);
+                    });
+            };
+            img.src = url;
         }
 
         // INITIALIZE EVERYTHING when DOM is ready
