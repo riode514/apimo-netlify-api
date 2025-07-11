@@ -506,6 +506,7 @@
             background: #000;
             color: white;
             padding: 4rem 0 2rem;
+            position: relative;
         }
 
         .footer-content {
@@ -580,13 +581,30 @@
             padding-left: 2rem;
             padding-right: 2rem;
             font-weight: 300;
+            position: relative;
         }
 
-        /* Chat Widget */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
+        /* Footer Chat Widgets */
+        .footer-chat-widgets {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            pointer-events: none;
+        }
+
+        .footer-chat-widgets > * {
+            pointer-events: auto;
+        }
+
+        /* WhatsApp Button in Footer Left */
+        .footer-whatsapp {
             background: #25d366;
             color: white;
             border-radius: 50px;
@@ -597,18 +615,24 @@
             text-decoration: none;
             box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
             transition: all 0.3s ease;
-            z-index: 1000;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .whatsapp-float:hover {
+        .footer-whatsapp:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 40px rgba(37, 211, 102, 0.5);
+            color: white;
         }
 
-        .whatsapp-float svg {
+        .footer-whatsapp svg {
             width: 24px;
             height: 24px;
+        }
+
+        /* Chatbase Widget in Footer Right */
+        .footer-chatbase {
+            /* Chatbase will handle its own styling */
         }
 
         /* Animations */
@@ -707,14 +731,15 @@
                 padding: 1rem;
             }
 
-            .whatsapp-float {
-                bottom: 20px;
-                right: 20px;
-                padding: 12px;
+            .footer-chat-widgets {
+                flex-direction: column;
+                gap: 1rem;
+                bottom: 1rem;
+                align-items: center;
             }
 
-            .whatsapp-float span {
-                display: none;
+            .footer-whatsapp {
+                padding: 12px 16px;
             }
 
             .hero-text-overlay {
@@ -757,6 +782,10 @@
             .hero-image-banner {
                 height: 400px; /* Further reduced for small mobile */
             }
+
+            .footer-whatsapp span {
+                display: none;
+            }
         }
 
         /* Performance optimizations */
@@ -768,7 +797,8 @@
         /* Focus styles for accessibility */
         .nav-link:focus,
         .quick-btn:focus,
-        .form-submit:focus {
+        .form-submit:focus,
+        .footer-whatsapp:focus {
             outline: 2px solid #000;
             outline-offset: 2px;
         }
@@ -1059,15 +1089,35 @@
         <div class="footer-bottom">
             <p>© 2024 VERV ONE. All rights reserved. Wood Side S.L | AICAT 12717 | API 1190</p>
         </div>
-    </footer>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/34657271220" target="_blank" class="whatsapp-float" aria-label="Contact via WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-        </svg>
-        <span>WhatsApp</span>
-    </a>
+        <!-- Chat Widgets in Footer -->
+        <div class="footer-chat-widgets">
+            <!-- WhatsApp Button - Left Side -->
+            <a href="https://wa.me/34657271220" target="_blank" class="footer-whatsapp" aria-label="Contact via WhatsApp">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+                </svg>
+                <span>WhatsApp</span>
+            </a>
+
+            <!-- Chatbase Chat Widget - Right Side -->
+            <div class="footer-chatbase">
+                <!-- Chatbase Script -->
+                <script>
+                window.embeddedChatbotConfig = {
+                chatbotId: "UxLdgvW0G_6bNW4nOAdCq",
+                domain: "www.chatbase.co"
+                }
+                </script>
+                <script
+                src="https://www.chatbase.co/embed.min.js"
+                chatbotId="UxLdgvW0G_6bNW4nOAdCq"
+                domain="www.chatbase.co"
+                defer>
+                </script>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Initialize Weglot with updated API key
@@ -1358,6 +1408,8 @@ Source: VERV ONE Contact Page
             console.log('🔄 Backup: Formspree → ronei@verv.one');
             console.log('📮 Fallback: Mailto → ronei@verv.one');
             console.log('🌐 Weglot translation initialized with key: wg_28408a73be017822d8493d04e6ff1fa74');
+            console.log('💬 WhatsApp positioned at footer left');
+            console.log('🤖 Chatbase widget positioned at footer right');
             
             initContactForm();
             initFadeInAnimations();
