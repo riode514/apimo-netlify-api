@@ -1219,11 +1219,60 @@
         </a>
     </div>
 
-    <!-- Properties Page Specific JavaScript -->
+    <!-- Enhanced Properties Page JavaScript with URL Handling -->
     <script>
         let allProperties = [];
         let filteredProperties = [];
         let currentView = 'grid';
+
+        // Initialize page with URL parameters on load
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 VERV ONE Properties page loaded, initializing...');
+            
+            // Initialize components
+            initMobileMenu();
+            initFooterLogos();
+            
+            // Load properties and apply URL filters
+            await loadPropertiesWithUrlFilters();
+            initializeFilters();
+            initializeViewToggle();
+            
+            // Show content after everything is loaded
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('properties-content').style.display = 'block';
+        });
+
+        // Load properties and apply URL parameters
+        async function loadPropertiesWithUrlFilters() {
+            try {
+                // Read URL parameters
+                const params = new URLSearchParams(window.location.search);
+                const filters = {
+                    location: params.get('location'),
+                    type: params.get('type'),
+                    price_min: params.get('price_min'),
+                    price_max: params.get('price_max'),
+                    bedrooms: params.get('bedrooms'),
+                    bathrooms: params.get('bathrooms')
+                };
+                
+                console.log('📍 URL filters detected:', filters);
+                
+                // Load all properties first
+                await loadProperties();
+                
+                // Apply URL filters if any exist
+                if (Object.values(filters).some(value => value !== null)) {
+                    applyUrlFilters(filters);
+                    updatePageTitle(filters);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error loading properties with URL filters:', error);
+                showEmptyState();
+            }
+        }
 
         // Initialize mobile menu functionality
         function initMobileMenu() {
@@ -1252,23 +1301,6 @@
                 });
             }
         }
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('🚀 VERV ONE Properties page loaded, initializing...');
-            
-            // Initialize components
-            initMobileMenu();
-            initFooterLogos();
-            
-            await loadProperties();
-            initializeFilters();
-            initializeViewToggle();
-            
-            // Show content after everything is loaded
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('properties-content').style.display = 'block';
-        });
 
         // Initialize footer logos
         function initFooterLogos() {
@@ -1603,7 +1635,66 @@
             document.getElementById('resultsCount').textContent = `Found ${count} properties`;
         }
 
-        // Enhanced Filter functionality with better accuracy
+        // Apply filters from URL parameters
+        function applyUrlFilters(filters = null) {
+            if (!filters) {
+                // Read from URL if not provided
+                const params = new URLSearchParams(window.location.search);
+                filters = {
+                    location: params.get('location'),
+                    type: params.get('type'),
+                    price_min: params.get('price_min'),
+                    price_max: params.get('price_max'),
+                    bedrooms: params.get('bedrooms'),
+                    bathrooms: params.get('bathrooms')
+                };
+            }
+            
+            // Update form fields to match URL parameters
+            if (filters.location) {
+                const locationSelect = document.getElementById('locationFilter');
+                // Try exact match first, then case-insensitive
+                const options = Array.from(locationSelect.options);
+                const exactMatch = options.find(opt => opt.value.toLowerCase() === filters.location.toLowerCase());
+                if (exactMatch) {
+                    locationSelect.value = exactMatch.value;
+                }
+            }
+            
+            if (filters.type) {
+                const typeSelect = document.getElementById('typeFilter');
+                const options = Array.from(typeSelect.options);
+                const exactMatch = options.find(opt => opt.value.toLowerCase() === filters.type.toLowerCase());
+                if (exactMatch) {
+                    typeSelect.value = exactMatch.value;
+                }
+            }
+            
+            // Handle price range - convert min/max to predefined ranges if possible
+            if (filters.price_min || filters.price_max) {
+                const priceSelect = document.getElementById('priceFilter');
+                const minPrice = filters.price_min ? parseInt(filters.price_min) : 0;
+                const maxPrice = filters.price_max ? parseInt(filters.price_max) : Infinity;
+                
+                // Map to predefined ranges
+                if (minPrice === 0 && maxPrice <= 500000) {
+                    priceSelect.value = '0-500000';
+                } else if (minPrice >= 500000 && maxPrice <= 1000000) {
+                    priceSelect.value = '500000-1000000';
+                } else if (minPrice >= 1000000 && maxPrice <= 2000000) {
+                    priceSelect.value = '1000000-2000000';
+                } else if (minPrice >= 2000000 && maxPrice <= 5000000) {
+                    priceSelect.value = '2000000-5000000';
+                } else if (minPrice >= 5000000) {
+                    priceSelect.value = '5000000+';
+                }
+            }
+            
+            // Apply the filters
+            applyFilters();
+        }
+
+        // Enhanced Filter functionality with better accuracy and URL updating
         function initializeFilters() {
             const typeFilter = document.getElementById('typeFilter');
             const locationFilter = document.getElementById('locationFilter');
@@ -1614,60 +1705,39 @@
             locationFilter.addEventListener('change', applyFilters);
             priceFilter.addEventListener('change', applyFilters);
             clearFilters.addEventListener('click', clearAllFilters);
-
-            // Check URL parameters for initial filters
-            applyUrlFilters();
         }
 
-        function applyUrlFilters() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const location = urlParams.get('location');
-            const type = urlParams.get('type');
-            const budget = urlParams.get('budget');
-
-            if (location) {
-                document.getElementById('locationFilter').value = location.toLowerCase();
-            }
-            if (type) {
-                document.getElementById('typeFilter').value = type.toLowerCase();
-            }
-            if (budget) {
-                document.getElementById('priceFilter').value = budget;
-            }
-
-            applyFilters();
-        }
-
+        // Enhanced filter application with URL updating
         function applyFilters() {
-            const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
-            const locationFilter = document.getElementById('locationFilter').value.toLowerCase();
+            const typeFilter = document.getElementById('typeFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
             const priceFilter = document.getElementById('priceFilter').value;
 
             console.log('Applying filters:', { typeFilter, locationFilter, priceFilter });
 
+            // Filter properties
             filteredProperties = allProperties.filter(property => {
                 const data = extractPropertyData(property);
                 
-                // Enhanced Type filter with better matching
+                // Type filter
                 if (typeFilter && typeFilter !== '') {
                     const propertyType = data.type.toLowerCase();
-                    if (propertyType !== typeFilter && !propertyType.includes(typeFilter) && !typeFilter.includes(propertyType)) {
-                        console.log(`Type filter excluding: ${data.title} (${propertyType} doesn't match ${typeFilter})`);
+                    if (propertyType !== typeFilter.toLowerCase() && 
+                        !propertyType.includes(typeFilter.toLowerCase()) && 
+                        !typeFilter.toLowerCase().includes(propertyType)) {
                         return false;
                     }
                 }
                 
-                // Enhanced Location filter with better matching
+                // Location filter
                 if (locationFilter && locationFilter !== '') {
                     const propertyLocation = data.location.toLowerCase();
                     const normalizedPropertyLocation = propertyLocation.replace(/'/g, '').replace(/\s+/g, ' ').trim();
-                    const normalizedFilter = locationFilter.replace(/'/g, '').replace(/\s+/g, ' ').trim();
+                    const normalizedFilter = locationFilter.toLowerCase().replace(/'/g, '').replace(/\s+/g, ' ').trim();
                     
-                    // Check for exact match, contains, or partial match
                     if (normalizedPropertyLocation !== normalizedFilter && 
                         !normalizedPropertyLocation.includes(normalizedFilter) && 
                         !normalizedFilter.includes(normalizedPropertyLocation)) {
-                        console.log(`Location filter excluding: ${data.title} (${propertyLocation} doesn't match ${locationFilter})`);
                         return false;
                     }
                 }
@@ -1675,36 +1745,87 @@
                 // Price filter
                 if (priceFilter && priceFilter !== '' && data.price) {
                     const price = data.price;
-                    if (priceFilter === '0-500000' && price > 500000) {
-                        console.log(`Price filter excluding: ${data.title} (${price} > 500000)`);
-                        return false;
-                    }
-                    if (priceFilter === '500000-1000000' && (price < 500000 || price > 1000000)) {
-                        console.log(`Price filter excluding: ${data.title} (${price} not in 500K-1M range)`);
-                        return false;
-                    }
-                    if (priceFilter === '1000000-2000000' && (price < 1000000 || price > 2000000)) {
-                        console.log(`Price filter excluding: ${data.title} (${price} not in 1M-2M range)`);
-                        return false;
-                    }
-                    if (priceFilter === '2000000-5000000' && (price < 2000000 || price > 5000000)) {
-                        console.log(`Price filter excluding: ${data.title} (${price} not in 2M-5M range)`);
-                        return false;
-                    }
-                    if (priceFilter === '5000000+' && price < 5000000) {
-                        console.log(`Price filter excluding: ${data.title} (${price} < 5M)`);
-                        return false;
-                    }
+                    if (priceFilter === '0-500000' && price > 500000) return false;
+                    if (priceFilter === '500000-1000000' && (price < 500000 || price > 1000000)) return false;
+                    if (priceFilter === '1000000-2000000' && (price < 1000000 || price > 2000000)) return false;
+                    if (priceFilter === '2000000-5000000' && (price < 2000000 || price > 5000000)) return false;
+                    if (priceFilter === '5000000+' && price < 5000000) return false;
                 }
                 
                 return true;
             });
 
-            console.log(`Filter results: ${filteredProperties.length} properties found`);
+            // Display filtered results
             displayProperties(filteredProperties);
             updateResultsCount(filteredProperties.length);
+            
+            // Update URL with current filters
+            updateUrlWithFilters();
         }
 
+        // Update URL with current filter state
+        function updateUrlWithFilters() {
+            const params = new URLSearchParams();
+            
+            const typeFilter = document.getElementById('typeFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+            
+            if (typeFilter) params.set('type', typeFilter);
+            if (locationFilter) params.set('location', locationFilter);
+            
+            // Convert price ranges back to min/max for URL
+            if (priceFilter) {
+                switch (priceFilter) {
+                    case '0-500000':
+                        params.set('price_max', '500000');
+                        break;
+                    case '500000-1000000':
+                        params.set('price_min', '500000');
+                        params.set('price_max', '1000000');
+                        break;
+                    case '1000000-2000000':
+                        params.set('price_min', '1000000');
+                        params.set('price_max', '2000000');
+                        break;
+                    case '2000000-5000000':
+                        params.set('price_min', '2000000');
+                        params.set('price_max', '5000000');
+                        break;
+                    case '5000000+':
+                        params.set('price_min', '5000000');
+                        break;
+                }
+            }
+            
+            // Update URL without page reload
+            const newUrl = params.toString() ? `/properties/?${params.toString()}` : '/properties/';
+            window.history.replaceState({}, '', newUrl);
+            
+            console.log('📍 URL updated:', newUrl);
+        }
+
+        // Update page title based on filters
+        function updatePageTitle(filters) {
+            const title = document.querySelector('.properties-hero-title');
+            const subtitle = document.querySelector('.properties-hero-subtitle');
+            
+            if (filters.location && filters.type) {
+                title.textContent = `${filters.type}s in ${filters.location}`;
+                subtitle.textContent = `Discover premium ${filters.type.toLowerCase()}s in ${filters.location}`;
+                document.title = `${filters.type}s in ${filters.location} | VERV ONE`;
+            } else if (filters.location) {
+                title.textContent = `Properties in ${filters.location}`;
+                subtitle.textContent = `Discover premium properties in ${filters.location}`;
+                document.title = `Properties in ${filters.location} | VERV ONE`;
+            } else if (filters.type) {
+                title.textContent = `${filters.type}s for Sale`;
+                subtitle.textContent = `Discover premium ${filters.type.toLowerCase()}s across Barcelona, Sitges, and Costa Brava`;
+                document.title = `${filters.type}s for Sale | VERV ONE`;
+            }
+        }
+
+        // Enhanced clear filters function
         function clearAllFilters() {
             document.getElementById('typeFilter').value = '';
             document.getElementById('locationFilter').value = '';
@@ -1714,8 +1835,13 @@
             displayProperties(filteredProperties);
             updateResultsCount(filteredProperties.length);
             
-            // Update URL
-            window.history.pushState({}, '', '/properties/');
+            // Reset page title
+            document.querySelector('.properties-hero-title').textContent = 'Our Portfolio';
+            document.querySelector('.properties-hero-subtitle').textContent = 'Discover exceptional properties across Barcelona, Sitges, and Costa Brava. Each property in our curated collection represents the finest in luxury living and investment opportunities.';
+            document.title = 'Properties | VERV ONE - Premium Real Estate Costa Brava';
+            
+            // Clear URL parameters
+            window.history.replaceState({}, '', '/properties/');
         }
 
         // View toggle functionality
