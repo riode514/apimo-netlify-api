@@ -32,27 +32,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Updated Weglot Integration -->
+    <!-- Weglot Translation Script -->
     <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
-    <script>
-        Weglot.initialize({
-            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74',
-            originalLanguage: 'en',
-            destinationLanguages: 'es,ca,fr,de',
-            switchers: [{
-                styleOpt: {
-                    fullname: false,
-                    withname: false,
-                    is_dropdown: true,
-                    with_flags: true,
-                    flag_type: 'rectangle'
-                },
-                location: {
-                    target: '#weglot-container'
-                }
-            }]
-        });
-    </script>
 
     
     <!-- Combined Styles -->
@@ -115,6 +96,7 @@
             list-style: none;
             gap: 2rem;
             margin: 0;
+            align-items: center;
         }
 
         .nav-link {
@@ -1392,6 +1374,29 @@
 
     <!-- Single Property Specific JavaScript -->
     <script>
+        // Initialize Weglot with updated API key
+        Weglot.initialize({
+            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74',
+            originalLanguage: 'en',
+            destinationLanguages: 'es,ca,fr,de',
+            translateSearch: true,
+            cache: true,
+            switchers: [{
+                styleOpt: {
+                    fullname: false,
+                    withname: false,
+                    is_dropdown: true,
+                    with_flags: true,
+                    flag_type: 'rectangle',
+                    invert_flags: false
+                },
+                location: {
+                    target: '#weglot-container',
+                    sibling: null
+                }
+            }]
+        });
+
         // Global variables
         let currentProperty = null;
         let currentImageIndex = 0;
@@ -2278,6 +2283,7 @@ Property URL: ${fallbackData.propertyUrl}
         // Initialize page
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('🚀 VERV ONE Single property page loaded, initializing...');
+            console.log('🌐 Weglot translation initialized with key: wg_28408a73be017822d8493d04e6ff1fa74');
             
             // Initialize components
             initMobileMenu();
