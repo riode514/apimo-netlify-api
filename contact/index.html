@@ -37,6 +37,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@300;400;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Weglot Translation Script -->
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    
     <style>
         /* Reset and Base Styles */
         * {
@@ -92,6 +95,7 @@
             list-style: none;
             gap: 2rem;
             margin: 0;
+            align-items: center;
         }
 
         .nav-link {
@@ -116,11 +120,11 @@
             color: #000;
         }
 
-        /* Hero Section */
+        /* Hero Section - Larger Image */
         .contact-hero {
             padding: 140px 0 0;
             background: #ffffff;
-            min-height: 70vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
         }
@@ -136,7 +140,7 @@
         .hero-image-banner {
             position: relative;
             width: 100%;
-            height: 500px;
+            height: 650px; /* Increased from 500px */
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
@@ -634,7 +638,7 @@
             }
 
             .hero-image-banner {
-                height: 450px;
+                height: 550px; /* Reduced for tablets */
             }
 
             .hero-image {
@@ -722,7 +726,7 @@
             }
             
             .hero-image-banner {
-                height: 400px;
+                height: 450px; /* Reduced for mobile */
             }
             
             .hero-image {
@@ -748,6 +752,10 @@
             .hero-stats {
                 grid-template-columns: 1fr;
                 gap: 1rem;
+            }
+
+            .hero-image-banner {
+                height: 400px; /* Further reduced for small mobile */
             }
         }
 
@@ -781,6 +789,7 @@
                 <li><a href="/properties/" class="nav-link">Properties</a></li>
                 <li><a href="/projects/" class="nav-link">Projects</a></li>
                 <li><a href="/contact/" class="nav-link active">Contact</a></li>
+                <li><div id="weglot-container"></div></li>
             </ul>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
@@ -1061,6 +1070,29 @@
     </a>
 
     <script>
+        // Initialize Weglot with updated API key
+        Weglot.initialize({
+            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74',
+            originalLanguage: 'en',
+            destinationLanguages: 'es,ca,fr,de',
+            translateSearch: true,
+            cache: true,
+            switchers: [{
+                styleOpt: {
+                    fullname: false,
+                    withname: false,
+                    is_dropdown: true,
+                    with_flags: true,
+                    flag_type: 'rectangle',
+                    invert_flags: false
+                },
+                location: {
+                    target: '#weglot-container',
+                    sibling: null
+                }
+            }]
+        });
+
         // Optimized Contact form handling for Netlify Forms
         function initContactForm() {
             const contactForm = document.getElementById('contactForm');
@@ -1325,6 +1357,7 @@ Source: VERV ONE Contact Page
             console.log('📧 Primary: Netlify Forms → ronei@verv.one');
             console.log('🔄 Backup: Formspree → ronei@verv.one');
             console.log('📮 Fallback: Mailto → ronei@verv.one');
+            console.log('🌐 Weglot translation initialized with key: wg_28408a73be017822d8493d04e6ff1fa74');
             
             initContactForm();
             initFadeInAnimations();
