@@ -68,88 +68,12 @@
       window.trackContactSubmission = trackContactSubmission;
     </script>
     
-    <!-- FIXED: Weglot Integration with correct API key and error handling -->
-    <script src="https://cdn.weglot.com/weglot.min.js"></script>
+    <!-- Updated Weglot Integration -->
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     <script>
-      // Global variables for Weglot
-      window.weglotInitialized = false;
-      window.weglotEnabled = true; // Flag to disable if needed
-      
-      // FIXED: Updated API key and better error handling
-      function initializeWeglot() {
-        if (window.weglotInitialized || !window.weglotEnabled) return;
-        
-        try {
-          if (typeof Weglot !== 'undefined' && Weglot.initialize) {
-            Weglot.initialize({
-              api_key: 'wg_eecebd448eae266139b949ca538854046', // Use your actual working API key
-              switchers: [
-                {
-                  target: "#weglot_here",
-                  sibling: null
-                }
-              ],
-              auto_switch: true,
-              cache: true,
-              exceptions: "#wg-exclude",
-              hide_switchers: [],
-              translate_search: false // Disable search translation to avoid conflicts
-            });
-            
-            window.weglotInitialized = true;
-            console.log('✅ Weglot initialized successfully');
-            
-            // Force show flags after initialization
-            setTimeout(() => {
-              const weglotContainer = document.getElementById('weglot_here');
-              if (weglotContainer) {
-                weglotContainer.style.display = 'block !important';
-                weglotContainer.style.visibility = 'visible !important';
-                weglotContainer.style.opacity = '1 !important';
-                
-                // Find and show any Weglot elements
-                const weglotElements = document.querySelectorAll('[class*="weglot"], [class*="wg-"], .weglot-dropdown');
-                weglotElements.forEach(element => {
-                  element.style.display = 'flex !important';
-                  element.style.visibility = 'visible !important';
-                  element.style.opacity = '1 !important';
-                });
-                
-                console.log('🏁 Weglot flags forced to show');
-              }
-            }, 1000);
-            
-          } else {
-            throw new Error('Weglot not loaded');
-          }
-        } catch (error) {
-          console.warn('⚠️ Weglot initialization failed:', error.message);
-          // Disable Weglot to prevent further errors
-          window.weglotEnabled = false;
-          
-          // Hide the Weglot container if initialization fails
-          const weglotContainer = document.getElementById('weglot_here');
-          if (weglotContainer) {
-            weglotContainer.style.display = 'none';
-          }
-        }
-      }
-      
-      // Initialize when DOM is ready
-      document.addEventListener('DOMContentLoaded', function() {
-        if (window.weglotEnabled) {
-          console.log('🌐 Starting Weglot initialization...');
-          setTimeout(initializeWeglot, 500); // Slight delay to ensure everything is loaded
-        }
-      });
-      
-      // Also try to initialize when window loads
-      window.addEventListener('load', function() {
-        if (!window.weglotInitialized && window.weglotEnabled) {
-          console.log('🌐 Retrying Weglot initialization on window load...');
-          setTimeout(initializeWeglot, 1000);
-        }
-      });
+        Weglot.initialize({
+            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74'
+        });
     </script>
     
     <!-- Dynamic SEO Meta Tags -->
@@ -308,7 +232,7 @@
             color: #000;
         }
 
-        /* FIXED: Weglot Language Switcher Styling - Graceful fallback */
+        /* Weglot Language Switcher Styling */
         #weglot_here {
             margin-left: 1rem;
             margin-right: 1rem;
@@ -317,11 +241,6 @@
             opacity: 1 !important;
             min-width: 60px;
             height: 32px;
-        }
-
-        /* Hide Weglot if it fails to load */
-        #weglot_here:empty {
-            display: none !important;
         }
 
         /* Weglot override styles */
@@ -361,12 +280,6 @@
             padding: 0 !important;
             list-style: none !important;
             display: inline-block !important;
-        }
-
-        /* Force show Weglot elements */
-        [data-wg-notranslate] {
-            display: block !important;
-            visibility: visible !important;
         }
 
         /* FIXED: Hero Section - Enhanced mobile video support */
@@ -1334,7 +1247,7 @@
                 display: block;
             }
             
-            /* FIXED: Weglot mobile styling */
+            /* Mobile Weglot styling */
             #weglot_here {
                 margin-left: 0.5rem;
                 margin-right: 0.5rem;
@@ -1661,8 +1574,8 @@
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
             </ul>
             
-            <!-- FIXED: Weglot Language Switcher with graceful fallback -->
-            <div id="weglot_here" style="display: block !important; visibility: visible !important;"></div>
+            <!-- Weglot Language Switcher -->
+            <div id="weglot_here"></div>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
         </nav>
@@ -1979,7 +1892,7 @@
         })();
     </script>
 
-    <!-- FIXED: REAL API Properties JavaScript with proper type validation -->
+    <!-- FIXED: REAL API Properties JavaScript with enhanced debugging -->
     <script>
         // Property icons for fallback display
         const nounProjectIcons = {
@@ -2741,6 +2654,7 @@
         window.viewProperty = viewProperty;
         window.loadFeaturedProperties = loadFeaturedProperties;
         window.testAPIDirectly = testAPIDirectly;
+        window.testImageURL = testImageURL;
     </script>
 </body>
 </html>
