@@ -63,13 +63,8 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.verv.one/projects">
     
-    <!-- Updated Weglot Integration -->
+    <!-- Weglot Translation Script -->
     <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
-    <script>
-        Weglot.initialize({
-            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74'
-        });
-    </script>
     
     <!-- Chatbase Integration -->
     <script>
@@ -1028,6 +1023,29 @@
 
     <!-- JavaScript -->
     <script>
+        // Initialize Weglot
+        Weglot.initialize({
+            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74',
+            originalLanguage: 'en',
+            destinationLanguages: 'es,ca,fr,de',
+            translateSearch: true,
+            cache: true,
+            switchers: [{
+                styleOpt: {
+                    fullname: false,
+                    withname: false,
+                    is_dropdown: true,
+                    with_flags: true,
+                    flag_type: 'rectangle',
+                    invert_flags: false
+                },
+                location: {
+                    target: '#weglot-container',
+                    sibling: null
+                }
+            }]
+        });
+
         // Mobile menu functionality
         function initMobileMenu() {
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
