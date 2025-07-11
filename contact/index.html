@@ -146,7 +146,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: left center;
+            object-position: center top;
+            display: block;
         }
 
         .hero-text-overlay {
@@ -782,11 +783,14 @@
                      alt="Ronei Kolesny - VERV ONE Real Estate Expert" 
                      class="hero-image"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div style="display:none; height:100%; background:#f8f9fa; align-items:center; justify-content:center; color:#666; font-size:18px; text-align:center; padding:2rem;">
+                
+                <!-- Fallback if image doesn't load -->
+                <div style="display:none; height:100%; background:linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items:center; justify-content:center; color:#666; font-size:18px; text-align:center; padding:3rem;">
                     <div>
-                        <div style="font-size:48px; margin-bottom:1rem;">👤</div>
-                        <div>Ronei Kolesny</div>
-                        <div style="font-size:14px; opacity:0.7; margin-top:0.5rem;">Senior Real Estate Consultant</div>
+                        <div style="font-size:64px; margin-bottom:1.5rem;">🏡</div>
+                        <div style="font-size:24px; font-weight:600; margin-bottom:0.5rem; color:#000;">Ronei Kolesny</div>
+                        <div style="font-size:16px; opacity:0.8;">Senior Real Estate Consultant</div>
+                        <div style="font-size:14px; opacity:0.6; margin-top:1rem;">VERV ONE - Luxury Real Estate</div>
                     </div>
                 </div>
                 
@@ -913,12 +917,12 @@
                     Please fill in all required fields correctly.
                 </div>
                 
-                <!-- NETLIFY FORMS VERSION -->
+                <!-- NETLIFY FORMS (PRIMARY) -->
                 <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contactForm">
                     <!-- Hidden fields for Netlify -->
                     <input type="hidden" name="form-name" value="contact">
                     <!-- Honeypot field for spam protection -->
-                    <input type="hidden" name="bot-field">
+                    <input type="hidden" name="bot-field" style="display: none;">
                     
                     <div class="form-row">
                         <div class="form-group">
@@ -961,67 +965,31 @@
                         <textarea id="message" name="message" placeholder="Tell us about your property needs, timeline, or any specific requirements..." required></textarea>
                     </div>
                     
-                    <!-- Hidden field to specify where email should go -->
-                    <input type="hidden" name="recipient" value="ronei@verv.one">
+                    <!-- Netlify-specific fields -->
+                    <input type="hidden" name="recipient_email" value="ronei@verv.one">
                     <input type="hidden" name="form_source" value="VERV ONE Contact Page">
                     
                     <button type="submit" class="form-submit">Send Message</button>
                 </form>
-
-                <!-- FORMSPREE VERSION (BACKUP) - UNCOMMENT IF NEEDED -->
-                <!--
-                <form id="contactFormBackup" action="https://formspree.io/f/mrbgqwbr" method="POST">
+                
+                <!-- BACKUP FORMSPREE (Hidden - only used if Netlify fails) -->
+                <form id="contactFormBackup" action="https://formspree.io/f/xgveqbqk" method="POST" style="display: none;">
                     <input type="hidden" name="_to" value="ronei@verv.one">
-                    <input type="hidden" name="_subject" value="New Contact Form Submission - VERV ONE">
-                    <input type="hidden" name="_next" value="#contact-form">
-                    <input type="hidden" name="_gotcha" style="display:none">
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name2">Full Name *</label>
-                            <input type="text" id="name2" name="name" required placeholder="Your full name">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email2">Email Address *</label>
-                            <input type="email" id="email2" name="email" required placeholder="your.email@example.com">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="phone2">Phone Number</label>
-                            <input type="tel" id="phone2" name="phone" placeholder="+34 123 456 789">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="interest2">I'm interested in</label>
-                            <select id="interest2" name="interest">
-                                <option value="">Select an option</option>
-                                <option value="buying">Buying a property</option>
-                                <option value="selling">Selling a property</option>
-                                <option value="renting">Renting a property</option>
-                                <option value="investment">Investment opportunities</option>
-                                <option value="project">Project management</option>
-                                <option value="consultation">General consultation</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message2">Message *</label>
-                        <textarea id="message2" name="message" placeholder="Tell us about your property needs, timeline, or any specific requirements..." required></textarea>
-                    </div>
-                    
-                    <input type="hidden" name="Form_Source" value="VERV ONE Contact Page">
-                    
-                    <button type="submit" class="form-submit">Send Message (Backup)</button>
+                    <input type="hidden" name="_subject" value="VERV ONE Contact Form - Backup Submission">
+                    <input type="text" name="backup_name">
+                    <input type="email" name="backup_email">
+                    <input type="tel" name="backup_phone">
+                    <select name="backup_interest">
+                        <option value="buying">Buying a property</option>
+                        <option value="selling">Selling a property</option>
+                        <option value="renting">Renting a property</option>
+                        <option value="investment">Investment opportunities</option>
+                        <option value="project">Project management</option>
+                        <option value="consultation">General consultation</option>
+                    </select>
+                    <textarea name="backup_message"></textarea>
+                    <button type="submit">Send Backup</button>
                 </form>
-                -->
             </div>
         </div>
     </section>
@@ -1032,7 +1000,7 @@
             <div class="footer-brand">
                 <div class="footer-logo">VERV ONE</div>
                 <div class="footer-tagline">Signature Estates & Advisory</div>
-                <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
+                <p class="footer-description">Leading real estate consultancy specializing in luxury properties across Barcelona, Sitges, and the Costa Brava. Exceptional spaces, personalized service, and trusted guidance.</p>
             </div>
             
             <div class="footer-section">
@@ -1081,9 +1049,10 @@
     </a>
 
     <script>
-        // Enhanced Contact form handling with Netlify Forms
+        // Optimized Contact form handling for Netlify Forms
         function initContactForm() {
             const contactForm = document.getElementById('contactForm');
+            const backupForm = document.getElementById('contactFormBackup');
             const successMessage = document.getElementById('successMessage');
             const errorMessage = document.getElementById('errorMessage');
             const submitButton = contactForm.querySelector('.form-submit');
@@ -1102,18 +1071,14 @@
                     const message = document.getElementById('message').value.trim();
                     
                     if (!name || !email || !message) {
-                        errorMessage.textContent = 'Please fill in all required fields correctly.';
-                        errorMessage.style.display = 'block';
-                        errorMessage.scrollIntoView({ behavior: 'smooth' });
+                        showError('Please fill in all required fields correctly.');
                         return;
                     }
                     
                     // Email validation
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                     if (!emailRegex.test(email)) {
-                        errorMessage.textContent = 'Please enter a valid email address.';
-                        errorMessage.style.display = 'block';
-                        errorMessage.scrollIntoView({ behavior: 'smooth' });
+                        showError('Please enter a valid email address.');
                         return;
                     }
                     
@@ -1122,74 +1087,32 @@
                     submitButton.textContent = 'Sending...';
                     submitButton.disabled = true;
                     
-                    // Create FormData for Netlify Forms
+                    console.log('📧 Submitting form via Netlify Forms to ronei@verv.one...');
+                    
+                    // Submit to Netlify Forms
                     const formData = new FormData(contactForm);
                     
-                    // Add additional data to be sent to ronei@verv.one
-                    const enhancedMessage = `
-Contact Form Submission - VERV ONE
-
-Name: ${name}
-Email: ${email}
-Phone: ${formData.get('phone') || 'Not provided'}
-Interest: ${formData.get('interest') || 'Not specified'}
-
-Message:
-${message}
-
----
-Submitted: ${new Date().toLocaleString()}
-Source: VERV ONE Contact Page
-                    `;
-                    
-                    formData.set('message', enhancedMessage);
-                    
-                    console.log('Submitting form to Netlify Forms...');
-                    
-                    fetch('/', {
+                    fetch(window.location.pathname, {
                         method: 'POST',
                         body: formData
                     })
                     .then(response => {
-                        console.log('Form submission response:', response.status);
-                        if (response.ok) {
-                            // Success
-                            successMessage.textContent = 'Thank you for your message! We will get back to you within 24 hours.';
-                            successMessage.style.display = 'block';
-                            successMessage.scrollIntoView({ behavior: 'smooth' });
-                            
-                            // Reset form
+                        console.log('Netlify Forms response:', response.status, response.statusText);
+                        
+                        if (response.ok || response.status === 200) {
+                            console.log('✅ Netlify Forms submission successful!');
+                            showSuccess();
                             contactForm.reset();
-                            
-                            // Send notification email to ronei@verv.one (this will be handled by Netlify)
-                            console.log('Email will be forwarded to ronei@verv.one');
-                            
-                            // Hide success message after 8 seconds
-                            setTimeout(() => {
-                                successMessage.style.display = 'none';
-                            }, 8000);
-                            
                         } else {
-                            throw new Error('Form submission failed');
+                            console.log('⚠️ Netlify Forms responded with status:', response.status);
+                            // Try backup method
+                            return tryBackupSubmission();
                         }
                     })
                     .catch(error => {
-                        console.error('Form submission error:', error);
-                        
-                        // Fallback: Try mailto link
-                        const mailtoLink = `mailto:ronei@verv.one?subject=Contact Form Submission - VERV ONE&body=${encodeURIComponent(enhancedMessage)}`;
-                        
-                        errorMessage.innerHTML = `
-                            Sorry, there was an error sending your message. 
-                            <br><br>
-                            <a href="${mailtoLink}" style="color: white; text-decoration: underline;">
-                                Click here to send via email instead
-                            </a>
-                            <br><br>
-                            Or call us directly at <a href="tel:+34657271220" style="color: white; text-decoration: underline;">+34 657 271 220</a>
-                        `;
-                        errorMessage.style.display = 'block';
-                        errorMessage.scrollIntoView({ behavior: 'smooth' });
+                        console.error('❌ Netlify Forms error:', error);
+                        // Try backup method
+                        tryBackupSubmission();
                     })
                     .finally(() => {
                         // Reset button state
@@ -1197,6 +1120,126 @@ Source: VERV ONE Contact Page
                         submitButton.disabled = false;
                     });
                 });
+            }
+            
+            function tryBackupSubmission() {
+                console.log('🔄 Trying backup Formspree submission...');
+                
+                // Copy data to backup form
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const interest = document.getElementById('interest').value;
+                const message = document.getElementById('message').value;
+                
+                // Populate backup form
+                backupForm.elements['backup_name'].value = name;
+                backupForm.elements['backup_email'].value = email;
+                backupForm.elements['backup_phone'].value = phone;
+                backupForm.elements['backup_interest'].value = interest;
+                backupForm.elements['backup_message'].value = `
+VERV ONE Contact Form (Backup Submission)
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
+Interest: ${interest || 'Not specified'}
+
+Message:
+${message}
+
+---
+Submitted: ${new Date().toLocaleString('en-ES', { timeZone: 'Europe/Madrid' })}
+Source: VERV ONE Contact Page (Backup Method)
+Primary recipient: ronei@verv.one
+                `;
+                
+                const backupFormData = new FormData(backupForm);
+                
+                fetch(backupForm.action, {
+                    method: 'POST',
+                    body: backupFormData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('✅ Backup Formspree submission successful!');
+                        showSuccess();
+                        contactForm.reset();
+                    } else {
+                        console.log('❌ Backup submission also failed');
+                        showMailtoFallback();
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Backup submission error:', error);
+                    showMailtoFallback();
+                });
+            }
+            
+            function showSuccess() {
+                successMessage.textContent = 'Thank you for your message! We will get back to you within 24 hours.';
+                successMessage.style.display = 'block';
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+                
+                console.log('✅ Email successfully sent to ronei@verv.one');
+                
+                // Hide success message after 8 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 8000);
+            }
+            
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            function showMailtoFallback() {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value || 'Not provided';
+                const interest = document.getElementById('interest').value || 'Not specified';
+                const message = document.getElementById('message').value;
+                
+                const enhancedMessage = `
+VERV ONE Contact Form Submission
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Interest: ${interest}
+
+Message:
+${message}
+
+---
+Submitted: ${new Date().toLocaleString('en-ES', { timeZone: 'Europe/Madrid' })}
+Source: VERV ONE Contact Page
+                `;
+                
+                const mailtoLink = `mailto:ronei@verv.one?subject=VERV ONE Contact Form Submission&body=${encodeURIComponent(enhancedMessage)}`;
+                
+                errorMessage.innerHTML = `
+                    There was an issue submitting your form. Please:
+                    <br><br>
+                    <a href="${mailtoLink}" style="color: white; text-decoration: underline; font-weight: bold;">
+                        📧 Click here to send via email
+                    </a>
+                    <br><br>
+                    <a href="tel:+34657271220" style="color: white; text-decoration: underline; font-weight: bold;">
+                        📞 Or call us: +34 657 271 220
+                    </a>
+                    <br><br>
+                    <a href="https://wa.me/34657271220" target="_blank" style="color: white; text-decoration: underline; font-weight: bold;">
+                        💬 WhatsApp: +34 657 271 220
+                    </a>
+                `;
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
             }
         }
 
