@@ -32,6 +32,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Updated Weglot Integration -->
+    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
+    <script>
+        Weglot.initialize({
+            api_key: 'wg_28408a73be017822d8493d04e6ff1fa74',
+            originalLanguage: 'en',
+            destinationLanguages: 'es,ca,fr,de',
+            switchers: [{
+                styleOpt: {
+                    fullname: false,
+                    withname: false,
+                    is_dropdown: true,
+                    with_flags: true,
+                    flag_type: 'rectangle'
+                },
+                location: {
+                    target: '#weglot-container'
+                }
+            }]
+        });
+    </script>
 
     
     <!-- Combined Styles -->
@@ -1086,9 +1107,6 @@
             }
         }
     </style>
-
-    <!-- Weglot Translation -->
-    <script type="text/javascript" src="https://cdn.weglot.com/weglot.min.js"></script>
     
     <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CNQV7RJKXC"></script>
@@ -1123,6 +1141,7 @@
                 <li><a href="https://www.verv.one/properties/" class="nav-link">Properties</a></li>
                 <li><a href="/projects/" class="nav-link">Projects</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li><div id="weglot-container"></div></li>
             </ul>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
