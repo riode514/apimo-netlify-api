@@ -582,6 +582,42 @@
             padding-right: 2rem;
             font-weight: 300;
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Weglot Language Switcher in Footer */
+        .footer-language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-language-switcher span {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        #weglot-container {
+            /* Style the Weglot container in footer */
+        }
+
+        /* Override Weglot styles for footer */
+        #weglot-container .weglot-dropdown .weglot-dropdown-btn {
+            background: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: #fff !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 6px !important;
+            font-size: 0.85rem !important;
+        }
+
+        #weglot-container .weglot-dropdown .weglot-dropdown-btn:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
         }
 
         /* Footer Chat Widgets */
@@ -757,6 +793,16 @@
             .hero-image {
                 object-position: center center;
             }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .footer-language-switcher {
+                order: 2;
+            }
         }
 
         @media (max-width: 480px) {
@@ -819,7 +865,6 @@
                 <li><a href="/properties/" class="nav-link">Properties</a></li>
                 <li><a href="/projects/" class="nav-link">Projects</a></li>
                 <li><a href="/contact/" class="nav-link active">Contact</a></li>
-                <li><div id="weglot-container"></div></li>
             </ul>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
@@ -1088,6 +1133,12 @@
         
         <div class="footer-bottom">
             <p>© 2024 VERV ONE. All rights reserved. Wood Side S.L | AICAT 12717 | API 1190</p>
+            
+            <!-- Language Switcher moved to footer -->
+            <div class="footer-language-switcher">
+                <span>Language:</span>
+                <div id="weglot-container"></div>
+            </div>
         </div>
 
         <!-- Chat Widgets in Footer -->
@@ -1120,7 +1171,7 @@
     </footer>
 
     <script>
-        // Initialize Weglot with updated API key
+        // Initialize Weglot with updated API key - now targeting footer container
         Weglot.initialize({
             api_key: 'wg_28408a73be017822d8493d04e6ff1fa74',
             originalLanguage: 'en',
@@ -1408,6 +1459,7 @@ Source: VERV ONE Contact Page
             console.log('🔄 Backup: Formspree → ronei@verv.one');
             console.log('📮 Fallback: Mailto → ronei@verv.one');
             console.log('🌐 Weglot translation initialized with key: wg_28408a73be017822d8493d04e6ff1fa74');
+            console.log('🔄 Weglot switcher moved to footer');
             console.log('💬 WhatsApp positioned at footer left');
             console.log('🤖 Chatbase widget positioned at footer right');
             
