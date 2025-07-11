@@ -530,42 +530,6 @@
             padding-right: 2rem;
             font-weight: 300;
             font-family: 'Source Sans 3', sans-serif;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        /* Weglot Language Switcher in Footer */
-        .footer-language-switcher {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .footer-language-switcher span {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        #weglot-container {
-            /* Style the Weglot container in footer */
-        }
-
-        /* Override Weglot styles for footer */
-        #weglot-container .weglot-dropdown .weglot-dropdown-btn {
-            background: transparent !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            color: #fff !important;
-            padding: 0.5rem 1rem !important;
-            border-radius: 6px !important;
-            font-size: 0.85rem !important;
-        }
-
-        #weglot-container .weglot-dropdown .weglot-dropdown-btn:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-color: rgba(255, 255, 255, 0.5) !important;
         }
 
         /* Chat Widgets Container */
@@ -840,6 +804,7 @@
                 <li><a href="https://www.verv.one/properties/" class="nav-link">Properties</a></li>
                 <li><a href="/projects/" class="nav-link active">Projects</a></li>
                 <li><a href="/contact/" class="nav-link">Contact</a></li>
+                <li><div id="weglot-container"></div></li>
             </ul>
             
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle mobile menu">☰</button>
@@ -1050,12 +1015,6 @@
             <p class="footer-copyright">
                 © 2024 VERV ONE. All rights reserved. Wood Side S.L | Signature Estates & Advisory
             </p>
-            
-            <!-- Language Switcher moved to footer -->
-            <div class="footer-language-switcher">
-                <span>Language:</span>
-                <div id="weglot-container"></div>
-            </div>
         </div>
     </footer>
 
