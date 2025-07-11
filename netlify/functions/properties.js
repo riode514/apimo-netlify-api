@@ -15,17 +15,26 @@ exports.handler = async (event, context) => {
   const providerId = '4352';
   const token = '68460111a25a4d1ba2508ead22a2b59e16cfcfcd';
   const agencyId = '24985';
-
-  const queryParams = event.queryStringParameters || {};
-  const { limit, featured } = queryParams;
-
-  // ✅ URL simple sin parámetros que Apimo podría no soportar
-  const apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
-
   const credentials = Buffer.from(`${providerId}:${token}`).toString('base64');
 
+  const queryParams = event.queryStringParameters || {};
+  const { limit, featured, location, type, price_min, price_max } = queryParams;
+
+  // Construir la URL con filtros
+  let apiUrl = `https://api.apimo.pro/agencies/${agencyId}/properties`;
+  const filters = new URLSearchParams();
+
+  if (location) filters.append('city', location);
+  if (type) filters.append('type', type);
+  if (price_min) filters.append('price_min', price_min);
+  if (price_max) filters.append('price_max', price_max);
+
+  if ([...filters].length > 0) {
+    apiUrl += `?${filters.toString()}`;
+  }
+
   try {
-    console.log('🔗 Fetching properties from Apimo...');
+    console.log('🔗 Fetching filtered properties from Apimo...');
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: {
@@ -36,13 +45,10 @@ exports.handler = async (event, context) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.log('❌ Apimo API failed:', response.status, errorText);
       throw new Error(`Apimo API ${response.status}: ${errorText}`);
     }
 
     const apiData = await response.json();
-    console.log('✅ Apimo API response received, properties count:', apiData.length || 'unknown');
-    
     let properties = [];
 
     if (Array.isArray(apiData)) {
@@ -53,12 +59,12 @@ exports.handler = async (event, context) => {
       properties = apiData.data;
     }
 
-    // Filter featured properties if requested
+    // Extra filter by 'featured' if requested
     if (featured === 'true') {
       properties = properties.filter(p => p.featured || p.is_featured === true);
     }
 
-    // Limit result if requested
+    // Limit results
     if (limit) {
       const max = parseInt(limit);
       if (!isNaN(max)) {
@@ -72,79 +78,28 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({
         success: true,
         count: properties.length,
-        properties: properties,
+        properties,
         source: "Apimo API",
         filters: {
           featured: featured === 'true',
-          limit: limit ? parseInt(limit) : null
+          limit: limit ? parseInt(limit) : null,
+          location,
+          type,
+          price_min,
+          price_max
         }
       })
     };
 
   } catch (error) {
     console.error('❌ Error:', error.message);
-    
-    // ✅ Fallback properties para mejor UX
-    const fallbackProperties = [
-      {
-        id: 1,
-        title: "Modern Villa in Barcelona",
-        price: "€450,000",
-        location: "Barcelona, Spain",
-        bedrooms: 3,
-        bathrooms: 2,
-        size: "120m²",
-        featured: true
-      },
-      {
-        id: 2,
-        title: "Coastal Apartment",
-        price: "€320,000",
-        location: "Valencia, Spain",
-        bedrooms: 2,
-        bathrooms: 1,
-        size: "85m²",
-        featured: false
-      },
-      {
-        id: 3,
-        title: "Historic Townhouse",
-        price: "€580,000",
-        location: "Madrid, Spain",
-        bedrooms: 4,
-        bathrooms: 3,
-        size: "160m²",
-        featured: true
-      }
-    ];
-
-    // Apply same filters to fallback
-    let filteredFallback = fallbackProperties;
-    
-    if (featured === 'true') {
-      filteredFallback = fallbackProperties.filter(p => p.featured);
-    }
-    
-    if (limit) {
-      const max = parseInt(limit);
-      if (!isNaN(max)) {
-        filteredFallback = filteredFallback.slice(0, max);
-      }
-    }
 
     return {
-      statusCode: 200,
+      statusCode: 500,
       headers,
       body: JSON.stringify({
-        success: true,
-        count: filteredFallback.length,
-        properties: filteredFallback,
-        source: "Fallback data",
-        error: error.message,
-        filters: {
-          featured: featured === 'true',
-          limit: limit ? parseInt(limit) : null
-        }
+        success: false,
+        error: error.message
       })
     };
   }
