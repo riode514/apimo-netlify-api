@@ -1784,7 +1784,7 @@
             </div>
         </section>
 
-        <!-- INDEPENDENT Featured Properties Section -->
+        <!-- REAL Properties from API Section -->
         <section class="properties-section section">
             <div class="section-container">
                 <div class="section-header">
@@ -1796,7 +1796,7 @@
                 <div class="hero-featured-property" id="heroFeaturedProperty" role="main" aria-labelledby="featured-properties">
                     <div class="loading-state">
                         <div class="loading-spinner" aria-label="Loading"></div>
-                        <span>Loading featured property...</span>
+                        <span>Loading featured properties from API...</span>
                     </div>
                 </div>
                 
@@ -1804,7 +1804,7 @@
                 <div class="properties-grid" id="propertiesGrid">
                     <div class="loading-state">
                         <div class="loading-spinner" aria-label="Loading"></div>
-                        <span>Loading properties...</span>
+                        <span>Loading properties from API...</span>
                     </div>
                 </div>
             </div>
@@ -1979,67 +1979,9 @@
         })();
     </script>
 
-    <!-- FIXED: Homepage JavaScript with Independent Featured Properties + Search Redirect -->
+    <!-- REAL API Properties JavaScript - NO HARDCODED DATA -->
     <script>
-        // HARDCODED FALLBACK PROPERTIES - Always available
-        const FALLBACK_FEATURED_PROPERTIES = [
-            {
-                id: 'featured-villa-sitges-001',
-                title: 'Luxury Villa with Sea Views',
-                location: 'Sitges',
-                price: 2850000,
-                type: 'Villa',
-                bedrooms: 5,
-                bathrooms: 4,
-                builtArea: 350,
-                landArea: 1200,
-                description: 'Stunning modern villa with panoramic Mediterranean views in prestigious Sitges location',
-                photoUrl: 'https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/villa-moderna.jpg',
-                is_featured: true
-            },
-            {
-                id: 'featured-apartment-barcelona-001',
-                title: 'Premium Penthouse Barcelona',
-                location: 'Barcelona',
-                price: 1650000,
-                type: 'Penthouse',
-                bedrooms: 4,
-                bathrooms: 3,
-                builtArea: 220,
-                description: 'Exceptional penthouse in the heart of Barcelona with city views and luxury finishes',
-                photoUrl: 'https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-girona.jpg',
-                is_featured: true
-            },
-            {
-                id: 'featured-masia-costa-brava-001',
-                title: 'Traditional Masia Costa Brava',
-                location: 'Costa Brava',
-                price: 2200000,
-                type: 'House',
-                bedrooms: 6,
-                bathrooms: 4,
-                builtArea: 380,
-                landArea: 2500,
-                description: 'Beautifully restored traditional masia with modern amenities and extensive grounds',
-                photoUrl: 'https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/masia-emporda.jpg',
-                is_featured: true
-            },
-            {
-                id: 'featured-apartment-sitges-001',
-                title: 'Beachfront Apartment Sitges',
-                location: 'Sitges',
-                price: 1350000,
-                type: 'Apartment',
-                bedrooms: 3,
-                bathrooms: 2,
-                builtArea: 150,
-                description: 'Elegant beachfront apartment with direct sea access and panoramic views',
-                photoUrl: 'https://raw.githubusercontent.com/riode514/apimo-netlify-api/main/assets/images/villa-moderna.jpg',
-                is_featured: true
-            }
-        ];
-
-        // Enhanced Noun Project style icons
+        // Property icons for fallback display
         const nounProjectIcons = {
             'Villa': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
                 <path d="M50 15L15 40v40h20V60h30v20h20V40L50 15zm-15 50h-15V45l15-10v20zm20 0V45l15-10v20H55z"/>
@@ -2049,7 +1991,6 @@
                 <rect x="61" y="45" width="4" height="4"/>
                 <rect x="71" y="45" width="4" height="4"/>
             </svg>`,
-            
             'Apartment': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
                 <rect x="20" y="20" width="60" height="60" stroke="currentColor" stroke-width="2" fill="none"/>
                 <rect x="25" y="25" width="8" height="8" fill="currentColor"/>
@@ -2070,7 +2011,6 @@
                 <rect x="65" y="65" width="8" height="8" fill="currentColor"/>
                 <rect x="40" y="65" width="6" height="15" fill="currentColor"/>
             </svg>`,
-            
             'Penthouse': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
                 <path d="M50 10L20 30v50h60V30L50 10z"/>
                 <rect x="25" y="35" width="6" height="6" fill="white"/>
@@ -2085,7 +2025,6 @@
                 <polygon points="45,5 55,5 52,12" fill="currentColor"/>
                 <rect x="51" y="12" width="2" height="8" fill="currentColor"/>
             </svg>`,
-            
             'House': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
                 <polygon points="50,15 20,40 80,40" fill="currentColor"/>
                 <rect x="25" y="40" width="50" height="40"/>
@@ -2097,7 +2036,6 @@
                 <rect x="48" y="20" width="4" height="20" fill="currentColor"/>
                 <rect x="46" y="18" width="8" height="4" fill="currentColor"/>
             </svg>`,
-            
             'default': `<svg viewBox="0 0 100 100" width="120" height="120" fill="currentColor">
                 <path d="M50 15L20 35v40h60V35L50 15z"/>
                 <rect x="25" y="45" width="6" height="6" fill="white"/>
@@ -2110,187 +2048,228 @@
 
         // Location icons
         const locationIcons = {
-            'Barcelona': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>`,
             'default': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
             </svg>`
         };
 
-        // ENHANCED: Load featured properties with comprehensive debugging and fallback
+        // MAIN FUNCTION: Load real properties from your API only
         async function loadFeaturedProperties() {
-            console.log('🏠 Loading INDEPENDENT featured properties for homepage...');
+            console.log('🏠 Loading REAL featured properties from API...');
             
             try {
-                // Try multiple API approaches with enhanced debugging
-                let response;
-                let apiUrl = '/.netlify/functions/properties?featured=true&limit=4';
-                
-                console.log(`🔍 Attempting API call to: ${apiUrl}`);
-                
-                response = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    cache: 'no-cache'
-                });
-                
-                console.log(`📡 API Response Status: ${response.status} ${response.statusText}`);
-                console.log(`📡 API Response Headers:`, [...response.headers.entries()]);
-                
-                // If featured=true doesn't work, try without it
-                if (!response.ok) {
-                    console.log('🔄 Featured properties endpoint failed, trying all properties...');
-                    apiUrl = '/.netlify/functions/properties?limit=6';
-                    
-                    response = await fetch(apiUrl, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
+                // COMPREHENSIVE API TESTING - Multiple endpoints and approaches
+                const apiEndpoints = [
+                    '/.netlify/functions/properties?featured=true&limit=4',
+                    '/.netlify/functions/properties?limit=6',
+                    '/.netlify/functions/properties',
+                    '/api/properties?featured=true&limit=4',
+                    '/api/properties'
+                ];
+
+                let successfulResponse = null;
+                let lastError = null;
+
+                // Try each endpoint until one works
+                for (const endpoint of apiEndpoints) {
+                    try {
+                        console.log(`🔍 Testing API endpoint: ${endpoint}`);
+                        
+                        const response = await fetch(endpoint, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            cache: 'no-cache'
+                        });
+                        
+                        console.log(`📡 Response Status: ${response.status} for ${endpoint}`);
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            console.log(`✅ Successful response from: ${endpoint}`);
+                            console.log(`🔍 Response structure:`, {
+                                keys: Object.keys(data),
+                                dataType: typeof data,
+                                isArray: Array.isArray(data)
+                            });
+                            
+                            // Try to extract properties from this response
+                            const extractedProperties = extractPropertiesFromAPIResponse(data);
+                            
+                            if (extractedProperties && extractedProperties.length > 0) {
+                                console.log(`🎯 Found ${extractedProperties.length} properties from ${endpoint}`);
+                                successfulResponse = extractedProperties;
+                                break; // Stop trying other endpoints
+                            } else {
+                                console.log(`⚠️ ${endpoint} returned data but no extractable properties`);
+                                console.log('🔍 Raw response sample:', JSON.stringify(data, null, 2).substring(0, 500));
+                            }
+                        } else {
+                            console.log(`❌ ${endpoint} failed with status ${response.status}`);
                         }
+                        
+                    } catch (endpointError) {
+                        console.log(`❌ ${endpoint} threw error:`, endpointError.message);
+                        lastError = endpointError;
+                    }
+                }
+
+                // Check if we found any properties
+                if (successfulResponse && successfulResponse.length > 0) {
+                    console.log(`🎉 Successfully extracted ${successfulResponse.length} properties from API`);
+                    
+                    // Process and display the real properties
+                    const processedProperties = successfulResponse.slice(0, 4).map(property => processProperty(property));
+                    
+                    // Mark as featured
+                    processedProperties.forEach(property => {
+                        property.is_featured = true;
                     });
                     
-                    console.log(`📡 Fallback API Response Status: ${response.status} ${response.statusText}`);
-                }
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                console.log('✅ API response received successfully');
-                console.log('🔍 Response keys:', Object.keys(data));
-                console.log('🔍 Response data preview:', JSON.stringify(data, null, 2).substring(0, 500) + '...');
-                
-                // ENHANCED: Smart property extraction - try multiple possible structures
-                let properties = [];
-                
-                if (data.properties && Array.isArray(data.properties) && data.properties.length > 0) {
-                    properties = data.properties;
-                    console.log('✅ Using data.properties - found', properties.length, 'properties');
-                } else if (data.data && Array.isArray(data.data) && data.data.length > 0) {
-                    properties = data.data;
-                    console.log('✅ Using data.data - found', properties.length, 'properties');
-                } else if (data.results && Array.isArray(data.results) && data.results.length > 0) {
-                    properties = data.results;
-                    console.log('✅ Using data.results - found', properties.length, 'properties');
-                } else if (data.items && Array.isArray(data.items) && data.items.length > 0) {
-                    properties = data.items;
-                    console.log('✅ Using data.items - found', properties.length, 'properties');
-                } else if (Array.isArray(data) && data.length > 0) {
-                    properties = data;
-                    console.log('✅ Using root array - found', properties.length, 'properties');
+                    console.log(`✅ Displaying ${processedProperties.length} real properties from API`);
+                    console.log('📋 Properties to display:', processedProperties.map(p => ({
+                        id: p.id,
+                        title: p.title,
+                        location: p.location,
+                        type: p.type,
+                        price: p.price
+                    })));
+                    
+                    // Display the real properties
+                    displayHomepageFeaturedProperties(processedProperties);
                 } else {
-                    // Enhanced debugging for unexpected API response structure
-                    console.log('❌ No properties found in any expected location');
-                    console.log('🔍 Detailed API response structure analysis:');
-                    console.log('   typeof data:', typeof data);
-                    console.log('   data is Array:', Array.isArray(data));
-                    console.log('   Object.keys(data):', Object.keys(data));
-                    
-                    if (data.properties) {
-                        console.log('   data.properties type:', typeof data.properties);
-                        console.log('   data.properties is Array:', Array.isArray(data.properties));
-                        console.log('   data.properties length:', data.properties ? data.properties.length : 'N/A');
-                    }
-                    
-                    console.log('🔍 Full response structure:');
-                    console.log(JSON.stringify(data, null, 2));
-                    
-                    // Use fallback properties
-                    console.log('🔄 Using fallback featured properties due to API structure mismatch');
-                    properties = FALLBACK_FEATURED_PROPERTIES;
+                    // If no properties found, show error state with API debugging info
+                    throw new Error(`No properties found in any API endpoint. Last error: ${lastError?.message || 'Unknown'}`);
                 }
-                
-                // Take first 4 properties
-                properties = properties.slice(0, 4);
-                
-                if (properties.length === 0) {
-                    throw new Error('No properties available after processing');
-                }
-                
-                console.log(`✅ Processing ${properties.length} properties`);
-                console.log('🔍 Sample property structure:', JSON.stringify(properties[0], null, 2));
-                
-                // Process properties
-                const processedProperties = properties.map(property => processProperty(property));
-                
-                // Mark all as featured
-                processedProperties.forEach(property => {
-                    property.is_featured = true;
-                });
-                
-                console.log(`✅ Successfully loaded ${processedProperties.length} featured properties for homepage`);
-                console.log('🔍 Processed properties preview:', processedProperties.map(p => ({
-                    id: p.id,
-                    title: p.title,
-                    location: p.location,
-                    price: p.price
-                })));
-                
-                // Display featured properties
-                displayHomepageFeaturedProperties(processedProperties);
                 
             } catch (error) {
-                console.error('❌ API completely failed, using fallback properties:', error);
-                console.error('❌ Error details:', {
-                    message: error.message,
-                    stack: error.stack,
-                    name: error.name
-                });
-                
-                // Always show fallback properties if everything fails
-                console.log('🔄 Displaying hardcoded fallback properties');
-                displayHomepageFeaturedProperties(FALLBACK_FEATURED_PROPERTIES);
+                console.error('❌ Complete API failure:', error);
+                showAPIErrorState(error.message);
             }
         }
 
-        // SIMPLIFIED: Process individual property
-        function processProperty(property) {
-            const id = String(property.id || property.reference || Math.random().toString(36).substr(2, 9));
+        // EXTRACT properties from various API response formats
+        function extractPropertiesFromAPIResponse(data) {
+            console.log('🔍 Extracting properties from API response...');
             
-            const title = property.title || 
-                         (property.comments && property.comments[0]?.title) || 
-                         `${property.type || 'Property'} in ${property.location || 'Premium Location'}`;
+            let properties = [];
             
-            const location = property.location || 
-                            (property.city?.name) || 
-                            property.city || 
-                            property.district || 
-                            'Premium Location';
-            
-            const type = property.type || property.subtype || 'Villa';
-            
-            const price = typeof property.price === 'number' ? property.price : 
-                         (property.price?.value || null);
-            
-            const bedrooms = property.bedrooms || null;
-            const bathrooms = property.bathrooms || null;
-            
-            const builtArea = property.area?.built || property.area?.total || property.surface || null;
-            const landArea = property.land_area || null;
-            
-            const description = (property.comments && property.comments[0]?.comment) ||
-                               property.description ||
-                               title;
-            
-            // Extract main image
-            let photoUrl = null;
-            if (property.photos && property.photos.length > 0) {
-                photoUrl = property.photos[0].url || property.photos[0].src || property.photos[0];
-            } else if (property.images && property.images.length > 0) {
-                photoUrl = property.images[0].url || property.images[0].src || property.images[0];
-            } else if (property.photo) {
-                photoUrl = property.photo.url || property.photo.src || property.photo;
-            } else if (property.photoUrl) {
-                photoUrl = property.photoUrl;
+            // Try different possible response structures
+            if (data.properties && Array.isArray(data.properties) && data.properties.length > 0) {
+                properties = data.properties;
+                console.log('✅ Found properties in data.properties');
+            } else if (data.data && Array.isArray(data.data) && data.data.length > 0) {
+                properties = data.data;
+                console.log('✅ Found properties in data.data');
+            } else if (data.results && Array.isArray(data.results) && data.results.length > 0) {
+                properties = data.results;
+                console.log('✅ Found properties in data.results');
+            } else if (data.items && Array.isArray(data.items) && data.items.length > 0) {
+                properties = data.items;
+                console.log('✅ Found properties in data.items');
+            } else if (Array.isArray(data) && data.length > 0) {
+                properties = data;
+                console.log('✅ Found properties in root array');
+            } else if (data.response && Array.isArray(data.response) && data.response.length > 0) {
+                properties = data.response;
+                console.log('✅ Found properties in data.response');
+            } else {
+                console.log('❌ No properties found in any expected location');
+                console.log('🔍 Available keys:', Object.keys(data));
+                console.log('🔍 Data type checks:', {
+                    'data.properties': {
+                        exists: !!data.properties,
+                        isArray: Array.isArray(data.properties),
+                        length: data.properties ? data.properties.length : 0
+                    },
+                    'data.data': {
+                        exists: !!data.data,
+                        isArray: Array.isArray(data.data),
+                        length: data.data ? data.data.length : 0
+                    }
+                });
+                return [];
             }
             
-            return {
+            console.log(`🔍 Extracted ${properties.length} raw properties`);
+            
+            // Basic validation - ensure we have property objects
+            const validProperties = properties.filter(property => {
+                return property && typeof property === 'object' && 
+                       (property.id || property.reference || property.title || property.name);
+            });
+            
+            console.log(`✅ ${validProperties.length} properties passed validation`);
+            
+            return validProperties;
+        }
+
+        // Process individual property from API data
+        function processProperty(property) {
+            console.log('🏠 Processing property:', property);
+            
+            // Extract basic info with extensive fallbacks for different API formats
+            const id = String(property.id || property.reference || property.propertyId || 
+                              property.ref || property.uuid || Math.random().toString(36).substr(2, 9));
+            
+            const title = property.title || property.name || property.headline || 
+                         (property.comments && property.comments[0]?.title) || 
+                         (property.description && property.description.substring(0, 50)) ||
+                         `${property.type || 'Property'} in ${property.location || property.city || 'Premium Location'}`;
+            
+            const location = property.location || property.city?.name || property.city || 
+                           property.district || property.area || property.region || 
+                           property.address?.city || 'Premium Location';
+            
+            const type = property.type || property.subtype || property.category || 
+                        property.propertyType || 'Villa';
+            
+            // Handle price with multiple possible formats
+            let price = null;
+            if (typeof property.price === 'number' && property.price > 0) {
+                price = property.price;
+            } else if (property.price?.value && typeof property.price.value === 'number') {
+                price = property.price.value;
+            } else if (property.price?.amount && typeof property.price.amount === 'number') {
+                price = property.price.amount;
+            } else if (property.salePrice && typeof property.salePrice === 'number') {
+                price = property.salePrice;
+            }
+            
+            // Extract property details
+            const bedrooms = property.bedrooms || property.beds || property.bedroomCount || null;
+            const bathrooms = property.bathrooms || property.baths || property.bathroomCount || null;
+            
+            // Area/Surface handling
+            const builtArea = property.area?.built || property.area?.total || property.surface || 
+                             property.floorArea || property.livingArea || null;
+            const landArea = property.land_area || property.landArea || property.plotSize || 
+                           property.lotSize || null;
+            
+            const description = (property.comments && property.comments[0]?.comment) ||
+                               property.description || property.summary || title;
+            
+            // Extract main image with extensive fallbacks
+            let photoUrl = null;
+            if (property.photos && Array.isArray(property.photos) && property.photos.length > 0) {
+                const firstPhoto = property.photos[0];
+                photoUrl = firstPhoto.url || firstPhoto.src || firstPhoto.href || firstPhoto;
+            } else if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+                const firstImage = property.images[0];
+                photoUrl = firstImage.url || firstImage.src || firstImage.href || firstImage;
+            } else if (property.photo) {
+                photoUrl = property.photo.url || property.photo.src || property.photo;
+            } else if (property.image) {
+                photoUrl = property.image.url || property.image.src || property.image;
+            } else if (property.mainImage) {
+                photoUrl = property.mainImage.url || property.mainImage.src || property.mainImage;
+            } else if (property.thumbnail) {
+                photoUrl = property.thumbnail.url || property.thumbnail.src || property.thumbnail;
+            }
+            
+            const processedProperty = {
                 id,
                 title,
                 location,
@@ -2304,22 +2283,32 @@
                 photoUrl,
                 is_featured: false
             };
+            
+            console.log('✅ Processed property:', {
+                id: processedProperty.id,
+                title: processedProperty.title,
+                location: processedProperty.location,
+                type: processedProperty.type,
+                hasPhoto: !!processedProperty.photoUrl
+            });
+            
+            return processedProperty;
         }
 
-        // Display featured properties on homepage
+        // Display properties on homepage (ONLY REAL PROPERTIES)
         function displayHomepageFeaturedProperties(properties) {
-            console.log(`🎨 Displaying ${properties.length} featured properties on homepage`);
+            console.log(`🎨 Displaying ${properties.length} REAL featured properties on homepage`);
             
             if (properties.length === 0) {
-                showErrorState('No featured properties available');
+                showAPIErrorState('No real properties found in API response');
                 return;
             }
             
             // Show hero property (first one)
             displayHeroProperty(properties[0]);
             
-            // Show grid properties (next 3)
-            const gridProperties = properties.slice(1, 4);
+            // Show grid properties (remaining ones)
+            const gridProperties = properties.slice(1);
             displayGridProperties(gridProperties);
         }
 
@@ -2342,7 +2331,7 @@
             }
             
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
-            const locationIcon = locationIcons[property.location] || locationIcons['default'];
+            const locationIcon = locationIcons['default'];
             
             let details = '';
             if (property.bedrooms || property.bathrooms || property.builtArea || property.landArea) {
@@ -2399,6 +2388,11 @@
             
             grid.innerHTML = '';
             
+            if (properties.length === 0) {
+                grid.innerHTML = '<div class="loading-state"><span>Only one property available from API</span></div>';
+                return;
+            }
+            
             properties.forEach((property, index) => {
                 console.log(`🏠 Creating card ${index + 1}:`, property.title);
                 const card = createPropertyCard(property);
@@ -2422,7 +2416,7 @@
             }
             
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
-            const locationIcon = locationIcons[property.location] || locationIcons['default'];
+            const locationIcon = locationIcons['default'];
             
             let details = '';
             if (property.bedrooms || property.bathrooms || property.builtArea) {
@@ -2474,17 +2468,23 @@
             return card;
         }
 
-        // Show error state
-        function showErrorState(errorMessage) {
+        // Show API error state - NO FALLBACK CONTENT
+        function showAPIErrorState(errorMessage) {
             const hero = document.getElementById('heroFeaturedProperty');
             const grid = document.getElementById('propertiesGrid');
             
+            console.log('❌ Showing API error state:', errorMessage);
+            
             const errorHTML = `
                 <div class="error-state">
-                    <h3>Unable to Load Properties</h3>
-                    <p>Error: ${errorMessage}</p>
-                    <p>Please try again or <a href="/properties/" style="color: #000; text-decoration: underline;">browse properties on our dedicated page</a></p>
-                    <button onclick="loadFeaturedProperties()" class="consultation-btn" style="margin-top: 1rem;">Retry</button>
+                    <h3>Properties Loading Issue</h3>
+                    <p>Unable to load properties from API: ${errorMessage}</p>
+                    <p>Please check your API configuration or <a href="/properties/" style="color: #000; text-decoration: underline;">browse properties on our dedicated page</a></p>
+                    <button onclick="loadFeaturedProperties()" class="consultation-btn" style="margin-top: 1rem;">Retry API Call</button>
+                    <br><br>
+                    <p style="font-size: 0.9rem; color: #888;">
+                        Debug: Check browser console for detailed API response information.
+                    </p>
                 </div>
             `;
             
@@ -2492,7 +2492,7 @@
             if (grid) grid.innerHTML = '';
         }
 
-        // FIXED: Initialize search form to redirect to /properties/ with parameters
+        // Initialize search form to redirect to /properties/
         function initSearchRedirect() {
             const searchForm = document.getElementById('vervPropertySearch');
             
@@ -2503,14 +2503,12 @@
             
             console.log('✅ Initializing search redirect functionality');
             
-            // Handle form submission - redirect to /properties/ with parameters
             searchForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
                 const formData = new FormData(searchForm);
                 const params = new URLSearchParams();
                 
-                // Get location filter
                 const location = formData.get('location');
                 if (location && location.trim()) {
                     params.append('location', location.trim());
@@ -2518,7 +2516,6 @@
                 
                 console.log('🔍 Redirecting to /properties/ with parameters:', params.toString());
                 
-                // Track search event
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'property_search', {
                         search_term: location || 'all_locations',
@@ -2526,7 +2523,6 @@
                     });
                 }
                 
-                // Redirect to properties page with parameters
                 const propertiesUrl = `/properties/${params.toString() ? '?' + params.toString() : ''}`;
                 window.location.href = propertiesUrl;
             });
@@ -2536,7 +2532,6 @@
         function viewProperty(propertyId) {
             console.log('👁️ Viewing property:', propertyId);
             
-            // Track GA event if available
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'property_view', {
                     property_id: propertyId,
@@ -2544,7 +2539,6 @@
                 });
             }
             
-            // Redirect to property page
             window.open(`/properties/?id=${propertyId}`, '_blank');
         }
 
@@ -2564,20 +2558,17 @@
         function initHeroVideo() {
             console.log('🎥 Initializing hero video...');
             
-            // Set up video cycling
             let currentVideo = 1;
             const totalVideos = 3;
             
             setInterval(() => {
                 currentVideo = currentVideo % totalVideos + 1;
                 
-                // Hide all videos/backgrounds
                 document.querySelectorAll('.vimeo-container, .hero-background-image').forEach(el => {
                     el.style.display = 'none';
                     el.classList.remove('active');
                 });
                 
-                // Show current video/background
                 const currentElement = document.getElementById(
                     currentVideo <= 2 ? `vimeoVideo${currentVideo}` : 'masiaBackground'
                 );
@@ -2591,7 +2582,6 @@
 
         // Consultation modal function
         function openConsultationModal() {
-            // Track GA event if available
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'consultation_click', {
                     page_location: window.location.href
@@ -2601,62 +2591,51 @@
             window.open('https://calendly.com/verv-one', '_blank');
         }
 
-        // DEBUG: Test API endpoint function
-        async function testAPIEndpoint() {
-            console.log('🧪 Testing API endpoint...');
+        // DEBUG: Direct API test function
+        async function testAPIDirectly() {
+            console.log('🧪 Direct API test...');
             
             try {
                 const response = await fetch('/.netlify/functions/properties');
-                console.log('🔍 API Test - Status:', response.status);
-                console.log('🔍 API Test - Headers:', [...response.headers.entries()]);
+                console.log('Direct test - Status:', response.status);
                 
                 if (response.ok) {
-                    const text = await response.text();
-                    console.log('🔍 API Test - Response preview:', text.substring(0, 300));
-                    
-                    try {
-                        const data = JSON.parse(text);
-                        console.log('🔍 API Test - Parsed data keys:', Object.keys(data));
-                    } catch (parseError) {
-                        console.log('🔍 API Test - Could not parse as JSON:', parseError.message);
-                    }
+                    const data = await response.json();
+                    console.log('Direct test - Success! Data keys:', Object.keys(data));
+                    console.log('Direct test - Raw data:', data);
                 } else {
-                    console.log('🔍 API Test - Failed:', response.statusText);
+                    console.log('Direct test - Failed:', response.statusText);
                 }
             } catch (error) {
-                console.error('🔍 API Test - Error:', error.message);
+                console.error('Direct test - Error:', error);
             }
         }
 
-        // ENHANCED: Initialize everything when DOM is ready
+        // INITIALIZE EVERYTHING when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initializing VERV ONE homepage...');
+            console.log('🚀 Initializing VERV ONE homepage with REAL API properties...');
             
-            // Test API endpoint first (for debugging)
-            testAPIEndpoint();
+            // Direct API test for debugging
+            testAPIDirectly();
             
-            // Initialize search redirect functionality
+            // Initialize all functionality
             initSearchRedirect();
-            
-            // Initialize mobile menu
             initMobileMenu();
-            
-            // Initialize hero video
             initHeroVideo();
             
-            // Load INDEPENDENT featured properties for homepage (with enhanced debugging)
+            // Load REAL featured properties from API (with delay to ensure everything is loaded)
             setTimeout(() => {
                 loadFeaturedProperties();
-            }, 500); // Small delay to ensure everything is loaded
+            }, 1000);
             
-            console.log('✅ VERV ONE homepage initialized');
+            console.log('✅ VERV ONE homepage initialized - waiting for REAL API properties');
         });
 
-        // Make functions available globally for inline onclick handlers
+        // Make functions globally available
         window.openConsultationModal = openConsultationModal;
         window.viewProperty = viewProperty;
         window.loadFeaturedProperties = loadFeaturedProperties;
-        window.testAPIEndpoint = testAPIEndpoint; // For debugging
+        window.testAPIDirectly = testAPIDirectly;
     </script>
 </body>
 </html>
