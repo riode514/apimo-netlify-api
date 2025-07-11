@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Property Details | VERV ONE - Premium Real Estate Costa Brava</title>
+    <title>Property Details | VERV ONE – Luxury Real Estate in Sitges, Barcelona & Girona</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Barcelona, Sitges, and Costa Brava.">
-    <meta name="keywords" content="Property details, luxury real estate, Barcelona properties, Sitges villas, Costa Brava homes, VERV ONE">
+    <meta name="description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Sitges, Barcelona & Girona.">
+    <meta name="keywords" content="Property details, luxury real estate, Sitges properties, Barcelona properties, Girona properties, VERV ONE">
     <meta name="author" content="VERV ONE">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Property Details | VERV ONE - Premium Real Estate Costa Brava">
-    <meta property="og:description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Barcelona, Sitges, and Costa Brava.">
+    <meta property="og:title" content="Property Details | VERV ONE – Luxury Real Estate in Sitges, Barcelona & Girona">
+    <meta property="og:description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Sitges, Barcelona & Girona.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://verv.one/single-property/">
     <meta property="og:image" content="https://verv.one/assets/images/verv-one-property-og.jpg">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Property Details | VERV ONE - Premium Real Estate Costa Brava">
-    <meta name="twitter:description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Barcelona, Sitges, and Costa Brava.">
+    <meta name="twitter:title" content="Property Details | VERV ONE – Luxury Real Estate in Sitges, Barcelona & Girona">
+    <meta name="twitter:description" content="Discover exceptional property details from VERV ONE's premium real estate portfolio across Sitges, Barcelona & Girona.">
     <meta name="twitter:image" content="https://verv.one/assets/images/verv-one-property-og.jpg">
     
     <!-- Favicon -->
@@ -800,6 +800,18 @@
             cursor: not-allowed;
         }
 
+        /* Success Message */
+        .success-message {
+            background: #28a745;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
         /* Error State */
         .error {
             display: flex;
@@ -1208,6 +1220,10 @@
                 <div class="contact-content">
                     <h2 class="contact-title serif">Interested in This Property?</h2>
                     <p class="contact-subtitle">Contact our expert team for more information and private viewings</p>
+                    
+                    <div class="success-message" id="successMessage">
+                        Thank you for your inquiry! We will contact you soon.
+                    </div>
                     
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
@@ -1845,7 +1861,7 @@
             const data = extractPropertyData(property);
             console.log('📊 Extracted property data:', data);
             
-            document.title = `${data.title} | VERV ONE`;
+            document.title = `${data.title} | VERV ONE – Luxury Real Estate in Sitges, Barcelona & Girona`;
             
             document.getElementById('propertyTitle').textContent = data.title;
             document.querySelector('#propertyLocation span').textContent = data.location;
@@ -2105,7 +2121,15 @@
             }
         }
 
-        // Contact form handler
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Enhanced Contact form handler with robust error handling
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -2121,39 +2145,100 @@
                 
                 const propertyInfo = currentProperty ? extractPropertyData(currentProperty) : null;
                 
-                const emailData = {
+                // Prepare the enhanced message with property details
+                const originalMessage = formData.get('message');
+                const propertyDetails = propertyInfo ? `
+                
+--- PROPERTY DETAILS ---
+Property ID: ${propertyId || 'N/A'}
+Title: ${propertyInfo.title}
+Location: ${propertyInfo.location}
+Price: ${formatPrice(propertyInfo.price, propertyInfo.currency)}
+Type: ${propertyInfo.type}
+Reference: ${propertyInfo.reference || 'N/A'}
+Bedrooms: ${propertyInfo.bedrooms > 0 ? propertyInfo.bedrooms : 'N/A'}
+Bathrooms: ${propertyInfo.bathrooms > 0 ? propertyInfo.bathrooms : 'N/A'}
+Built Area: ${propertyInfo.builtArea ? propertyInfo.builtArea + ' m²' : 'N/A'}
+Land Area: ${propertyInfo.landArea ? propertyInfo.landArea + ' m²' : 'N/A'}
+Property URL: ${window.location.href}
+--- END PROPERTY DETAILS ---` : `
+                
+--- PROPERTY DETAILS ---
+Property ID: ${propertyId || 'N/A'}
+Property URL: ${window.location.href}
+--- END PROPERTY DETAILS ---`;
+                
+                const enhancedMessage = originalMessage + propertyDetails;
+                
+                // Create a new FormData object with all the data
+                const submitData = new FormData();
+                submitData.append('name', formData.get('name'));
+                submitData.append('email', formData.get('email'));
+                submitData.append('phone', formData.get('phone'));
+                submitData.append('subject', formData.get('subject'));
+                submitData.append('message', enhancedMessage);
+                submitData.append('_to', 'ronei@verv.one');
+                submitData.append('_subject', `Property Inquiry: ${formData.get('subject')} - ${propertyInfo ? propertyInfo.title : 'Property ID ' + propertyId}`);
+                submitData.append('_next', window.location.href + '?submitted=true');
+                
+                console.log('Submitting form to ronei@verv.one with data:', {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    subject: formData.get('subject'),
+                    to: 'ronei@verv.one'
+                });
+                
+                const response = await fetch('https://formspree.io/f/xgveqbqk', {
+                    method: 'POST',
+                    body: submitData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                console.log('Form submission response:', response.status, response.statusText);
+                
+                if (response.ok) {
+                    showSuccessMessage();
+                    this.reset();
+                } else {
+                    const responseData = await response.text();
+                    console.error('Form submission failed:', responseData);
+                    throw new Error(`Form submission failed: ${response.status} ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                
+                // Fallback: Try to send via mailto as backup
+                const fallbackData = {
                     name: formData.get('name'),
                     email: formData.get('email'),
                     phone: formData.get('phone'),
                     subject: formData.get('subject'),
                     message: formData.get('message'),
-                    property_id: propertyId,
-                    property_title: propertyInfo ? propertyInfo.title : 'Unknown Property',
-                    property_location: propertyInfo ? propertyInfo.location : 'Unknown Location',
-                    property_price: propertyInfo ? formatPrice(propertyInfo.price, propertyInfo.currency) : 'Price on Request'
+                    propertyId: getPropertyId(),
+                    propertyUrl: window.location.href
                 };
                 
-                const response = await fetch('https://formspree.io/f/xgveqbqk', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        ...emailData,
-                        _subject: `Property Inquiry: ${emailData.subject} - ${emailData.property_title}`,
-                        _cc: 'ronei@verv.one'
-                    })
-                });
+                const mailtoLink = `mailto:ronei@verv.one?subject=${encodeURIComponent('Property Inquiry: ' + fallbackData.subject)}&body=${encodeURIComponent(`
+Name: ${fallbackData.name}
+Email: ${fallbackData.email}
+Phone: ${fallbackData.phone}
+Subject: ${fallbackData.subject}
+
+Message:
+${fallbackData.message}
+
+Property ID: ${fallbackData.propertyId}
+Property URL: ${fallbackData.propertyUrl}
+                `)}`;
                 
-                if (response.ok) {
-                    alert('Thank you for your inquiry! We will contact you soon.');
-                    this.reset();
+                if (confirm('There was an error with the form submission. Would you like to open your email client to send the message directly?')) {
+                    window.location.href = mailtoLink;
                 } else {
-                    throw new Error('Network response was not ok');
+                    alert('Please contact us directly at ronei@verv.one or try again later.');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('There was an error sending your message. Please try again or contact us directly.');
             } finally {
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
