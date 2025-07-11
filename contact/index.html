@@ -116,32 +116,57 @@
             color: #000;
         }
 
-        /* Hero Section - Redesigned for better visibility */
+        /* Hero Section - Redesigned for banner image with text overlay */
         .contact-hero {
             padding: 140px 0 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            min-height: 90vh;
+            background: #ffffff;
+            min-height: 70vh;
             display: flex;
             align-items: center;
         }
 
         .hero-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            position: relative;
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        .hero-content {
-            padding: 2rem 0;
+        .hero-image-banner {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
-        .hero-content h1 {
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: left center;
+        }
+
+        .hero-text-overlay {
+            position: absolute;
+            right: 3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .hero-text-overlay h1 {
             font-family: 'Libre Baskerville', serif;
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             font-weight: 400;
             margin-bottom: 1.5rem;
             color: #000;
@@ -149,8 +174,8 @@
             line-height: 1.1;
         }
 
-        .hero-content .subtitle {
-            font-size: 1.2rem;
+        .hero-text-overlay .subtitle {
+            font-size: 1.1rem;
             margin-bottom: 2rem;
             color: rgba(0, 0, 0, 0.7);
             line-height: 1.6;
@@ -165,62 +190,25 @@
         }
 
         .stat-item {
-            text-align: left;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0,0,0,0.03);
+            border-radius: 10px;
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #000;
             font-family: 'Libre Baskerville', serif;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: rgba(0, 0, 0, 0.6);
             font-weight: 400;
-        }
-
-        .hero-image-container {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            background: #f8f9fa;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 600px;
-            object-fit: cover;
-            object-position: center;
-            transition: transform 0.3s ease;
-        }
-
-        .hero-image:hover {
-            transform: scale(1.02);
-        }
-
-        .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .overlay-name {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .overlay-title {
-            font-size: 1rem;
-            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Quick Contact Strip */
@@ -806,48 +794,45 @@
         </nav>
     </header>
 
-    <!-- Hero Section - Redesigned -->
+    <!-- Hero Section - Banner Image with Text Overlay -->
     <section class="contact-hero">
         <div class="hero-container fade-in">
-            <div class="hero-content">
-                <h1>Let's Connect</h1>
-                <p class="subtitle">Ready to find your dream property or need expert real estate advice? Our team is here to help you every step of the way with personalized service and trusted guidance.</p>
-                
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">25+</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Properties Sold</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">Prime Locations</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Client Support</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="hero-image-container">
+            <div class="hero-image-banner">
                 <img src="../assets/images/ronei-kolesny-realtor-sitges-contact.png" 
                      alt="Ronei Kolesny - VERV ONE Real Estate Expert" 
                      class="hero-image"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div style="display:none; height:600px; background:#f8f9fa; align-items:center; justify-content:center; border-radius:20px; color:#666; font-size:18px; text-align:center; padding:2rem;">
+                <div style="display:none; height:100%; background:#f8f9fa; align-items:center; justify-content:center; color:#666; font-size:18px; text-align:center; padding:2rem;">
                     <div>
                         <div style="font-size:48px; margin-bottom:1rem;">👤</div>
                         <div>Ronei Kolesny</div>
                         <div style="font-size:14px; opacity:0.7; margin-top:0.5rem;">Senior Real Estate Consultant</div>
                     </div>
                 </div>
-                <div class="image-overlay">
-                    <div class="overlay-name">Ronei Kolesny</div>
-                    <div class="overlay-title">Senior Real Estate Consultant</div>
+                
+                <!-- Text Overlay on Right Side -->
+                <div class="hero-text-overlay">
+                    <h1>Let's Connect</h1>
+                    <p class="subtitle">Ready to find your dream property or need expert real estate advice? Our team is here to help you every step of the way.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">25+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Properties Sold</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Prime Locations</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Client Support</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
