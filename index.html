@@ -1817,7 +1817,7 @@
             <div class="footer-brand">
                 <div class="footer-logo">VERV ONE</div>
                 <div class="footer-tagline">Signature Estates & Advisory</div>
-                <p class="footer-description">Premier real estate consultancy specializing in luxury properties across Barcelona, Sitges, and Costa Brava. Exceptional spaces, personalized service, trusted guidance.</p>
+                <p class="footer-description">Real estate consultancy specializing in luxury properties across Barcelona, Sitges, and the Costa Brava. Exceptional spaces, personalized service, and trusted guidance.</p>
                 <div class="footer-social">
                     <a href="https://www.linkedin.com/company/106199945" target="_blank" rel="noopener" aria-label="LinkedIn">
                         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1979,7 +1979,7 @@
         })();
     </script>
 
-    <!-- REAL API Properties JavaScript - NO HARDCODED DATA -->
+    <!-- FIXED: REAL API Properties JavaScript with proper type validation -->
     <script>
         // Property icons for fallback display
         const nounProjectIcons = {
@@ -2206,7 +2206,7 @@
             return validProperties;
         }
 
-        // Process individual property from API data
+        // FIXED: Process individual property from API data with defensive type handling
         function processProperty(property) {
             console.log('🏠 Processing property:', property);
             
@@ -2223,8 +2223,9 @@
                            property.district || property.area || property.region || 
                            property.address?.city || 'Premium Location';
             
-            const type = property.type || property.subtype || property.category || 
-                        property.propertyType || 'Villa';
+            // FIXED: Ensure type is always a string with proper fallback
+            const type = String(property.type || property.subtype || property.category || 
+                               property.propertyType || 'Property');
             
             // Handle price with multiple possible formats
             let price = null;
@@ -2274,7 +2275,7 @@
                 title,
                 location,
                 price,
-                type,
+                type, // Now guaranteed to be a string
                 bedrooms,
                 bathrooms,
                 builtArea,
@@ -2312,7 +2313,7 @@
             displayGridProperties(gridProperties);
         }
 
-        // Display hero property
+        // FIXED: Display hero property with safe type handling
         function displayHeroProperty(property) {
             const hero = document.getElementById('heroFeaturedProperty');
             if (!hero || !property) {
@@ -2329,6 +2330,9 @@
                     price = `€${priceValue.toLocaleString()}`;
                 }
             }
+            
+            // FIXED: Safe type handling with fallback
+            const safeType = typeof property.type === 'string' ? property.type.toUpperCase() : 'PROPERTY';
             
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
             const locationIcon = locationIcons['default'];
@@ -2359,7 +2363,7 @@
             hero.innerHTML = `
                 ${visualContent}
                 <div class="hero-property-content">
-                    <div class="hero-property-category">${property.type.toUpperCase()}</div>
+                    <div class="hero-property-category">${safeType}</div>
                     <div class="hero-property-title">${property.title}</div>
                     <div class="hero-property-price">${price}</div>
                     <div class="hero-property-location">
@@ -2400,7 +2404,7 @@
             });
         }
 
-        // Create property card
+        // FIXED: Create property card with safe type handling
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
@@ -2414,6 +2418,9 @@
                     price = `€${priceValue.toLocaleString()}`;
                 }
             }
+            
+            // FIXED: Safe type handling for property cards
+            const safeType = typeof property.type === 'string' ? property.type : 'Property';
             
             const propertyIcon = nounProjectIcons[property.type] || nounProjectIcons['default'];
             const locationIcon = locationIcons['default'];
@@ -2446,7 +2453,7 @@
             card.innerHTML = `
                 ${visualContent}
                 <div class="property-info">
-                    <div class="property-type">${property.type}</div>
+                    <div class="property-type">${safeType}</div>
                     <div class="property-location">
                         ${locationIcon}
                         <span>${property.location}</span>
